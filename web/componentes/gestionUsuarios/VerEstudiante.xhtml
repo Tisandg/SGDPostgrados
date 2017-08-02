@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <title>Ver estudiante</title>
+    </h:head>
+    
+    <ui:composition template="../../plantillas/Coordinador.xhtml">
+        <ui:define name="content">                
+            <p:panel header="Ver estudiante" >                    
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+
+                        <p:outputLabel value="Nombres" for="valNombre" styleClass="addEspacio"/>
+                        <h:outputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control"/>
+
+                        <h:outputLabel value="Apellidos" for="valApellido" styleClass="addEspacio"/>
+                        <h:outputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control"/>
+
+                        <h:outputLabel value="Código" for="valCodigo" styleClass="addEspacio"/>
+                        <h:outputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control"/>
+
+                        <h:outputLabel value="Correo electronico" for="valCorreo" styleClass="addEspacio"/>
+                        <h:outputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control"/>
+                        
+                        <h:outputLabel value="Nombre del tutor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" styleClass="addEspacio "/>
+                        <h:outputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control"/>
+
+                        <h:outputLabel value="Cohorte" for="valCohorte" styleClass="addEspacio"/>
+                        <h:outputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" styleClass="addEspacio form-control"/>                        
+
+                        <h:outputLabel value="Semestre" for="valSemestre" styleClass="addEspacio"/>
+                        <h:outputText class="form-control"  id="valSemestre" value="#{estudianteController.actual.estSemestre}" styleClass="addEspacio form-control"/>
+                        
+                        <h:outputLabel value="Estado" for="valEstado" styleClass="addEspacio"/>
+                        <h:outputText class="form-control"  id="valEstado" value="#{estudianteController.actual.estEstado}" styleClass="addEspacio form-control"/>
+                        
+                        
+                        <h:outputLabel value="Número de creditos&nbsp;&nbsp;&nbsp;" for="valCreditos" styleClass="addEspacio"/>
+                        <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}" styleClass="addEspacio form-control"/>
+                        
+                        
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:commandButton value="Volver" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" />                       
+
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

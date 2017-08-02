@@ -1,0 +1,7 @@
+.dist/
+.build/
+.test/
+.nbproject/
+/nbproject/private/
+/dist/
+/build/

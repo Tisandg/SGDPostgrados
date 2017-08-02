@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Sistema Doctorado</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <h:outputStylesheet name="css/estilos.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <h:outputStylesheet name="css/default.css"/>
+
+    </h:head> 
+    <h:body>
+
+        <div class="contenedorExterior">
+            <div class="contenedorInterior">
+                <div class="imagenLogoUnicauca">
+                    <p class="textLogin">Sistema de Control Documental de Posgrados Unicauca</p>
+                </div>            
+            </div>                
+        </div>
+
+        <div class="contenedorExterior">
+            <div class="contenedorInterior">
+                <div class="elemento">
+                    <h:form>
+                        <h:panelGrid columns="1" class="centrarElementosPanel">
+                            <img src="resources/images/logo-doctorado.png" alt="Logo Docotorados"></img>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p:outputLabel value="Iniciar Sesión" class="textIniciarSesion"/>
+                            <h:inputText id="username" value="#{usuariosSessionController.nombreUsuario}" required="true" label="username" class="userNameClass"/>
+                            <h:inputSecret id="password" value="#{usuariosSessionController.contrasena}" required="true" label="password" class="userPasswordClass"/>
+                            <p:commandButton class="botonInicioSesion" value="Ingresar" action="#{usuariosSessionController.login()}" oncomplete="handleLoginRequest(xhr, status, args)" ></p:commandButton>
+                        </h:panelGrid>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />  
+        <p:dialog visible="#{usuariosSessionController.errorSesion}" 
+                  resizable="false" width="250"
+                  widgetVar="errorInicioSesion" closable="false"
+                  modal="true" 
+                  style="background: #C8CDD6"
+                  >
+            <p:panelGrid styleClass="panelgrid" style="text-align:center" >
+                <p:row >
+                    <p:column  style="background: #C8CDD6">
+                        <p:outputLabel value="El usuario o la contraseña no son correctos" />            
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column  style="background: #C8CDD6">
+                        <h:form>
+                            <p:commandButton value="Aceptar" 
+                                             onclick="PF('errorInicioSesion').hide()"
+                                             /></h:form>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+
+        </p:dialog>
+    </h:body>
+
+
+
+</html>
+
+

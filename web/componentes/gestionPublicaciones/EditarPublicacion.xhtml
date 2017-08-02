@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <title>Editar estudiante</title>
+    </h:head>
+    
+    <ui:composition template="../../plantillas/Estudiante.xhtml">
+        <ui:define name="content">            
+            <p:panel header="Editar estudiante">
+                
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong >Importante: los campos con asterisco (*) son obligatorios.</strong>
+                </div>
+                
+                <h:form>                
+                    <h:panelGrid columns="3" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+     
+                        
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:commandButton value="Terminar edición" actionListener="#{estudianteController.guardarEdicion()}" onclick="if (!confirm('Esta seguro que desea guardar los cambios?')) { return false;}; return true;" class="btn btn-primary" />
+                        <h:commandButton value="Cancelar edición" onclick="if (!confirm('¿Desea cancelar la edición del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:outputLabel styleClass="addEspacio"/>
+
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

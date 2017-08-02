@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <title>Editar estudiante</title>
+    </h:head>
+    
+    <ui:composition template="../../plantillas/Coordinador.xhtml">
+        <ui:define name="content">            
+            <p:panel header="Editar estudiante">
+                
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong >Importante: los campos con asterisco (*) son obligatorios.</strong>
+                </div>
+                
+                <h:form>                
+                    <h:panelGrid columns="3" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+
+                        <p:outputLabel value="Nombres*" for="valNombre" styleClass="addEspacio"/>
+                        <h:inputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control " >
+                            <f:validator validatorId="validadorNombreEstudiante"/>
+                            <p:ajax event="blur" update="msjValNombre"/>
+                        </h:inputText>
+                        <p:message for="valNombre" id="msjValNombre" styleClass="addEspacio"/>
+
+                        <h:outputLabel value="Apellidos*" for="valApellido" styleClass="addEspacio"/>
+                        <h:inputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control">
+                            <f:validator validatorId="validadorApellidoEstudiante"/>
+                            <p:ajax event="blur" update="msjValApellido"/>
+                        </h:inputText>
+                        <p:message for="valApellido" id="msjValApellido" styleClass="addEspacio"/>
+
+                        <h:outputLabel value="Código*" for="valCodigo" styleClass="addEspacio"/>
+                        <h:inputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control">
+                            <f:validator validatorId="validadorCodigoEstudianteEditar"/>
+                            <p:ajax event="blur" update="msjValCodigo"/>
+                        </h:inputText>
+                        <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>
+
+                        <h:outputLabel value="Correo electrónico*" for="valCorreo" styleClass="addEspacio"/>
+                        <h:inputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" >
+                            <f:validator validatorId="validadorCorreoEditar"/>
+                            <p:ajax event="blur" update="msjValCorreo"/>
+                        </h:inputText>
+                        <p:message for="valCorreo" id="msjValCorreo" styleClass="addEspacio"/>  
+                            
+                        <h:outputLabel value="Cohorte*" for="valCohorte" styleClass="addEspacio"/>
+                        <h:inputText class="form-control" id="valCohorte" value="#{estudianteController.cohorte}" styleClass="addEspacio form-control">
+                            <f:validator validatorId="validadorCohorteEstudiante"/>
+                            <p:ajax event="blur" update="msjValCohorte"/>
+                        </h:inputText>
+                        <p:message for="valCohorte" id="msjValCohorte" styleClass="addEspacio"/>  
+
+                        <h:outputLabel value="Nombre del tutor*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" styleClass="addEspacio "/>
+                        <h:inputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control">
+                            <f:validator validatorId="validadorNombreTutorEstudiante"/>
+                            <p:ajax event="blur" update="msjValNombreTutor"/>
+                        </h:inputText>
+                        <p:message for="valNombreTutor" id="msjValNombreTutor" styleClass="addEspacio" />
+
+                        <h:outputLabel value="Semestre*" for="valSemestre" styleClass="addEspacio"/>
+                        <h:selectOneMenu class="form-control"  id="valSemestre" value="#{estudianteController.actual.estSemestre}" styleClass="addEspacio form-control">                                    
+                            <f:selectItem itemLabel="1" itemValue="1"></f:selectItem>
+                            <f:selectItem itemLabel="2" itemValue="2"></f:selectItem>
+                        </h:selectOneMenu>
+                        
+                         <h:outputLabel styleClass="addEspacio"/>
+                         <h:outputLabel value="Estado* " for="valEstado" styleClass="addEspacio"/>
+                         <h:selectOneMenu class="form-control"  id="valEstado" value="#{estudianteController.actual.estEstado}" styleClass="addEspacio form-control">                                    
+        
+                            <f:selectItems value="#{estudianteController.estado}" />   
+                        </h:selectOneMenu>
+
+                        
+                         
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:commandButton value="Cancelar edición" onclick="if (!confirm('¿Desea cancelar la edición del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
+                        <h:commandButton value="Actualizar estudiante" actionListener="#{estudianteController.guardarEdicion()}" onclick="if (!confirm('¿Esta seguro que desea guardar los cambios?')) { return false;}; return true;" class="btn btn-primary" />                        
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:outputLabel styleClass="addEspacio"/>
+
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

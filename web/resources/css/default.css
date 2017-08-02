@@ -1,0 +1,181 @@
+/* Button */
+.ui-button-text-icon-left .ui-button-text {
+  font-size: 0.8em;
+  padding: 0.2em;
+}
+
+/* Icon */
+.ui-button-text-icon-left .ui-icon {
+  display: none;
+}
+
+.ui-fileupload-buttonbar {
+  background: none;
+  border: 0;
+  padding: 0;  
+}
+ 
+
+.ui-fileupload-choose.ui-button {
+  margin-right: 40px;
+}
+
+body {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: 10px;
+}
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    /*border-bottom: 1px solid #AFAFAF;  quitar para todos */ 
+    font-size:  16px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #D20005;
+}
+    
+   #cabecera
+  {
+      
+      
+  }
+    
+    
+  
+
+
+
+ 
+
+/*a:link:hover, a:visited:hover  { sive para subrayar enlace 
+  color: #045491;
+  font-weight : bold;
+  text-decoration : underline;
+}*/
+
+/*ocultar componentes */
+
+.ocultar
+{
+   display:none; 
+}
+
+/* css que arregla el login */
+
+.contenedorExterior {
+    display: table;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.contenedorExterior .contenedorInterior {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+.elemento {
+    background: url("../images/hojas.png") no-repeat;
+    width: 370px;  /*tamanho de la imagen de las hojas*/
+    height: 354px;
+    margin:0px auto;
+}
+
+.centrarElementosPanel{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    vertical-align: auto;
+    flex-direction: column;
+    margin-top: 10%; /*modificar cuando se agregue un encabezado a la pagina*/
+    height: 354px; /*tamanhio de la altura de la imagen de las hojas*/
+}
+
+.userNameClass{
+    background: url(../images/ico-usuario.png) no-repeat !important; 
+    padding-left: 40px; /*donde quiero que comience el texto*/
+    height: 28px; /*la altura del icono para que concuerde con la caja de texto*/
+    border-radius: 5px; /*el radio del input para que no se vea tan feo*/
+    border: 2px solid #DBDBDB; /*color del borde del input*/
+    color: #AEAEB7; /*color del texto del input*/
+    font-size: medium; /*tamanio de letra del input*/
+}
+
+.userPasswordClass{
+    background: url(../images/ico-contrasena.png) no-repeat !important;
+    padding-left: 40px; /*donde quiero que comience el texto*/
+    height: 28px; /*la altura del icono para que concuerde con la caja de texto*/
+    border-radius: 5px; /*el radio del input para que no se vea tan feo*/
+    border: 2px solid #DBDBDB; /*color del borde del input*/
+    color: #AEAEB7; /*color del texto del input*/
+    font-size: medium; /*tamanio de letra del input*/
+}
+
+.textLogin{
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 200px;
+    padding-top: 6%;
+}
+
+.textIniciarSesion{
+    color: #0D4185;
+    font-size: 15px;
+}
+
+.encabezado{
+    width: 376px;  /*tamanho de la imagen de las hojas*/
+    height: 92px;
+    margin: 0px auto;
+}
+.imagenLogoUnicauca{
+    background: url("../images/logo.png") no-repeat;    
+    width: 450px;  /*tamanho de la imagen de las hojas*/
+    height: 92px;
+    margin:0px auto;
+    vertical-align: middle;
+}
+
+.botonInicioSesion{
+    font-size: 17px;
+    font-weight: inherit;
+}
+
+/* cuadrar componentes */
+
+.addEspacio{
+    margin-bottom: 10px;
+}
+
+.bajarGrid
+{
+    
+    margin-top: 25px; 
+}
+
+.primeracolumna{
+    height: 10px;
+}
+.segundacolumna{
+    height: 20px;
+}
+.terceracolumna{
+    height: 10px;
+}
+
+.tamBotones{
+    height: 10px;
+    width: 15px;
+    font-size: 8px;
+}
+
+
+
+
+
