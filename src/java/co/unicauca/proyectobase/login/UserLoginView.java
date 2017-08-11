@@ -7,9 +7,13 @@ package co.unicauca.proyectobase.login;
 
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext ;
 
 /**
@@ -64,8 +68,20 @@ public class UserLoginView {
         context.addCallbackParam("loggedIn", loggedIn);
     }
     
-    public void salir()
+    public void salir() throws IOException
     {
-        Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+        FacesContext fc= FacesContext.getCurrentInstance();
+        HttpServletRequest req= (HttpServletRequest) fc.getExternalContext().getRequest();
+        try
+        {
+            req.logout();
+            req.getSession().invalidate();
+            fc.getExternalContext().invalidateSession();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoII/faces/index.xhtml");
+        }catch( ServletException e)
+        {
+            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"FAILED","Cerrar Sesion"));
+        }
+        
     }
 }

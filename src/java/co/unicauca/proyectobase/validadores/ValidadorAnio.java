@@ -12,8 +12,6 @@ import javax.faces.validator.ValidatorException;
 @FacesValidator(value="validadorAnio")
 public class ValidadorAnio implements Validator {
  
- 
-    
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String anio = String.valueOf(value);
