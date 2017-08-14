@@ -145,8 +145,15 @@ h1 {
 
 
 .botonInicioSesion{
-    font-size: 17px;
-    font-weight: inherit;
+       border: none !important;
+    background: url(../images/btn-ingresar.png) no-repeat !important;
+    width: 100px !important;
+    height: 37px !important;
+    margin: 0 auto 10px !important;
+    display: block !important;
+    color: #555555 !important;
+    font-size: 12px !important;
+    box-shadow: none !important;
 }
 
 /* cuadrar componentes */
