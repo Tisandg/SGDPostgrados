@@ -15,10 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext ;
 
-/**
- *
- * @author Sahydo
- */
+
 @ManagedBean
 public class UserLoginView {
     private String username;
