@@ -16,11 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext ;
 
 
+/**
+ *
+ * @hola unicauca
+ */
+
+
+
 @ManagedBean
 public class UserLoginView {
     private String username;
     private String password;
- 
+ //cambio de prueba William
+    
     public String getUsername() {
         return username;
     }
