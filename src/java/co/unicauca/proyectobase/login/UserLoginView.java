@@ -20,7 +20,8 @@ import org.primefaces.context.RequestContext ;
 public class UserLoginView {
     private String username;
     private String password;
- 
+ //cambio de prueba William
+    
     public String getUsername() {
         return username;
     }
