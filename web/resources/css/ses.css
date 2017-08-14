@@ -1,0 +1,284 @@
+.login-formulario{
+    width:350px;
+  padding:40px 30px;
+  background:rgba(235,235,205,0.7);
+  border-radius:4px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  margin:50px auto;
+
+}
+
+body {
+    /*background: url(../img/body-bkg.png) repeat-x scroll 0% 0% #C8CDD6;*/
+    background: url(../img/background.png)#18307e  no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    line-height: 1;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    width: 98.5%;
+    height: auto !important;
+}
+#logo-unicauca{
+  
+    position: fixed;
+    z-index: -1;
+    background: url(../img/logo-unicauca2.png) no-repeat;
+    height: 120px;
+    left: 30px;
+    top: 10px;
+    width: 251px;
+}
+#antorcha{
+    position: fixed;
+    position: fixed;
+    z-index: -1;
+    background: url(../img/antorcha.png) no-repeat;
+    height: 592px;
+    right: 15%;
+    top: 0;
+    width: 251px;
+}
+
+#bandera{
+background: url(../img/bandera.png) no-repeat;
+    width: 345px;
+    height: 130px;
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    bottom: 0
+}
+#header{
+    height: 170px;
+    background-color: rgb(9,33,103);
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.5);
+    margin-bottom: 5px;
+}
+
+#header .con_escudo_titulo {
+    position: relative;
+    top: 40px;
+    padding-left: 25px;
+    background: linear-gradient(to right,rgb(34,65,154)0%,rgb(34,65,154)51%,rgb(6,32,106)100%);
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.5);
+    height: 85px;
+}
+
+#header .con_escudo_titulo .borde-redondo {
+    position: absolute;
+    margin-top: -20px;
+    width: 125px;
+    height: 125px;
+    border-radius: 60px;
+    background-color: rgb(34,65,154);
+}
+
+#header .con_escudo_titulo .logo {
+    position: relative;
+    z-index: 1;
+    float: left;
+    margin-top: 8px;
+    margin-left: 13px;
+}
+#header .con_escudo_titulo .logo a {
+    width: 110px;
+    margin-top: -20px;
+    height: 110px;
+    display: block;
+    background: url(../img/logo-unicauca.png) no-repeat;
+}
+
+#header .bottom{
+    height: 85px;
+    background: linear-gradient(to right,rgb(119,0,0)0%,rgb(203,0,0)51%,rgb(119,0,0)100%);
+}
+
+#menu {
+    background-color: rgba(194,223,239,0.5);
+}
+
+#tituloMenu{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(194,223,239,0.5);
+}
+
+#content{
+    background-color: #dddddd;
+    padding: 4px;
+    font-size: 12px !important;
+}
+
+.ui-widget .ui-widget{
+    font-size: 13px !important;
+}
+
+.ui-datatable th{
+    font-size: 13px !important;
+}
+.ui-menu{
+    min-width: 100px !important;
+}
+
+.recaudoTable td{
+    text-align: center !important;
+    font-size: 12px !important;
+    color: #000000;
+}
+
+.ui-button-text{
+    font-size: 10px !important;
+}
+
+.fechaRed{
+    background-color: rgba(255,0,0,0.35) !important;
+}
+
+.ui-panel-titlebar{
+    padding-bottom: 0px !important;
+}
+
+.CampoLabelObligatorios
+{
+    font-style: italic;
+    font-size: 15px;    
+}
+.CampoLabelEspecificacion
+{
+    font-style: italic;
+    font-size: 10px;
+}
+.panelgrid , .panelgrid tr , .panelgrid td
+{
+    border-style: none !important
+
+}
+
+.BotonesSesion
+{
+    position: absolute;
+    padding: 5px;
+    color: #FFFFFF;
+    text-align: center;
+    border: 2px  solid #ffffff;
+    border-style: dashed;
+    right: 30px;
+    top: 10px;
+    border-radius: 10px;    
+}
+
+.ui-progressbar.ui-widget-content {
+    background-color:#dddddd;
+    background-image:none;    
+}
+
+.ui-progressbar.ui-widget.ui-widget-content.ui-corner-all{
+    width: 60px;
+    height: 20px;
+    margin: -3px;
+    padding: 0px;
+}
+
+.cursor{
+    cursor:pointer
+}
+
+.ui-tabs {
+    font-size:0.5em;
+} 
+
+.ui-panelgrid .ui-panelgrid-cell{
+    vertical-align: top;
+
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    font-size: 13px;
+}
+
+
+.ui-datatable .ui-paginator {
+    background:  transparent;
+    border:0;
+}
+
+.panelgrid , .panelgrid tr , .panelgrid td
+{
+    border-style: none !important
+
+
+}
+
+.ui-confirm-dialog{
+    top: 30% !important;
+    left: 40% !important;
+}
+
+form {
+   width:350px;
+  padding:40px 30px;
+      background: url(../img/back-login.png) no-repeat; 
+  border-radius:4px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  margin:50px auto;
+}
+
+form input, textarea, .uneditable-input {
+    width: 130px;
+}
+
+form header {
+    padding: 35px 15px;
+    color: black;
+    font-size: 1.2em;
+    font-weight: bold;
+   
+    text-align: center;
+
+}
+form label {
+    margin-left: 20px;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 15px;
+
+}
+
+form button {
+    margin-top: 35px;
+    margin-bottom: 30px;
+    font-size: 17px !important;
+    font-weight: 400;
+    border-radius: 5px;
+    
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+form button:hover {
+    background: #ff5252;
+}
+form .help {
+    margin-left: 60px;
+    font-size: 0.9em;
+    color: #777;
+    font-family: cursive;
+}
+
+
+
+.userClass{
+    background: url(../img/ico-usuario.png) no-repeat !important;
+    
+    
+
+}
+
+
+    

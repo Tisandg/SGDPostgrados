@@ -97,7 +97,7 @@ h1 {
 }
 
 .userNameClass{
-    background: url(../images/ico-usuario.png) no-repeat !important; 
+    background: url(../images/user.png) no-repeat !important; 
     padding-left: 40px; /*donde quiero que comience el texto*/
     height: 28px; /*la altura del icono para que concuerde con la caja de texto*/
     border-radius: 5px; /*el radio del input para que no se vea tan feo*/
@@ -107,7 +107,7 @@ h1 {
 }
 
 .userPasswordClass{
-    background: url(../images/ico-contrasena.png) no-repeat !important;
+    background: url(../images/contra.png) no-repeat !important;
     padding-left: 40px; /*donde quiero que comience el texto*/
     height: 28px; /*la altura del icono para que concuerde con la caja de texto*/
     border-radius: 5px; /*el radio del input para que no se vea tan feo*/
@@ -122,6 +122,7 @@ h1 {
     text-align: left;
     padding-left: 200px;
     padding-top: 6%;
+    font-size: 15px;
 }
 
 .textIniciarSesion{
@@ -141,6 +142,7 @@ h1 {
     margin:0px auto;
     vertical-align: middle;
 }
+
 
 .botonInicioSesion{
     font-size: 17px;
@@ -174,6 +176,27 @@ h1 {
     width: 15px;
     font-size: 8px;
 }
+#bandera{
+background: url(../img/bandera.png) no-repeat;
+    width: 345px;
+    height: 130px;
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    bottom: 0
+}
+#antorcha{
+    position: fixed;
+    position: fixed;
+    z-index: -1;
+    background: url(../img/antorcha.png) no-repeat;
+    height: 592px;
+    right: 15%;
+    top: 0;
+    width: 251px;
+}
+
+
 
 
 
