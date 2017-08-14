@@ -17,7 +17,7 @@ import org.primefaces.context.RequestContext ;
 
 /**
  *
- * @author Sahydo
+ * @hola unicauca
  */
 @ManagedBean
 public class UserLoginView {
