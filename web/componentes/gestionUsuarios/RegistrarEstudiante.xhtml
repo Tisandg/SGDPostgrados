@@ -23,66 +23,69 @@
                     <h:panelGrid columns="3" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
 
                         <p:outputLabel value="Nombres*" for="valNombre" styleClass="addEspacio"/>
-                        <h:inputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control " >
+                        <p:inputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control " >
                             <f:validator validatorId="validadorNombreEstudiante"/>
                             <p:ajax event="blur" update="msjValNombre"/>
-                        </h:inputText>
+                        </p:inputText>
                         <p:message for="valNombre" id="msjValNombre" styleClass="addEspacio"/>
 
-                        <h:outputLabel value="Apellidos*" for="valApellido" styleClass="addEspacio"/>
-                        <h:inputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control">
+                        <p:outputLabel value="Apellidos*" for="valApellido" styleClass="addEspacio"/>
+                        <p:inputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control">
                             <f:validator validatorId="validadorApellidoEstudiante"/>
                             <p:ajax event="blur" update="msjValApellido"/>
-                        </h:inputText>
+                        </p:inputText>
                         <p:message for="valApellido" id="msjValApellido" styleClass="addEspacio"/>
 
-                        <h:outputLabel value="Código*" for="valCodigo" styleClass="addEspacio"/>
-                        <h:inputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control">
+                        <p:outputLabel value="Código*" for="valCodigo" styleClass="addEspacio"/>
+                        <p:inputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control">
                             <f:validator validatorId="validadorCodigoEstudiante"/>
                             <p:ajax event="blur" update="msjValCodigo"/>
-                        </h:inputText>
+                        </p:inputText>
                         <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>
 
-                        <h:outputLabel value="Correo electrónico*" for="valCorreo" styleClass="addEspacio"/>
-                        <h:inputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" >
+                        <p:outputLabel value="Correo electrónico*" for="valCorreo" styleClass="addEspacio"/>
+                        <p:inputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" >
                             <f:validator validatorId="validadorCorreo"/>                            
                             <p:ajax event="blur" update="msjValCorreo"/>
-                        </h:inputText>
+                        </p:inputText>
                         <p:message for="valCorreo" id="msjValCorreo" styleClass="addEspacio"/> 
 
-                        <h:outputLabel value="Cohorte*" for="valCohorte" styleClass="addEspacio"/>
-                        <h:inputText class="form-control" id="valCohorte" value="#{estudianteController.cohorte}" styleClass="addEspacio form-control">
+                        <p:outputLabel value="Cohorte*" for="valCohorte" styleClass="addEspacio"/>
+                        <p:inputText class="form-control" id="valCohorte" value="#{estudianteController.cohorte}" styleClass="addEspacio form-control">
                             <f:validator validatorId="validadorCohorteEstudiante"/>
                             <p:ajax event="blur" update="msjValCohorte"/>
-                        </h:inputText>
+                        </p:inputText>
                         <p:message for="valCohorte" id="msjValCohorte" styleClass="addEspacio"/>  
 
-                        <h:outputLabel value="Nombre del tutor*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" styleClass="addEspacio "/>
-                        <h:inputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control">
+                        <p:outputLabel value="Nombre del tutor*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" styleClass="addEspacio "/>
+                        <p:inputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control">
                             <f:validator validatorId="validadorNombreTutorEstudiante"/>                            
                             <p:ajax event="blur" update="msjValNombreTutor"/>
-                        </h:inputText>
+                        </p:inputText>
                         <p:message for="valNombreTutor" id="msjValNombreTutor" styleClass="addEspacio" />
 
-                        <h:outputLabel value="Semestre*" for="valSemestre" styleClass="addEspacio"/>
-                        <h:selectOneMenu class="form-control"  id="valSemestre" value="#{estudianteController.actual.estSemestre}" styleClass="addEspacio form-control">                                    
+                        <p:outputLabel value="Semestre*" for="valSemestre" styleClass="addEspacio"/>
+                        <h:selectOneMenu   id="valSemestre" 
+                                           value="#{estudianteController.actual.estSemestre}" 
+                                           >                                    
                             <f:selectItem itemLabel="1" itemValue="1"></f:selectItem>
                             <f:selectItem itemLabel="2" itemValue="2"></f:selectItem>
                         </h:selectOneMenu>
                         
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
                         
-                        <h:commandButton value="Registrar estudiante" onclick="if (!confirm('¿Desea registrar este estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.agregar()}" class="btn btn-primary" />
-                        <h:commandButton value="Cancelar registro" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
+                        <p:growl id="growl" life="2000" />
+                        <p:commandButton value="Registrar" update="growl" onclick="if (!confirm('¿Desea registrar este estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.agregar()}" class="ui-priority-primary" />
+                        <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
                         
                         
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
+                        <p:outputLabel styleClass="addEspacio"/>
                     </h:panelGrid>
                 </h:form>
             </p:panel>

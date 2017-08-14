@@ -12,7 +12,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext ;
 
@@ -41,12 +40,15 @@ public class UserLoginView {
         this.password = password;
     }
    
-    public void login() {
+    public void login() throws ServletException {
       
         RequestContext context = RequestContext.getCurrentInstance();
+        FacesContext fc= FacesContext.getCurrentInstance();
+        HttpServletRequest req=(HttpServletRequest) fc.getExternalContext().getRequest();
+        req.login(this.username,this.password);
         FacesMessage message = null;
         boolean loggedIn = false;
-        System.out.println(username);
+        req.getServletContext().log("Autenticacion exitossa");
         if(username != null && username.equals("admin") && password != null && password.equals("admin")) {
             loggedIn = true;
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome user", username);
@@ -70,11 +72,12 @@ public class UserLoginView {
     
     public void salir() throws IOException
     {
-        FacesContext fc= FacesContext.getCurrentInstance();
-        HttpServletRequest req= (HttpServletRequest) fc.getExternalContext().getRequest();
-        try
+
+         FacesContext fc= FacesContext.getCurrentInstance();
+       HttpServletRequest req= (HttpServletRequest) fc.getExternalContext().getRequest();
+       try
         {
-            req.logout();
+           req.logout();
             req.getSession().invalidate();
             fc.getExternalContext().invalidateSession();
             FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoII/faces/index.xhtml");
@@ -82,6 +85,5 @@ public class UserLoginView {
         {
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"FAILED","Cerrar Sesion"));
         }
-        
     }
 }

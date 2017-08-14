@@ -1,0 +1,54 @@
+
+#centrar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px; 
+    padding-top: 80px;
+
+
+}
+
+form header {
+    padding: 35px 15px;
+    color: black;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 13px 13px 0 0;
+    text-align: center;
+
+}
+form label {
+    margin-left: 20px;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 15px;
+
+}
+
+form button {
+    margin-top: 35px;
+    margin-bottom: 30px;
+    font-size: 17px !important;
+    font-weight: 400;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(51, 51, 51, 0.4);
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+form button:hover {
+    background: #ff5252;
+}
+form .help {
+  margin-left: 60px;
+  font-size: 0.9em;
+  color: #777;
+  font-family: cursive;
+}
+
+
+.transparentBackground tr,
+.transparentBackground td { 
+    background: transparent !important; 
+    border: 0 !important;
+}
