@@ -92,7 +92,7 @@ public class UsuariosSessionController implements Serializable{
             usuario_actual = grupo.getUsuario();
             String tipo = grupo.getTipoUsuario().getNombre();
             String contrasenia=contrasena;
-           //String contrasenia=cifrarBase64(contrasena);
+            contrasenia = cifrarBase64(contrasena);
             if (usuario_actual.getContrasena().equals(contrasenia)&&usuario_actual.getEstado().equals("activo")) {
                 errorSesion =false;
                 haySesion = true;

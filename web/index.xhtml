@@ -33,9 +33,9 @@
                             <br/>
                             <br/>
                             <p:outputLabel value="Iniciar Sesión" class="textIniciarSesion"/>
-                            <h:inputText id="username" value="#{usuariosSessionController.nombreUsuario}" required="true" label="username" class="userNameClass"/>
-                            <h:inputSecret id="password" value="#{usuariosSessionController.contrasena}" required="true" label="password" class="userPasswordClass"/>
-                            <p:commandButton class="botonInicioSesion" value="Ingresar" action="#{usuariosSessionController.login()}" oncomplete="handleLoginRequest(xhr, status, args)" ></p:commandButton>
+                            <h:inputText id="username" value="#{userLoginView.username}" required="true" label="username" class="userNameClass"/>
+                            <h:inputSecret id="password" value="#{userLoginView.password}" required="true" label="password" class="userPasswordClass"/>
+                            <p:commandButton class="botonInicioSesion" value="Ingresar" action="#{userLoginView.login()}" oncomplete="handleLoginRequest(xhr, status, args)" ></p:commandButton>
                         </h:panelGrid>
                     </h:form>
                 </div>
