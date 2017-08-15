@@ -79,13 +79,10 @@ public class UserLoginView implements Serializable{
          ExternalContext external= FacesContext.getCurrentInstance().getExternalContext();
          Map<String,Object> sessionMap= external.getSessionMap();
          sessionMap.put("user",this.usuario);
-         
          System.out.println("Informacion 1"+ ejbactual.findAllByNombreUsuario(username).get(0));
          
          List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
          int id_tipo= lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
-         
-         
          
          switch(id_tipo)
          {

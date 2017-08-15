@@ -61,15 +61,7 @@
         <web-resource-collection>
             <web-resource-name>Coordinador -</web-resource-name>
             <description>Coordinador - pages</description>
-            <url-pattern>/faces/componentes/gestionUsuarios/ListarEstudiantes</url-pattern>
-            <url-pattern>/faces/componentes/gestionUsuarios/VerEstudiante</url-pattern>
-            <url-pattern>/faces/componentes/gestionUsuarios/EditarEstudiante</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/ListarPublicaciones_Coord</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/ListarPublicaciones_Espera</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/ListarPublicaciones_Rev</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/VerPublicacion</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/GraficaPubReg</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/GraficaPubVis</url-pattern>
+            <url-pattern>/faces/componentes/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
