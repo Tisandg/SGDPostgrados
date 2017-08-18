@@ -39,7 +39,7 @@
                             </td>
                             <td >                               
                                 <ul class="menuDer">
-                                    <li class="ajustarMenuDer"><a href="#"  style="color: white; focus: transparent;"><span class="glyphicon glyphicon-user"></span> #{usuariosSessionController.nombreUsuario}</a></li>
+                                    <li class="ajustarMenuDer"><a href="#"  style="color: white; focus: transparent;"><span class="glyphicon glyphicon-user"></span> #{userLoginView.username}</a></li>
                                     <!-- <li class="ajustarMenuDer"><a href="#" style="color: white;"><span class="glyphicon glyphicon-log-in"></span> Salir</a></li>-->
 
                                     <h:form>
@@ -78,7 +78,7 @@
                                     <a href="#" class="dropdown-toggle mejorarMenu" data-toggle="dropdown">Datos Personales <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-folder-open"></span></a>
                                     <ul class="dropdown-menu forAnimate" role="menu" id="">
                                         <h:form>
-                                            <li><h:commandLink  actionListener="#{verEstudianteController.redirigirVerMisDatos(usuariosSessionController.nombreUsuario)}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Ver Datos Personales</h:commandLink></li>
+                                            <li><h:commandLink  actionListener="#{verEstudianteController.redirigirVerMisDatos(userLoginView.username)}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Ver Datos Personales</h:commandLink></li>
                                         </h:form>
                                     </ul>
                                 </li> 
@@ -88,8 +88,8 @@
                                     <a href="#" class="dropdown-toggle mejorarMenu" data-toggle="dropdown">Gestion de Publicaciones <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a>
                                     <ul class="dropdown-menu forAnimate" role="menu" id="">
                                         <h:form>
-                                            <li><h:commandLink actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Listar Publicaciones</h:commandLink></li>
-                                            <li> <h:commandLink actionListener="#{publicacionController.redirigirARegistrar(usuariosSessionController.nombreUsuario)}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Registrar Publicaciones</h:commandLink></li>                                 
+                                            <li><h:commandLink actionListener="#{publicacionController.redirigirAlistar(userLoginView.username)}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Listar Publicaciones</h:commandLink></li>
+                                            <li> <h:commandLink actionListener="#{publicacionController.redirigirARegistrar(userLoginView.username)}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Registrar Publicaciones</h:commandLink></li>                                 
                                         </h:form>
                                     </ul>
                                 </li> 

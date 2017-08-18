@@ -46,10 +46,7 @@
         <web-resource-collection>
             <web-resource-name>Estudiante -</web-resource-name>
             <description>Estudiante - pages</description>
-            <url-pattern>/faces/componentes/gestionPublicaciones/ListarPublicaciones_Est</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/VerPublicacion_Est</url-pattern>
-            <url-pattern>/faces/componentes/gestionUsuarios/VerEstudiante_Est</url-pattern>
-            <url-pattern>/faces/componentes/gestionPublicaciones/RegistrarPublicacion</url-pattern>
+            <url-pattern>/faces/componentes/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -72,8 +69,8 @@
         <auth-method>FORM</auth-method>
         <realm-name>doctoradoJDBCRealm</realm-name>
         <form-login-config>
-            <form-login-page>/index.xhtml</form-login-page>
-            <form-error-page>/WEB-INF/error.xhtml</form-error-page>
+            <form-login-page>/faces/index.xhtml</form-login-page>
+            <form-error-page>/faces/index.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <security-role>

@@ -86,6 +86,9 @@ public class UserLoginView implements Serializable{
          
          switch(id_tipo)
          {
+             case 2:
+                 Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/ListarPublicaciones_Est.xhtml");
+                 break;
             
              case 3:
                  Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/ListarEstudiantes.xhtml");
