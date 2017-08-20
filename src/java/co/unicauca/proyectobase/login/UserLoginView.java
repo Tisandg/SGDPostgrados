@@ -10,7 +10,6 @@ import co.unicauca.proyectobase.dao.UsuarioFacade;
 import co.unicauca.proyectobase.entidades.GrupoTipoUsuario;
 import co.unicauca.proyectobase.entidades.Usuario;
 import co.unicauca.proyectobase.utilidades.Utilidades;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
@@ -25,7 +24,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.RequestContext ;
+import co.unicauca.proyectobase.controladores.CargarVistaCoordinador;
+import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
 
 
 /**
@@ -40,6 +40,9 @@ public class UserLoginView implements Serializable{
     private String username;
     private String password;
     private Usuario usuario;
+    
+    private CargarVistaCoordinador cvc;
+    private CargarVistaEstudiante cve;
     
     @EJB
     private GrupoTipoUsuarioFacade ejbgtu;
@@ -66,73 +69,41 @@ public class UserLoginView implements Serializable{
         
          FacesContext fc= FacesContext.getCurrentInstance();
          HttpServletRequest req=(HttpServletRequest) fc.getExternalContext().getRequest();
-         try{
-             req.login(this.username, this.password);
-             System.out.println("Login Exitoso");
-            
-         }catch(ServletException e){
-             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fallo el inicio de sesion",null));
-             return;
-         }
-         Principal principal = req.getUserPrincipal();
-         this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);
-         ExternalContext external= FacesContext.getCurrentInstance().getExternalContext();
-         Map<String,Object> sessionMap= external.getSessionMap();
-         sessionMap.put("user",this.usuario);
-         System.out.println("Informacion 1"+ ejbactual.findAllByNombreUsuario(username).get(0));
          
-         List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
-         int id_tipo= lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
-         
-         switch(id_tipo)
+         if(req.getUserPrincipal() == null);
          {
-             case 2:
-                 Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/ListarPublicaciones_Est.xhtml");
-                 break;
-            
-             case 3:
-                 Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/ListarEstudiantes.xhtml");
-             break;
-             
+             try {
+                 req.login(this.username, this.password);
+                 System.out.println("Login Exitoso");
+
+             } catch (ServletException e) {
+                 fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fallo el inicio de sesion", null));
+                 Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+                 return;
+             }
+
+             Principal principal = req.getUserPrincipal();
+             this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);
+             ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
+             Map<String, Object> sessionMap = external.getSessionMap();
+             sessionMap.put("user", this.usuario);
+
+             List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
+             int id_tipo = lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
+
+             switch (id_tipo) {
+                 case 2:
+                     cve = new CargarVistaEstudiante();
+                     Utilidades.redireccionar(cve.getRuta());
+                     break;
+
+                 case 3:
+                     cvc = new CargarVistaCoordinador();
+                     Utilidades.redireccionar(cvc.getRuta());
+                     break;
+
+             }
          }
-         // Principal=Java.Security.Principal, manejo de seguridad
-         //Principal principal = req.getUserPrincipal(); 
-         
-         //this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);
-                
-//         ExternalContext external= FacesContext.getCurrentInstance().getExternalContext();
-//         Map<String,Object> sessionMap= external.getSessionMap();
-//         sessionMap.put("user",this.usuario);
-         
-         
-        
-      
-//        RequestContext context = RequestContext.getCurrentInstance();
-//        FacesContext fc= FacesContext.getCurrentInstance();
-//        HttpServletRequest req=(HttpServletRequest) fc.getExternalContext().getRequest();
-//        req.login(this.username,this.password);
-//        FacesMessage message = null;
-//        boolean loggedIn = false;
-//        req.getServletContext().log("Autenticacion exitossa");
-//        if(username != null && username.equals("admin") && password != null && password.equals("admin")) {
-//            loggedIn = true;
-//            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome user", username);
-//            Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/ListarEstudiantes.xhtml");
-//            //
-//        }
-//         if(username != null && username.equals("est") && password != null && password.equals("est")) {
-//            loggedIn = true;
-//            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome user", username);
-//            Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/ListarPublicaciones.xhtml");
-//            //
-//        }
-//        else {
-//            loggedIn = false;
-//            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
-//        }
-//         
-//        FacesContext.getCurrentInstance().addMessage(null, message);
-//        context.addCallbackParam("loggedIn", loggedIn);
     }
     
     public void salir() throws IOException

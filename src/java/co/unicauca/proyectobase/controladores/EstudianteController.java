@@ -36,6 +36,8 @@ public class EstudianteController implements Serializable {
     private List<Estudiante> listadoEncontrado;
     private List<String> Estado;
     private String credi;
+    
+    private CargarVistaCoordinador cvc;
 
     public String getCredi(){
          credi = "" + actual.getEstCreditos();
@@ -73,11 +75,20 @@ public class EstudianteController implements Serializable {
     }
     
     public EstudianteController() {
-        this.Estado = new ArrayList<String>();
+        this.Estado = new ArrayList<>();
         this.Estado.add("Activo");
         this.Estado.add("Inactivo");
         this.Estado.add("Egresado");
         cohorte = "";
+        this.cvc = new CargarVistaCoordinador();
+    }
+
+    public CargarVistaCoordinador getCvc() {
+        return cvc;
+    }
+
+    public void setCvc(CargarVistaCoordinador cvc) {
+        this.cvc = cvc;
     }
 
     public List<String> getEstado() {
@@ -266,30 +277,35 @@ public class EstudianteController implements Serializable {
 
     public void verEstudiante(Estudiante est) {
         actual = est;
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/VerEstudiante.xhtml");
+        cvc.verEstudiante();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     public void editarEstudiante(Estudiante est) {
         actual = est;
         cohorte = "" + est.getEstCohorte();
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/EditarEstudiante.xhtml");
+        cvc.editarEstudiante();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     /*redireccionamiento para boton cancelar*/
     public void redirigirAlistar() {
         limpiarCampos();
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/ListarEstudiantes.xhtml");
+        cvc.listarEstudiantes();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     /*redireccion para volver a registrar */
     public void redirigirARegistrar() {
         limpiarCampos();
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/RegistrarEstudiante.xhtml");
+        cvc.registrarEstudiante();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     /*Redireccion para volver a editar*/
     public void redirigirAEditar() {
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionUsuarios/EditarEstudiante.xhtml");
+        cvc.editarEstudiante();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     /*mensajes de confirmacion */

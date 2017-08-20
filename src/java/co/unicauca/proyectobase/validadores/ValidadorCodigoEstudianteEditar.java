@@ -1,9 +1,7 @@
 package co.unicauca.proyectobase.validadores;
 
-import co.unicauca.proyectobase.dao.EstudianteFacade;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

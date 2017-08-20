@@ -5,23 +5,7 @@
  */
 package co.unicauca.proyectobase.entidades;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
- 
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfWriter;
- 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-    import java.io.IOException; 
 import java.io.InputStream;
-import java.security.MessageDigest; 
-import java.security.NoSuchAlgorithmException; 
-import java.util.Random;
 
 /**
  *

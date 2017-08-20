@@ -9,14 +9,8 @@ import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import java.math.BigInteger;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import java.util.Arrays;
 import java.util.List;
 
 @Stateless

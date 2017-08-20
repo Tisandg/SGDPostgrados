@@ -72,7 +72,10 @@ public class PublicacionController implements Serializable {
     private String creditos;
     private String variableFiltrado;
     
-      private String motRechazo;  
+    private String motRechazo;
+    
+    private CargarVistaEstudiante cve;
+    private CargarVistaCoordinador cvc;
 
     public String getMotRechazo() {
         return motRechazo;
@@ -183,6 +186,8 @@ public class PublicacionController implements Serializable {
     String EDITAR = "editar";
 
     public PublicacionController() {
+        cve = new CargarVistaEstudiante();
+        cvc = new CargarVistaCoordinador();
     }
 
     public Publicacion getActual() {
@@ -695,12 +700,14 @@ public class PublicacionController implements Serializable {
      */
     public void verPublicacion(Publicacion pub) {
         actual = pub;
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/VerPublicacion.xhtml");
+        cve.verPublicacion();
+        Utilidades.redireccionar(cve.getRuta());
     }
 
     public void verPublicacionEst(Publicacion pub) {
         actual = pub;
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/VerPublicacion_Est.xhtml");
+        cve.verPublicacion();
+        Utilidades.redireccionar(cve.getRuta());
     }
 
     public void editarPublicacion(Publicacion pub) {
@@ -713,37 +720,43 @@ public class PublicacionController implements Serializable {
         fijarEstudiante(nombreUsuario);
         limpiarCampos();
         System.out.println("si esta pasando por aqui");
-
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/ListarPublicaciones_Est.xhtml");
+        
+        cve.verPublicaciones();
+        Utilidades.redireccionar(cve.getRuta());
     }
 
     public void redirigirAlistar() {
 
         limpiarCampos();
         System.out.println("si esta pasando por aqui");
-
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/ListarPublicaciones_Coord.xhtml");
+        
+        cvc.listarPublicaciones();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     public void redirigirAlistarEspera() {
 
         limpiarCampos();
         System.out.println("si esta pasando por aqui");
-
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/ListarPublicaciones_Espera.xhtml");
+        
+        cvc.listarPublicacionesEspera();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     public void redirigirAlistarRevisadas() {
 
         limpiarCampos();
         System.out.println("si esta pasando por aqui");
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/ListarPublicaciones_Rev.xhtml");
+        
+        cvc.listarPublicacionesRevisdas();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     /*redireccion para volver a registrar */
     public void redirigirARegistrar(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/RegistrarPublicacion.xhtml");
+        cve.registrarPublicacion();
+        Utilidades.redireccionar(cve.getRuta());
     }
 
     /*Redireccion para volver a editar*/
@@ -751,14 +764,16 @@ public class PublicacionController implements Serializable {
         Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/EditarPublicacion.xhtml");
     }
 
-    public void redirigirGraficaPubReg() {
-
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/GraficaPubReg.xhtml");
+    public void redirigirGraficaPubReg() 
+    {
+        cvc.verGraficaPubReg();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
-    public void redirigirGraficaPubVis() {
-
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/GraficaPubVis.xhtml");
+    public void redirigirGraficaPubVis() 
+    {
+        cvc.verGraficaPubVis();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     /*mensajes de confirmacion */
