@@ -26,6 +26,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import co.unicauca.proyectobase.controladores.CargarVistaCoordinador;
 import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
+import javax.faces.event.ActionEvent;
 
 
 /**
@@ -108,6 +109,7 @@ public class UserLoginView implements Serializable{
     
     public void salir() throws IOException
     {
+        
 
          FacesContext fc= FacesContext.getCurrentInstance();
        HttpServletRequest req= (HttpServletRequest) fc.getExternalContext().getRequest();
@@ -117,9 +119,13 @@ public class UserLoginView implements Serializable{
             req.getSession().invalidate();
             fc.getExternalContext().invalidateSession();
             FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoII/faces/index.xhtml");
+            
         }catch( ServletException e)
         {
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"FAILED","Cerrar Sesion"));
         }
     }
+    
+    
+    
 }

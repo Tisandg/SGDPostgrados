@@ -125,6 +125,15 @@ h1 {
     font-size: 15px;
 }
 
+.textRegresar{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding-left: 0px;
+    padding-top: 6%;
+    font-size: 30px;
+}
+
 .textIniciarSesion{
     color: #0D4185;
     font-size: 15px;
