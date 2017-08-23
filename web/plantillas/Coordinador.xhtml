@@ -10,6 +10,7 @@
         <h:outputStylesheet name="css/estilos.css"/>
         <h:outputStylesheet name="css/cssLayout.css"/>
         <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/usuario.css"/>
         <h:outputStylesheet name="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -27,7 +28,7 @@
                         <tbody>
                             <tr>
                                 <td> <img id="logo_unicaua" src="../../../resources/images/logo.png" />   <!-- imagen izquierda de el menu principal-->  </td>
-                                <td>  <h1 id="titulo">Programa De Posgrados Universidad del Cauca&nbsp;</h1>     </td>
+                                <td>  <h1 id="titulo">Programa de posgrados Universidad del Cauca&nbsp;</h1>     </td>
 
                                 <td>
                                     <img src="../../../resources/images/logo-doctorado.png" style="margin-left: 150px;"></img>
@@ -68,38 +69,63 @@
                         </div>
                         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
 
-                            <ul class="nav navbar-nav">
-                                <li class="active  mejorarMenu"><a href="#">Administrador principal<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-                                <li class="dropdown">
+                            <ul class="nav navbar-nav ui-accordion ui-widget">
+                                <li class="ui-accordion ui-widget">
+                                    <a href="#">Administrador
+                                        <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span>
+                                    </a>
+                                </li>
+                                <li class="dropdown ui-accordion ui-widget">
 
-                                    <a href="#" class="dropdown-toggle mejorarMenu" data-toggle="dropdown">Gestión de Estudiantes <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestión de estudiantes <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
                                     <ul class="dropdown-menu forAnimate" role="menu" id="">
                                         <h:form>
-                                            <li><h:commandLink  actionListener="#{estudianteController.redirigirAlistar()}" >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Listar estudiantes</h:commandLink></li>
-                                            <li> <h:commandLink  actionListener="#{estudianteController.redirigirARegistrar()}" >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Registrar estudiantes</h:commandLink></li>                                 
+                                            <li>
+                                                <h:commandLink  actionListener="#{estudianteController.redirigirAlistar()}" class="ui-widget">
+                                                    &nbsp; &nbsp; Listar estudiantes
+                                                </h:commandLink></li>
+                                            <li>
+                                                <h:commandLink  actionListener="#{estudianteController.redirigirARegistrar()}" class="ui-widget">
+                                                    &nbsp; &nbsp; Registrar estudiantes
+                                                </h:commandLink></li>                                 
                                         </h:form>
                                     </ul>
                                 </li> 
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle  mejorarMenu" data-toggle="dropdown">Gestion de Publicaciones <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a>
+                                <li class="dropdown ui-accordion ui-widget">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion de publicaciones <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a>
                                     <ul class="dropdown-menu forAnimate" role="menu">
                                         <h:form>
-                                            <li><h:commandLink actionListener="#{publicacionController.redirigirAlistar()}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Listar todas las publicaciones</h:commandLink></li>
-                                            <li><h:commandLink actionListener="#{publicacionController.redirigirAlistarEspera()}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Listar publicaciones en espera</h:commandLink></li>
-                                            <li><h:commandLink actionListener="#{publicacionController.redirigirAlistarRevisadas()}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Listar publicaciones revisadas</h:commandLink></li>
+                                            <li>
+                                                <h:commandLink actionListener="#{publicacionController.redirigirAlistar()}" class="ui-widget">
+                                                    &nbsp; &nbsp; Listar todas las publicaciones
+                                                </h:commandLink></li>
+                                            <li>
+                                                <h:commandLink actionListener="#{publicacionController.redirigirAlistarEspera()}" class="ui-widget">
+                                                    &nbsp; &nbsp; Listar publicaciones en espera
+                                                </h:commandLink></li>
+                                            <li>
+                                                <h:commandLink actionListener="#{publicacionController.redirigirAlistarRevisadas()}" class="ui-widget">
+                                                    &nbsp; &nbsp; Listar publicaciones revisadas
+                                                </h:commandLink></li>
 
                                         </h:form>
 
                                     </ul>
                                 </li>
 
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle  mejorarMenu" data-toggle="dropdown">Graficas Publicaciones <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span></a>
+                                <li class="dropdown ui-accordion ui-widget">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gráficas de publicaciones <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span></a>
                                     <ul class="dropdown-menu forAnimate" role="menu">
                                         <h:form>
-                                            <li><h:commandLink actionListener="#{publicacionController.redirigirGraficaPubReg()}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Grafica publicaciones registradas</h:commandLink></li>
-                                            <li><h:commandLink actionListener="#{publicacionController.redirigirGraficaPubVis()}"  >&nbsp; &nbsp; <span class ="glyphicon glyphicon-chevron-right"/>Grafica publicaciones visadas</h:commandLink></li>
+                                            <li>
+                                                <h:commandLink actionListener="#{publicacionController.redirigirGraficaPubReg()}" class="ui-widget">
+                                                    &nbsp; &nbsp; Gráfica publicaciones registradas
+                                                </h:commandLink></li>
+                                            <li>
+                                                <h:commandLink actionListener="#{publicacionController.redirigirGraficaPubVis()}" class="ui-widget">
+                                                    &nbsp; &nbsp; Gráfica publicaciones visadas
+                                                </h:commandLink></li>
                                         </h:form>
 
                                     </ul>
