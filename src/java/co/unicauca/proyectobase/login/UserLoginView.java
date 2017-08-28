@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import co.unicauca.proyectobase.controladores.CargarVistaCoordinador;
 import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
 import javax.faces.event.ActionEvent;
+import javax.inject.Named;
 
 
 /**
@@ -125,6 +126,8 @@ public class UserLoginView implements Serializable{
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"FAILED","Cerrar Sesion"));
         }
     }
+    
+    
     
     
     

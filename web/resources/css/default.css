@@ -165,6 +165,19 @@ h1 {
     box-shadow: none !important;
 }
 
+.botonRegresar{
+       border: none !important;
+    background: url(../images/btn-ingresar.png) no-repeat !important;
+    width: 100px !important;
+    height: 37px !important;
+    margin: 0 auto 10px !important;
+    display: block !important;
+    color: #555555 !important;
+    font-size: 12px !important;
+    box-shadow: none !important;
+    text-decoration:none; 
+}
+
 /* cuadrar componentes */
 
 .addEspacio{
