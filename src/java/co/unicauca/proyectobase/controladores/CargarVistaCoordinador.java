@@ -75,4 +75,9 @@ public class CargarVistaCoordinador implements Serializable
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPub/ListarPublicaciones_Rev.xhtml";
     }
+    
+    public void listarPublicacionesEstudiante()
+    {
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPub/VerPublicacion_Coord.xhtml";
+    }
 }
