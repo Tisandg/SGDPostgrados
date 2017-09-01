@@ -2,10 +2,10 @@
 #top {
    
     position: relative;
-    background-color: #036fab;
+    background-color: #0C3664;
     color: white;
-    padding: 8px;
-    margin: 0px 0px 10px 0px;
+    padding: 0px;
+    margin: 0px 0px 20px 0px;
     height: 120px;
     width: 100%;
 }
@@ -21,6 +21,7 @@
     float: left;
     background-color: #ece3a5;
     padding: 5px;
+    
     
 }
 
@@ -69,6 +70,7 @@
 
 body,html{
     height: 100%;
+    background-color: #FAFAFA;
   }
 
   nav.sidebar, .main{
@@ -97,12 +99,15 @@ body,html{
 
     nav.sidebar.navbar.sidebar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
       margin-left: 0px;
+      
     }
 
     nav.sidebar .navbar-brand, nav.sidebar .navbar-header{
       text-align: center;
       width: 100%;
       margin-left: 0px;
+      
+      
     }
     
     nav.sidebar a{
@@ -128,9 +133,11 @@ body,html{
       -webkit-box-shadow: none;
       box-shadow: none;
     }
-
+    
+    /*no olvidar*/
     nav.sidebar .navbar-collapse, nav.sidebar .container-fluid{
       padding: 0 0px 0 0px;
+      
     }
 
     .navbar-inverse .navbar-nav .open .dropdown-menu>form>li>a {
@@ -169,9 +176,15 @@ body,html{
       margin-left: 200px;
     }
 
+    /*Estilos para el menu que esta en la parte izquierda*/
     nav.sidebar{
-      margin-left: 0px;
+      top: 5px;
+      padding: 5px;
+      margin-left: 20px;
       float: left;
+      border-color: #0480be;
+      
+      
     }
 
     nav.sidebar .forAnimate{
@@ -182,6 +195,7 @@ body,html{
   nav.sidebar .navbar-nav .open .dropdown-menu>form>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>form>li>a:focus {
     color: black;
     background-color: transparent;
+    
   }
 
   nav:hover .forAnimate{
@@ -200,6 +214,7 @@ body,html{
   .mejorarMenu
   {
       font-weight: bold;
+      background-color: white;
   }
   
   a:link, a:visited 
@@ -223,21 +238,51 @@ body,html{
   
  
   .menuDer{
-      list-style-type: none;
+    list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: transparent;
+    
   }
   
   .ajustarMenuDer{
       float: right;
       margin-top: 40px;
-      margin-left: 30px;
+      margin-left: 20px;
       font-weight: bold;
       font-size: 17px;
       
   }
   
+  #banderaHeader {
+    background: url(../images/bandera-head-int.png) no-repeat;
+    width: 195px;
+    height: 102px;
+    position: absolute;
+    right: 0px;
+    bottom: 0;
+    z-index: 0;
+}
+
+header.interno {
+    height: 102px;
+   
+    background: url(../images/back-header-int1.png) no-repeat center;
+    background-size: 100%;
+    background-color: #0C3664;
+    position: relative;
+    
+}
+
+#logoU {
+    background: url(../images/logo.png) no-repeat;
+    width: 188px;
+    height: 92px;
+    float: left;
+    margin-right: 0px;
+}
+  
+
   
 

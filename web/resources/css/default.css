@@ -25,7 +25,7 @@ body {
     font-size: 12px;
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
     color: #000000;  
-    margin: 10px;
+    margin: 0px;
 }
 
 h1 {
@@ -37,12 +37,15 @@ h1 {
     padding: 0px;
     color: #D20005;
 }
-    
-   #cabecera
-  {
-      
-      
-  }
+  
+  
+  #logoU {
+    background: url(../images/logo.png) no-repeat;
+    width: 188px;
+    height: 92px;
+    float: left;
+    margin-right: 20px;
+}
     
     
   

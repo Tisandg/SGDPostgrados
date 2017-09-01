@@ -123,7 +123,7 @@ h3, h5 {
 /***** Header *****/
 header {
 	display: table !important;
-	margin: 30px auto 5px !important;
+	margin: 0px auto 5px !important;
 }
 header .separador {
 	background: url("../images/barra.png") no-repeat;
