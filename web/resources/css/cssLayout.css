@@ -2,12 +2,12 @@
 #top {
    
     position: relative;
-    background-color: #036fab;
+    background-color: #0D4185;
     color: white;
     padding: 8px;
     margin: 0px 0px 10px 0px;
     height: 120px;
-    width: 100%;
+    width: 100em;
 }
 
 #bottom {
@@ -21,7 +21,6 @@
     float: left;
     background-color: #ece3a5;
     padding: 5px;
-    
 }
 
 #right {
@@ -69,6 +68,7 @@
 
 body,html{
     height: 100%;
+    background: #e5e5e5;
   }
 
   nav.sidebar, .main{
@@ -154,7 +154,7 @@ body,html{
     }
 
     nav.sidebar:hover{
-      margin-left: 0px;
+      margin-left: 10px;
     }
 
     .forAnimate{
@@ -170,7 +170,8 @@ body,html{
     }
 
     nav.sidebar{
-      margin-left: 0px;
+      margin-left: 10px;
+      margin-top: 10px;
       float: left;
     }
 
@@ -197,10 +198,6 @@ body,html{
   
   /*arreglo para menu lateral */
   
-  .mejorarMenu
-  {
-      font-weight: bold;
-  }
   
   a:link, a:visited 
   {
@@ -223,11 +220,12 @@ body,html{
   
  
   .menuDer{
-      list-style-type: none;
+    list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0 20px 0;
     overflow: hidden;
     background-color: transparent;
+    position: absolute;
   }
   
   .ajustarMenuDer{

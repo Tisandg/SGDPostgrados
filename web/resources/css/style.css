@@ -13,4 +13,71 @@
         font-size:1.1em;
     }
 
+    .ui-widget-content {
+        border: 1px solid #a6c9e2;
+        background: #fcfdfd url(/simca/javax.faces.resource/images/ui-bg_inset-hard_100_fcfdfd_1x100.png.xhtml?ln=primefaces-redmond) 50% bottom repeat-x;
+        color: #222222;
+    }
+    
+    
+/*Body*/
 
+    body.interno {
+        background: url(../images/back-interno.png) repeat-y;
+        background-color: #FFFFFF;
+        background-size: 100%;
+        width: 100%;
+    }
+    
+    
+/*Header*/
+
+    header .separador {
+        background: url(../images/barra.png) no-repeat;
+        width: 2px;
+        height: 40px;
+        float: left;
+        margin: 25px 10px 27px 0;
+    }
+
+    header.interno { /*imagen azul de la cabecera*/
+        display: block;
+        background: url(../images/back-header-int1.png) no-repeat center;
+        background-size: 100%;
+        background-color: #0C3664;
+        margin: 0;
+        width: 100%;
+        position: relative;
+    }
+
+    header.interno #logoU {
+        margin: 5px 10px 5px 50px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    header.interno .logoPosgrados {
+        width: 183px;
+        height: 81px;
+        background: url(../images/logo-doctorado.png) no-repeat;
+        float: right;
+        margin: 10px 190px 0 0;
+    }
+
+    #logoU {
+        background: url(../images/logo.png) no-repeat;
+        width: 188px;
+        height: 92px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    #banderaHeader {
+        background: url(../images/bandera-head-int.png) no-repeat;
+        width: 195px;
+        height: 102px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+    }
