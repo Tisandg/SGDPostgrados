@@ -125,6 +125,15 @@ h1 {
     font-size: 15px;
 }
 
+.textRegresar{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding-left: 0px;
+    padding-top: 6%;
+    font-size: 30px;
+}
+
 .textIniciarSesion{
     color: #0D4185;
     font-size: 15px;
@@ -154,6 +163,19 @@ h1 {
     color: #555555 !important;
     font-size: 12px !important;
     box-shadow: none !important;
+}
+
+.botonRegresar{
+       border: none !important;
+    background: url(../images/btn-ingresar.png) no-repeat !important;
+    width: 100px !important;
+    height: 37px !important;
+    margin: 0 auto 10px !important;
+    display: block !important;
+    color: #555555 !important;
+    font-size: 12px !important;
+    box-shadow: none !important;
+    text-decoration:none; 
 }
 
 /* cuadrar componentes */
