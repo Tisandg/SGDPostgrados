@@ -10,7 +10,7 @@
     </h:head>
 
     <!-- IMPLEMENTATION -->
-    <ui:composition template="./../../../plantillas/Coordinador.xhtml">
+    <ui:composition template="/plantillas/Coordinador.xhtml">
         <ui:define name="content"> 
             <div class="panel panel-primary" >
                 <div class="panel-heading">
@@ -20,26 +20,22 @@
                 </div>
 
                 <div class="panel-body">
-                   
-                  
-                   
-
                     <h:form>
                             <!--<p:growl id="message" showDetail="true"/>-->
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     </h:form>
-
+                    <br/>
                     <h:form>
                         <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;"/>
-                        <p:inputText id="textoFiltrado" value="#{estudianteController.variableFiltrado}" placeholder="Ingrese el codigo, nombres o apellidos del estudiante" size="45">
-                            <p:ajax update=":tablaEstudiantes" event="keyup"/>
+                        <p:inputText id="textoFiltrado" placeholder="Ingrese el código, nombres o apellidos del estudiante" value="#{estudianteController.variableFiltrado}" size="45">
+                            <p:ajax event="keyup" update=":tablaEstudiantes"/>
                         </p:inputText>
                         <br/>
                         <br/>
                     </h:form>
-
+                    <br/>
                     <p:dataTable id="tablaEstudiantes" var="est" value="#{estudianteController.listado()}" rows="10"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -65,7 +61,6 @@
                                 <h:commandButton actionListener="#{estudianteController.editarEstudiante(est)}" value="Editar" class="btn btn-warning btn_listaEstudiantes"/>
                             </h:form>
                         </p:column>                
-
                     </p:dataTable>
                 </div>
             </div>

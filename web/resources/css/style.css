@@ -1,16 +1,51 @@
+ /*Header*/
 
-/*Menú*/
+    header .separador {
+        background: url(../images/barra.png) no-repeat;
+        width: 2px;
+        height: 40px;
+        float: left;
+        margin: 25px 10px 27px 0;
+    }
 
-    .ui-accordion {
-        cursor: pointer;
+    header.interno { /*imagen azul de la cabecera*/
+        display: block;
+        background: url(../images/back-header-int1.png) no-repeat center;
+        background-size: 100%;
+        background-color: #0C3664;
+        margin: 0;
+        width: 100%;
         position: relative;
-        margin-top: 1px;
-        zoom: 1;
     }
 
-    .ui-widget{
-        font-family:Lucida Grande, Lucida Sans, Arial, sans-serif;
-        font-size:1.1em;
+    header.interno #logoU {
+        margin: 5px 10px 5px 50px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    header.interno .logoPosgrados {
+        width: 183px;
+        height: 81px;
+        background: url(../images/logo-doctorado.png) no-repeat;
+        float: right;
+        margin: 10px 190px 0 0;
     }
 
+    #logoU {
+        background: url(../images/logo.png) no-repeat;
+        width: 188px;
+        height: 92px;
+        float: left;
+        margin-right: 10px;
+    }
 
+    #banderaHeader {
+        background: url(../images/bandera-head-int.png) no-repeat;
+        width: 195px;
+        height: 102px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+    }

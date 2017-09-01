@@ -700,8 +700,8 @@ public class PublicacionController implements Serializable {
      */
     public void verPublicacion(Publicacion pub) {
         actual = pub;
-        cve.verPublicacion();
-        Utilidades.redireccionar(cve.getRuta());
+        cvc.listarPublicacionesEstudiante();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     public void verPublicacionEst(Publicacion pub) {
