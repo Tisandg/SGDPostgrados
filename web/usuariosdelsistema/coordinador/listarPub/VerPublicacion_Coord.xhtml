@@ -14,42 +14,58 @@
 
     <ui:composition template="./../../../plantillas/Coordinador.xhtml">
         <ui:define name="content">                
-            <p:panel header="Ver Publicacion" >                    
-
-
-
-
-
+            <p:panel header="Ver Publicacion" >
                 <h:form>
-                    <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
-
-
-
+                    <h:panelGrid columns="3" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
                         <h:outputLabel value="Nombre autor &nbsp;&nbsp;&nbsp;" for="valNombAut" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.actual.pubNombreAutor}" styleClass="addEspacio form-control"/>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
 
                         <h:outputLabel value="Autores secundarios &nbsp;&nbsp;&nbsp;" for="valAutSec" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control"/>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
 
                         <h:outputLabel value="Tipo publicación &nbsp;&nbsp;&nbsp;" for="valTipoPub" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" styleClass="addEspacio form-control"/>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
 
                         <h:outputLabel value="DOI &nbsp;&nbsp;&nbsp;" for="valDOI" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valDOI"  value="#{publicacionController.actual.pubDoi}" styleClass="addEspacio form-control"/>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
 
                         <h:outputLabel value="ISBN &nbsp;&nbsp;&nbsp;" for="valIBN" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valIBN" value="#{publicacionController.actual.pubIsbn}" styleClass="addEspacio form-control"/>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
                         
                         
                         <h:outputLabel value="ISSN &nbsp;&nbsp;&nbsp;" for="valISSN" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valISSN" value="#{publicacionController.actual.pubIssn}" styleClass="addEspacio form-control"/>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
 
                         
                         <h:outputLabel value="Estado visado &nbsp;&nbsp;&nbsp;" for="valEstadoVis" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" styleClass="addEspacio form-control"/>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
                         <p:tooltip id="toolTipGrow" for="ayuda" value="El campo de estado visado indica si la publicación aun no ha sido revisada(espera), o si fue aceptada o rechazada."
                                    showEffect="clip" hideEffect="blind" />
                         <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>
+                        <h:outputLabel value=""  styleClass="addEspacio"/>
+                        
+                        
+                        
+                      
+                        <h:outputLabel value="Cambiar Estado Visado &nbsp;&nbsp;&nbsp;" styleClass="addEspacio"/>
+                        <h:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" styleClass="addEspacio form-control">                            
+                            <f:selectItem itemLabel="Seleccione" itemValue="" />
+                            <f:selectItem itemLabel="En espera" itemValue="espera" />
+                            <f:selectItem itemLabel="Aprobado" itemValue="aprobado" />
+                            <f:selectItem itemLabel="No Aprobado" itemValue="no aprobado" />
+                        </h:selectOneMenu>
+                        
+                        <p:commandButton value="Aceptar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis"/>
+                            
+                        
+                        
                         <h:outputLabel styleClass="addEspacio"/>
                         <h:outputLabel styleClass="addEspacio"/>
                     </h:panelGrid>            

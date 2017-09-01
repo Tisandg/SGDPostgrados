@@ -112,7 +112,9 @@ import org.primefaces.model.UploadedFile;
             name = "findAllPub_Est",
             query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador= :identificacion"
     )
-    , @NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn")})
+    , @NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn")
+    , @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id")
+})
 public class Publicacion implements Serializable {
 
     private static final long serialVersionUID = 1L;

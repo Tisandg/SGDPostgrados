@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 import java.util.List;
+import javax.persistence.Query;
 
 @Stateless
 public class PublicacionFacade extends AbstractFacade<Publicacion> {
@@ -116,16 +117,8 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
     }
 
     public List<Publicacion> ListadoPublicacionEst(int estIdentificador) {
-
-        /*      String comSimple = "\'";
-        String queryStr;
-        queryStr = "SELECT * FROM doctorado.publicacion where pub_est_identificador = " + comSimple + estIdentificador + comSimple;
-//        List results = 
-         */
         javax.persistence.Query query = getEntityManager().createNamedQuery("findAllPub_Est");
         query.setParameter("identificacion", estIdentificador);
-//query1.getResultList();
-
         try {
             System.out.println("co.unicauca.proyectobase.dao.PublicacionFacade.ListadoPublicacionEst()");
 
@@ -135,31 +128,9 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
             System.out.println(e);
             return null;
         }
-    }
-
-    /* public List<Publicacion> ListadoPublicacionEstFilt(int estIdentificador, String variableFiltrado) {
-       
-        javax.persistence.Query query = getEntityManager().createNamedQuery("Publicacion.findAllFiltPubEst");
-        query.setParameter("identificacion", estIdentificador);
-          query.setParameter("variableFiltro", "%" + variableFiltrado + "%");
-   
-           System.out.println("identificacion: "+estIdentificador);
-           System.out.println("variableFiltrado: "+variableFiltrado);
-
-        try {
-            System.out.println("co.unicauca.proyectobase.dao.PublicacionFacade.ListadoPublicacionEst()");
-
-            return query.getResultList();
-        } catch (Exception e) {
-            System.out.println("Error " + e.getMessage());
-            System.out.println(e);
-            return null;
-        }
-    }*/
+    }   
     
-    
-            
- public List<Publicacion> ListadoPublicacionFilt(String variableFiltrado) {
+    public List<Publicacion> ListadoPublicacionFilt(String variableFiltrado) {
 
         javax.persistence.Query query = em.createNamedQuery("Publicacion.findAllEst");
         query.setParameter("variableFiltro", "%" + variableFiltrado + "%");
@@ -216,6 +187,18 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
         return findPub;
 
+    }        
+
+    public void cambiarEstadoVisado(Integer pubIdentificador, String valor) {
+        String nombre = "Publicacion.updateVisadoById";        
+        Query query = getEntityManager().createNamedQuery(nombre);
+        query.setParameter("valorVisado", valor);
+        query.setParameter("id", pubIdentificador);
+        int res = query.executeUpdate();
+        
+        System.out.println("respuesta: " + res);
+        
+        
     }
 
 }

@@ -56,6 +56,7 @@ public class PublicacionController implements Serializable {
     private EstudianteFacade daoEst;
     @EJB
     private PublicacionFacade dao;
+    
     private Publicacion actual;
     private List<Publicacion> listaPublicaciones;
     private UploadedFile publicacionPDF;
@@ -1022,6 +1023,31 @@ public class PublicacionController implements Serializable {
 
     public void mensajeConfirmacionHabilitacion() {
         addMessage("Ha habilitado satisfactoriamente la publicacion indicada.", "");
+    }
+    
+    
+    
+    
+    String visado = "";
+
+    public String getVisado() {
+        return visado;
+    }
+
+    public void setVisado(String visado) {
+        this.visado = visado;
+    }
+    
+    /**
+     * cambia el estado de visado de una publicacion en la base de datos
+     */
+    public void cambiarEstadoVisado(){
+        if (!visado.equals("")){
+            actual.setPubVisado(visado);
+            dao.edit(actual);
+            //dao.cambiarEstadoVisado(this.actual.getPubIdentificador(),this.visado);
+        }
+        
     }
 
 }
