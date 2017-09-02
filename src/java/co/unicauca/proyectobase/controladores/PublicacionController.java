@@ -1061,7 +1061,7 @@ public class PublicacionController implements Serializable {
               if(visado.equalsIgnoreCase("En espera")){
                 Utilidades.enviarCorreo(correo, "revision de publicacion",
                 "Apreciado "+actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido()
-                        +" Le informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t está en espera.");
+                        +" Le  informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t está en espera.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
         }
