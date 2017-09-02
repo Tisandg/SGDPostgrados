@@ -599,12 +599,12 @@ public class PublicacionController implements Serializable {
                     String estampaTiempo = "" + datehourFormat.format(date);
                     Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
                     limpiarCampos();
-                    redirigirListar(est.getEstUsuario());
+                    redirigirAlistar(est.getEstUsuario());
                     // redirigirAlistar(est.getEstUsuario());
                 } catch (IOException | GeneralSecurityException | DocumentException | PathNotFoundException | AccessDeniedException | EJBException ex) {
                     mensajeRegistroFallido();
                     limpiarCampos();
-                    redirigirListar(est.getEstUsuario());
+                    redirigirAlistar(est.getEstUsuario());
                     //    redirigirAlistar(est.getEstUsuario());
                     Logger.getLogger(PublicacionController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -644,6 +644,7 @@ public class PublicacionController implements Serializable {
     }
 
     public void fijarEstudiante(String nombreUsuario) {
+
         Estudiante est = dao.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
     }
@@ -659,7 +660,7 @@ public class PublicacionController implements Serializable {
     public String guardarEdicion() {
         dao.edit(actual);
         mensajeEditar();
-        redirigirListar(getAuxEstudiante().getEstUsuario());
+        redirigirAlistar(getAuxEstudiante().getEstUsuario());
         return INICIO;
     }
 
@@ -716,10 +717,11 @@ public class PublicacionController implements Serializable {
     }
 
     /*redireccionamiento para boton cancelar*/
-    public void redirigirListar(String nombreUsuario) {
-        
+    public void redirigirAlistar(String nombreUsuario) {
         fijarEstudiante(nombreUsuario);
-        limpiarCampos();                
+        limpiarCampos();
+        System.out.println("si esta pasando por aqui");
+        
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }
