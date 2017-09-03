@@ -115,7 +115,8 @@ public class ValidadorCorreo implements Validator {
     
     public boolean validarExistencia(String correo)
     {
-        return dao.findByEstCorreo(correo);
+//        return dao.findByEstCorreo(correo);
+        return false;
     }
     
 }

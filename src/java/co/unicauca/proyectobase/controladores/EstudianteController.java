@@ -131,8 +131,8 @@ public class EstudianteController implements Serializable {
 
     public void agregar() {        
 
-        try
-        {
+//        try
+//        {
             String contraseña = cifrarBase64(actual.getEstCodigo());
             actual.setEstCohorte(Integer.parseInt(cohorte));
             actual.setEstContrasena(contraseña);
@@ -174,11 +174,11 @@ public class EstudianteController implements Serializable {
             Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Registro de cuenta de estudiante ", "Cordial Saludo "+ "\n" + "El registro en el sistema de Doctorados de Electronica se ha completado correctamente,los detalles de su cuenta son los siguientes: " + "\n" + "Nombre de Usuario: "+actual.getEstUsuario()+ "\n" +"Clave Ingreso: "+actual.getEstCodigo());
             limpiarCampos();
             redirigirAlistar();
-        }
-        catch(EJBException e)
-        {
-            
-        }
+//        }
+//        catch(EJBException e)
+//        {
+//            
+//        }
     }
 
     public void limpiarCampos() {
@@ -286,6 +286,16 @@ public class EstudianteController implements Serializable {
         cohorte = "" + est.getEstCohorte();
         cvc.editarEstudiante();
         Utilidades.redireccionar(cvc.getRuta());
+    }
+    /**
+     * retorna true si existe un estudiante, con {@code codigo}, registrado en el
+     * sistema
+     *
+     * @param codigo
+     * @return
+     */
+    public boolean existByCodigoEst(String codigo){
+        return dao.existByEstCodigo(codigo);
     }
 
     /*redireccionamiento para boton cancelar*/

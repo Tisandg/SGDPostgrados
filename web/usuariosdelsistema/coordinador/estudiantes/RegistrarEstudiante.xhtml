@@ -59,6 +59,7 @@
 
                                 <p:inputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorCodigoEstudiante"/>
+                                    <f:validator validatorId="validarEstudianteCodigoNoExistente"/>
                                     <p:ajax event="blur" update="msjValCodigo"/>
                                 </p:inputText>
                                 <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>

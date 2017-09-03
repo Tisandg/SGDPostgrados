@@ -68,9 +68,9 @@ public class ValidadorCorreoEditar implements Validator {
     
     //valida que el dominio del correo sea correcto
     public boolean validarDominio(String dominio) {
-        return !(!dominio.equals("gmail.com") && 
-                 !dominio.equals("unicauca.edu.co") &&
-                 !dominio.equals("hotmail.com"));
+        return !(!dominio.equals("gmail.com")
+                && !dominio.equals("unicauca.edu.co") 
+                && !dominio.equals("hotmail.com"));
     }
     
     //valida que el correo no empieze por un caracter especial

@@ -30,18 +30,19 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
     public EstudianteFacade() {
         super(Estudiante.class);
     }
-    public boolean findByEstCorreo(String estCorreo){
+    
+    public boolean existByEstCorreo(String estCorreo){
         Query query = em.createNamedQuery("Estudiante.findByEstCorreo");
         query.setParameter("estCorreo", estCorreo);
         return !query.getResultList().isEmpty();
     }
     
-    public boolean findByEstCodigo(String estCodigo){
+    public boolean existByEstCodigo(String estCodigo){
             Query query = em.createNamedQuery("Estudiante.findByEstCodigo");
             query.setParameter("estCodigo", estCodigo);
             return !query.getResultList().isEmpty();
     }
-    
+
     public List<Estudiante> findAllByString(String texto)
     {
         Query query = em.createNamedQuery("Estudiante.findAllByString");
