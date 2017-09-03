@@ -7,23 +7,19 @@
         <title>Sistema Doctorado</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <h:outputStylesheet name="css/estilos.css"/>
-        <h:outputStylesheet name="css/cssLayout.css"/>
         <h:outputStylesheet name="css/default.css"/>
 
     </h:head> 
     <h:body>
-   <div id="bandera"></div>
-   <div id="antorcha"></div>
-        <div class="contenedorExterior">
-            <div class="contenedorInterior">
-                <div class="imagenLogoUnicauca">
-                    <p class="separador"></p>
-                    <p class="textLogin">  Sistema de Control Documental de Posgrados Unicauca</p>
-                </div>            
-            </div>                
-        </div>
+        <div id="antorcha"></div>
+	<div id="bandera"></div>
+        <header>
+		<a href="http://www.unicauca.edu.co" id="logoU"></a>
+		<p class="separador"></p>
+                <p class="textLogin" style="padding-top: 12px;">Sistema de control documental de posgrados</p>
+	</header>
 
-        <div class="contenedorExterior">
+        <main class="contenedorExterior">
             <div class="contenedorInterior">
                 <div class="elemento">
                     <h:form>
@@ -41,9 +37,16 @@
                     </h:form>
                 </div>
             </div>
-        </div>
-        <br />
-        <br />  
+        </main>
+        <br /> <br /> 
+        
+        <footer class="pie-index">
+            
+		<p>2017  |  Posgrados facultad de Ingeniería Electrónica y Telecomunicaciones <br />
+                    <a href="http://www.unicauca.edu.co">Universidad del Cauca</a>  |  <a style="color: white;" href="mailto:simca@unicauca.edu.co"><span class="glyphicon glyphicon-envelope"></span>&nbsp;@unicauca.edu.co</a>
+		</p>
+	</footer>
+        
         <p:dialog visible="#{usuariosSessionController.errorSesion}" 
                   resizable="false" width="250"
                   widgetVar="errorInicioSesion" closable="false"
@@ -68,9 +71,6 @@
 
         </p:dialog>
     </h:body>
-
-
-
 </html>
 
 
