@@ -13,14 +13,17 @@ public class ValidarEstudianteCodigoNoExistente implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        String texto = String.valueOf(String.valueOf(value));
+        String codigo = String.valueOf(String.valueOf(value));
 
         if (value != null) {
 
             EstudianteController controller = (EstudianteController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "estudianteController");
-//            System.out.println("validarEstudianteCodigoNoExistente------.-----------");
-            if (controller.existByCodigoEst(texto)) {
+            Integer identificador = controller.getActual().getEstIdentificador();
+            if (identificador == null) {
+                identificador = -1;
+            }
+            if (controller.findByEstCodigoExceptId(codigo, identificador) != null) {
                 String message = "Id ya existe, seleccione otro por favor.";
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
                 throw new ValidatorException(msg);

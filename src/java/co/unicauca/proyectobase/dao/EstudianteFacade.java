@@ -30,21 +30,33 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
     public EstudianteFacade() {
         super(Estudiante.class);
     }
-    
-    public boolean existByEstCorreo(String estCorreo){
+
+    public boolean existByEstCorreo(String estCorreo) {
         Query query = em.createNamedQuery("Estudiante.findByEstCorreo");
         query.setParameter("estCorreo", estCorreo);
         return !query.getResultList().isEmpty();
     }
-    
-    public boolean existByEstCodigo(String estCodigo){
-            Query query = em.createNamedQuery("Estudiante.findByEstCodigo");
-            query.setParameter("estCodigo", estCodigo);
-            return !query.getResultList().isEmpty();
+
+    public boolean existByEstCodigo(String estCodigo) {
+        Query query = em.createNamedQuery("Estudiante.findByEstCodigo");
+        query.setParameter("estCodigo", estCodigo);
+        return !query.getResultList().isEmpty();
     }
 
-    public List<Estudiante> findAllByString(String texto)
-    {
+    public Estudiante findByEstCodigoExceptId(String estCodigo, Integer id) {
+        Query query = em.createNamedQuery("Estudiante.findByEstCodigoExceptId");
+        query.setParameter("estCodigo", estCodigo);
+        query.setParameter("estIdentificador", id);
+
+        List<Estudiante> resultList = query.getResultList();
+        if (resultList.size() > 0) {
+            return resultList.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public List<Estudiante> findAllByString(String texto) {
         Query query = em.createNamedQuery("Estudiante.findAllByString");
         query.setParameter("texto", "%" + texto + "%");
         List<Estudiante> findEst = query.getResultList();
