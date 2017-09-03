@@ -187,9 +187,34 @@ h1 {
 }
 
 .bajarGrid
-{
-    
-    margin-top: 25px; 
+{   
+    margin-top: 15px; 
+    margin-right: 400px;
+}
+
+.bajarGrid2
+{   
+    margin-top: 15px; 
+    margin-right: 300px;
+}
+
+.bajarGrid3
+{   
+    margin-top: 15px; 
+    margin-right: 370px;
+}
+
+
+.bajarGrid4
+{   
+    margin-top: 15px; 
+    margin-right: 420px;
+}
+
+.bajarGrid5
+{   
+    margin-top: 15px; 
+    margin-left: 350px;
 }
 
 .primeracolumna{

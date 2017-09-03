@@ -22,7 +22,7 @@
             
                 <div class="panel-body">               
                     <h:form>
-                        <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid3" id="panelRegistrar">
                       
                             <h:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio"/>
                             <h:outputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control"/>
@@ -36,7 +36,7 @@
                             <h:outputLabel value="Correo Electrónico:" for="valCorreo" styleClass="addEspacio"/>
                             <h:outputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control"/>
 
-                            <h:outputLabel value="Nombre del tutor:" for="valNombreTutor" styleClass="addEspacio "/>
+                            <h:outputLabel value="Nombre Tutor:" for="valNombreTutor" styleClass="addEspacio "/>
                             <h:outputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control"/>
 
                             <h:outputLabel value="Cohorte:" for="valCohorte" styleClass="addEspacio"/>
@@ -49,7 +49,7 @@
                             <h:outputText class="form-control"  id="valEstado" value="#{estudianteController.actual.estEstado}" styleClass="addEspacio form-control"/>
 
 
-                            <h:outputLabel value="Número de creditos:&nbsp;&nbsp;" for="valCreditos" styleClass="addEspacio"/>
+                            <h:outputLabel value="Número de Créditos:&nbsp;&nbsp;&nbsp;" for="valCreditos" styleClass="addEspacio"/>
                             <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}" styleClass="addEspacio form-control"/>
                            
                         </h:panelGrid>

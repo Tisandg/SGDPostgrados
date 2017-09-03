@@ -27,7 +27,7 @@
                     </div>
 
                     <h:form>                
-                        <h:panelGrid columns="3" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                        <h:panelGrid columns="3" cellpadding="5" styleClass="elementosCentrados bajarGrid4" id="panelRegistrar">
                             <p:row>
                                 <p:column>
                                     <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio"/>
@@ -39,9 +39,7 @@
                             <p:message for="valNombre" id="msjValNombre" styleClass="addEspacio"/>
 
                                 </p:column>
-                            </p:row>
                             
-                            <p:row>
                                 <p:column>
                                     <h:outputLabel value="Apellidos:" for="valApellido" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -51,9 +49,7 @@
                                     </h:inputText>
                             <p:message for="valApellido" id="msjValApellido" styleClass="addEspacio"/>
                                 </p:column>
-                            </p:row>
                             
-                            <p:row>
                                 <p:column>
                                    <h:outputLabel value="Código:" for="valCodigo" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -63,9 +59,7 @@
                                     </h:inputText>
                                     <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/> 
                                 </p:column>
-                            </p:row>
                             
-                            <p:row>
                                 <p:column>
                                     <h:outputLabel value="Correo electrónico:" for="valCorreo" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -75,9 +69,7 @@
                                     </h:inputText>
                                     <p:message for="valCorreo" id="msjValCorreo" styleClass="addEspacio"/>
                                 </p:column>
-                            </p:row>
-                              
-                            <p:row>
+                            
                                 <p:column>
                                     <h:outputLabel value="Cohorte:" for="valCohorte" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -87,9 +79,7 @@
                                     </h:inputText>
                                     <p:message for="valCohorte" id="msjValCohorte" styleClass="addEspacio"/> 
                                 </p:column>
-                            </p:row>
-                             
-                            <p:row>
+                            
                                 <p:column>
                                     <h:outputLabel value="Nombre del tutor:" for="valNombreTutor" styleClass="addEspacio "/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -99,9 +89,7 @@
                                     </h:inputText>
                                     <p:message for="valNombreTutor" id="msjValNombreTutor" styleClass="addEspacio" />
                                 </p:column>
-                            </p:row>
                             
-                            <p:row>
                                 <p:column>
                                     <h:outputLabel value="Semestre:" for="valSemestre" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -110,9 +98,7 @@
                                         <f:selectItem itemLabel="2" itemValue="2"></f:selectItem>
                                     </h:selectOneMenu>
                                 </p:column>
-                            </p:row>
                             
-                            <p:row>
                                 <p:column>
                                      <h:outputLabel styleClass="addEspacio"/>
                                      <h:outputLabel value="Estado:" for="valEstado" styleClass="addEspacio"/>
@@ -125,16 +111,15 @@
                             </p:row>
                             
                         </h:panelGrid>
-                        
                         <br></br>
-                        
-                        <h:commandButton value="Cancelar edición" onclick="if (!confirm('¿Desea cancelar la edición del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
-                        <h:commandButton value="Actualizar información" actionListener="#{estudianteController.guardarEdicion()}" onclick="if (!confirm('¿Esta seguro que desea guardar los cambios?')) { return false;}; return true;" class="btn btn-primary" />                        
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
-                        <h:outputLabel styleClass="addEspacio"/>
+                        <h:commandButton value="Actualizar" actionListener="#{estudianteController.guardarEdicion()}" onclick="if (!confirm('¿Desea guardar los cambios realizados?')) { return false;}; return true;" class="btn btn-primary" />                        
+                        &nbsp;&nbsp;
+                        <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar los cambios?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
+
                     </h:form>
+                    
+                    
+                       
                 </div>
             </div>
         </ui:define>

@@ -26,7 +26,6 @@
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                     </div>
                 
-
                     <h:form>
                         <h:panelGrid columns="3"  cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
                             <p:row>  
@@ -34,15 +33,14 @@
                                     <p:outputLabel value="Nombres:" for="valNombre"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                                 </p:column>
-
+                              
+                            
                                 <p:inputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control " >
                                     <f:validator validatorId="validadorNombreEstudiante"/>
                                     <p:ajax event="blur" update="msjValNombre"/>
                                 </p:inputText>
                                 <p:message for="valNombre" id="msjValNombre" styleClass="addEspacio"/>
-                            </p:row>
-                                       
-                            <p:row>
+                           
                                 <p:column>
                                     <p:outputLabel value="Apellidos:" for="valApellido"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -54,9 +52,6 @@
                                 </p:inputText>
                                 <p:message for="valApellido" id="msjValApellido" styleClass="addEspacio"/>
 
-                            </p:row>
-                        
-                            <p:row>
                                 <p:column>
                                     <p:outputLabel value="Código:" for="valCodigo" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -67,14 +62,10 @@
                                     <p:ajax event="blur" update="msjValCodigo"/>
                                 </p:inputText>
                                 <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>
-                            </p:row>
-
-
-
-                            <p:row>
+                         
                                 <p:column>
                                     <p:outputLabel value="Correo Electrónico:" for="valCorreo" styleClass="addEspacio"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;
                                 </p:column>
 
                                 <p:inputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" >
@@ -82,11 +73,7 @@
                                     <p:ajax event="blur" update="msjValCorreo"/>
                                 </p:inputText>
                                 <p:message for="valCorreo" id="msjValCorreo" styleClass="addEspacio"/> 
-                            </p:row>
-
-
-
-                            <p:row>
+                        
                                 <p:column>
                                     <p:outputLabel value="Cohorte:" for="valCohorte" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -97,11 +84,7 @@
                                     <p:ajax event="blur" update="msjValCohorte"/>
                                 </p:inputText>
                                 <p:message for="valCohorte" id="msjValCohorte" styleClass="addEspacio"/>  
-                            </p:row>
-
-
-
-                            <p:row>
+                        
                                 <p:column>
                                     <p:outputLabel value="Nombre Tutor:" for="valNombreTutor" styleClass="addEspacio "/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -112,16 +95,12 @@
                                     <p:ajax event="blur" update="msjValNombreTutor"/>
                                 </p:inputText>
                                 <p:message for="valNombreTutor" id="msjValNombreTutor" styleClass="addEspacio" />
-                            </p:row>
-
-
-
-                            <p:row>
+                          
                                 <p:column>
                                     <p:outputLabel value="Semestre:" for="valSemestre" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                                 </p:column>
-
+                            
                                 <p:column>
                                     <p:selectOneRadio  id="valSemestre" value="#{estudianteController.actual.estSemestre}" >
                                         <f:selectItem itemLabel="1" itemValue='1' />
@@ -131,16 +110,17 @@
 
                             </p:row>
                         
-                            <p:outputLabel styleClass="addEspacio"/>
-                            <p:outputLabel styleClass="addEspacio"/>
-                            <p:outputLabel styleClass="addEspacio"/>
-                            <p:outputLabel styleClass="addEspacio"/>
                         </h:panelGrid>
-                    </h:form>
-                
-                    <h:commandButton value="Registrar" onclick="if (!confirm('¿Desea registrar este estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.agregar()}" class="btn btn-primary " />
-                    <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary " immediate="true"/>
+                        <br/>
+                        <br/>
+                        
+                        <h:commandButton value="Registrar" onclick="if (!confirm('¿Desea registrar este estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.agregar()}" class="btn btn-primary " />&nbsp;&nbsp;&nbsp;
+                        <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary " immediate="true"/>
 
+                    </h:form>
+                    
+                    
+                    
                 </div>
             </div>
         </ui:define>

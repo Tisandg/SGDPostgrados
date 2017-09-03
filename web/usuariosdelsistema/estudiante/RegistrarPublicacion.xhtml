@@ -22,13 +22,13 @@
                 </div>
                 <div class="panel-body">     
 
-                    <div style = "float: left;">
-                        <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
-                        <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
-                    </div>
+                <div style = "float: left;">
+                    <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
+                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                </div>
                     
                     <h:form>
-                        <h:panelGrid columns="3"  cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                        <h:panelGrid columns="3"  cellpadding="5" styleClass="elementosCentrados bajarGrid2" id="panelRegistrar">
                             <p:row>
                                 <p:column>
                                     <!-- Autor principal de la publicacion -->
@@ -44,7 +44,6 @@
                                     <h:inputTextarea class="form-control" id="valASecundarios"  value="#{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control">
                                         <f:validator validatorId="validadorAutoresSecundarios" />
                                         <p:ajax event="blur" update="msjValAutores" /> 
-                                        <f:ajax />
                                     </h:inputTextarea>
                                     <p:message for="valASecundarios" id="msjValAutores" /> 
 
@@ -240,7 +239,7 @@
                                                 <h:outputLabel styleClass="addEspacio"/>
 
 
-                                                <h:outputLabel for="libroPDF" value="Libro PDF" styleClass="addEspacio"/>
+                                                <h:outputLabel for="libroPDF" value="Libro PDF:" styleClass="addEspacio"/>
                                                 <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}"    required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                                                 <h:outputLabel styleClass="addEspacio"/>
 

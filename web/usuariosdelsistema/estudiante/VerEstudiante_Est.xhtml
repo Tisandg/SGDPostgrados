@@ -19,34 +19,34 @@
                     </h3>
                 </div>                    
                 <h:form>
-                    <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid3" id="panelRegistrar">
 
-                        <p:outputLabel value="Nombres" for="valNombre" styleClass="addEspacio"/>
+                        <h:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valNombre" value="#{verEstudianteController.auxEstudiante.estNombre}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Apellidos" for="valApellido" styleClass="addEspacio"/>
+                        <h:outputLabel value="Apellidos:" for="valApellido" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valApellido"  value="#{verEstudianteController.auxEstudiante.estApellido}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Código" for="valCodigo" styleClass="addEspacio"/>
+                        <h:outputLabel value="Código:" for="valCodigo" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valCodigo" value="#{verEstudianteController.auxEstudiante.estCodigo}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Correo electronico" for="valCorreo" styleClass="addEspacio"/>
+                        <h:outputLabel value="Correo Electrónico:" for="valCorreo" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valCorreo" value="#{verEstudianteController.auxEstudiante.estCorreo}" styleClass="addEspacio form-control"/>
                         
-                        <h:outputLabel value="Nombre del tutor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" styleClass="addEspacio "/>
+                        <h:outputLabel value="Nombre Tutor:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" styleClass="addEspacio "/>
                         <h:outputText class="form-control" id="valNombreTutor" value="#{verEstudianteController.auxEstudiante.estTutor}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Cohorte" for="valCohorte" styleClass="addEspacio"/>
+                        <h:outputLabel value="Cohorte:" for="valCohorte" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valCohorte" value="#{verEstudianteController.auxEstudiante.estCohorte}" styleClass="addEspacio form-control"/>                        
 
-                        <h:outputLabel value="Semestre" for="valSemestre" styleClass="addEspacio"/>
+                        <h:outputLabel value="Semestre:" for="valSemestre" styleClass="addEspacio"/>
                         <h:outputText class="form-control"  id="valSemestre" value="#{verEstudianteController.auxEstudiante.estSemestre}" styleClass="addEspacio form-control"/>
                         
-                        <h:outputLabel value="Estado" for="valEstado" styleClass="addEspacio"/>
+                        <h:outputLabel value="Estado:" for="valEstado" styleClass="addEspacio"/>
                         <h:outputText class="form-control"  id="valEstado" value="#{verEstudianteController.auxEstudiante.estEstado}" styleClass="addEspacio form-control"/>
                         
                         
-                        <h:outputLabel value="Número de credítos&nbsp;&nbsp;&nbsp;" for="valCreditos" styleClass="addEspacio"/>
+                        <h:outputLabel value="Número de Créditos:&nbsp;&nbsp;&nbsp;" for="valCreditos" styleClass="addEspacio"/>
                         <h:outputText class="form-control"  id="valCreditos" value="#{verEstudianteController.credi}" styleClass="addEspacio form-control"/>
                          <p:tooltip id="toolTipGrow" for="ayuda" value="Indica el número total de creditos obtenidos mediante las publicaciones aprobadas."
                                    showEffect="clip" hideEffect="blind" />
@@ -57,7 +57,7 @@
                             
                     </h:panelGrid>
                     <h:form>
-                            <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"  style="float:center;" />                       
+                        <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"  style="float:center;" />                       
                     </h:form> 
                     <br></br>
                 </h:form>

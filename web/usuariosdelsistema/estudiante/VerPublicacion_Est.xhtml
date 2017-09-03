@@ -24,7 +24,7 @@
             
                 <div class="panel-body"> 
                     <h:form>
-                        <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
+                        <h:panelGrid columns="2" cellspacing="5"  styleClass="elementosCentrados bajarGrid"  >
 
 
 
@@ -175,7 +175,7 @@
                             <h:outputLabel class="colorVer" value="Vista Previa" />
 
                             <h:form styleClass="elementosCentrados bajarGrid">
-                                <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar"  >
+                                <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid5" id="panelRegistrar"  >
                                     <h:outputLabel value="Evidencia Publicación &nbsp;" />
                                     <h:commandButton style="margin-right: 100px ; color: white; " value="Ver " action="#{publicacionController.pdfCartaAprob()}" class="btn btn-success" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'"></h:commandButton>
                                     <h:outputLabel styleClass="addEspacio"/>
@@ -189,11 +189,14 @@
 
                                 </h:panelGrid>
                             </h:form> 
+                            <br/>
+                            <br/>
+                            <h:form>
+                                <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"  style="float:center;" />                       
+                            </h:form> 
                         </div>
                     </div>
-                    <h:form>
-                        <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"  style="float:center;" />                       
-                    </h:form> 
+                    
                 </div>
             </div>
 
