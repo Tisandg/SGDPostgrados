@@ -461,6 +461,7 @@ footer {
         padding: 1rem;
         background-color: #0C3664;
         text-align: center;
+        float: bottom;
 }
 footer p,
 footer p a,
@@ -750,4 +751,19 @@ body{
 .iconoEliminar
 {
     background:#339cdf url(../img/editar.svg) repeat-x;
+}
+
+.pie-index
+{
+    margin: auto;
+    display: table;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: transparent;
+    text-align: center;
+    float: bottom;
 }
