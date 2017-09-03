@@ -1,6 +1,6 @@
  /*Header*/
 
-    header .separador {
+    header.separador {
         background: url(../images/barra.png) no-repeat;
         width: 2px;
         height: 40px;
@@ -9,11 +9,9 @@
     }
 
     header.interno { /*imagen azul de la cabecera*/
-        display: block;
         background: url(../images/back-header-int1.png) no-repeat center;
         background-size: 100%;
         background-color: #0C3664;
-        margin: 0;
         width: 100%;
         position: relative;
     }
@@ -27,9 +25,10 @@
     header.interno .logoPosgrados {
         width: 183px;
         height: 81px;
-        background: url(../images/logo-doctorado.png) no-repeat;
+        background: url(../images/logo8.png) no-repeat;
         float: right;
         margin: 10px 190px 0 0;
+        margin-right: 120px;
     }
 
     #logoU {

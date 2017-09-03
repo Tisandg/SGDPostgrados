@@ -12,16 +12,16 @@
 
     </h:head> 
     <h:body>
-   <div id="bandera"></div>
-   <div id="antorcha"></div>
-        <div class="contenedorExterior">
-            <div class="contenedorInterior">
-                <div class="imagenLogoUnicauca">
-                    <p class="separador"></p>
-                    <p class="textLogin">  Sistema de Control Documental de Posgrados Unicauca</p>
-                </div>            
-            </div>                
-        </div>
+        
+            <div class="contenedorExterior">
+                <div id="bandera"></div>
+                <div class="contenedorInterior">
+                    <div class="imagenLogoUnicauca">
+                        <div class="separador"></div>
+                            <p class="textLogin">  Sistema de Control Documental de Posgrados Unicauca</p>
+                    </div>            
+                </div>                
+            </div>
 
         <div class="contenedorExterior">
             <div class="contenedorInterior">
@@ -39,6 +39,7 @@
                             <p:commandButton class="botonInicioSesion" value="Ingresar" action="#{userLoginView.login()}" oncomplete="handleLoginRequest(xhr, status, args)" ></p:commandButton>
                         </h:panelGrid>
                     </h:form>
+                    
                 </div>
             </div>
         </div>

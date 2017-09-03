@@ -11,8 +11,13 @@
     </h:head>
     
     <ui:composition template="../../plantillas/Estudiante.xhtml">
-        <ui:define name="content">                
-            <p:panel header="Datos Personales" >                    
+        <ui:define name="content"> 
+            <div class="panel panel-primary" >
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Datos Personales
+                    </h3>
+                </div>                    
                 <h:form>
                     <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
 
@@ -49,12 +54,15 @@
                           <h:outputLabel styleClass="addEspacio"/>
                         <h:outputLabel styleClass="addEspacio"/>
                         <h:outputLabel styleClass="addEspacio"/>
-                            <h:form>
-                    <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"  style="float:center;" />                       
-                </h:form>  
+                            
                     </h:panelGrid>
+                    <h:form>
+                            <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"  style="float:center;" />                       
+                    </h:form> 
+                    <br></br>
                 </h:form>
-            </p:panel>
+            </div>
+        
         </ui:define>
     </ui:composition>
 </html>

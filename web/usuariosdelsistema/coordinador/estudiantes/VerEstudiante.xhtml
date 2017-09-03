@@ -11,46 +11,56 @@
     </h:head>
     
     <ui:composition template="./../../../plantillas/Coordinador.xhtml">
-        <ui:define name="content">                
-            <p:panel header="Ver estudiante" >                    
-                <h:form>
-                    <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+        <ui:define name="content"> 
+            <div class="panel panel-primary" >
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Información Estudiante
+                    </h3>
+                </div>
+            
+            
+                <div class="panel-body">               
+                    <h:form>
+                        <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                      
+                            <h:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio"/>
+                            <h:outputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control"/>
+                            
+                            <h:outputLabel value="Apellidos:" for="valApellido" styleClass="addEspacio"/>
+                            <h:outputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control"/>
 
-                        <p:outputLabel value="Nombres" for="valNombre" styleClass="addEspacio"/>
-                        <h:outputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control"/>
+                            <h:outputLabel value="Código:" for="valCodigo" styleClass="addEspacio"/>
+                            <h:outputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Apellidos" for="valApellido" styleClass="addEspacio"/>
-                        <h:outputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control"/>
+                            <h:outputLabel value="Correo Electrónico:" for="valCorreo" styleClass="addEspacio"/>
+                            <h:outputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Código" for="valCodigo" styleClass="addEspacio"/>
-                        <h:outputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control"/>
+                            <h:outputLabel value="Nombre del tutor:" for="valNombreTutor" styleClass="addEspacio "/>
+                            <h:outputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Correo electronico" for="valCorreo" styleClass="addEspacio"/>
-                        <h:outputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control"/>
-                        
-                        <h:outputLabel value="Nombre del tutor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" styleClass="addEspacio "/>
-                        <h:outputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control"/>
+                            <h:outputLabel value="Cohorte:" for="valCohorte" styleClass="addEspacio"/>
+                            <h:outputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" styleClass="addEspacio form-control"/>                        
 
-                        <h:outputLabel value="Cohorte" for="valCohorte" styleClass="addEspacio"/>
-                        <h:outputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" styleClass="addEspacio form-control"/>                        
+                            <h:outputLabel value="Semestre:" for="valSemestre" styleClass="addEspacio"/>
+                            <h:outputText class="form-control"  id="valSemestre" value="#{estudianteController.actual.estSemestre}" styleClass="addEspacio form-control"/>
 
-                        <h:outputLabel value="Semestre" for="valSemestre" styleClass="addEspacio"/>
-                        <h:outputText class="form-control"  id="valSemestre" value="#{estudianteController.actual.estSemestre}" styleClass="addEspacio form-control"/>
-                        
-                        <h:outputLabel value="Estado" for="valEstado" styleClass="addEspacio"/>
-                        <h:outputText class="form-control"  id="valEstado" value="#{estudianteController.actual.estEstado}" styleClass="addEspacio form-control"/>
-                        
-                        
-                        <h:outputLabel value="Número de creditos&nbsp;&nbsp;&nbsp;" for="valCreditos" styleClass="addEspacio"/>
-                        <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}" styleClass="addEspacio form-control"/>
-                        
-                        
+                            <h:outputLabel value="Estado:" for="valEstado" styleClass="addEspacio"/>
+                            <h:outputText class="form-control"  id="valEstado" value="#{estudianteController.actual.estEstado}" styleClass="addEspacio form-control"/>
+
+
+                            <h:outputLabel value="Número de creditos:&nbsp;&nbsp;" for="valCreditos" styleClass="addEspacio"/>
+                            <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}" styleClass="addEspacio form-control"/>
+                           
+                        </h:panelGrid>
+                        <br></br>
                         <h:outputLabel styleClass="addEspacio"/>
-                        <h:commandButton value="Volver" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" />                       
+                        <h:commandButton value="Atrás" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" />                       
+                    </h:form>
+                </div> 
+            </div>
+            
 
-                    </h:panelGrid>
-                </h:form>
-            </p:panel>
         </ui:define>
     </ui:composition>
 </html>

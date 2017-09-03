@@ -4,10 +4,10 @@
     position: relative;
     background-color: #0D4185;
     color: white;
-    padding: 8px;
-    margin: 0px 0px 10px 0px;
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
     height: 120px;
-    width: 100em;
+    width: 100px;
 }
 
 #bottom {
@@ -69,6 +69,7 @@
 body,html{
     height: 100%;
     background: #e5e5e5;
+    
   }
 
   nav.sidebar, .main{
@@ -146,7 +147,7 @@ body,html{
       height: 100%;
       margin-left: -160px;
       float: left;
-      margin-bottom: 0px;
+      
     }
 
     nav.sidebar li {
@@ -169,9 +170,10 @@ body,html{
       margin-left: 200px;
     }
 
+    /*menu izquierdo de opciones de gestion*/
     nav.sidebar{
-      margin-left: 10px;
-      margin-top: 10px;
+      margin-left: 25px;
+      margin-top: 3px;
       float: left;
     }
 

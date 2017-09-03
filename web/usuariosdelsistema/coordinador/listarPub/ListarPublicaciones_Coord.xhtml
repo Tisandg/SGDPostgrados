@@ -18,25 +18,24 @@
                         Publicaciones registradas por los estudiantes
                     </h3>
                 </div>
+                
                 <div class="panel-body">
-
                     <h:form>
-                        <p:growl id="message" showDetail="true" />
+                            <!--<p:growl id="message" showDetail="true"/>-->
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     </h:form>
-
+                    <br/>
                     <h:form>
                         <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;"/>
                         <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
                             <p:ajax update=":tablaPublicaciones" event="keyup"/>
                         </p:inputText>
-                        
                         <br/>
                         <br/>
                     </h:form>
-
+                        <br/>
 
                     <p:dataTable  id="tablaPublicaciones" var="pub" value="#{publicacionController.listado()}" rows="10"
                                   paginator="true"

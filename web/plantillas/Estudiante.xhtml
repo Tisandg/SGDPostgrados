@@ -10,6 +10,7 @@
         <h:outputStylesheet name="css/estilos.css"/>
         <h:outputStylesheet name="css/cssLayout.css"/>
         <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/style.css"/>
         <h:outputStylesheet name="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -19,41 +20,29 @@
         <script src="../../resources/js/functions.js"></script>
     </h:head>
 
-    <h:body>
-        <img src="../../../resources/images/bandera.jpg" style="width: 100%; height: 50px;"></img>
-        <div id="top" class="top">
-            <ui:insert name="top">
-                <table border="0" id="cabecera" >
-                    <tbody>
-                        <tr>
-                            <td> <img id="logo_unicaua" src="../../../resources/images/logo.png" />   <!-- imagen izquierda de el menu principal-->  </td>
-                            <td>  <h1 id="titulo">Programa De Posgrados Universidad del Cauca&nbsp;</h1>     </td>
-
-                            <td>
-                                <img src="../../../resources/images/logo-doctorado.png" style="margin-left: 150px;"></img>
-
-                            </td>
-                            <td>
-
-
-                            </td>
-                            <td >                               
-                                <ul class="menuDer">
-                                    <li class="ajustarMenuDer"><a href="#"  style="color: white; focus: transparent;"><span class="glyphicon glyphicon-user"></span> #{userLoginView.username}</a></li>
-                                    <!-- <li class="ajustarMenuDer"><a href="#" style="color: white;"><span class="glyphicon glyphicon-log-in"></span> Salir</a></li>-->
-
-                                    <h:form>
-                                        <h:commandLink value="Salir " action="#{userLoginView.salir()}" class="btn btn-link" style="margin-left: 80px;color: white;"><span class="glyphicon glyphicon-log-in"></span></h:commandLink>
-                                    </h:form>
-
-                                </ul>                            
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </ui:insert>
-        </div>
+    <h:body class="interno"> 
+        <img src="../../../resources/images/bandera.jpg" style="width: 100%; height: 50px;">
+        <header class="interno contenidoResponsive">
+		<div id="logoU"></div>
+		<div class="separador"></div>
+		<p id="desc">Programa de posgrados Universidad del Cauca.</p>
+                <div class="logoPosgrados"></div>
+                <div id="banderaHeader">
+                    <ul class="menuDer">
+                        <li class="ajustarMenuDer">
+                            <a href="#"  style="color: white; focus: transparent;">
+                                <span class="glyphicon glyphicon-user"></span> 
+                                &nbsp;#{userLoginView.username}&nbsp;
+                            </a>
+                        </li>
+                        <h:form>
+                            <h:commandLink value="Salir " action="#{userLoginView.salir()}" class="btn btn-link" style="margin-left: 80px;color: white;"><span class="glyphicon glyphicon-log-in"></span></h:commandLink>
+                        </h:form>
+                    </ul>
+                </div>
+		<div class="clear"></div>
+	</header>
+            </img>
 
         <div>
             <ui:insert name="left">
