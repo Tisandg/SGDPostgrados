@@ -24,7 +24,7 @@
             
                 <div class="panel-body">
                     <h:form>
-                        <h:panelGrid columns="3" cellspacing="5"  styleClass="elementosCentrados bajarGrid"  >
+                        <h:panelGrid columns="3" cellspacing="5"  styleClass="elementosCentrados bajarGrid-1"  >
 
 
 
@@ -62,7 +62,7 @@
                             <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>
                             <h:outputLabel value=""  styleClass="addEspacio"/>
                             
-                            <h:outputLabel value="Cambiar Estado Visado &nbsp;&nbsp;&nbsp;" styleClass="addEspacio"/>
+                            <h:outputLabel value="Cambiar Estado Visado:&nbsp;&nbsp;&nbsp;" styleClass="addEspacio"/>
                         <h:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" styleClass="addEspacio form-control">                            
                             <f:selectItem itemLabel="Seleccione" itemValue="" />
                             <f:selectItem itemLabel="En espera" itemValue="espera" />
@@ -70,13 +70,13 @@
                             <f:selectItem itemLabel="No Aprobado" itemValue="no aprobado" />
                         </h:selectOneMenu>
                         
-                        <p:commandButton value="Aceptar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis"/>
+                            <h:outputLabel styleClass="addEspacio"/>
+                            <h:outputLabel styleClass="addEspacio"/>
+                        </h:panelGrid>   
                         
-                            <h:outputLabel styleClass="addEspacio"/>
-                            <h:outputLabel styleClass="addEspacio"/>
-                        </h:panelGrid>            
                     </h:form>
-                    
+                    <br/>
+                    <br/>
                     <div class="panel panel-primary" >
                         <div class="panel-heading">
                             <h3 class="panel-title">
