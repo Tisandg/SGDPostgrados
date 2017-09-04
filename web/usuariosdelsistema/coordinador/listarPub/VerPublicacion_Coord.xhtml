@@ -69,7 +69,8 @@
                             <f:selectItem itemLabel="Aprobado" itemValue="aprobado" />
                             <f:selectItem itemLabel="No Aprobado" itemValue="no aprobado" />
                         </h:selectOneMenu>
-                        
+                            
+                             <p:commandButton value="Aceptar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis"/>
                             <h:outputLabel styleClass="addEspacio"/>
                             <h:outputLabel styleClass="addEspacio"/>
                         </h:panelGrid>   
