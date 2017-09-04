@@ -48,7 +48,7 @@
                             <h:outputText class="form-control" id="valISSN" value="#{publicacionController.actual.pubIssn}" styleClass="addEspacio form-control"/>
 
 
-                            <h:outputLabel value="Estado visado:&nbsp;&nbsp;&nbsp;" for="valEstadoVis" styleClass="addEspacio"/>
+                            <h:outputLabel value="Estado Visado:&nbsp;&nbsp;&nbsp;" for="valEstadoVis" styleClass="addEspacio"/>
                             <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" styleClass="addEspacio form-control"/>
                             <p:tooltip id="toolTipGrow" for="ayuda" value="El campo de estado visado indica si la publicación aun no ha sido revisada(espera), o si fue aceptada o rechazada."
                                        showEffect="clip" hideEffect="blind" />
@@ -74,19 +74,19 @@
 
 
                                     <!-- Titulo de la revista donde se va a publicar, es obligatorio -->
-                                    <h:outputLabel value="Título artículo &nbsp;&nbsp;&nbsp;" for="valNArticulo"  styleClass="addEspacio" />
+                                    <h:outputLabel value="Título Artículo:&nbsp;&nbsp;&nbsp;" for="valNArticulo"  styleClass="addEspacio" />
                                     <h:outputText class="form-control" id="valNArticulo"  value="#{publicacionController.actual.revista.revTituloArticulo}" styleClass="addEspacio form-control"/>
 
 
 
-                                    <h:outputLabel value="Nombre revista &nbsp;&nbsp;&nbsp;" for="valNRevista" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Nombre Revista:&nbsp;&nbsp;&nbsp;" for="valNRevista" styleClass="addEspacio"/>
                                     <h:outputText class="form-control" id="valNRevista"  value="#{publicacionController.actual.revista.revNombreRevista}" styleClass="addEspacio form-control">
 
                                     </h:outputText>
 
 
 
-                                    <h:outputLabel value="Categoria &nbsp;&nbsp;&nbsp;" for="valCategoria" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Categoría:&nbsp;&nbsp;&nbsp;" for="valCategoria" styleClass="addEspacio"/>
                                     <h:outputText class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}" styleClass="addEspacio form-control">                                    
 
                                     </h:outputText>
@@ -104,14 +104,14 @@
 
 
 
-                                    <h:outputLabel value="Título ponencia &nbsp;&nbsp;&nbsp;" for="valNPonencia" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Título Ponencia:&nbsp;&nbsp;&nbsp;" for="valNPonencia" styleClass="addEspacio"/>
                                     <h:outputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" styleClass="addEspacio form-control">
 
                                     </h:outputText>
 
 
 
-                                    <h:outputLabel value="Nombre evento &nbsp;&nbsp;&nbsp;" for="valNEvento" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Nombre Evento:&nbsp;&nbsp;&nbsp;" for="valNEvento" styleClass="addEspacio"/>
                                     <h:outputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" styleClass="addEspacio form-control">
 
                                     </h:outputText>
@@ -138,7 +138,7 @@
                                     <h:outputLabel styleClass="addEspacio"/>
 
 
-                                    <h:outputLabel value="Título libro &nbsp;" for="valTLibro" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Título Libro:&nbsp;" for="valTLibro" styleClass="addEspacio"/>
                                     <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" styleClass="addEspacio form-control">
                                     </h:outputText>
 
@@ -155,13 +155,13 @@
                                     <h:outputLabel styleClass="addEspacio"/>
                                     <h:outputLabel styleClass="addEspacio"/>
 
-                                    <h:outputLabel value="Título libro &nbsp;" for="valTCLibro" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Título Libro:&nbsp;" for="valTCLibro" styleClass="addEspacio"/>
                                     <h:outputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" styleClass="addEspacio form-control">
                                     </h:outputText>
 
 
 
-                                    <h:outputLabel value="Título capítulo libro &nbsp;" for="valTCapLibro" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Título Capítulo Libro:&nbsp;" for="valTCapLibro" styleClass="addEspacio"/>
                                     <h:outputText class="form-control" id="valTCapLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloCapitulo}" styleClass="addEspacio form-control">
 
                                     </h:outputText>
@@ -176,15 +176,15 @@
 
                             <h:form styleClass="elementosCentrados bajarGrid">
                                 <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid5" id="panelRegistrar"  >
-                                    <h:outputLabel value="Evidencia Publicación &nbsp;" />
+                                    <h:outputLabel value="Evidencia Publicación:&nbsp;" styleClass="addEspacio"/>
                                     <h:commandButton style="margin-right: 100px ; color: white; " value="Ver " action="#{publicacionController.pdfCartaAprob()}" class="btn btn-success" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'"></h:commandButton>
                                     <h:outputLabel styleClass="addEspacio"/>
                                     <h:outputLabel styleClass="addEspacio"/>
-                                    <h:outputLabel style="margin-right: 100px; " value="Publicación &nbsp;" />
+                                    <h:outputLabel style="margin-right: 100px; " value="Publicación:&nbsp;" styleClass="addEspacio"/>
                                     <h:commandButton value="Ver "    action="#{publicacionController.pdfPub()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" style="color: white;"></h:commandButton>
                                     <h:outputLabel styleClass="addEspacio"/>
                                     <h:outputLabel styleClass="addEspacio"/>
-                                    <h:outputLabel style="margin-right:  100px; " value="Tabla de Contenido &nbsp;" />
+                                    <h:outputLabel style="margin-right:  100px; " value="Tabla de Contenido:&nbsp;" styleClass="addEspacio"/>
                                     <h:commandButton value="Ver "  action="#{publicacionController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" style="color: white;"></h:commandButton>
 
                                 </h:panelGrid>

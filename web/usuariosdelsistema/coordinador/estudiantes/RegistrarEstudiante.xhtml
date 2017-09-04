@@ -22,7 +22,7 @@
             
                 <div class="panel-body">
                     <div style = "float: left;">
-                        <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
+                        <p:outputLabel style="font-weight:bold; " value="Campos obligatorios" styleClass="addEspacio"/>
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                     </div>
                 
@@ -30,7 +30,7 @@
                         <h:panelGrid columns="3"  cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
                             <p:row>  
                                 <p:column>
-                                    <p:outputLabel value="Nombres:" for="valNombre"/>
+                                    <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                                 </p:column>
                               
@@ -42,7 +42,7 @@
                                 <p:message for="valNombre" id="msjValNombre" styleClass="addEspacio"/>
                            
                                 <p:column>
-                                    <p:outputLabel value="Apellidos:" for="valApellido"/>
+                                    <p:outputLabel value="Apellidos:" for="valApellido" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                                 </p:column>
 
@@ -103,7 +103,7 @@
                                 </p:column>
                             
                                 <p:column>
-                                    <p:selectOneRadio  id="valSemestre" value="#{estudianteController.actual.estSemestre}" >
+                                    <p:selectOneRadio  id="valSemestre" value="#{estudianteController.actual.estSemestre}" styleClass="addEspacio">
                                         <f:selectItem itemLabel="1" itemValue='1' />
                                         <f:selectItem itemLabel="2" itemValue='2' />    
                                     </p:selectOneRadio>

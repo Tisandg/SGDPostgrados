@@ -23,7 +23,7 @@
                 <div class="panel-body">     
 
                 <div style = "float: left;">
-                    <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
+                    <p:outputLabel style="font-weight:bold; " value="Campos obligatorios" styleClass="addEspacio"/>
                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                 </div>
                     
@@ -308,7 +308,7 @@
 
                                     <p:messages for="valTContenido"  id="msjvalTContenido" />
 
-                                    <h:outputLabel for="cartaAprobacionPDF" value="Evidencia de Publicación:" />
+                                    <h:outputLabel for="cartaAprobacionPDF" value="Evidencia de Publicación:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;
 
                                     <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
@@ -316,9 +316,8 @@
                                     <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
                                                showEffect="clip" hideEffect="blind" />
 
-                                    <p:fileUpload id="cartaAprobacionPDF" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" > 
-
-                                    </p:fileUpload>  
+                                    <p:fileUpload id="cartaAprobacionPDF" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio" ></p:fileUpload>  
+                                    <h:outputLabel styleClass="addEspacio"/>
 
                                     <p:messages for="cartaAprobacion"  id="msjCartaAprobacion"/>
 
@@ -331,8 +330,8 @@
                             </p:row>       
                         </h:panelGrid>
                         <br></br>
-                        <h:commandButton value="Registrar publicación" action="#{publicacionController.agregar()}" class="btn btn-primary"></h:commandButton>
-                        <h:commandButton value="Cancelar registro" onclick="if (!confirm('¿Desea cancelar el registro de la publicación?')) {return false;}                       ;
+                        <h:commandButton value="Registrar" action="#{publicacionController.agregar()}" class="btn btn-primary"></h:commandButton>&nbsp;&nbsp;
+                        <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro de la publicación?')) {return false;}                       ;
                                         return true;" action="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary" immediate="true"/>
 
                     </h:form>

@@ -22,7 +22,7 @@
 
                 <div class="panel-body">
                     <div style = "float: left;">
-                        <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
+                        <p:outputLabel style="font-weight:bold; " value="Campos obligatorios" styleClass="addEspacio"/>
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                     </div>
 
@@ -30,7 +30,7 @@
                         <h:panelGrid columns="3" cellpadding="5" styleClass="elementosCentrados bajarGrid4" id="panelRegistrar">
                             <p:row>
                                 <p:column>
-                                    <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio"/>
+                                    <h:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                                     <h:inputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control " >
                                         <f:validator validatorId="validadorNombreEstudiante"/>

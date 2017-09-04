@@ -184,6 +184,8 @@ h1 {
 
 .addEspacio{
     margin-bottom: 10px;
+    color: #045FB4;
+    
 }
 
 .bajarGrid
@@ -195,7 +197,7 @@ h1 {
 .bajarGrid2
 {   
     margin-top: 15px; 
-    margin-right: 300px;
+    margin-right: 360px;
 }
 
 .bajarGrid3
