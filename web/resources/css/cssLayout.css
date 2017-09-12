@@ -1,13 +1,17 @@
+.gridsinbordes>tbody>tr{
+    border: none !important;
+}
+.gridsinbordes>tbody>tr>td{
+    border: none !important;
+}
+
 
 #top {
-   
     position: relative;
-    background-color: #0D4185;
+    background-color: #036fab;
     color: white;
-    padding: 0px;
-    margin: 0px 0px 0px 0px;
-    height: 120px;
-    width: 100px;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
 }
 
 #bottom {
@@ -51,26 +55,8 @@
     margin: 0px 170px 0px 170px;
 }
 
-/*#top a:link, #top a:visited {
-  color: white;
-  font-weight : bold;
-  text-decoration: none;
-}
-
-#top a:link:hover, #top a:visited:hover  {
-  color: black;
-  font-weight : bold;
-  text-decoration : underline;
-}*/
-
 
 /*programacion css de menu lateral */
-
-body,html{
-    height: 100%;
-    background: #e5e5e5;
-    
-  }
 
   nav.sidebar, .main{
     -webkit-transition: margin 200ms ease-out;
@@ -238,6 +224,37 @@ body,html{
       font-size: 17px;
       
   }
+  
+#logoU {
+    background: url(../images/logo-unicauca2.png) no-repeat;
+    width: 188px;
+    height: 92px;
+    float: left;
+    margin-right: 10px;
+}
+
+#banderaHeader {
+    background: url(../images/bandera-head-int.png) no-repeat;
+    width: 195px;
+    height: 102px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
+
+header.interno {
+    height: 102px;
+    display: block;
+    background: url(../images/back-header-int1.png) no-repeat center;
+    background-size: 100%;
+    background-color: #0C3664;
+    margin: 0;
+    position: relative;
+}
+
+
   
   
 

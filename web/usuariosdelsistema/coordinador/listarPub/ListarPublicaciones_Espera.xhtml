@@ -12,63 +12,52 @@
     <!-- IMPLEMENTATION -->
     <ui:composition template="./../../../plantillas/Coordinador.xhtml">
         <ui:define name="content"> 
-            <div class="panel panel-primary" >
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Publicaciones registradas en espera de visado
-                    </h3>
-                </div>
-                <div class="panel-body">
-
-                    <h:form>
-                        <p:growl id="message" showDetail="true" />
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-                    </h:form>
-
-                    <h:form>
-                        <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" styleClass="addEspacio"/>
-                        <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
-                            <p:ajax update=":tablaPublicaciones" event="keyup"/>
-                        </p:inputText>
-                        
-                        <br/>
-                        <br/>
-                    </h:form>
-
-
-                    <p:dataTable  id="tablaPublicaciones" var="pub" value="#{publicacionController.listadoEspera()}" rows="10"
-                                  paginator="true"
-                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                  rowsPerPageTemplate="5,10,15" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
-                                  style="text-align: left;">   
-
-
-                        <p:column headerText="Nombre Autor Principal" styleClass="addEspacio" >
-                            <h:outputText value="#{pub.pubNombreAutor}"></h:outputText>
-                        </p:column>
-                        <p:column headerText="Tipo Publicación" styleClass="addEspacio" >
-                            <h:outputText value="#{pub.pubTipoPublicacion}"></h:outputText>
-                        </p:column>
-                        <p:column headerText="Nombre Publicación"  styleClass="addEspacio">
-                            <h:outputText value="#{pub.obtenerNombrePub()}"></h:outputText>
-                        </p:column>
-                        <p:column headerText="Fecha Publicación"  styleClass="addEspacio">
-                            <h:outputText value="#{pub.pubFechaPublicacion.toString()}"></h:outputText>
-                        </p:column>
-
-                        <p:column headerText="Acción"   >
-
-                            <h:form style="font-size: 10px;">
-                                <h:commandButton actionListener="#{publicacionController.verPublicacion(pub)}" value="Ver" class="btn btn-success btn_listaEstudiantes"/>
-
-                            </h:form>
-                        </p:column>
-                    </p:dataTable>
-                </div>
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Listado Publicaciones en Espera</b>
+                </span>
             </div>
+            
+            <p:separator />
 
+            <br/>
+            
+            <h:form>
+                <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
+                <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
+                    <p:ajax update=":tablaPublicaciones" event="keyup"/>
+                </p:inputText>
+
+                <br/>
+                <br/>
+            </h:form>
+            
+            <p:separator />
+                
+            <p:dataTable  id="tablaPublicaciones" var="pub" value="#{publicacionController.listadoEspera()}" rows="10"
+                          paginator="true"
+                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                          rowsPerPageTemplate="5,10,15" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
+                          style="text-align: left;">   
+
+
+                <p:column headerText="Nombre del autor principal" >
+                    <h:outputText value="#{pub.pubNombreAutor}"></h:outputText>
+                </p:column>
+                <p:column headerText="Tipo Publicación"  >
+                    <h:outputText value="#{pub.pubTipoPublicacion}"></h:outputText>
+                </p:column>
+                <p:column headerText="Nombre Publicación"  >
+                    <h:outputText value="#{pub.obtenerNombrePub()}"></h:outputText>
+                </p:column>
+                <p:column headerText="Fecha publicación:"  >
+                    <h:outputText value="#{pub.pubFechaPublicacion.toString()}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Acción"   >
+                    <p:commandButton style="font-size: 13px;" actionListener="#{publicacionController.verPublicacion(pub)}" value="Ver" class="btn btn-success btn_listaEstudiantes"/>
+                </p:column>
+            </p:dataTable>
         </ui:define>
     </ui:composition>
 

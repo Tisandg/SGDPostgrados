@@ -22,11 +22,10 @@
 
 body {
     background-color: #ffffff;
-    font-size: 15px;
+    font-size: 12px;
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
     color: #000000;  
     margin: 0px;
-    height: 1000px;
 }
 
 h1 {
@@ -39,11 +38,7 @@ h1 {
     color: #D20005;
 }
     
-   #cabecera
-  {
-      
-      
-  }
+  
     
     
   
@@ -184,14 +179,7 @@ h1 {
 
 .addEspacio{
     margin-bottom: 10px;
-    color: #045FB4;
     
-}
-
-.bajarGrid-1
-{   
-    margin-top: 15px; 
-    margin-right: 350px;
 }
 
 
@@ -199,31 +187,6 @@ h1 {
 {   
     margin-top: 15px; 
     margin-right: 400px;
-}
-
-.bajarGrid2
-{   
-    margin-top: 15px; 
-    margin-right: 360px;
-}
-
-.bajarGrid3
-{   
-    margin-top: 15px; 
-    margin-right: 370px;
-}
-
-
-.bajarGrid4
-{   
-    margin-top: 15px; 
-    margin-right: 420px;
-}
-
-.bajarGrid5
-{   
-    margin-top: 15px; 
-    margin-left: 350px;
 }
 
 .primeracolumna{

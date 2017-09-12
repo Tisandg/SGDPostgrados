@@ -11,58 +11,48 @@
 
 
     <h:head>
-        <title>Grafica Publicaciones Registradas</title>
+        <title>Gráfica Publicaciones Registradas</title>
     </h:head>
     <ui:composition template="./../../../plantillas/PlantGrafica.xhtml">
         <ui:define name="content"> 
-            <div class="panel panel-primary" >
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Gráfica Publicaciones Registradas
-                    </h3>
-                </div>
-            
-                <div class="panel-body">               
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Gráfica de Publicaciones Registradas</b>
+                </span>
+            </div>
+            <p:panel>      
 
-                    <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
-
-                        <h:form>
-                            <h:outputText value="Año: " styleClass="addEspacio"></h:outputText>
-                            <h:inputText id="txtAnio" value = "#{graficaPubRegController.anio}" maxlength="4" size="4" styleClass="addEspacio">
-                                <f:validator validatorId="validadorAnio"/>
-                                <p:ajax event="keyup" update="msjValAnio btnAceptar" />  
-                            </h:inputText>   
-                            <h:commandButton id="btnAceptar"  value="Buscar"  action="#{graficaPubRegController.iniciar()}" class="btn btn-success"  style="margin-left:10px; float:center;" disabled="#{not facesContext.postback or facesContext.validationFailed}"/>                             
-                            <p:message for="txtAnio" id="msjValAnio" styleClass="addEspacio"/> 
-
-                        </h:form>
-
-                    </h:panelGrid>  
-                    <br/>
-                    <h:body>
-                        <p:chart type="bar" model="#{graficaPubRegController.barModel}" style="width:900px; float:center;" />
-
-                    </h:body>
-
-                    <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
-
-                        <h:outputLabel value="Total Publicaciones: &nbsp;&nbsp;&nbsp;" for="valNombAut" styleClass="addEspacio"/>
-                        <h:outputText class="form-control" id="valNombAut"  value="#{graficaPubRegController.totalPub}" styleClass="addEspacio form-control"/>
-
-                    </h:panelGrid>
-
-                    <h:outputLabel styleClass="addEspacio"/>
-                    <h:outputLabel styleClass="addEspacio"/>
-
+                <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
 
                     <h:form>
-                        <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar()}" class="btn btn-primary"  style="float:center;" />                       
-                    </h:form>    
-                    <h:outputLabel styleClass="addEspacio"/>
-                    <h:outputLabel styleClass="addEspacio"/>
+                        <h:outputText value="Año: "></h:outputText>
+                        <p:inputText id="txtAnio" value = "#{graficaPubRegController.anio}" maxlength="4" size="6">
+                            <f:validator validatorId="validadorAnio"/>
+                            <p:ajax event="keyup" update="msjValAnio btnAceptar" />  
+                        </p:inputText>   
+                        <p:commandButton id="btnAceptar"  value="Buscar"  action="#{graficaPubRegController.iniciar()}" class="btn btn-success"  style="margin-left:10px; float:center;" />                             
+                        <p:message for="txtAnio" id="msjValAnio" styleClass="addEspacio"/> 
 
-                </div>
-            </div>
+                    </h:form>
+
+                </h:panelGrid>  
+                <br/>
+                <h:body>
+                    <p:chart type="bar" model="#{graficaPubRegController.barModel}" style="width:900px; float:center;" />
+
+                </h:body>
+
+                <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
+
+                    <p:outputLabel value="Total Publicaciones: &nbsp;&nbsp;&nbsp;" for="valNombAut" styleClass="addEspacio"/>
+                    <h:outputText class="form-control" id="valNombAut"  value="#{graficaPubRegController.totalPub}" styleClass="addEspacio form-control"/>
+                </h:panelGrid>
+            </p:panel>
+            
+            <h:form>
+                <p:commandButton  style="font-size: 13px; float:center;" value="Volver" actionListener="#{publicacionController.redirigirAlistar()}" class="btn btn-primary"/>                       
+            </h:form>
+            
         </ui:define>
     </ui:composition>
 </html>
