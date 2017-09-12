@@ -1,9 +1,7 @@
 package co.unicauca.proyectobase.validadores;
 
-import co.unicauca.proyectobase.dao.EstudianteFacade;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -14,12 +12,11 @@ import javax.faces.validator.ValidatorException;
 
 @FacesValidator(value="validadorCodigoEstudiante")
 public class ValidadorCodigoEstudiante implements Validator {
-    @EJB
-    private EstudianteFacade dao;
     
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String codigo = String.valueOf(value);
+//        System.out.println("validadorCodigoEstudiante-----------------------------------------------");
         
         if(codigo.length() == 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código del estudiante es obligatorio.");
@@ -28,12 +25,6 @@ public class ValidadorCodigoEstudiante implements Validator {
         
         if((codigo.length() < 10) || (codigo.length() > 14)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe contener de 10 a 14 caracteres.");
-            throw new ValidatorException(msg);  
-        }
-        
-        boolean existe = dao.findByEstCodigo(codigo);
-        if(existe) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ya existe un estudiante con este código.");
             throw new ValidatorException(msg);  
         }
         

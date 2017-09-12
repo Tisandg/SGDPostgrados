@@ -22,7 +22,6 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-
 @Named(value = "estudianteController")
 @ManagedBean
 @SessionScoped
@@ -36,26 +35,25 @@ public class EstudianteController implements Serializable {
     private List<Estudiante> listadoEncontrado;
     private List<String> Estado;
     private String credi;
-    
+//    private String codigoEdicion;
+
     private CargarVistaCoordinador cvc;
 
-    public String getCredi(){
-         credi = "" + actual.getEstCreditos();
-    
+    public String getCredi() {
+        credi = "" + actual.getEstCreditos();
+
         if (credi.equalsIgnoreCase("null")) {
             credi = "0";
         }
         return credi;
     }
+
     public void setCredi(String credi) {
         this.credi = credi;
     }
 
-
- 
     public String getCohorte() {
-        if((cohorte == null) || (cohorte.equals("null")) || (cohorte.equals("")))
-        {
+        if ((cohorte == null) || (cohorte.equals("null")) || (cohorte.equals(""))) {
             return "";
         }
         cohorte = String.valueOf(actual.getEstCohorte());
@@ -73,7 +71,7 @@ public class EstudianteController implements Serializable {
     public void setListadoEncontrado(List<Estudiante> listadoEncontrado) {
         this.listadoEncontrado = listadoEncontrado;
     }
-    
+
     public EstudianteController() {
         this.Estado = new ArrayList<>();
         this.Estado.add("Activo");
@@ -111,74 +109,70 @@ public class EstudianteController implements Serializable {
         return variableFiltrado;
     }
 
-    public void setVariableFiltrado(String variableFiltrado) {        
+    public void setVariableFiltrado(String variableFiltrado) {
         this.variableFiltrado = variableFiltrado;
-    }    
-    
+    }
+
     public List<Estudiante> listado() {
-        
-        if((variableFiltrado == null) || (variableFiltrado.equals("")))
-        {
+
+        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
             listadoEncontrado = dao.findAll();
             return listadoEncontrado;
-        }
-        else
-        {
+        } else {
             listadoEncontrado = dao.findAllByString(variableFiltrado);
             return listadoEncontrado;
         }
     }
 
-    public void agregar() {        
+    public void agregar() {
 
-        try
-        {
-            String contraseña = cifrarBase64(actual.getEstCodigo());
-            actual.setEstCohorte(Integer.parseInt(cohorte));
-            actual.setEstContrasena(contraseña);
-            String[] nombreusuario = actual.getEstCorreo().split("@");
-            actual.setEstUsuario(nombreusuario[0]);
-            actual.setEstEstado("activo");
-            
-            Usuario user = new Usuario();
-            user.setApellidos(actual.getEstApellido());
-            user.setContrasena(actual.getEstContrasena());
-            user.setEstado("activo");
-            user.setNombreUsuario(actual.getEstUsuario());
-            user.setNombres(actual.getEstNombre());
-            
-            UsuarioController uc = getUsuarioController();
-            uc.setCurrent(user);
-            uc.create();
-            
-           TipoUsuario tu = new TipoUsuario(2, "ESTUDIANTE");
-            
-            GrupoTipoUsuario gtu = new GrupoTipoUsuario();
-            gtu.setNombreUsuario(user.getNombreUsuario());
-            gtu.setTipoUsuario(tu);
-            gtu.setUsuario(user);
-            
-            GrupoTipoUsuarioPK grpPK = new GrupoTipoUsuarioPK();
-            grpPK.setIdTipo(tu.getId());
-            grpPK.setIdUsuario(user.getId());
-            gtu.setGrupoTipoUsuarioPK(grpPK);
-            
-            GrupoTipoUsuarioController gtuc = getGrupoTipoUsuarioController();
-            gtuc.setCurrent(gtu);
-            gtuc.create();
-            
-            
-            dao.create(actual);
-            dao.flush();
-            mensajeconfirmarRegistro();
-            Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Registro de cuenta de estudiante ", "Cordial Saludo "+ "\n" + "El registro en el sistema de Doctorados de Electronica se ha completado correctamente,los detalles de su cuenta son los siguientes: " + "\n" + "Nombre de Usuario: "+actual.getEstUsuario()+ "\n" +"Clave Ingreso: "+actual.getEstCodigo());
-            limpiarCampos();
-            redirigirAlistar();
-        }
-        catch(EJBException e)
-        {
-            
-        }
+//        try
+//        {
+        String contraseña = cifrarBase64(actual.getEstCodigo());
+        actual.setEstCohorte(Integer.parseInt(cohorte));
+        actual.setEstContrasena(contraseña);
+        String[] nombreusuario = actual.getEstCorreo().split("@");
+        actual.setEstUsuario(nombreusuario[0]);
+        actual.setEstEstado("activo");
+
+        Usuario user = new Usuario();
+        user.setApellidos(actual.getEstApellido());
+        user.setContrasena(actual.getEstContrasena());
+        user.setEstado("activo");
+        user.setNombreUsuario(actual.getEstUsuario());
+        user.setNombres(actual.getEstNombre());
+
+        UsuarioController uc = getUsuarioController();
+        uc.setCurrent(user);
+        uc.create();
+
+        TipoUsuario tu = new TipoUsuario(2, "ESTUDIANTE");
+
+        GrupoTipoUsuario gtu = new GrupoTipoUsuario();
+        gtu.setNombreUsuario(user.getNombreUsuario());
+        gtu.setTipoUsuario(tu);
+        gtu.setUsuario(user);
+
+        GrupoTipoUsuarioPK grpPK = new GrupoTipoUsuarioPK();
+        grpPK.setIdTipo(tu.getId());
+        grpPK.setIdUsuario(user.getId());
+        gtu.setGrupoTipoUsuarioPK(grpPK);
+
+        GrupoTipoUsuarioController gtuc = getGrupoTipoUsuarioController();
+        gtuc.setCurrent(gtu);
+        gtuc.create();
+
+        dao.create(actual);
+        dao.flush();
+        mensajeconfirmarRegistro();
+        Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Registro de cuenta de estudiante ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Electronica se ha completado correctamente,los detalles de su cuenta son los siguientes: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());
+        limpiarCampos();
+        redirigirAlistar();
+//        }
+//        catch(EJBException e)
+//        {
+//            
+//        }
     }
 
     public void limpiarCampos() {
@@ -186,79 +180,67 @@ public class EstudianteController implements Serializable {
         cohorte = "";
     }
 
-    
-    public void guardarEdicion()
-    {
-        try
-        {
+    public void guardarEdicion() {
+        try {
             actual.setEstCohorte(Integer.parseInt(cohorte));
             dao.edit(actual);
             dao.flush();
+
             String usuario= actual.getEstCorreo();
             String delimitador="@";
             String[] username= usuario.split(delimitador);
             
             if(actual.getEstEstado().equalsIgnoreCase("Inactivo"))
             {
-                Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Eliminacion de cuenta de estudiante ", "Cordial Saludo "+ "\n" + "La eliminacion de sus Datos en el sistema de Doctorados de Electronica se ha completado correctamente");
+                Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Sistema de doctorado en ciencias de la electronica - Eliminacion de cuenta de estudiante ", "Cordial Saludo. "+ "\n" + "La eliminacion de sus Datos en el sistema de doctorado en ciencias de la electrónica se ha completado correctamente");
             }
             else
             {
-                Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Mensaje Sistema Doctorados Electrónica Unicauca - Edición de Datos en cuenta de estudiante ", "Cordial Saludo, "+ "\n" + "\n" +"La edición de datos en el sistema de doctorados de electrónica se ha completado correctamente."+"\n"+"Los detalles de su cuenta son los siguientes: " +"\n" + "\n" +"Datos: " +"\n" + "Codigo: "+actual.getEstCodigo()+ "\n" +"Nombres: "+actual.getEstNombre() + "\n" + "Apellidos: "+actual.getEstApellido()+ "\n" +"Correo Institucional: "+actual.getEstCorreo()+ "\n" +"Cohorte: "+actual.getEstCohorte()  + "\n" + "Nombre del Tutor: "+actual.getEstTutor() +"\n" + "Semestre: "+actual.getEstSemestre()  + "\n" +"Estado: "+actual.getEstEstado() +"\n"+ "\n" +"Datos para iniciar sesión: " +"\n"+ "Usuario: " + username[0]+ "\n" +"Contrasenia: "+ actual.getEstCodigo());
-            }
-            
+                Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Sistema de doctorado en ciencias de la electronica - Edición de Datos en cuenta de estudiante ", "Cordial Saludo. "+ "\n" + "\n" +"La edición de datos en el sistema de doctorado en ciencias de la electrónica se ha completado correctamente."+"\n"+"Los detalles de su cuenta son los siguientes: " +"\n" + "\n" +"Datos: " +"\n" + "Codigo: "+actual.getEstCodigo()+ "\n" +"Nombres: "+actual.getEstNombre() + "\n" + "Apellidos: "+actual.getEstApellido()+ "\n" +"Correo Institucional: "+actual.getEstCorreo()+ "\n" +"Cohorte: "+actual.getEstCohorte()  + "\n" + "Nombre del Tutor: "+actual.getEstTutor() +"\n" + "Semestre: "+actual.getEstSemestre()  + "\n" +"Estado: "+actual.getEstEstado() +"\n"+ "\n" +"Datos para iniciar sesión: " +"\n"+ "Usuario: " + username[0]+ "\n" +"Contrasenia: "+ actual.getEstCodigo());
+
+            }   
+
             mensajeEditar();
-            redirigirAlistar();          
+            redirigirAlistar();
+        } catch (EJBException e) {
+
         }
-        catch(EJBException e)
-        {
-            
-        }
-    }    
-    
+    }
+
     public void cambiarEstado(int id) {
-        try
-        {
+        try {
             actual = dao.find(id);
             actual.setEstEstado("Inactivo");
             dao.edit(actual);
             dao.flush();
             mensajeDeshabilitar();
-        }
-        catch(EJBException e)
-        {
-            
+        } catch (EJBException e) {
+
         }
     }
-    
+
     public void habilitarEstudiante(int id) {
-        try
-        {
+        try {
             actual = dao.find(id);
             actual.setEstEstado("Activo");
             dao.edit(actual);
             dao.flush();
             mensajeConfirmacionHabilitacion();
-        }
-        catch(EJBException e)
-        {
-            
+        } catch (EJBException e) {
+
         }
     }
 
     public boolean estudianteRegistrado(String codigo) {
-        try
-        {
+        try {
             Estudiante estudiante = dao.find(codigo);
             dao.flush();
-            
+
             if (estudiante != null) {
                 return true;
             }
-        }
-        catch(EJBException e)
-        {
-            
+        } catch (EJBException e) {
+
         }
         return false;
     }
@@ -289,6 +271,28 @@ public class EstudianteController implements Serializable {
         cohorte = "" + est.getEstCohorte();
         cvc.editarEstudiante();
         Utilidades.redireccionar(cvc.getRuta());
+    }
+
+    /**
+     * retorna true si existe un estudiante, con {@code codigo}, registrado en
+     * el sistema
+     *
+     * @param codigo
+     * @return
+     */
+    public boolean existByCodigoEst(String codigo) {
+        return dao.existByEstCodigo(codigo);
+    }
+
+    /**
+     *
+     * @param estCodigo
+     * @param id
+     * @return
+     */
+    public Estudiante findByEstCodigoExceptId(String estCodigo, Integer id) {
+        return dao.findByEstCodigoExceptId(estCodigo, id);
+
     }
 
     /*redireccionamiento para boton cancelar*/
@@ -328,7 +332,7 @@ public class EstudianteController implements Serializable {
     public void mensajeconfirmarRegistro() {
         addMessage("Estudiante registrado con éxito.", "");
     }
-    
+
     public void mensajeConfirmacionHabilitacion() {
         addMessage("Ha habilitado satisfactoriamente al estudiante.", "");
     }
@@ -337,22 +341,21 @@ public class EstudianteController implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
-    public UsuarioController getUsuarioController(){
+
+    public UsuarioController getUsuarioController() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ELContext contextoEL = context.getELContext( );
-        Application appli = context.getApplication( );
-        UsuarioController usuarioController = (UsuarioController) appli.evaluateExpressionGet(context, "#{usuarioController}",UsuarioController.class);
+        ELContext contextoEL = context.getELContext();
+        Application appli = context.getApplication();
+        UsuarioController usuarioController = (UsuarioController) appli.evaluateExpressionGet(context, "#{usuarioController}", UsuarioController.class);
         return usuarioController;
     }
-    
-        public GrupoTipoUsuarioController getGrupoTipoUsuarioController()
-    {
+
+    public GrupoTipoUsuarioController getGrupoTipoUsuarioController() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ELContext contextoEL = context.getELContext( );
-        Application appli = context.getApplication( );
-        GrupoTipoUsuarioController grupoTipoUsuarioController = (GrupoTipoUsuarioController) appli.evaluateExpressionGet(context, "#{grupoTipoUsuarioController}",GrupoTipoUsuarioController.class);
+        ELContext contextoEL = context.getELContext();
+        Application appli = context.getApplication();
+        GrupoTipoUsuarioController grupoTipoUsuarioController = (GrupoTipoUsuarioController) appli.evaluateExpressionGet(context, "#{grupoTipoUsuarioController}", GrupoTipoUsuarioController.class);
         return grupoTipoUsuarioController;
     }
-        
+
 }
