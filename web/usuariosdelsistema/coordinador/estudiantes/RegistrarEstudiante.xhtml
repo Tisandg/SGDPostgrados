@@ -80,7 +80,7 @@
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                                 </p:column>
 
-                                <p:inputText class="form-control" id="valCohorte" value="#{estudianteController.cohorte}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorCohorteEstudiante"/>
                                     <p:ajax event="blur" update="msjValCohorte"/>
                                 </p:inputText>

@@ -27,7 +27,7 @@ public class UsuarioController implements Serializable {
     private Usuario current;
     private DataModel items = null;
     @EJB
-    private co.unicauca.proyectobase.dao.UsuarioFacade ejbFacade;
+    private UsuarioFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
