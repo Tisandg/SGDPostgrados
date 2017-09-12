@@ -13,9 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import javax.ejb.EJBException;
 import javax.el.ELContext;
 import javax.faces.application.Application;
@@ -28,7 +26,7 @@ import javax.faces.context.FacesContext;
 public class EstudianteController implements Serializable {
 
     @EJB
-    private EstudianteFacade dao;
+    private EstudianteFacade ejbFacade;
     private Estudiante actual;
     private String cohorte;
     private String variableFiltrado;
@@ -116,63 +114,63 @@ public class EstudianteController implements Serializable {
     public List<Estudiante> listado() {
 
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            listadoEncontrado = dao.findAll();
+            listadoEncontrado = ejbFacade.findAll();
             return listadoEncontrado;
         } else {
-            listadoEncontrado = dao.findAllByString(variableFiltrado);
+            listadoEncontrado = ejbFacade.findAllByString(variableFiltrado);
             return listadoEncontrado;
         }
     }
 
-    public void agregar() {
+    public void agregar() 
+    {
+        try {
+            System.out.println("est:"+actual);
+            String contrasena = Utilidades.sha256(actual.getEstCodigo());
+            String[] nombreusuario = actual.getEstCorreo().split("@"); // para un unico dominio
+            actual.setEstUsuario(nombreusuario[0]);
+            actual.setEstEstado("activo");
+            actual.setEstContrasena("contrasena");
 
-//        try
-//        {
-        String contraseña = cifrarBase64(actual.getEstCodigo());
-        actual.setEstCohorte(Integer.parseInt(cohorte));
-        actual.setEstContrasena(contraseña);
-        String[] nombreusuario = actual.getEstCorreo().split("@");
-        actual.setEstUsuario(nombreusuario[0]);
-        actual.setEstEstado("activo");
+            // configuracion de estudiante como usuario del sistema
+            Usuario user = new Usuario();
+            user.setApellidos(actual.getEstApellido());
+            user.setContrasena(actual.getEstContrasena());
+            user.setEstado("activo");
+            user.setNombreUsuario(actual.getEstUsuario());
+            user.setNombres(actual.getEstNombre());
+            user.setContrasena(contrasena);
+            // controlador usuario del contexto actual
+            UsuarioController uc = getUsuarioController();
+            uc.setCurrent(user);
+            uc.create();
+            // definir tipo de usuario para el estudiante 
+            TipoUsuario tu = new TipoUsuario(2, "ESTUDIANTE");
+            // definir grupo tipo de usuario para el estudiante 
+            GrupoTipoUsuario gtu = new GrupoTipoUsuario();
+            gtu.setNombreUsuario(user.getNombreUsuario());
+            gtu.setTipoUsuario(tu);
+            gtu.setUsuario(user);
 
-        Usuario user = new Usuario();
-        user.setApellidos(actual.getEstApellido());
-        user.setContrasena(actual.getEstContrasena());
-        user.setEstado("activo");
-        user.setNombreUsuario(actual.getEstUsuario());
-        user.setNombres(actual.getEstNombre());
+            // definir relacion entre grupo tipo de usuario y estudiante 
+            GrupoTipoUsuarioPK grpPK = new GrupoTipoUsuarioPK();
+            grpPK.setIdTipo(tu.getId());
+            grpPK.setIdUsuario(user.getId());
+            gtu.setGrupoTipoUsuarioPK(grpPK);
+            // controlador tipo usuario del contexto actual
+            GrupoTipoUsuarioController gtuc = getGrupoTipoUsuarioController();
+            gtuc.setCurrent(gtu);
+            gtuc.create();
 
-        UsuarioController uc = getUsuarioController();
-        uc.setCurrent(user);
-        uc.create();
-
-        TipoUsuario tu = new TipoUsuario(2, "ESTUDIANTE");
-
-        GrupoTipoUsuario gtu = new GrupoTipoUsuario();
-        gtu.setNombreUsuario(user.getNombreUsuario());
-        gtu.setTipoUsuario(tu);
-        gtu.setUsuario(user);
-
-        GrupoTipoUsuarioPK grpPK = new GrupoTipoUsuarioPK();
-        grpPK.setIdTipo(tu.getId());
-        grpPK.setIdUsuario(user.getId());
-        gtu.setGrupoTipoUsuarioPK(grpPK);
-
-        GrupoTipoUsuarioController gtuc = getGrupoTipoUsuarioController();
-        gtuc.setCurrent(gtu);
-        gtuc.create();
-
-        dao.create(actual);
-        dao.flush();
-        mensajeconfirmarRegistro();
-        Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Registro de cuenta de estudiante ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Electronica se ha completado correctamente,los detalles de su cuenta son los siguientes: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());
-        limpiarCampos();
-        redirigirAlistar();
-//        }
-//        catch(EJBException e)
-//        {
-//            
-//        }
+            getFacade().create(actual);
+            getFacade().flush();
+            mensajeconfirmarRegistro();
+            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Registro de cuenta de estudiante ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Electronica se ha completado correctamente,los detalles de su cuenta son los siguientes: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());
+            limpiarCampos();
+            redirigirAlistar();
+        } catch (EJBException e) {
+            System.out.println("Error -- EstudianteController -- mensaje: "+ e.getMessage().toString());
+        }
     }
 
     public void limpiarCampos() {
@@ -183,8 +181,8 @@ public class EstudianteController implements Serializable {
     public void guardarEdicion() {
         try {
             actual.setEstCohorte(Integer.parseInt(cohorte));
-            dao.edit(actual);
-            dao.flush();
+            ejbFacade.edit(actual);
+            ejbFacade.flush();
 
             if (actual.getEstEstado().equalsIgnoreCase("Inactivo")) {
                 Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Eliminacion de cuenta de estudiante ", "Cordial Saludo " + "\n" + "La eliminacion de sus Datos en el sistema de Doctorados de Electronica se ha completado correctamente");
@@ -201,10 +199,10 @@ public class EstudianteController implements Serializable {
 
     public void cambiarEstado(int id) {
         try {
-            actual = dao.find(id);
+            actual = ejbFacade.find(id);
             actual.setEstEstado("Inactivo");
-            dao.edit(actual);
-            dao.flush();
+            ejbFacade.edit(actual);
+            ejbFacade.flush();
             mensajeDeshabilitar();
         } catch (EJBException e) {
 
@@ -213,10 +211,10 @@ public class EstudianteController implements Serializable {
 
     public void habilitarEstudiante(int id) {
         try {
-            actual = dao.find(id);
+            actual = ejbFacade.find(id);
             actual.setEstEstado("Activo");
-            dao.edit(actual);
-            dao.flush();
+            ejbFacade.edit(actual);
+            ejbFacade.flush();
             mensajeConfirmacionHabilitacion();
         } catch (EJBException e) {
 
@@ -225,8 +223,8 @@ public class EstudianteController implements Serializable {
 
     public boolean estudianteRegistrado(String codigo) {
         try {
-            Estudiante estudiante = dao.find(codigo);
-            dao.flush();
+            Estudiante estudiante = ejbFacade.find(codigo);
+            ejbFacade.flush();
 
             if (estudiante != null) {
                 return true;
@@ -237,19 +235,6 @@ public class EstudianteController implements Serializable {
         return false;
     }
 
-    public String cifrarBase64(String a) {
-        Base64.Encoder encoder = Base64.getEncoder();
-        String b = encoder.encodeToString(a.getBytes(StandardCharsets.UTF_8));
-        return b;
-    }
-
-    public String descifrarBase64(String a) {
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] decodedByteArray = decoder.decode(a);
-
-        String b = new String(decodedByteArray);
-        return b;
-    }
     //jquery-3.1.1//
 
     public void verEstudiante(Estudiante est) {
@@ -273,7 +258,7 @@ public class EstudianteController implements Serializable {
      * @return
      */
     public boolean existByCodigoEst(String codigo) {
-        return dao.existByEstCodigo(codigo);
+        return ejbFacade.existByEstCodigo(codigo);
     }
 
     /**
@@ -283,7 +268,7 @@ public class EstudianteController implements Serializable {
      * @return
      */
     public Estudiante findByEstCodigoExceptId(String estCodigo, Integer id) {
-        return dao.findByEstCodigoExceptId(estCodigo, id);
+        return ejbFacade.findByEstCodigoExceptId(estCodigo, id);
 
     }
 
@@ -349,5 +334,12 @@ public class EstudianteController implements Serializable {
         GrupoTipoUsuarioController grupoTipoUsuarioController = (GrupoTipoUsuarioController) appli.evaluateExpressionGet(context, "#{grupoTipoUsuarioController}", GrupoTipoUsuarioController.class);
         return grupoTipoUsuarioController;
     }
-
+    
+    /**
+     * Métodos Privados*/
+    
+    private EstudianteFacade getFacade()
+    {
+        return this.ejbFacade;
+    }
 }

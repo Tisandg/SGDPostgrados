@@ -59,7 +59,7 @@ public class Usuario implements Serializable {
     private String nombreUsuario;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 60)
+    @Size(min = 1, max = 65)
     @Column(name = "contrasena")
     private String contrasena;
     @Basic(optional = false)
