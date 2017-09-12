@@ -7,8 +7,6 @@ package co.unicauca.proyectobase.entidades;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.validator.ValidatorException;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -233,8 +231,9 @@ public class Estudiante implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "co.unicauca.proyectobase.entidades.Estudiante[ estIdentificador=" + estIdentificador + " ]";
+    public String toString() 
+    {
+        return "Estudiante{" + "estIdentificador=" + estIdentificador + ", estCodigo=" + estCodigo + ", estNombre=" + estNombre + ", estApellido=" + estApellido + ", estCorreo=" + estCorreo + ", estCohorte=" + estCohorte + ", estTutor=" + estTutor + ", estSemestre=" + estSemestre + ", estEstado=" + estEstado + ", estUsuario=" + estUsuario + ", estContrasena=" + estContrasena + ", estCreditos=" + estCreditos + ", doctoradoList=" + doctoradoList + ", publicacionList=" + publicacionList + '}'; 
     }
     
 }
