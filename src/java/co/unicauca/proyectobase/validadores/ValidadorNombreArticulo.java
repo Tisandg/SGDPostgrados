@@ -27,17 +27,31 @@ public class ValidadorNombreArticulo implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String nombre = String.valueOf(value);
+        System.out.println("Nombre"+ nombre);
         
         if(nombre.length() == 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo es obligatorio");
             throw new ValidatorException(msg);
         }
 
-        if(nombre.length() < 5 || nombre.length()>200) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo debe contener entre 5 y 200 caracteres");
+        if(nombre.length() < 10 || nombre.length()>200) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo debe contener entre 10 y 200 caracteres");
             throw new ValidatorException(msg);
-        }     
-
+           
+        }
+        if(nombre.length()!=0)
+        {
+           for (int x=0; x < nombre.length(); x++) {
+             if (nombre.charAt(x) != ' '){}
+             else{FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Solo se permiten espacios entre las palabras");
+            throw new ValidatorException(msg); }
+                
+            }
+        }
+        
+        
+        
+        
     }
     
     

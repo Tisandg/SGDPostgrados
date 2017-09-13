@@ -27,8 +27,8 @@ public class ValidadorTCapituloLibro implements Validator {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del capítulo del libro es obligatorio");
             throw new ValidatorException(msg);
         }        
-        if(nombre.length() < 3 || nombre.length() > 80) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del capiulo del libro debe contener entre 3 y 80 caracteres");
+        if(nombre.length() < 12 || nombre.length() > 200) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del capiulo del libro debe contener entre 12 y 200 caracteres");
             throw new ValidatorException(msg);
         } 
         
