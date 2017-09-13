@@ -30,8 +30,8 @@ public class ValidadorNombrePonencias implements Validator {
             throw new ValidatorException(msg);
         }        
         
-        if(nombre.length() < 10 || nombre.length() > 200) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título de la ponencia debe contener entre 10 y 200 caracteres");
+        if(nombre.length() < 10 || nombre.length() > 100) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título de la ponencia debe contener entre 10 y 100 caracteres");
             throw new ValidatorException(msg);
         } 
         
