@@ -24,10 +24,10 @@ public class ValidadorFechaPublicacion implements Validator {
 //        String fecha = value.toString();
 //        String[] valores = fecha.split(" ");
 //        
-//        System.out.println("MIRALOOOOOOO: " + fecha);
-
+        //System.out.println("MIRALOOOOOOO: " + value);
+        /*Validando que el campo no este vacio*/
         if(value == null) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Se debe ingresar la fecha de publicación");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Se debe seleccionar la fecha de publicación");
             throw new ValidatorException(msg);
         }
         

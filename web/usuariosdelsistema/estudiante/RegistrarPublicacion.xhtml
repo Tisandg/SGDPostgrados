@@ -22,14 +22,13 @@
             
             <p:separator/>
 
-            <h:form id="form_registrar">
+            <h:form id="form_registrar" enctype="multipart/form-data">
                 <p:tab  title="Datos publicación" titleStyleClass="title" >                
                     <p:panel header="Datos publicación">
                         <div style = "float: right;">
                             <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
                             <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                         </div>
-
                                  
                         <p:row>
                             <p:column>
@@ -39,8 +38,7 @@
                                 <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" styleClass="addEspacio form-control" style="color: #3366ff"></h:outputText>
                             </p:column>
 
-                            <br/>
-                            <br/>
+                            <br/><br/>
 
                             <p:column>
                                 <!-- Autor o autores secundarios de la publicacion -->
@@ -58,8 +56,7 @@
                                 <p:message for="valASecundarios" id="msjValAutores" /> 
                             </p:column>
 
-                            <br/>
-                            <br/>
+                            <br/><br/>
 
                             <p:column>
                                 <!-- Fecha de la publicacion -->
@@ -67,15 +64,15 @@
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;
                             </p:column>
                             <p:column>
-                                <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}">
+                                <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}">
                                     <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
+                                    <f:validator validatorId="validadorFechaPublicacion" />
                                     <p:ajax event="blur" update="msjValFechaPublicacion" />
                                 </p:calendar>
                             </p:column>
                             <p:message for="event" id="msjValFechaPublicacion" />
 
-                            <br/>
-                            <br/>
+                            <br/><br/>
 
                             <p:column>
                                 <!-- Tipo de publicacion -->
@@ -93,10 +90,10 @@
                                 </p:selectOneMenu>
                             </p:column>
                         </p:row>
-                            <br/>
-                            <br/>
+                        <br/><br/>
                         <p:row>
                             <h:panelGroup id="tipoPub">
+                                <!-- Revista -->
                                 <h:panelGroup rendered="#{publicacionController.actual.pubTipoPublicacion == 'revista'}">
                                     <div id="revista_info">
                                         <p:column>
@@ -180,8 +177,7 @@
                                     </div>
                                 </h:panelGroup>
 
-
-
+                                <!-- Congreso-->
                                 <h:panelGroup  rendered="#{publicacionController.actual.pubTipoPublicacion == 'congreso'}">
                                     <div id="congreso_info">
                                         <p:column>
@@ -276,10 +272,11 @@
                                     </div>
                                 </h:panelGroup>
 
+                                <!-- Libro -->
                                 <h:panelGroup  rendered="#{publicacionController.actual.pubTipoPublicacion == 'libro'}">
                                     <div id="libro_info">
                                         <p:column>
-                                            <!-- ISBN de la publicacion, solo para congreso, libro y capitulo de libro, es obligatorio -->
+                                            <!-- ISBN de la publicacion, solo para libro y capitulo de libro, es obligatorio -->
                                             <p:outputLabel value="ISBN:" for="valISBNLibro" styleClass="addEspacio"/>&nbsp;
                                         </p:column>
                                         <p:column>
@@ -292,13 +289,11 @@
                                             <br/>
 
                                             <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
-                                            <br/>
-                                            <br/>
+                                            <br/><br/>
                                             <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>
                                         </p:column>
 
-                                        <br/>
-                                        <br/>
+                                        <br/><br/>
 
                                         <p:column>
                                             <p:outputLabel value="Título libro:" for="valTLibro" styleClass="addEspacio"/>&nbsp;
@@ -315,11 +310,12 @@
 
                                         <p:column>
                                             <p:outputLabel for="libroPDF" value="Libro PDF:"/>
-                                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}"    required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                                         </p:column>
                                     </div>
                                 </h:panelGroup>
 
+                                <!-- Capitulo libro-->
                                 <h:panelGroup  rendered="#{publicacionController.actual.pubTipoPublicacion == 'capitulo_libro'}">
                                     <div id="capLibro_info">
                                         <p:column>
@@ -379,26 +375,26 @@
 
                                 <br/>
 
-                                </h:panelGroup>
+                            </h:panelGroup>
 
-                                <p:messages for="valPublicacion"  id="msjPublicacionF"/>
+                            <p:messages for="valPublicacion"  id="msjPublicacionF"/>
 
-                                <h:outputLabel for="valTContenido" value="Tabla de contenido PDF:" styleClass="addEspacio"/>
-                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;
-                                <p:fileUpload id="tablaContenidoPDF"   value="#{publicacionController.tablaContenidoPDF}"       required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio"></p:fileUpload>
-                                <h:outputLabel styleClass="addEspacio"/>
+                            <h:outputLabel for="valTContenido" value="Tabla de contenido PDF:" styleClass="addEspacio"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;
+                            <p:fileUpload id="tablaContenidoPDF"   value="#{publicacionController.tablaContenidoPDF}"       required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio"></p:fileUpload>
+                            <h:outputLabel styleClass="addEspacio"/>
 
-                                <p:messages for="valTContenido"  id="msjvalTContenido" />
+                            <p:messages for="valTContenido"  id="msjvalTContenido" />
 
-                                <p:outputLabel for="cartaAprobacionPDF" value="Evidencia de publicación:"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;
-                                <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
-                                <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
-                                           showEffect="clip" hideEffect="blind" />&nbsp;&nbsp;
+                            <p:outputLabel for="cartaAprobacionPDF" value="Evidencia de publicación:"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;
+                            <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
+                            <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
+                                       showEffect="clip" hideEffect="blind" />&nbsp;&nbsp;
 
-                                <p:fileUpload id="cartaAprobacionPDF" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" > 
-                                </p:fileUpload>  
-                                <p:messages for="cartaAprobacion"  id="msjCartaAprobacion"/>
+                            <p:fileUpload id="cartaAprobacionPDF" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" > 
+                            </p:fileUpload>  
+                            <p:messages for="cartaAprobacion"  id="msjCartaAprobacion"/>
                         </p:row>
                     </p:panel>
                 </p:tab>   

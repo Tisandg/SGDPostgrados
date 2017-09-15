@@ -86,13 +86,10 @@ public class PublicacionController implements Serializable {
         this.motRechazo = motRechazo;
     }
 
- 
-
-  public void onComplete() {  
-    FacesContext.getCurrentInstance().addMessage(null, new  FacesMessage(FacesMessage.SEVERITY_INFO, "Progress Completed", "Progress Completed"));  
-  } 
+    public void onComplete() {  
+      FacesContext.getCurrentInstance().addMessage(null, new  FacesMessage(FacesMessage.SEVERITY_INFO, "Progress Completed", "Progress Completed"));  
+    } 
   
-
     public void visPdfPub() throws IOException {
 
         archivoPDF archivoPublic = actual.descargaPublicacion();
@@ -287,9 +284,9 @@ public class PublicacionController implements Serializable {
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
-        // facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+        //facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
-
+    
     public void pdfCartaAprob() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaCartaAprobac();
         if (archivoPublic.getNombreArchivo().equals("")) {
@@ -472,6 +469,7 @@ public class PublicacionController implements Serializable {
     }
 
     public void agregar() {
+        System.out.println("Registrando publicacion");
         /* formatoValido -> se utiliza para verificar que el usario
            suba unicamente archivos en formato pdf*/
         boolean formatoValido = true;
@@ -597,7 +595,7 @@ public class PublicacionController implements Serializable {
                     Date date = new Date();
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String estampaTiempo = "" + datehourFormat.format(date);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente f y hora: " + estampaTiempo);
                     limpiarCampos();
                     redirigirAlistar(est.getEstUsuario());
                     // redirigirAlistar(est.getEstUsuario());
