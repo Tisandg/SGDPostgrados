@@ -1043,23 +1043,30 @@ public class PublicacionController implements Serializable {
         if (!visado.equals("")){
             actual.setPubVisado(visado);
             dao.edit(actual);
-            String correo=actual.getPubEstIdentificador().getEstCorreo();
+            String correo = actual.getPubEstIdentificador().getEstCorreo();
             
             if(visado.equalsIgnoreCase("Aprobado")){
-                Utilidades.enviarCorreo(correo, "revision de publicacion",
-                "Apreciado "+actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido()
-                        +" Le informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t fue aprobada !ENHORABUENA¡.");
+                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado " 
+                        + actual.getPubEstIdentificador().getEstNombre() + " "
+                        + actual.getPubEstIdentificador().getEstApellido()
+                        + "\n\nLe informamos que su publicación con nombre " 
+                        + actual.obtenerNombrePub() + " fue aprobada !ENHORABUENA¡."
+                        + "\nNúmero de creditos: " + actual.getPubCreditos());
             }
-             if(visado.equalsIgnoreCase("No Aprobado")){
-                Utilidades.enviarCorreo(correo, "revision de publicacion",
-                "Apreciado "+actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido()
-                        +" Le informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t no fue aprobada, lo sentimos.");
+            if(visado.equalsIgnoreCase("No Aprobado")){
+                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado "
+                        + actual.getPubEstIdentificador().getEstNombre() + " " 
+                        + actual.getPubEstIdentificador().getEstApellido()
+                        + "\n\nLe informamos que su publicación con nombre "
+                        + actual.obtenerNombrePub() + " no fue aprobada, lo sentimos.");
                 
             }
-              if(visado.equalsIgnoreCase("En espera")){
-                Utilidades.enviarCorreo(correo, "revision de publicacion",
-                "Apreciado "+actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido()
-                        +" Le  informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t está en espera.");
+            if(visado.equalsIgnoreCase("espera")){
+                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado "
+                        + actual.getPubEstIdentificador().getEstNombre()+" "
+                        + actual.getPubEstIdentificador().getEstApellido()
+                        + "\n\nLe informamos que su publicación con nombre "
+                        + actual.obtenerNombrePub() + " está en espera.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
         }
