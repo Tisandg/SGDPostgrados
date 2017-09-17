@@ -23,8 +23,8 @@ public class ValidarEstudianteCodigoNoExistente implements Validator {
             if (identificador == null) {
                 identificador = -1;
             }
-            if (controller.findByEstCodigoExceptId(codigo, identificador) != null) {
-                String message = "Id ya existe, seleccione otro por favor.";
+            if (controller.buscarPorCodigoExceptoConId(codigo, identificador) != null) {
+                String message = "Codigo ya existe, Ingrese otro por favor.";
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
                 throw new ValidatorException(msg);
             }

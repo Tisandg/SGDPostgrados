@@ -43,8 +43,8 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         return !query.getResultList().isEmpty();
     }
 
-    public Estudiante findByEstCodigoExceptId(String estCodigo, Integer id) {
-        Query query = em.createNamedQuery("Estudiante.findByEstCodigoExceptId");
+    public Estudiante buscarPorCodigoExceptoConId(String estCodigo, Integer id) {
+        Query query = em.createNamedQuery("Estudiante.buscarPorCodigoExceptoConId");
         query.setParameter("estCodigo", estCodigo);
         query.setParameter("estIdentificador", id);
 
