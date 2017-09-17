@@ -68,6 +68,7 @@
                                     <p:column>
                                         <p:inputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control">
                                             <f:validator validatorId="validadorCodigoEstudianteEditar"/>
+                                            <f:validator validatorId="ValidarCodigoEstudianteNoExistente"/>
                                             <p:ajax event="blur" update="msjValCodigo"/>
                                         </p:inputText>
                                         <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>
@@ -82,6 +83,7 @@
                                     <p:column>
                                         <p:inputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" >
                                             <f:validator validatorId="validadorCorreoEditar"/>
+                                            <f:validator validatorId="ValidarCorreoEstudianteNoExistente"/>
                                             <p:ajax event="blur" update="msjValCorreo"/>
                                         </p:inputText>
                                         <p:message for="valCorreo" id="msjValCorreo" styleClass="addEspacio"/>  

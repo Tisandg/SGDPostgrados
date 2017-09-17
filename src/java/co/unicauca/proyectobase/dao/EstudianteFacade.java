@@ -55,7 +55,18 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
             return null;
         }
     }
+    public Estudiante buscarPorCorreoExceptoConId(String correo, Integer id) {
+        Query query = em.createNamedQuery("Estudiante.buscarPorCorreoExceptoConId");
+        query.setParameter("estCorreo", correo);
+        query.setParameter("estIdentificador", id);
 
+        List<Estudiante> resultList = query.getResultList();
+        if (resultList.size() > 0) {
+            return resultList.get(0);
+        } else {
+            return null;
+        }
+    }
     public List<Estudiante> findAllByString(String texto) {
         Query query = em.createNamedQuery("Estudiante.findAllByString");
         query.setParameter("texto", "%" + texto + "%");
