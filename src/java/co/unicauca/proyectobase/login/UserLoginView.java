@@ -68,7 +68,7 @@ public class UserLoginView implements Serializable{
     }
    
     public void login() throws ServletException {
-        
+        System.out.println("Verificando datos login");
          FacesContext fc= FacesContext.getCurrentInstance();
          HttpServletRequest req=(HttpServletRequest) fc.getExternalContext().getRequest();
          
@@ -77,7 +77,6 @@ public class UserLoginView implements Serializable{
              try {
                  req.login(this.username, this.password);
                  System.out.println("Login Exitoso");
-
              } catch (ServletException e) {
                  fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fallo el inicio de sesion", null));
                  Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");

@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.validadores;
 
+import co.unicauca.proyectobase.dao.LibroFacade;
+import co.unicauca.proyectobase.entidades.Libro;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,20 +18,29 @@ public class ValidadorTituloLibro implements Validator {
     
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        String nombre = String.valueOf(value);
+        String titulo = String.valueOf(value);
         
-        if(nombre.length() == 0) {
+        if(titulo.length() == 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro es obligatorio");
             throw new ValidatorException(msg);
         }        
-        if(nombre.length() < 3 || nombre.length() > 200) {
+        if(titulo.length() < 3 || titulo.length() > 200) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro debe contener entre 3 y 200 caracteres");
             throw new ValidatorException(msg);
         } 
-        
-      
-
+        if(isRegistrado(titulo)){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro ya esta registrado. Por favor revise.");
+            throw new ValidatorException(msg);
+        }
     }
+    
+    public boolean isRegistrado(String titulo){
+        /*Buscar en la bd si esta registrado*/
+        LibroFacade libro = new LibroFacade();
+        libro.findByTituloLibro(titulo);
+        return true;
+    }
+    
     
     
 }
