@@ -275,8 +275,18 @@ public class EstudianteController implements Serializable {
      * @param id
      * @return
      */
-    public Estudiante findByEstCodigoExceptId(String estCodigo, Integer id) {
-        return ejbFacade.findByEstCodigoExceptId(estCodigo, id);
+    public Estudiante buscarPorCodigoExceptoConId(String estCodigo, Integer id) {
+        return ejbFacade.buscarPorCodigoExceptoConId(estCodigo, id);
+
+    }
+    /**
+     *
+     * @param estCodigo
+     * @param id
+     * @return
+     */
+    public Estudiante buscarPorCorreoExceptoConId(String estCodigo, Integer id) {
+        return ejbFacade.buscarPorCorreoExceptoConId(estCodigo, id);
 
     }
 

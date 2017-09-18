@@ -25,10 +25,12 @@ public class ValidadorISSN implements Validator {
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String issn = value.toString();
 
-        /*   if(issn.length() == 0) {
+        if(issn.length() == 0) 
+        {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Se debe registrar el ISSN de la revista");
             throw new ValidatorException(msg);
-        }*/
+        }
+        
         if (issn.length() != 0) {
 
             if (issn.length() != 8) {

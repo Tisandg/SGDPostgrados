@@ -8,12 +8,12 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator(value = "validarEstudianteCodigoNoExistente")
-public class ValidarEstudianteCodigoNoExistente implements Validator {
+@FacesValidator(value = "ValidarCorreoEstudianteNoExistente")
+public class ValidarCorreoEstudianteNoExistente implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        String codigo = String.valueOf(String.valueOf(value));
+        String correo = String.valueOf(String.valueOf(value));
 
         if (value != null) {
 
@@ -23,19 +23,13 @@ public class ValidarEstudianteCodigoNoExistente implements Validator {
             if (identificador == null) {
                 identificador = -1;
             }
-            if (controller.findByEstCodigoExceptId(codigo, identificador) != null) {
-                String message = "Id ya existe, seleccione otro por favor.";
+            if (controller.buscarPorCorreoExceptoConId(correo, identificador) != null) {
+                String message = "Correo ya existe, Ingrese otro por favor.";
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
                 throw new ValidatorException(msg);
             }
         }
 
-    }
-
-    java.lang.Integer getKey(String value) {
-        java.lang.Integer key;
-        key = Integer.valueOf(value);
-        return key;
     }
 
 }

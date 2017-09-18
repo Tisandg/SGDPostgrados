@@ -30,8 +30,8 @@ public class ValidadorNombreRevista implements Validator {
             throw new ValidatorException(msg);
         }        
         
-        if(nombre.length() < 3 || nombre.length() > 80) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre de la revista debe contener entre 3 y 80 caracteres");
+        if(nombre.length() < 10 || nombre.length() > 80) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre de la revista debe contener entre 10 y 80 caracteres");
             throw new ValidatorException(msg);
         } 
         

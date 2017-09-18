@@ -1,11 +1,11 @@
 package co.unicauca.proyectobase.dao;
 
 import co.unicauca.proyectobase.entidades.Libro;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 
 /**
  * @author Santiago Garcia
@@ -25,12 +25,16 @@ public class LibroFacade extends AbstractFacade<Libro>{
         super(Libro.class);
     }
     
-    public List<Libro> findByTituloLibro(String tituloLibro)
+    public Libro findByTituloLibro(String tituloLibro)
     {
+        //System.out.println("Titulo: "+tituloLibro);
         Query query= em.createNamedQuery("Libro.findByLibTituloLibro");
         query.setParameter("libTituloLibro", tituloLibro);
-        List<Libro> findLibro= query.getResultList();
-        System.out.println("Datos de la lista"+ findLibro);
-        return findLibro;
+        List<Libro> resultList= query.getResultList();
+        if (resultList.size() > 0) {
+            return resultList.get(0);
+        } else {
+            return null;
+        }
     }
 }

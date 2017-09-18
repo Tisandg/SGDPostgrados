@@ -1,6 +1,8 @@
 package co.unicauca.proyectobase.controladores;
 
+import co.unicauca.proyectobase.dao.CongresoFacade;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
+import co.unicauca.proyectobase.dao.LibroFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.entidades.Archivo;
 import co.unicauca.proyectobase.entidades.Congreso;
@@ -56,6 +58,10 @@ public class PublicacionController implements Serializable {
     private EstudianteFacade daoEst;
     @EJB
     private PublicacionFacade dao;
+    @EJB
+    private LibroFacade daoLibro;
+    @EJB
+    private CongresoFacade daoCongreso;
     
     private Publicacion actual;
     private List<Publicacion> listaPublicaciones;
@@ -1043,27 +1049,49 @@ public class PublicacionController implements Serializable {
         if (!visado.equals("")){
             actual.setPubVisado(visado);
             dao.edit(actual);
-            String correo=actual.getPubEstIdentificador().getEstCorreo();
+            String correo = actual.getPubEstIdentificador().getEstCorreo();
             
             if(visado.equalsIgnoreCase("Aprobado")){
-                Utilidades.enviarCorreo(correo, "revision de publicacion",
-                "Apreciado "+actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido()
-                        +" Le informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t fue aprobada !ENHORABUENA¡.");
+                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado " 
+                        + actual.getPubEstIdentificador().getEstNombre() + " "
+                        + actual.getPubEstIdentificador().getEstApellido()
+                        + "\n\nLe informamos que su publicación con nombre " 
+                        + actual.obtenerNombrePub() + " fue aprobada !ENHORABUENA¡."
+                        + "\nNúmero de creditos: " + actual.getPubCreditos());
             }
-             if(visado.equalsIgnoreCase("No Aprobado")){
-                Utilidades.enviarCorreo(correo, "revision de publicacion",
-                "Apreciado "+actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido()
-                        +" Le informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t no fue aprobada, lo sentimos.");
+            if(visado.equalsIgnoreCase("No Aprobado")){
+                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado "
+                        + actual.getPubEstIdentificador().getEstNombre() + " " 
+                        + actual.getPubEstIdentificador().getEstApellido()
+                        + "\n\nLe informamos que su publicación con nombre "
+                        + actual.obtenerNombrePub() + " no fue aprobada, lo sentimos.");
                 
             }
-              if(visado.equalsIgnoreCase("En espera")){
-                Utilidades.enviarCorreo(correo, "revision de publicacion",
-                "Apreciado "+actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido()
-                        +" Le  informamos que su publicación con nombre \t"+actual.obtenerNombrePub()+"\t está en espera.");
+            if(visado.equalsIgnoreCase("espera")){
+                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado "
+                        + actual.getPubEstIdentificador().getEstNombre()+" "
+                        + actual.getPubEstIdentificador().getEstApellido()
+                        + "\n\nLe informamos que su publicación con nombre "
+                        + actual.obtenerNombrePub() + " está en espera.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
         }
         
+    }
+    /**
+     * @param tituloLibro
+     * @return Libro
+     */
+    public Libro buscarLibroPorTitulo(String tituloLibro) {
+        return daoLibro.findByTituloLibro(tituloLibro);
+    }
+    
+    /**
+     * @param tituloPonencia
+     * @return Congreso
+     */
+    public Congreso buscarPonenciaPorTitulo(String tituloPonencia) {
+        return daoCongreso.findByTituloPonencia(tituloPonencia);
     }
 
 }

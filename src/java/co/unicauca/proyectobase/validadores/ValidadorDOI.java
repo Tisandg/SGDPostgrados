@@ -24,8 +24,9 @@ public class ValidadorDOI implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String doi = value.toString();
-
-        if(doi.length() != 0) {
+        
+        if(doi.length() != 0) 
+        {
             if(!validarFormato(doi)) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "No cumple con el formato de un DOI: xxxx/xxxx");
                 throw new ValidatorException(msg);
@@ -47,7 +48,12 @@ public class ValidadorDOI implements Validator {
                     }
                 }
             }
-        }        
+        }    
+        else
+        {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Es necesario el DOI para poder registrar");
+            throw new ValidatorException(msg);
+        }
     }
     
     //validar que el DOI tenga el formato "prefijo"/"sufijo"
