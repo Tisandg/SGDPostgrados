@@ -116,12 +116,14 @@ public class UsuariosSessionController implements Serializable{
                 haySesion = false;
                 errorSesion =true;
                 Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+                System.out.println("Datos de acceso incorrecto, por el else");
             }
         } catch (Exception e) {
             usuario_actual = new Usuario();
             haySesion = false;
             errorSesion =true;
             Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+            System.out.println("Datos de acceso incorrecto, por el catch");
         }
     }
     public void logout(){

@@ -56,7 +56,7 @@ public class UserLoginView implements Serializable{
     }
  
     public void setUsername(String username) {
-        this.username = username;
+        this.username =username;
     }
  
     public String getPassword() {
@@ -66,11 +66,20 @@ public class UserLoginView implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
+     public void sinAcceso() {
+        FacesContext context = FacesContext.getCurrentInstance();         
+        context.addMessage(null, new FacesMessage("Error",  "Usuario y/o contraseña incorrecto(s)") );
+        
+    }
    
     public void login() throws ServletException {
         System.out.println("Verificando datos login");
          FacesContext fc= FacesContext.getCurrentInstance();
          HttpServletRequest req=(HttpServletRequest) fc.getExternalContext().getRequest();
+         System.out.println(this.username.length());
+         if(this.username==null){
+             System.out.println("usuario vacio");
+         }
          
          if(req.getUserPrincipal() == null);
          {
@@ -78,7 +87,8 @@ public class UserLoginView implements Serializable{
                  req.login(this.username, this.password);
                  System.out.println("Login Exitoso");
              } catch (ServletException e) {
-                 fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fallo el inicio de sesion", null));
+                 System.out.println("aqui se empaila");
+                 FacesContext context = FacesContext.getCurrentInstance();  context.addMessage(null, new FacesMessage("Error",  "Usuario o contraseña incorrectos") );
                  Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
                  return;
              }

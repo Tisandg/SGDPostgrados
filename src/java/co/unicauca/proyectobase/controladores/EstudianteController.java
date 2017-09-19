@@ -165,7 +165,7 @@ public class EstudianteController implements Serializable {
             getFacade().create(actual);
             getFacade().flush();
             mensajeconfirmarRegistro();
-            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Registro de cuenta de estudiante ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Electronica se ha completado correctamente,los detalles de su cuenta son los siguientes: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());
+            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Registro en Doctorados de Ciencias de la Elecrónica ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Ciencias de la Electrónica fue exitoso,para ingresar sírvase usar los siguientes datos: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());
             limpiarCampos();
             redirigirAlistar();
         } catch (EJBException e) {
