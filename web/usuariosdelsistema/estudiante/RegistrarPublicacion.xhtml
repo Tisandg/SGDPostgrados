@@ -32,15 +32,34 @@
                     <h:panelGrid columns="3" cellpadding="5">
                         <p:outputLabel value="Nombre Autor:" for="valNombreAutor" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" styleClass="addEspacio form-control" style="color: #3366ff"></h:outputText>
-                        <p:outputLabel value=""></p:outputLabel>
-
-
+                        
+                                                                                                       
+                        <!--                       
+                        <p:dataTable id ="tablaAutores" value="#{publicacionController.listaAutores}" var="autor" resizableColumns="false" style="width:250px">
+                            <p:column width="120" class="gridsinbordes">                                
+                                <p:inputText value="#{autor.nombre}" id="nombreAutor"></p:inputText>                                                                
+                            </p:column>    
+                            <p:column width="30" class="gridsinbordes">                                     
+                                <p:commandButton id="eliminarNombreAutor" icon="ui-icon-close">
+                                    <p:ajax event="click" listener="#{publicacionController.eliminarAutorSecundario(autor.nombre)}" 
+                                            update="tablaAutores" />                                    
+                                </p:commandButton>                                                                                                
+                            </p:column>                                                            
+                        </p:dataTable>
+                        
+                        <p:commandButton id="agregarAutor" icon="ui-icon-plus">
+                            <p:ajax event="click" listener="#{publicacionController.agregarAutorSecundario()}" update="tablaAutores"/>
+                        </p:commandButton>
+                        -->
+ 
+                        
                         <p:outputLabel value="Autores Secundarios:" for="valASecundarios" styleClass="addEspacio"/>
                         <p:inputText class="form-control" id="valASecundarios"  value="#{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control">
                             <f:validator validatorId="validadorAutoresSecundarios" />
                             <p:ajax event="blur" update="msjValAutores" /> 
                         </p:inputText>
-                        <p:message for="valASecundarios" id="msjValAutores" /> 
+                        <p:message for="valASecundarios" id="msjValAutores" />
+                       
 
                         <p:outputLabel for="event" value="Fecha publicación:" styleClass="addEspacio"/>
                         <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}">
@@ -50,59 +69,86 @@
                         </p:calendar>
                         <p:message for="event" id="msjValFechaPublicacion" />
 
-                        <h:outputLabel value="Tipo publicación:" for="valTipopublicacion" styleClass="addEspacio"/>
-                        <p:selectOneMenu class="form-control"  id="valTipopublicacion" value="#{publicacionController.actual.pubTipoPublicacion}" styleClass="tipopublicacion  addEspacio form-control" required="true">
+                        <h:panelGroup>
+                            <h:outputLabel value="Tipo publicación:" for="valTipopublicacion" styleClass="addEspacio"/>                        
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                        </h:panelGroup>
+                        <p:selectOneMenu class="form-control"  id="valTipopublicacion" value="#{publicacionController.actual.pubTipoPublicacion}" styleClass="tipopublicacion  addEspacio form-control" 
+                                         required="true" requiredMessage="Debe seleccionar un campo de la lista">
                             <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
                             <f:selectItem itemLabel="Revista" itemValue="revista"></f:selectItem>
                             <f:selectItem itemLabel="Congreso" itemValue="congreso"></f:selectItem>
                             <f:selectItem itemLabel="Libro" itemValue="libro"></f:selectItem>
                             <f:selectItem itemLabel="Capítulo Libro" itemValue="capitulo_libro"></f:selectItem>
+                            <f:validator validatorId="ValidadorListaVacia" />                                                                                                                
                             <f:ajax render="@form" />
+                            <f:ajax render="msjvalTipoPublicacion" />
                         </p:selectOneMenu>
-                        <p:outputLabel value=""></p:outputLabel>
+                        <p:message for="valTipopublicacion" id="msjvalTipoPublicacion" />
                     </h:panelGrid>
 
                     <h:panelGroup rendered="#{publicacionController.actual.pubTipoPublicacion == 'revista'}">
                         <p:panel header="Datos revista">
                             <h:panelGrid columns="5" cellpadding="5">
-                                <p:outputLabel value="DOI:" for="valDOIRev" styleClass="addEspacio"/>
-                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.actual.pubDoi}">
+                                <h:panelGroup>
+                                    <p:outputLabel value="DOI:" for="valDOIRev" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.actual.pubDoi}">
                                     <f:validator validatorId="validadorDOI" />
                                     <p:ajax event="blur" update="msjValDOIRev" />
                                 </p:inputText>
-                                <h:outputLink style="color: blue; margin-left: 30px" value="https://goo.gl/AKGq9b">Conozca más sobre el DOI</h:outputLink>
-                                <h:outputLink style="color: blue; margin-left: 30px" value="https://goo.gl/jPGYcc">Verifique su DOI</h:outputLink>
                                 <p:message for="valDOIRev" id="msjValDOIRev" /> 
+                                <h:outputLink style="color: blue;" value="https://goo.gl/AKGq9b">Conozca más sobre el DOI</h:outputLink>
+                                <h:outputLink style="color: blue;" value="https://goo.gl/jPGYcc">Verifique su DOI</h:outputLink>
+                                
 
+                                <h:panelGroup>
                                 <p:outputLabel value="Título artículo:" for="valNArticulo" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valNArticulo"  value="#{publicacionController.actual.revista.revTituloArticulo}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombreArticulo" />
                                     <p:ajax event="blur" update="msjValNombreArticulo" />
                                 </p:inputText>
-                                <p:outputLabel value=""></p:outputLabel>
-                                <p:outputLabel value=""></p:outputLabel>
                                 <p:message for="valNArticulo" id="msjValNombreArticulo" />
+                                <p:outputLabel value=""></p:outputLabel>
+                                <p:outputLabel value=""></p:outputLabel>
+                                
 
-                                <p:outputLabel value="Nombre revista:" for="valNRevista" styleClass="addEspacio"/>
+                                <h:panelGroup>
+                                    <p:outputLabel value="Nombre revista:" for="valNRevista" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>                                
                                 <p:inputText class="form-control" id="valNRevista"  value="#{publicacionController.actual.revista.revNombreRevista}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombreRevista" />
                                     <p:ajax event="blur" update="msjValNombreRevista" />
                                 </p:inputText>
-                                <p:outputLabel value=""></p:outputLabel>
-                                <p:outputLabel value=""></p:outputLabel>
                                 <p:message for="valNRevista" id="msjValNombreRevista" />
+                                <p:outputLabel value=""></p:outputLabel>
+                                <p:outputLabel value=""></p:outputLabel>                                
 
-                                <p:outputLabel value="Categoría:" for="valCategoria" styleClass="addEspacio"/>
-                                <p:selectOneMenu class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}" styleClass="addEspacio form-control">
+                                <h:panelGroup>
+                                    <p:outputLabel value="Categoría:" for="valCategoria" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>                                
+                                <p:selectOneMenu class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}" styleClass="addEspacio form-control"
+                                                 required="true" requiredMessage="Debe seleccionar un campo de la lista">
                                     <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
                                     <f:selectItem itemLabel="A1" itemValue="A1"></f:selectItem>
                                     <f:selectItem itemLabel="A2" itemValue="A2"></f:selectItem>
                                     <f:selectItem itemLabel="B" itemValue="B"></f:selectItem>
                                     <f:selectItem itemLabel="C" itemValue="C"></f:selectItem>
+                                    <f:validator validatorId="ValidadorListaVacia" />            
+                                    <f:ajax render="msjvalCategoriaRevista" />                                   
                                 </p:selectOneMenu>
-                                <h:outputLink style="color: blue " value="https://goo.gl/2Ul5BG">Homologación de categoría de la revista</h:outputLink>
+                                <p:message for="valCategoria" id="msjvalCategoriaRevista" />
+                                <h:outputLink style="color: blue " value="https://goo.gl/2Ul5BG">Homologación de categoría de la revista</h:outputLink>                                
+                                
                             </h:panelGrid>
-                            <h:outputLabel for="revistaPDF" value="Artículo PDF:" styleClass="addEspacio"/>&nbsp;
+                            <h:panelGroup>
+                                <h:outputLabel for="revistaPDF" value="Artículo PDF:" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                            </h:panelGroup>
                             <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                         </p:panel>
                     </h:panelGroup>
@@ -110,50 +156,68 @@
                     <h:panelGroup  rendered="#{publicacionController.actual.pubTipoPublicacion == 'congreso'}">
                         <p:panel header="Datos congreso">
                             <h:panelGrid columns="5" cellpadding="5">
-                                <h:outputLabel value="ISSN:" for="valISSN" styleClass="addEspacio"/>
+                                <h:panelGroup>
+                                    <h:outputLabel value="ISSN:" for="valISSN" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valISSN"  value="#{publicacionController.actual.pubIssn}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorISSN" />
                                     <p:ajax event="blur" update="msjValISSN" />
                                 </p:inputText>
-                                <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/1hFMZ6">Conozca más sobre el ISSN</h:outputLink>
-                                <p:outputLabel value=""></p:outputLabel>
                                 <p:message for="valISSN" id="msjValISSN" /> 
+                                <h:outputLink style="color: blue;" value="https://goo.gl/1hFMZ6">Conozca más sobre el ISSN</h:outputLink>                                
+                                <p:outputLabel value=""></p:outputLabel>
+                                
 
-                                <p:outputLabel value="DOI:" for="valDOICong" styleClass="addEspacio"/>
+                                <h:panelGroup>
+                                    <p:outputLabel value="DOI:" for="valDOICong" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valDOICong"  value="#{publicacionController.actual.pubDoi}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorDOI" />
                                     <p:ajax event="blur" update="msjValDOICong" />
                                 </p:inputText>
-                                <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/AKGq9b">Conozca más sobre el DOI</h:outputLink>
-                                <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/jPGYcc">Verifique su DOI</h:outputLink>
                                 <p:message for="valDOICong" id="msjValDOICong" /> 
+                                <h:outputLink style="color: blue;" value="https://goo.gl/AKGq9b">Conozca más sobre el DOI</h:outputLink>
+                                <h:outputLink style="color: blue;" value="https://goo.gl/jPGYcc">Verifique su DOI</h:outputLink>
+                                
 
-                                <p:outputLabel value="Título ponencia:" for="valNPonencia" styleClass="addEspacio"/>
+                                <h:panelGroup>
+                                    <p:outputLabel value="Título ponencia:" for="valNPonencia" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombrePonencia" />
                                     <p:ajax event="blur" update="msjvalNPonencia" />
                                 </p:inputText>
-                                <p:outputLabel value=""></p:outputLabel>
-                                <p:outputLabel value=""></p:outputLabel>
                                 <p:message for="valNPonencia" id="msjvalNPonencia" />
+                                <p:outputLabel value=""></p:outputLabel>
+                                <p:outputLabel value=""></p:outputLabel>
+                                
 
-                                <p:outputLabel value="Nombre evento:" for="valNEvento" styleClass="addEspacio"/>
+                                <h:panelGroup>
+                                    <p:outputLabel value="Nombre evento:" for="valNEvento" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombreEvento" />
                                     <p:ajax event="blur" update="msjvalNEvento" />
                                 </p:inputText>
-                                <p:outputLabel value=""></p:outputLabel>
-                                <p:outputLabel value=""></p:outputLabel>
                                 <p:message for="valNEvento" id="msjvalNEvento" />
+                                <p:outputLabel value=""></p:outputLabel>
+                                <p:outputLabel value=""></p:outputLabel>
+                                
 
                                 <p:outputLabel value="Tipo congreso:" for="valTipoCongreso" styleClass="addEspacio"/>
-                                <p:selectOneMenu class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" styleClass="addEspacio form-control">
+                                <p:selectOneMenu class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" 
+                                                 styleClass="addEspacio form-control" required="true" requiredMessage="Debe seleccionar un campo de la lista">
                                     <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
                                     <f:selectItem itemLabel="Evento nacional" itemValue="nacional"></f:selectItem>
                                     <f:selectItem itemLabel="Evento internacional" itemValue="internacional"></f:selectItem>
+                                    <f:validator validatorId="ValidadorListaVacia" />
+                                    <f:ajax render="msjvalTipoCongreso" />
                                 </p:selectOneMenu>
-
-                                <p:outputLabel value=""></p:outputLabel>
+                                <p:message for="valTipoCongreso" id="msjvalTipoCongreso" />
                                 <p:outputLabel value=""></p:outputLabel>
                                 <p:outputLabel value=""></p:outputLabel>
 
@@ -166,59 +230,82 @@
                     <h:panelGroup rendered="#{publicacionController.actual.pubTipoPublicacion == 'libro'}">
                         <p:panel header="Datos libro">
                             <h:panelGrid columns="5" cellpadding="5">
-                                <p:outputLabel value="ISBN:" for="valISBNLibro" styleClass="addEspacio"/>
-                                <p:inputText class="form-control" id="valISBNLibro"  value="#{publicacionController.actual.pubIsbn}" styleClass="addEspacio form-control">
+                                <h:panelGroup>
+                                        <p:outputLabel value="ISBN:" for="valISBNLibro" styleClass="addEspacio"/>
+                                        <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
+                                <p:inputText class="form-control" id="valISBNLibro"  value="#{publicacionController.actual.pubIsbn}" 
+                                             styleClass="addEspacio form-control" placeholder="123-12-12345-12-1">
                                     <f:validator validatorId="validadorISBN" /> 
                                     <p:ajax event="blur" update="msjValISBNLibro" />
                                 </p:inputText>
-                                <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
-                                <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>
                                 <p:message for="valISBNLibro" id="msjValISBNLibro" /> 
+                                <h:outputLink style="color: blue" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
+                                <h:outputLink style="color: blue" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>
+                                
 
-                                <p:outputLabel value="Título libro:" for="valTLibro" styleClass="addEspacio"/>
-                                <p:inputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" styleClass="addEspacio form-control">
+                                <h:panelGroup>
+                                    <p:outputLabel value="Título libro:" for="valTLibro" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
+                                <p:inputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" 
+                                             styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorTituloLibro" />
                                     <p:ajax event="blur" update="msjvalTLibro" />
                                 </p:inputText>
-                                
+                                <p:message for="valTLibro" id="msjvalTLibro" /> 
                                 <p:outputLabel value=""></p:outputLabel>
-                                <p:message for="valTLibro" id="msjvalTLibro" />    
+                                   
                             </h:panelGrid>
                             <br/>
-                            <p:outputLabel for="libroPDF" value="Libro PDF:"/>&nbsp;
-                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <h:panelGroup>
+                                <p:outputLabel for="libroPDF" value="Libro PDF:"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                            </h:panelGroup>
+                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                                 
+                            
                         </p:panel>
                     </h:panelGroup>
 
                     <h:panelGroup  rendered="#{publicacionController.actual.pubTipoPublicacion == 'capitulo_libro'}">
                         <p:panel header="Datos capítulo libro">
                             <h:panelGrid columns="5" cellpadding="5">
-                                <p:outputLabel value="ISBN:" for="valISBNCapLibro" styleClass="addEspacio"/>
+                                <h:panelGroup>
+                                    <p:outputLabel value="ISBN:" for="valISBNCapLibro" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valISBNCapLibro"  value="#{publicacionController.actual.pubIsbn}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorISBN" /> 
                                     <p:ajax event="blur" update="msjValISBNCapLibro" />
                                 </p:inputText>
-                                <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
-                                <h:outputLink style="color: blue; margin-left: 40px" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>
                                 <p:message for="valISBNCapLibro" id="msjValISBNCapLibro" /> 
+                                <h:outputLink style="color: blue" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
+                                <h:outputLink style="color: blue" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>                                
 
-                                <p:outputLabel value="Título libro:" for="valTCLibro" styleClass="addEspacio"/>
+                                <h:panelGroup>
+                                    <p:outputLabel value="Título libro:" for="valTCLibro" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorTituloLibro" />
                                     <p:ajax event="blur" update="msjvalTCLibro" />
                                 </p:inputText>
-                                <p:outputLabel value=""></p:outputLabel>
-                                <p:outputLabel value=""></p:outputLabel>
                                 <p:message for="valTCLibro" id="msjvalTCLibro" />
-
+                                <p:outputLabel value=""></p:outputLabel>
+                                <p:outputLabel value=""></p:outputLabel>
+                                
+                                <h:panelGroup>
                                 <p:outputLabel value="Título capítulo libro:" for="valTCapLibro" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
                                 <p:inputText class="form-control" id="valTCapLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloCapitulo}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorTCapituloLibro" />
                                     <p:ajax event="blur" update="msjvalTCapLibro" />
                                 </p:inputText>
-                                <p:outputLabel value=""></p:outputLabel>
-                                <p:outputLabel value=""></p:outputLabel>
                                 <p:message for="valTCapLibro" id="msjvalTCapLibro" />
+                                <p:outputLabel value=""></p:outputLabel>
+                                <p:outputLabel value=""></p:outputLabel>
+                                
 
                             </h:panelGrid>
                             <br/>
@@ -236,7 +323,7 @@
                     <p:messages for="valTContenido"  id="msjvalTContenido" />
 
                     <p:outputLabel for="cartaAprobacionPDF" value="Evidencia de publicación:"/>
-                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;
+                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                     <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
                     <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
                                showEffect="clip" hideEffect="blind" />&nbsp;&nbsp;

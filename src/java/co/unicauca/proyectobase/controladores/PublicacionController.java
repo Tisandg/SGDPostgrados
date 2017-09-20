@@ -13,6 +13,7 @@ import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.CapituloLibro;
 //import static co.unicauca.proyectobase.entidades.GrupoTipoUsuario_.nombreUsuario;
 import co.unicauca.proyectobase.entidades.archivoPDF;
+import co.unicauca.proyectobase.utilidades.Autor;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import com.itextpdf.text.DocumentException;
 import com.openkm.sdk4j.exception.AccessDeniedException;
@@ -40,7 +41,9 @@ import javax.ejb.EJBException;
 import java.util.Base64;*/
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -481,7 +484,7 @@ public class PublicacionController implements Serializable {
         boolean formatoValido = true;
         if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
 
-            FacesContext.getCurrentInstance().addMessage("valPublicacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la Publicación en formato PDF", ""));
+            FacesContext.getCurrentInstance().addMessage("valPublicacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicación en formato PDF", ""));
             formatoValido = false;
         }
         if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(TablaContenidoPDF.getContentType())) {
@@ -502,7 +505,7 @@ public class PublicacionController implements Serializable {
             if (publicacionPDF.getFileName().equalsIgnoreCase("")) {
                 if (cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
 
-                    FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicación en formato PDF", ""));
+                    FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicación", ""));
                 } else {
                     puedeSubir = true;
 
@@ -1060,12 +1063,16 @@ public class PublicacionController implements Serializable {
                         + "\nNúmero de creditos: " + actual.getPubCreditos());
             }
             if(visado.equalsIgnoreCase("No Aprobado")){
-                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado "
+                String mensaje =  "Apreciado "
                         + actual.getPubEstIdentificador().getEstNombre() + " " 
                         + actual.getPubEstIdentificador().getEstApellido()
                         + "\n\nLe informamos que su publicación con nombre "
-                        + actual.obtenerNombrePub() + " no fue aprobada, lo sentimos.");
-                
+                        + actual.obtenerNombrePub() + " no fue aprobada, lo sentimos.";
+                if(!valorObs.equals("")){
+                    mensaje = mensaje + "\n\nObservaciones: " + valorObs;
+                    valorObs = "";
+                }                        
+                Utilidades.enviarCorreo(correo,"Revisión de publicación", mensaje);                
             }
             if(visado.equalsIgnoreCase("espera")){
                 Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado "
@@ -1093,5 +1100,57 @@ public class PublicacionController implements Serializable {
     public Congreso buscarPonenciaPorTitulo(String tituloPonencia) {
         return daoCongreso.findByTituloPonencia(tituloPonencia);
     }
+    
+    
+    
+    
+    
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="adicionar autores secundarios dinamicamente">    
+    List<Autor> listaAutores = new ArrayList<>();    
+    public List<Autor> getListaAutores() {
+        return listaAutores;
+    }
+    public void setListaAutores(List<Autor> listaAutores) {
+        this.listaAutores = listaAutores;
+    }
+    public void agregarAutorSecundario(){
+        System.out.print("adicionando autor");
+        listaAutores.add(new Autor());
+        System.out.println("  tamnao: " + listaAutores.size());
+        mostrarLista();
+    }
+    public void eliminarAutorSecundario(String nombre){        
+        System.out.print("eliminar autor: " + nombre);        
+        for (int i = 0; i < listaAutores.size(); i++) {
+            if(listaAutores.get(i).getNombre().equals(nombre)){
+                listaAutores.remove(i);
+                break;
+            }
+        }
+        System.out.println("  tamaño: " + listaAutores.size());        
+        mostrarLista();
+    }        
+    public void mostrarLista(){
+        System.out.println("mostrando lista....");
+        for (Autor lis : listaAutores) {
+            System.out.print(lis.getNombre() + "     ");
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="adicionar comentario por publicacion no aprobada">
+    private String valorObs = "";
+    public void recibirTexto(AjaxBehaviorEvent evt){
+        String texto = "" + ((UIOutput)evt.getSource()).getValue();
+        this.valorObs = texto;
+        System.out.println("en recibir texto: " + texto);
+    }
+    
+    public void guardarObservacion(){
+        System.out.println("en guardar obs: " + valorObs);                
+    }
+    //</editor-fold>
 
 }
