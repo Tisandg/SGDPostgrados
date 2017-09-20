@@ -1,4 +1,4 @@
- package co.unicauca.proyectobase.validadores;
+package co.unicauca.proyectobase.validadores;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +21,7 @@ public class ValidadorISBN implements Validator{
         String isbn = value.toString();
         
         if(!isValidoFormato(isbn)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe contener números en este formato \"xxx-xx-xxxxx-xx-x\".");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN deben ser numeros en este formato \"xxx-xx-xxxxx-xx-x\".");
             throw new ValidatorException(msg);
         }
 
@@ -84,4 +84,3 @@ public class ValidadorISBN implements Validator{
     }
     
 }
- 
