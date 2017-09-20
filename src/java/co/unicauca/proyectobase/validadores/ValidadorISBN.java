@@ -20,11 +20,6 @@ public class ValidadorISBN implements Validator{
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String isbn = value.toString();
         
-        if(isbn.length() == 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN de la publicación es obligatorio");
-            throw new ValidatorException(msg);
-        }
-        
         if(!isValidoFormato(isbn)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe contener números en este formato \"xxx-xx-xxxxx-xx-x\".");
             throw new ValidatorException(msg);
