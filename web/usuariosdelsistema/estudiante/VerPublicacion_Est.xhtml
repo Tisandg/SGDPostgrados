@@ -88,19 +88,7 @@
                                         
                                         <br/>
                                         <br/>
-                                        
-                                        <p:column>
-                                            <h:outputLabel value="Cambiar estado visado:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
-                                            <p:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" styleClass="addEspacio form-control">                        
-                                                <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                                <f:selectItem itemLabel="En espera" itemValue="espera" />
-                                                <f:selectItem itemLabel="Aprobado" itemValue="aprobado" />
-                                                <f:selectItem itemLabel="No Aprobado" itemValue="no aprobado" />
-                                            </p:selectOneMenu>&nbsp;&nbsp;
-                                        
-                                            <p:commandButton value="Aceptar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis"/>
-                                        </p:column>
-                                        
+
                                         <br/>
                                     </p:row>
                                 </h:panelGrid>

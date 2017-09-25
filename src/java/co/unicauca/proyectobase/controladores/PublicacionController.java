@@ -375,16 +375,9 @@ public class PublicacionController implements Serializable {
            }
           document.close();
           
-     
-          
-       
-            
-       
-
-            return dao.findAll();
+           return dao.findAll();
     }
     
-   
 
     public List<Publicacion> listadoEspera() {
 
