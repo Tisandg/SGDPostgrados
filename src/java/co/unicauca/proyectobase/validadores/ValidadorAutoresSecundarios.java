@@ -37,7 +37,7 @@ public class ValidadorAutoresSecundarios implements Validator {
                 }
                 
                 if(!validarNombreAutores(texto)) {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Uno o varios nombres no cumplen con el formato: Nombre(s) y Apellido(s)");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Uno o varios nombres no cumplen con el formato: Nombre(s) Apellido(s)");
                     throw new ValidatorException(msg);
                 }
          
@@ -97,7 +97,7 @@ public class ValidadorAutoresSecundarios implements Validator {
         nombres = texto.split(";");
         
         for (String nombre : nombres) {
-            if (!(nombre).matches("([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\\s;]*)+$")) {
+            if (!(nombre).matches("([A-Za-z[ÁÉÍÓÚÑñáéíóú]]+[\\s;]*)+$")) {
                 return false; 
             }
         }

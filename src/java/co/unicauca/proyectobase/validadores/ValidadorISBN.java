@@ -1,4 +1,4 @@
- package co.unicauca.proyectobase.validadores;
+package co.unicauca.proyectobase.validadores;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,11 +19,6 @@ public class ValidadorISBN implements Validator{
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String isbn = value.toString();
-        
-        if(isbn.length() == 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN de la publicación es obligatorio");
-            throw new ValidatorException(msg);
-        }
         
         if(!isValidoFormato(isbn)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN deben ser numeros en este formato \"xxx-xx-xxxxx-xx-x\".");
@@ -89,4 +84,3 @@ public class ValidadorISBN implements Validator{
     }
     
 }
- 

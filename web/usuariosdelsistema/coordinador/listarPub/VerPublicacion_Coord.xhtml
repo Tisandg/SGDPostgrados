@@ -78,17 +78,13 @@
                                             <h:outputLabel value="Estado visado:&nbsp;&nbsp;&nbsp;" for="valEstadoVis" style="font-weight:bold;"/>
                                             <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" styleClass="addEspacio form-control" style="color: #3366ff"/>
                                             <p:tooltip id="toolTipGrow" for="ayuda" value="El campo de estado visado indica si la publicación aun no ha sido revisada(espera), o si fue aceptada o rechazada."
-                                                       showEffect="clip" hideEffect="blind" />
-                                            
+                                                       showEffect="clip" hideEffect="blind" />                                            
                                             <br/>  
-                                            <br/>
-                                            
+                                            <br/>                                            
                                             <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>
-                                        </p:column>
-                                        
+                                        </p:column>                                        
                                         <br/>
-                                        <br/>
-                                        
+                                        <br/>                                        
                                         <p:column>
                                             <h:outputLabel value="Cambiar estado visado:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
                                             <p:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" styleClass="addEspacio form-control">                        
@@ -97,8 +93,16 @@
                                                 <f:selectItem itemLabel="Aprobado" itemValue="aprobado" />
                                                 <f:selectItem itemLabel="No Aprobado" itemValue="no aprobado" />
                                             </p:selectOneMenu>&nbsp;&nbsp;
-                                        
-                                            <p:commandButton value="Aceptar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis"/>
+                                            <p:commandButton value="Aceptar" update="valEstadoVis" onclick="PF('dlg2').show();"/>
+                                            
+                                            <p:dialog header="Enviar Observaciones" widgetVar="dlg2" modal="true" height="150">                                                
+                                                <h:inputTextarea id="obs" rows = "7" cols = "80">
+                                                    <f:ajax listener="#{publicacionController.recibirTexto}" execute="obs" event="blur" ></f:ajax>
+                                                    <f:ajax listener="#{publicacionController.guardarObservacion}" event="blur"></f:ajax>                                                      
+                                                </h:inputTextarea>         
+                                                <br/>
+                                                <p:commandButton value="Enviar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis" onclick="PF('dlg2').hide()"/>
+                                            </p:dialog>
                                         </p:column>
                                         
                                         <br/>
