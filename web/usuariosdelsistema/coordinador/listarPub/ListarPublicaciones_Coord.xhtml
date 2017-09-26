@@ -34,8 +34,7 @@
                         <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
                             <p:ajax update=":tablaPublicaciones" event="keyup"/>
                         </p:inputText>
-                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{publicacionController.listadoPdf()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
-                        <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
+                        
                         <br/>
                         <br/>
                     </h:form>
