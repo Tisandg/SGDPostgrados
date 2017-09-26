@@ -29,17 +29,17 @@ public class ValidadorCodigoEstudiante implements Validator {
         }
         
         if(!validarFormato(codigo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código no cumple con el formato xx_xxxxxxxxxx");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe ser numeros en el formato 70_cedulaEstudiante");
             throw new ValidatorException(msg); 
         }
         
         if(!validarInicioCodigo(codigo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe iniciar por 70_");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe iniciar por '70_'");
             throw new ValidatorException(msg); 
         }
         
         if(!validarCedula(codigo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe ser numérico.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código solo permite numeros y el caracter especial '_'.");
             throw new ValidatorException(msg); 
         }
     }
