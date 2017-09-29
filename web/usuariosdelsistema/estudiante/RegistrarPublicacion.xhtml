@@ -18,9 +18,7 @@
                 <span class="ui-messages-info-detail">
                     <b>Registrar Publicación</b>
                 </span>
-            </div>
-
-            <p:separator/>
+            </div>           
 
             <h:form id="form_registrar" enctype="multipart/form-data">
                 
@@ -196,7 +194,7 @@
                                 <h:panelGroup>
                                     <p:outputLabel value="Título ponencia:" for="valNPonencia" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                                </h:panelGroup>
+                                </h:panelGroup>                                
                                 <p:inputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombrePonencia" />
                                     <p:ajax event="blur" update="msjvalNPonencia" />
@@ -209,7 +207,7 @@
                                 <h:panelGroup>
                                     <p:outputLabel value="Nombre evento:" for="valNEvento" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                                </h:panelGroup>
+                                </h:panelGroup>                                
                                 <p:inputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombreEvento" />
                                     <p:ajax event="blur" update="msjvalNEvento" />
@@ -347,12 +345,12 @@
 
                 <br/>
                 <h:form>
-                    <h:commandButton value="Registrar" action="#{publicacionController.agregar()}" class="btn btn-primary"/> 
-                    <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro de la publicación?')) {
+                    <p:commandButton value="Registrar" action="#{publicacionController.agregar()}" class="btn btn-primary"/> 
+                    <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro de la publicación?')) {
                                 return false;
                             }
                             ;
-                            return true;" action="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary" immediate="true"/>
+                            return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
                 </h:form>
             </h:form>
             <br/>   
