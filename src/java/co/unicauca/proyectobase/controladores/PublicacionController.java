@@ -620,6 +620,8 @@ public class PublicacionController implements Serializable {
                     actual.setPubEstado("Activo");
                     /* Asigna espera como estado del visado la publicacion */
                     actual.setPubVisado("espera");
+                    
+                    fijarAutoresSecundarios();
                     dao.create(actual);
                     dao.flush();
                     mensajeconfirmarRegistro();
@@ -650,10 +652,12 @@ public class PublicacionController implements Serializable {
         Congreso cong = new Congreso();
         Libro lib = new Libro();
         CapituloLibro caplib = new CapituloLibro();
+        listaAutores.clear();
         actual.setRevista(rev);
         actual.setCongreso(cong);
         actual.setLibro(lib);
         actual.setCapituloLibro(caplib);
+        
 
     }
 
@@ -1091,9 +1095,9 @@ public class PublicacionController implements Serializable {
                         + actual.getPubEstIdentificador().getEstApellido()
                         + "\n\nLe informamos que su publicación con nombre "
                         + actual.obtenerNombrePub() + " no fue aprobada, lo sentimos.";
-                if(!valorObs.equals("")){
-                    mensaje = mensaje + "\n\nObservaciones: " + valorObs;
-                    valorObs = "";
+                if(!valorTexto.equals("")){
+                    mensaje = mensaje + "\n\nObservaciones: " + valorTexto;
+                    valorTexto = "";
                 }                        
                 Utilidades.enviarCorreo(correo,"Revisión de publicación", mensaje);                
             }
@@ -1140,10 +1144,13 @@ public class PublicacionController implements Serializable {
     }
     public void agregarAutorSecundario(){
         System.out.print("adicionando autor");
-        listaAutores.add(new Autor());
-        System.out.println("  tamnao: " + listaAutores.size());
-        mostrarLista();
-    }
+        if(!nombreAutor.equals("")){
+            listaAutores.add(new Autor(this.getNombreAutor()));
+            System.out.println("  tamaño: " + listaAutores.size());
+            mostrarLista();
+            nombreAutor = "";
+        }                
+    }    
     public void eliminarAutorSecundario(String nombre){        
         System.out.print("eliminar autor: " + nombre);        
         for (int i = 0; i < listaAutores.size(); i++) {
@@ -1161,19 +1168,57 @@ public class PublicacionController implements Serializable {
             System.out.print(lis.getNombre() + "     ");
         }
     }
+ 
+    
+    private String nombreAutor = "";
+
+    public String getNombreAutor() {
+        return nombreAutor;
+    }
+
+    public void setNombreAutor(String nombreAutor) {
+        this.nombreAutor = nombreAutor;
+    }
+    
+    public void recibirTextoAutor(AjaxBehaviorEvent evt){
+        String texto = "" + ((UIOutput)evt.getSource()).getValue();
+        this.nombreAutor = texto;
+        System.out.println("digito autor " + texto);
+    }   
+    
+    private void fijarAutoresSecundarios() {
+        String autores = "";
+        for (Autor autor : listaAutores) {
+            //eliminar espacios al inio y al final
+            autor.setNombre(autor.getNombre().trim());
+            //partir cadena de nombre delimitados por espacio
+            String[] nombres = autor.getNombre().split(" ");
+            //convertir primera letra a mayuscula y concatenar nombres
+            for (String nombre : nombres) {
+                autores += Character.toUpperCase(nombre.charAt(0)) + nombre.substring(1) + " ";
+            }
+            autores = autores.trim();
+            autores += ", ";
+        }
+        if(!listaAutores.isEmpty()){
+            autores = autores.substring(0, autores.length() - 2);
+        }        
+        actual.setPubAutoresSecundarios(autores);
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="adicionar comentario por publicacion no aprobada">
-    private String valorObs = "";
+    private String valorTexto = "";
     public void recibirTexto(AjaxBehaviorEvent evt){
         String texto = "" + ((UIOutput)evt.getSource()).getValue();
-        this.valorObs = texto;
+        this.valorTexto = texto;
         System.out.println("en recibir texto: " + texto);
-    }
-    
-    public void guardarObservacion(){
-        System.out.println("en guardar obs: " + valorObs);                
-    }
+    }        
     //</editor-fold>
 
+    
+    public void e(javax.faces.event.ActionEvent actionEvent){
+        
+    }
+    //</editor-fold>
 }

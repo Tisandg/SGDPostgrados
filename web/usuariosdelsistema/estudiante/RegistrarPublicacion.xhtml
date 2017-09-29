@@ -32,33 +32,44 @@
                     <h:panelGrid columns="3" cellpadding="5">
                         <p:outputLabel value="Nombre Autor:" for="valNombreAutor" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" styleClass="addEspacio form-control" style="color: #3366ff"></h:outputText>
-                        
+                        <p:outputLabel value="" styleClass="addEspacio"/>
                                                                                                        
-                        <!--                       
-                        <p:dataTable id ="tablaAutores" value="#{publicacionController.listaAutores}" var="autor" resizableColumns="false" style="width:250px">
-                            <p:column width="120" class="gridsinbordes">                                
-                                <p:inputText value="#{autor.nombre}" id="nombreAutor"></p:inputText>                                                                
-                            </p:column>    
-                            <p:column width="30" class="gridsinbordes">                                     
+                        <p:outputLabel value="Autores Secundarios:" styleClass="addEspacio"/>
+                        <p:inputText value="#{publicacionController.nombreAutor}" id="autor">
+                            <f:validator validatorId="validadorAutoresSecundarios" />
+                            <p:ajax event="blur" update="msjValAutores" /> 
+                        </p:inputText>                        
+                        <p:commandButton id="agregarAutor" icon="ui-icon-plus">
+                            <p:ajax event="click" listener="#{publicacionController.agregarAutorSecundario()}" update="autor, tablaAutores"/>
+                        </p:commandButton>
+                        
+                        <p:outputLabel value="" styleClass="addEspacio"/>
+                        <p:message for="autor" id="msjValAutores" />
+                        <p:outputLabel value="" styleClass="addEspacio"/>
+                        <p:outputLabel value="" styleClass="addEspacio"/>
+                                                
+                        <p:dataTable id ="tablaAutores" value="#{publicacionController.listaAutores}" var="autor" 
+                                     style="width:250px" emptyMessage="" rendered="true">
+                            <p:column width="155">
+                                <p:outputLabel value="#{autor.nombre}" id="nombreAutor"/>                                
+                            </p:column>                            
+                            <p:column  class="gridsinbordes" width="27">
                                 <p:commandButton id="eliminarNombreAutor" icon="ui-icon-close">
-                                    <p:ajax event="click" listener="#{publicacionController.eliminarAutorSecundario(autor.nombre)}" 
-                                            update="tablaAutores" />                                    
-                                </p:commandButton>                                                                                                
+                                    <f:ajax event="click" listener="#{publicacionController.eliminarAutorSecundario(autor.nombre)}" 
+                                            render="tablaAutores" />                                    
+                                </p:commandButton>
                             </p:column>                                                            
                         </p:dataTable>
+                            
                         
-                        <p:commandButton id="agregarAutor" icon="ui-icon-plus">
-                            <p:ajax event="click" listener="#{publicacionController.agregarAutorSecundario()}" update="tablaAutores"/>
-                        </p:commandButton>
-                        -->
  
-                        
+                        <!--
                         <p:outputLabel value="Autores Secundarios:" for="valASecundarios" styleClass="addEspacio"/>
                         <p:inputText class="form-control" id="valASecundarios"  value="#{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control">
                             <f:validator validatorId="validadorAutoresSecundarios" />
                             <p:ajax event="blur" update="msjValAutores" /> 
                         </p:inputText>
-                        <p:message for="valASecundarios" id="msjValAutores" />
+                        <p:message for="valASecundarios" id="msjValAutores" />-->
                        
 
                         <p:outputLabel for="event" value="Fecha publicación:" styleClass="addEspacio"/>
