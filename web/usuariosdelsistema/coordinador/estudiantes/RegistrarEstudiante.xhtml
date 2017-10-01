@@ -5,11 +5,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
+
     <h:head>
         <title>Registrar estudiante</title>
     </h:head>
-    
+
     <ui:composition template="./../../../plantillas/Coordinador.xhtml">
         <ui:define name="content"> 
             <div class="ui-messages-info ">
@@ -17,9 +17,9 @@
                     <b>Registrar Estudiante</b>
                 </span>
             </div>
-            
+
             <p:separator/>
-            
+
             <h:form id="form_registrar">
                 <p:tab  title="Datos personales" titleStyleClass="title" >
                     <p:panel header="Datos personales">
@@ -27,117 +27,76 @@
                             <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
                             <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                         </div>
-                        
-                        <h:panelGrid columns="2"  cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
-                        
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio" style="font-weight:bold;"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;
-                                </p:column>
-                                <p:column>
-                                    <p:inputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control " >
-                                        <f:validator validatorId="validadorNombreEstudiante"/>
-                                        <p:ajax event="blur" update="msjValNombre"/>
-                                    </p:inputText>
-                                    <p:message for="valNombre" id="msjValNombre" styleClass="addEspacio"/>
-                                </p:column>
 
-                                <br/>
+                        <h:panelGrid columns="4"  cellpadding="5">
+                            <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio" style="font-weight:bold;"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                            <p:inputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control ">
+                                <f:validator validatorId="validadorNombreEstudiante"/>
+                                <p:ajax event="blur" update="msjValNombre"/>
+                            </p:inputText>
+                            <p:message for="valNombre" id="msjValNombre" styleClass="addEspacio"/>
 
-                                <p:column>
-                                    <p:outputLabel value="Apellidos:" for="valApellido" styleClass="addEspacio" style="font-weight:bold;"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;
-                                </p:column>
-                                <p:column>
-                                    <p:inputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control">
-                                        <f:validator validatorId="validadorApellidoEstudiante"/>
-                                        <p:ajax event="blur" update="msjValApellido"/>
-                                    </p:inputText>
-                                    <p:message for="valApellido" id="msjValApellido" styleClass="addEspacio" />
-                                </p:column>
+                            <p:outputLabel value="Apellidos:" for="valApellido" styleClass="addEspacio" style="font-weight:bold;"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                            <p:inputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control">
+                                <f:validator validatorId="validadorApellidoEstudiante"/>
+                                <p:ajax event="blur" update="msjValApellido"/>
+                            </p:inputText>
+                            <p:message for="valApellido" id="msjValApellido" styleClass="addEspacio" />
 
-                                <br/>
+                            <p:outputLabel value="Código:" for="valCodigo" styleClass="addEspacio" style="font-weight:bold;"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                            <p:inputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control">
+                                <f:validator validatorId="validadorCodigoEstudiante"/>
+                                <f:validator validatorId="ValidarCodigoEstudianteNoExistente"/>
+                                <p:ajax event="blur" update="msjValCodigo"/>
+                            </p:inputText>
+                            <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>
 
-                                <p:column>
-                                    <p:outputLabel value="Código:" for="valCodigo" styleClass="addEspacio" style="font-weight:bold;"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                </p:column>
-                                <p:column>
-                                    <p:inputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control">
-                                        <f:validator validatorId="validadorCodigoEstudiante"/>
-                                        <f:validator validatorId="ValidarCodigoEstudianteNoExistente"/>
-                                        <p:ajax event="blur" update="msjValCodigo"/>
-                                    </p:inputText>
-                                    <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>
-                                </p:column>
-                                
-                                <br/>
-                            
-                                <p:column>
-                                    <p:outputLabel value="Correo electrónico:" for="valCorreo" styleClass="addEspacio" style="font-weight:bold;"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;
-                                </p:column>
-                                <p:column>
-                                    <p:inputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" >
-                                        <f:validator validatorId="validadorCorreo"/>                            
-                                        <f:validator validatorId="ValidarCorreoEstudianteNoExistente"/>                            
-                                        <p:ajax event="blur" update="msjValCorreo"/>
-                                    </p:inputText>
-                                    <p:message for="valCorreo" id="msjValCorreo" styleClass="addEspacio"/>
-                                </p:column>
+                            <p:outputLabel value="Correo electrónico:" for="valCorreo" styleClass="addEspacio" style="font-weight:bold;"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />                                
+                            <p:inputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" >
+                                <f:validator validatorId="validadorCorreo"/>                            
+                                <f:validator validatorId="ValidarCorreoEstudianteNoExistente"/>                            
+                                <p:ajax event="blur" update="msjValCorreo"/>
+                            </p:inputText>
+                            <p:message for="valCorreo" id="msjValCorreo" styleClass="addEspacio"/>
 
-                                <br/>
-                                
-                                <p:column>
-                                    <p:outputLabel value="Cohorte:" for="valCohorte" styleClass="addEspacio" style="font-weight:bold;"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                </p:column>
-                                <p:column>
-                                    <p:inputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" styleClass="addEspacio form-control">
-                                        <f:validator validatorId="validadorCohorteEstudiante"/>
-                                        <p:ajax event="blur" update="msjValCohorte"/>
-                                    </p:inputText>
-                                    <p:message for="valCohorte" id="msjValCohorte" styleClass="addEspacio"/>  
-                                </p:column>
+                            <p:outputLabel value="Cohorte:" for="valCohorte" styleClass="addEspacio" style="font-weight:bold;"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />  
+                            <p:inputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" styleClass="addEspacio form-control">
+                                <f:validator validatorId="validadorCohorteEstudiante"/>
+                                <p:ajax event="blur" update="msjValCohorte"/>
+                            </p:inputText>
+                            <p:message for="valCohorte" id="msjValCohorte" styleClass="addEspacio"/>  
+                            <p:outputLabel value="Nombre tutor:" for="valNombreTutor" styleClass="addEspacio " style="font-weight:bold;"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
 
-                                <br/>
+                            <p:inputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control">
+                                <f:validator validatorId="validadorNombreTutorEstudiante"/>                            
+                                <p:ajax event="blur" update="msjValNombreTutor"/>
+                            </p:inputText>
+                            <p:message for="valNombreTutor" id="msjValNombreTutor" styleClass="addEspacio" />
 
-                                <p:column>
-                                    <p:outputLabel value="Nombre tutor:" for="valNombreTutor" styleClass="addEspacio " style="font-weight:bold;"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;
-                                </p:column>
-                                <p:column>
-                                    <p:inputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control">
-                                        <f:validator validatorId="validadorNombreTutorEstudiante"/>                            
-                                        <p:ajax event="blur" update="msjValNombreTutor"/>
-                                    </p:inputText>
-                                    <p:message for="valNombreTutor" id="msjValNombreTutor" styleClass="addEspacio" />
-                                </p:column>
-                           
-                                <br/>
-                                
-                                <p:column>
-                                    <p:outputLabel value="Semestre:" for="valSemestre" styleClass="addEspacio" style="font-weight:bold;"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />&nbsp;&nbsp;
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneMenu   id="valSemestre" value="#{estudianteController.actual.estSemestre}">                                    
-                                        <f:selectItem itemLabel="1" itemValue="1"></f:selectItem>
-                                        <f:selectItem itemLabel="2" itemValue="2"></f:selectItem>
-                                    </p:selectOneMenu>
-                                   
-                                </p:column>
-                            </p:row>
-
+                            <p:outputLabel value="Semestre:" for="valSemestre" styleClass="addEspacio" style="font-weight:bold;"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                            <p:selectOneMenu   id="valSemestre" value="#{estudianteController.actual.estSemestre}">                                    
+                                <f:selectItem itemLabel="1" itemValue="1"></f:selectItem>
+                                <f:selectItem itemLabel="2" itemValue="2"></f:selectItem>
+                            </p:selectOneMenu>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
-                
+                <p:separator/>
                 <h:form>                                          
-                    <p:commandButton value="Registrar" onclick="if (!confirm('¿Desea registrar este estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.agregar()}" class="btn btn-primary " />&nbsp;&nbsp;&nbsp;
-                    <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary " immediate="true"/>
+                    <p:commandButton value="Registrar" onclick="if (!confirm('¿Desea registrar este estudiante?')) {
+                                return false;
+                            }
+                            ;
+                            return true;" actionListener="#{estudianteController.agregar()}" class="btn btn-primary " />
+                    <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) {
+                                return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary " immediate="true"/>
                 </h:form>
             </h:form>
         </ui:define>

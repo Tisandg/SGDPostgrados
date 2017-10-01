@@ -17,199 +17,100 @@
                     <b>Información de Publicación</b>
                 </span>
             </div>
-            
+
             <p:separator/>
-                    
-                    <h:form id="form_registrar">
-                        <p:tab  title="Información Publicación" titleStyleClass="title">             
-                            <p:panel header="Datos Generales">
-                                <div style = "float: left;"></div>
-                                <h:panelGrid columns="3" cellspacing="5"  styleClass="elementosCentrados bajarGrid"  >
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Nombre autor:&nbsp;&nbsp;&nbsp;" for="valNombAut" style="font-weight:bold;"/>
-                                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.actual.pubNombreAutor}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                        </p:column>
-                                        
-                                        <br/>
-                                        <br/>
-                                        
-                                        <p:column>
-                                            <p:outputLabel value="Autores secundarios:&nbsp;&nbsp;&nbsp;" for="valAutSec" style="font-weight:bold;"/>
-                                            <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                        </p:column>
-                                        
-                                        <br/>
-                                        <br/>
-                                        
-                                        <p:column>
-                                            <p:outputLabel value="Tipo publicación:&nbsp;&nbsp;&nbsp;" for="valTipoPub" style="font-weight:bold;"/>
-                                            <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                        </p:column>
-                                        
-                                        <br/>
-                                        <br/>
-                                        
-                                        <p:column>
-                                            <p:outputLabel value="DOI:&nbsp;&nbsp;&nbsp;" for="valDOI" style="font-weight:bold;"/>
-                                            <h:outputText class="form-control" id="valDOI"  value="#{publicacionController.actual.pubDoi}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                        </p:column>
-                                        
-                                        <br/>
-                                        <br/>
-                                        
-                                        <p:column>
-                                            <p:outputLabel value="ISBN:&nbsp;&nbsp;&nbsp;" for="valIBN" style="font-weight:bold;"/>
-                                            <h:outputText class="form-control" id="valIBN" value="#{publicacionController.actual.pubIsbn}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                        </p:column>
-                                        
-                                        <br/>
-                                        <br/>
-                                        
-                                        <p:column>
-                                            <p:outputLabel value="ISSN:&nbsp;&nbsp;&nbsp;" for="valISSN" style="font-weight:bold;"/>
-                                            <h:outputText class="form-control" id="valISSN" value="#{publicacionController.actual.pubIssn}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                        </p:column>
-                                        
-                                        <br/>
-                                        <br/>
-                                        
-                                        <p:column>
-                                            <h:outputLabel value="Estado visado:&nbsp;&nbsp;&nbsp;" for="valEstadoVis" style="font-weight:bold;"/>
-                                            <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                            <p:tooltip id="toolTipGrow" for="ayuda" value="El campo de estado visado indica si la publicación aun no ha sido revisada(espera), o si fue aceptada o rechazada."
-                                                       showEffect="clip" hideEffect="blind" />
-                                            
-                                            <br/>  
-                                            <br/>
-                                            
-                                            <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>
-                                        </p:column>
-                                        
-                                        <br/>
-                                        <br/>
 
-                                        <br/>
-                                    </p:row>
-                                </h:panelGrid>
-                                                     
-                                             
-                                    <p:panel header="Anexos">
-                                                                               
-                                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarRevista() == true}">
-                                            <p:row>
-                                                <p:column>
-                                                    <p:outputLabel value="Título artículo:&nbsp;&nbsp;&nbsp;" for="valNArticulo"  style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control" id="valNArticulo"  value="#{publicacionController.actual.revista.revTituloArticulo}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-                                                </p:column>
-                                                
-                                                <br/>
-                                                <br/>
-                                                
-                                                <p:column>
-                                                    <p:outputLabel value="Nombre revista:&nbsp;&nbsp;&nbsp;" for="valNRevista" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control" id="valNRevista"  value="#{publicacionController.actual.revista.revNombreRevista}" styleClass="addEspacio form-control" style="color: #3366ff">
-                                                    </h:outputText>
-                                                </p:column>
-                                                
-                                                <br/>
-                                                <br/>
-                                                
-                                                <p:column>
-                                                    <p:outputLabel value="Categoría:&nbsp;&nbsp;&nbsp;" for="valCategoria" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}" styleClass="addEspacio form-control" style="color: #3366ff">                                    
-                                                    </h:outputText>
-                                                </p:column>
-                                            </p:row>
-                                        </h:panelGrid>
+            <h:form id="form_registrar">
+                <p:panel header="Datos Generales">
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.actual.pubNombreAutor}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        <p:outputLabel value="" styleClass="addEspacio"/>
 
+                        <p:outputLabel value="Autores secundarios:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        <p:outputLabel value="" styleClass="addEspacio"/>
 
-                                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarCongreso() == true}">
-                                            <p:row>
-                                                <p:column>
-                                                    <h:outputLabel value="Título ponencia:&nbsp;&nbsp;&nbsp;" for="valNPonencia" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" styleClass="addEspacio form-control" style="color: #3366ff">
-                                                    </h:outputText>
-                                                </p:column>
-                                                
-                                                <br/>
-                                                <br/>
-                                                
-                                                <p:column>
-                                                    <h:outputLabel value="Nombre evento:&nbsp;&nbsp;&nbsp;" for="valNEvento" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" styleClass="addEspacio form-control" style="color: #3366ff">
-                                                    </h:outputText>
-                                                </p:column>
-                                                
-                                                <br/>
-                                                <br/>
-                                                
-                                                <p:column>
-                                                    <h:outputLabel value="Tipo congreso:&nbsp;&nbsp;&nbsp;" for="valTipoCongreso" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" styleClass="addEspacio form-control" style="color: #3366ff">                                    
-                                                    </h:outputText>
-                                                </p:column>
-                                            </p:row>
-                                        </h:panelGrid>            
+                        <p:outputLabel value="Tipo publicación:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        <p:outputLabel value="" styleClass="addEspacio"/>
 
-                                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarLibro() == true}">
-                                            <p:row>
-                                                <p:column>
-                                                    <h:outputLabel value="Título libro:&nbsp;" for="valTLibro" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" styleClass="addEspacio form-control">
-                                                    </h:outputText>
-                                                </p:column>
-                                            </p:row>
-                                        </h:panelGrid>            
-                           
-                                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarCapLibro() == true}">
-                                            <p:row>
-                                                <p:column>
-                                                    <h:outputLabel value="Título libro:&nbsp;" for="valTCLibro" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" styleClass="addEspacio form-control">
-                                                    </h:outputText>
-                                                </p:column>
-                                                
-                                                <br/>
-                                                <br/>
-                                                
-                                                <p:column>
-                                                    <h:outputLabel value="Título capítulo libro:&nbsp;" for="valTCapLibro" style="font-weight:bold;"/>
-                                                    <h:outputText class="form-control" id="valTCapLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloCapitulo}" styleClass="addEspacio form-control">
-                                                    </h:outputText>
-                                                </p:column>
-                                            </p:row>
-                                        </h:panelGrid>            
-                           
-                                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar"  >
-                                            <p:row>
-                                                <p:column>
-                                                    <p:outputLabel value="Evidencia Publicación:&nbsp;&nbsp;" style="font-weight:bold;"/>
-                                                    <h:commandButton style="margin-right: 100px ;" value="Ver " action="#{publicacionController.pdfCartaAprob()}" class="btn btn-success" onclick="this.form.target = '_blank'"  ></h:commandButton>
-                                                </p:column>
+                        <p:outputLabel value="DOI:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valDOI" value="#{publicacionController.actual.pubDoi}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        <p:outputLabel value="" styleClass="addEspacio"/>
 
-                                                <br/>
-                                                <br/>
+                        <p:outputLabel value="ISBN:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valIBN" value="#{publicacionController.actual.pubIsbn}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        <p:outputLabel value="" styleClass="addEspacio"/>
 
-                                                <p:column>
-                                                    <p:outputLabel value="Publicación:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
-                                                    <h:commandButton style="margin-right: 100px;"  value="Ver"   action="#{publicacionController.pdfPub()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" ></h:commandButton>
-                                                </p:column>
+                        <p:outputLabel value="ISSN:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valISSN" value="#{publicacionController.actual.pubIssn}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        <p:outputLabel value="" styleClass="addEspacio"/>
 
-                                                <br/>
-                                                <br/>
+                        <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>
+                        <p:tooltip id="toolTipGrow" for="ayuda" value="El campo de estado visado indica si la publicación aun no ha sido revisada(espera), o si fue aceptada o rechazada."
+                                   showEffect="clip" hideEffect="blind" />
 
-                                                <p:column>    
-                                                    <p:outputLabel value="Tabla de Contenido:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
-                                                    <h:commandButton style="margin-right:  100px; font-size: 13px; " value="Ver "  action="#{publicacionController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" ></h:commandButton>
-                                                </p:column>
-                                            </p:row>
-                                        </h:panelGrid>
-                                    </p:panel>
-                                </p:panel>
-                            </p:tab>
-                        <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"/>                       
-                    </h:form>
-                </ui:define>
+                    </h:panelGrid>  
+                </p:panel>
+
+                <p:panel header="Anexos">
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarRevista() == true}">
+                        <p:outputLabel value="Título artículo:"  style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valNArticulo"  value="#{publicacionController.actual.revista.revTituloArticulo}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                        <p:outputLabel value="Nombre revista:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valNRevista"  value="#{publicacionController.actual.revista.revNombreRevista}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                        <p:outputLabel value="Categoría:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarCongreso() == true}">
+                        <h:outputLabel value="Título ponencia:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                        <h:outputLabel value="Nombre evento:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                        <h:outputLabel value="Tipo congreso:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarLibro() == true}">
+                        <h:outputLabel value="Título libro:" for="valTLibro" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" styleClass="addEspacio form-control"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{publicacionController.renderizarCapLibro() == true}">
+                        <h:outputLabel value="Título libro:" for="valTCLibro" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" styleClass="addEspacio form-control"/>
+
+                        <h:outputLabel value="Título capítulo libro:" for="valTCapLibro" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valTCapLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloCapitulo}" styleClass="addEspacio form-control"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar"  >
+                        <p:outputLabel value="Evidencia Publicación:" style="font-weight:bold;"/>
+                        <h:commandButton style="margin-right: 100px ;" value="Ver " action="#{publicacionController.pdfCartaAprob()}" class="btn btn-success" onclick="this.form.target = '_blank'"  ></h:commandButton>
+
+                        <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
+                        <h:commandButton style="margin-right: 100px;"  value="Ver"   action="#{publicacionController.pdfPub()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" >
+                        </h:commandButton>
+
+                        <p:outputLabel value="Tabla de Contenido:" style="font-weight:bold;"/>
+                        <h:commandButton style="margin-right:  100px; font-size: 13px; " value="Ver "  action="#{publicacionController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" >
+                        </h:commandButton>
+                        
+                    </h:panelGrid>
+                </p:panel>
+                
+                <p:separator/>
+                
+                <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"/>                       
+            </h:form>
+        </ui:define>
     </ui:composition>
 </html>

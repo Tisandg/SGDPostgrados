@@ -751,13 +751,22 @@ public class PublicacionController implements Serializable {
     }
 
     /*redireccionamiento para boton cancelar*/
-    public void redirigirAlistar(String nombreUsuario) {
-        fijarEstudiante(nombreUsuario);
-        limpiarCampos();
+    public void redirigirAlistar(String nombreUsuario) 
+    {
+        //limpiarCampos();
         System.out.println("si esta pasando por aqui");
         
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
+    }
+    
+    public void redirigirAlistarCoord(String nombreUsuario) 
+    {
+        limpiarCampos();
+        System.out.println("si esta pasando por aqui");
+        
+        cvc.listarPublicaciones();
+        Utilidades.redireccionar(cvc.getRuta());
     }
 
     public void redirigirAlistar() {
