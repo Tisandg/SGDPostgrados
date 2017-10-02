@@ -22,7 +22,7 @@
             </div>
             <p:panel>      
 
-                <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
+                <h:panelGrid columns="4" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
 
                     <h:form>
                         <h:outputText value="Año: "></h:outputText>
@@ -39,15 +39,33 @@
                         
                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.listadoPdf()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
                         <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
-                        
                         <br></br>
-                        
                         <p:outputLabel value="Reporte Personal: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
                         <h:outputText value="Usuario: "></h:outputText>
                         <p:inputText id="txtNombre" value = "#{reportesController.nombre}"  size="30" />
                          <p:watermark for="txtNombre" value="ejemplo@unicauca.edu.co" id="watermark" />
                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.PublicacionesEst()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
                          <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/ReportePersonal.pdf"  >Descargar PDF </a>
+                         <br>
+                        </br>
+                         <p:outputLabel value="Reporte por anio: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        <h:outputText value="Anio: "></h:outputText>
+                        <p:inputText id="txtPeriodo1" value = "#{reportesController.anios}"  size="7" />
+                         <p:watermark for="txtPeriodo1" value="2017" id="watermark1" />
+                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.ArticulosAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
+                        <br>
+                        </br>                         
+                         <p:outputLabel value="Reporte estudiante por anio: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        <h:outputText value="Anio: "></h:outputText>
+                        <p:inputText id="txtPeriodo2" value = "#{reportesController.aniose}"  size="7" />
+                         <h:outputText value="Nombre: "></h:outputText>
+                        <p:inputText id="txtNombre2" value = "#{reportesController.nombree}"  size="30" />
+                         <p:watermark for="txtPeriodo2" value="2017" id="watermark2" />
+                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.obtenerEstudianteAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
+                         <br>
+                        </br> 
+                         
+                        
                     </h:form>
 
                 </h:panelGrid>  
