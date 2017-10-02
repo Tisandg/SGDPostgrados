@@ -221,6 +221,28 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
     
+    public Estudiante obtenerEstudianteAnio(String nombre) {
+
+        String comSimple = "\'";
+        String queryStr;
+        queryStr = " SELECT est_identificador FROM doctorado.estudiante WHERE est_usuario = " + comSimple + nombre + comSimple;
+        javax.persistence.Query query = getEntityManager().createNativeQuery(queryStr);
+        List results = query.getResultList();
+        int estIden = (int) results.get(0);
+
+        Estudiante est;
+        try {
+            est = em.find(Estudiante.class, estIden);
+            return est;
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+            return null;
+        }
+    }
+    
+    
+    
     
 
 }
