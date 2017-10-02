@@ -32,7 +32,7 @@ public class ValidadorNombreEstudiante implements Validator
         boolean cumplePatron = Pattern.matches("^[a-zA-ZñÑáÁéÉíÍóÓúÚ\\s]*$", texto);
         if(!cumplePatron)
         {            
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre del estudiante contiene caracteres no válidos.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre sólo permite letras y espacios.");
             throw new ValidatorException(msg);  
         }        
     }
