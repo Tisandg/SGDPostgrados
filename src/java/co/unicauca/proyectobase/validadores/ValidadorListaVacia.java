@@ -26,6 +26,10 @@ public class ValidadorListaVacia implements Validator{
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe seleccionar un campo de la lista");
             throw new ValidatorException(msg);
         }                
+        if(valor.equals("seleccionar")) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe seleccionar un campo de la lista");
+            throw new ValidatorException(msg);
+        }
     }
     
 }
