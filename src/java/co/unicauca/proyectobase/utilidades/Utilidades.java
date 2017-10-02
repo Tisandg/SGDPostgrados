@@ -30,8 +30,6 @@ public class Utilidades {
 
     public static boolean enviarCorreo(String destinatario, String asunto, String mensaje) 
     {
-        // String de = "elcorreodelprofe@gmail.com";
-        // String clave = "lacontraseñadelcorreodelprofe";
         String de = "posgradoselectunic@gmail.com";
         String clave = "posgrados22";
         String para = destinatario;

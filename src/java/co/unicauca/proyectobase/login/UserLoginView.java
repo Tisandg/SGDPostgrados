@@ -26,118 +26,113 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import co.unicauca.proyectobase.controladores.CargarVistaCoordinador;
 import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
-import javax.faces.event.ActionEvent;
-import javax.inject.Named;
-
 
 /**
  *
  * @hola unicauca
  */
-
-
 @ManagedBean
 @SessionScoped
-public class UserLoginView implements Serializable{
+public class UserLoginView implements Serializable {
+
     private String username;
     private String password;
     private Usuario usuario;
-    
+
     private CargarVistaCoordinador cvc;
     private CargarVistaEstudiante cve;
-    
+
     @EJB
     private GrupoTipoUsuarioFacade ejbgtu;
     @Inject
     private UsuarioFacade ejbactual;
-    
+
     public String getUsername() {
         return username;
     }
- 
+
     public void setUsername(String username) {
-        this.username =username;
+        this.username = username;
     }
- 
+
     public String getPassword() {
         return password;
     }
- 
+
     public void setPassword(String password) {
         this.password = password;
     }
-     public void sinAcceso() {
-        FacesContext context = FacesContext.getCurrentInstance();         
-        context.addMessage(null, new FacesMessage("Error",  "Usuario y/o contraseña incorrecto(s)") );
-        
+
+    public void sinAcceso() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Error", "Usuario y/o contraseña incorrecto(s)"));
+
     }
-   
-    public void login() throws ServletException {
-        System.out.println("Verificando datos login");
-         FacesContext fc= FacesContext.getCurrentInstance();
-         HttpServletRequest req=(HttpServletRequest) fc.getExternalContext().getRequest();
-         System.out.println(this.username.length());
-         if(this.username==null){
-             System.out.println("usuario vacio");
-         }
-         
-         if(req.getUserPrincipal() == null);
-         {
-             try {
-                 req.login(this.username, this.password);
-                 System.out.println("Login Exitoso");
-             } catch (ServletException e) {
-                 System.out.println("aqui se empaila");
-                 FacesContext context = FacesContext.getCurrentInstance();  context.addMessage(null, new FacesMessage("Error",  "Usuario o contraseña incorrectos") );
-                 Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
-                 return;
-             }
 
-             Principal principal = req.getUserPrincipal();
-             this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);
-             ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
-             Map<String, Object> sessionMap = external.getSessionMap();
-             sessionMap.put("user", this.usuario);
-
-             List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
-             int id_tipo = lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
-
-             switch (id_tipo) {
-                 case 2:
-                     cve = new CargarVistaEstudiante();
-                     Utilidades.redireccionar(cve.getRuta());
-                     break;
-
-                 case 3:
-                     cvc = new CargarVistaCoordinador();
-                     Utilidades.redireccionar(cvc.getRuta());
-                     break;
-
-             }
-         }
-    }
-    
-    public void salir() throws IOException
+    public void login() throws ServletException 
     {
-        
+        System.out.println("Verificando datos login");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
+        System.out.println(this.username.length());
+        if (this.username == null) {
+            System.out.println("usuario vacio");
+        }
 
-         FacesContext fc= FacesContext.getCurrentInstance();
-       HttpServletRequest req= (HttpServletRequest) fc.getExternalContext().getRequest();
-       try
+        if (req.getUserPrincipal() == null);
         {
-           req.logout();
+            try 
+            {
+                req.login(this.username, this.password);
+                System.out.println("Login Exitoso");
+            } catch (ServletException e) {
+                System.out.println("aqui se empaila");
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
+                Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+                return;
+            }
+
+            Principal principal = req.getUserPrincipal();
+            this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);
+            ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
+            Map<String, Object> sessionMap = external.getSessionMap();
+            sessionMap.put("user", this.usuario);
+
+            List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
+            int id_tipo = lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
+
+            switch (id_tipo) 
+            {
+                case 2:
+                    cve = new CargarVistaEstudiante();
+                    Utilidades.redireccionar(cve.getRuta());
+                    break;
+
+                case 3:
+                    cvc = new CargarVistaCoordinador();
+                    Utilidades.redireccionar(cvc.getRuta());
+                    break;
+
+            }
+        }
+    }
+
+    public void salir() throws IOException 
+    {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
+        try 
+        {
+            req.logout();
             req.getSession().invalidate();
             fc.getExternalContext().invalidateSession();
             FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoII/faces/index.xhtml");
-            
-        }catch( ServletException e)
+
+        } catch (ServletException e) 
         {
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"FAILED","Cerrar Sesion"));
+            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILED", "Cerrar Sesion"));
         }
     }
-    
-    
-    
-    
-    
+
 }

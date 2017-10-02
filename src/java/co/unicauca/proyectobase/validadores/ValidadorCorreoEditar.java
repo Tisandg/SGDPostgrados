@@ -37,12 +37,21 @@ public class ValidadorCorreoEditar implements Validator {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no tiene @");
                 throw new ValidatorException(msg);
             }
-//            else {
-//                if(!validarDominio(correo.split("@")[1])) {
-//                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe ser: gmail.com, unicuauca.edu.co o hotmail.com");
-//                    throw new ValidatorException(msg);
-//                }
-//            }
+            else {
+                if(!validarDominio(correo)) 
+                {
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe tener un dominio después del @.  Ejemplo: @gmail.com");
+                    throw new ValidatorException(msg);
+                }
+                else 
+                {
+                    if(!validarNoTerminaConPunto(correo))
+                    {
+                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no puede finalizar con punto.");
+                        throw new ValidatorException(msg);
+                    }
+                }
+            }
         }
         else {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El formato del correo es incorrecto");
@@ -60,18 +69,30 @@ public class ValidadorCorreoEditar implements Validator {
         }
         
         if(!validarCaracteresEspeciales(correo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo tiene caracteres errados");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo tiene caracteres errados. Se permiten letras, números, - , _");
             throw new ValidatorException(msg);
         }
     }
     
     
     //valida que el dominio del correo sea correcto
-    public boolean validarDominio(String dominio) {
+    /*public boolean validarDominio(String dominio) {
         return !(!dominio.equals("gmail.com")
                 && !dominio.equals("unicauca.edu.co") 
                 && !dominio.equals("hotmail.com"));
+    }*/
+    public boolean validarDominio(String texto) 
+    {
+        String cadena[] = texto.split("@");
+        return cadena[1].contains(".");
     }
+    
+    public boolean validarNoTerminaConPunto(String texto) 
+    {
+        String cadena[] = texto.split("@");
+        return !cadena[1].endsWith(".");
+    }
+    
     
     //valida que el correo no empieze por un caracter especial
     public boolean validarInicioCorreo(String correo) {
@@ -106,4 +127,6 @@ public class ValidadorCorreoEditar implements Validator {
     public boolean validarFormato(String texto) {
         return texto.split("@").length == 2;
     }
+    
+    
 }

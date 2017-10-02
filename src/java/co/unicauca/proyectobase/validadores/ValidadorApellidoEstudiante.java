@@ -32,7 +32,7 @@ public class ValidadorApellidoEstudiante implements Validator
         boolean cumplePatron = Pattern.matches("^[a-zA-ZñÑáÁéÉíÍóÓúÚ\\s]*$", texto);
         if(!cumplePatron)
         {            
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Los apellidos del estudiante contienen caracteres no válidos.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El apellido sólo permite letras y espacios.");
             throw new ValidatorException(msg);  
         }        
     }

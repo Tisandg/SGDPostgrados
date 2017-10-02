@@ -2,14 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
+
     <h:head>
         <title>Datos Personales</title>
     </h:head>
-    
+
     <ui:composition template="../../plantillas/Estudiante.xhtml">
         <ui:define name="content"> 
             <div class="ui-messages-info ">
@@ -18,6 +17,10 @@
                 </span>
             </div>                         
             
+            </div> 
+
+            <p:separator/>
+
             <h:form id="form_registrar">
                 <p:tab  title="Datos personales" titleStyleClass="title">             
                     <p:panel header="Datos personales">
@@ -50,22 +53,22 @@
                             
                             <h:outputLabel value="Número de credítos:" style="font-weight:bold;"/>
                             <h:outputText class="form-control"  id="valCreditos" value="#{verEstudianteController.credi}" style="color: #3366ff"/>
-                            
-                            <h:outputText value=""/>
-                            <p:tooltip id="toolTipGrow" for="ayuda" 
-                                       value="Indica el número total de creditos obtenidos mediante las publicaciones aprobadas."
-                                       showEffect="clip" hideEffect="blind" />
+                                                        
                             <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué indica el número de creditos?</h:outputLink>
-                              
+                            <p:tooltip id="toolTipGrow" for="ayuda" value="Indica el número total de creditos obtenidos mediante las publicaciones aprobadas."
+                                       showEffect="clip" hideEffect="blind" />
+
                         </h:panelGrid>
                     </p:panel>
-                </p:tab>                            
-                <br/>
-                <h:form>
-                    <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(userLoginView.username)}" />
-                </h:form> 
-                <br/><br/>       
             </h:form>
         </ui:define>
     </ui:composition>
+    </p:tab>          
+                
+    <br/>
+    <h:form>
+        <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(userLoginView.username)}" />
+    </h:form> 
+    <br/><br/> 
 </html>
+                

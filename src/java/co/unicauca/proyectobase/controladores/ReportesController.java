@@ -52,9 +52,39 @@ public class ReportesController implements Serializable {
     ArrayList<Publicacion> lib;
     ArrayList<Publicacion> con;
     ArrayList<Publicacion> cap;
-    
+    ArrayList<Publicacion> anio;
+    ArrayList<Publicacion> semestre;
    
     String nombre;
+    String anios;
+    String aniose;
+    String nombree;
+
+    public String getNombree() {
+        return nombree;
+    }
+
+    public void setNombree(String nombree) {
+        this.nombree = nombree;
+    }
+
+    public String getAniose() {
+        return aniose;
+    }
+
+    public void setAniose(String aniose) {
+        this.aniose = aniose;
+    }
+
+    public String getAnios() {
+        return anios;
+    }
+
+    public void setAnios(String anios) {
+        this.anios = anios;
+    }
+    
+    
 
     public String getNombre() {
         return nombre;
@@ -199,6 +229,8 @@ public class ReportesController implements Serializable {
         
     }
      
+
+     
   
      
      public void PublicacionesEst() throws DocumentException, FileNotFoundException
@@ -262,6 +294,58 @@ public class ReportesController implements Serializable {
         
          document.close();
 }
+     
+     public void ArticulosAnio()
+     {
+         
+         
+         for (int i = 0; i < dao.findAll().size(); i++) {
+             
+             String an = dao.findAll().get(i).getPubFechaRegistro().toLocaleString();
+             String a[]= an.split(" ");
+             String fecha= a[0];
+             String consul[]= fecha.split("/");
+             String retorno= consul[2];
+             System.out.println("anio"+ retorno);
+             
+             if(anios.equals(retorno))
+             {
+                 System.out.println("Publicacion"+dao.findAll().get(i).obtenerNombrePub()+"\t"+i);
+             }
+             
+             
+            
+         }
+     }
+     
+     public void obtenerEstudianteAnio()
+     {
+         System.out.println("Nombre"+"\t"+nombree);
+         System.out.println("Anio"+"\t"+aniose);
+         String[] usuario= nombree.split("@");
+         String username=usuario[0];
+         Estudiante est = dao.obtenerEstudianteAnio(username);
+         List<Publicacion> ret = est.getPublicacionList();
+         
+         for (int i = 0; i < ret.size(); i++) {
+             
+         
+             String an = dao.findAll().get(i).getPubFechaRegistro().toLocaleString();
+             String a[]= an.split(" ");
+             String fecha= a[0];
+             String consul[]= fecha.split("/");
+             String retorno= consul[2];
+             System.out.println("anio"+ retorno);
+              if(aniose.equals(retorno))
+             {
+                 System.out.println("Publicacion"+ret.get(i).obtenerNombrePub()+"\t"+i+"Publicador"+"\t"+est.getEstNombre()+"\t"+est.getEstApellido());
+             }
+             
+         }
+     }
+     
+   
+  
      
     
     

@@ -3,15 +3,12 @@ package co.unicauca.proyectobase.controladores;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.entidades.Estudiante;
-//import static co.unicauca.proyectobase.entidades.GrupoTipoUsuario_.nombreUsuario;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
-/*import java.nio.charset.StandardCharsets;
-import java.util.Base64;*/
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
