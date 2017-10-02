@@ -22,7 +22,7 @@ public class ValidadorAnio implements Validator {
         }
         
         if(anio.length() == 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El valor para el años no puede estar vacio");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Este campo es obligatorio");
             throw new ValidatorException(msg);  
         }
         

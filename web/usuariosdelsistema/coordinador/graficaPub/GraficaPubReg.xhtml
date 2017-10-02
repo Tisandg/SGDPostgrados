@@ -30,16 +30,18 @@
                             <f:validator validatorId="validadorAnio"/>
                             <p:ajax event="keyup" update="msjValAnio btnAceptar" />  
                         </p:inputText>  
-                        
                         <p:commandButton id="btnAceptar"  value="Buscar"  action="#{graficaPubRegController.iniciar()}" class="btn btn-success"  style="margin-left:10px; float:center;" />                             
                         <p:message for="txtAnio" id="msjValAnio" styleClass="addEspacio"/>
-                        <br>
-                        </br>
-                        <p:outputLabel value="Consolidado de Publicaciones: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        
+                        <br></br>
+                        
+                        <p:outputLabel value="Tipo de reporte: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        
                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.listadoPdf()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
                         <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
-                        <br>
-                        </br>
+                        
+                        <br></br>
+                        
                         <p:outputLabel value="Reporte Personal: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
                         <h:outputText value="Usuario: "></h:outputText>
                         <p:inputText id="txtNombre" value = "#{reportesController.nombre}"  size="30" />
@@ -49,7 +51,9 @@
                     </h:form>
 
                 </h:panelGrid>  
+                
                 <br/>
+                
                 <h:body>
                     <p:chart type="bar" model="#{graficaPubRegController.barModel}" style="width:900px; float:center;" />
 
