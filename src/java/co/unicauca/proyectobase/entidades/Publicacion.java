@@ -189,10 +189,12 @@ public class Publicacion implements Serializable {
     private Estudiante pubEstIdentificador;
 
     public Publicacion() {
+        this.pubAutoresSecundarios = "";
     }
 
     public Publicacion(Integer pubIdentificador) {
         this.pubIdentificador = pubIdentificador;
+        this.pubAutoresSecundarios = "";
     }
 
     public Publicacion(Integer pubIdentificador, String pubNombreAutor, String pubTipoPublicacion, Date pubFechaPublicacion) {
@@ -200,6 +202,7 @@ public class Publicacion implements Serializable {
         this.pubNombreAutor = pubNombreAutor;
         this.pubTipoPublicacion = pubTipoPublicacion;
         this.pubFechaPublicacion = pubFechaPublicacion;
+        this.pubAutoresSecundarios = "";
     }
 
     public void agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF) throws IOException, GeneralSecurityException, DocumentException, PathNotFoundException, AccessDeniedException {
@@ -680,7 +683,11 @@ public class Publicacion implements Serializable {
                 document.addHeader("Estampa Tiempo", "" + estampaTiempo);
                 document.addAuthor("" + this.pubNombreAutor);
                 document.addCreator("" + this.pubNombreAutor);
+                try{
                 document.addHeader("Autores_Secundarios", this.pubAutoresSecundarios);
+                }catch(Exception e){
+                    int o = 0;
+                }
                 document.addHeader("Fecha_Publicacion", FechaPublicacion);
                 document.addHeader("Tipo_Publicacion", this.pubTipoPublicacion);
                 /* Se Comprubea si los metadatos a llenar son para una revista
