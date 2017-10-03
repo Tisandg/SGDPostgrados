@@ -10,22 +10,18 @@
     </h:head>
 
     <ui:composition template="../../plantillas/Estudiante.xhtml">
-        <ui:define name="content"> 
+        <ui:define name="content">
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
                     <b>Información Estudiante</b>
                 </span>
-            </div>                         
-            
-            </div> 
-
-            <p:separator/>
+            </div>                                                            
 
             <h:form id="form_registrar">
                 <p:tab  title="Datos personales" titleStyleClass="title">             
                     <p:panel header="Datos personales">
                         <div style = "float: left;"></div>
-                        <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
 
                             <p:outputLabel value="Nombres:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valNombre" value="#{verEstudianteController.auxEstudiante.estNombre}" style="color: #3366ff"/>
@@ -60,15 +56,14 @@
 
                         </h:panelGrid>
                     </p:panel>
+                </p:tab>          
             </h:form>
+            <br/>
+            <h:form>
+                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(userLoginView.username)}" />
+            </h:form> 
+            <br/><br/>  
         </ui:define>
-    </ui:composition>
-    </p:tab>          
-                
-    <br/>
-    <h:form>
-        <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(userLoginView.username)}" />
-    </h:form> 
-    <br/><br/> 
+    </ui:composition>                        
 </html>
-                
+               

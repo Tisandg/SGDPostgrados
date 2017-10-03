@@ -16,7 +16,7 @@ import javax.faces.validator.ValidatorException;
 
 /**
  *
- * @author Juan
+ * @author Juan 
  */
 @FacesValidator(value = "validadorISSN")
 public class ValidadorISSN implements Validator {
@@ -27,7 +27,7 @@ public class ValidadorISSN implements Validator {
 
         if(issn.length() == 0) 
         {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Se debe registrar el ISSN de la revista");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar el ISSN. Campo obligatorio");
             throw new ValidatorException(msg);
         }
         

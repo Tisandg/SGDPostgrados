@@ -5,6 +5,7 @@
  */
 package co.unicauca.proyectobase.validadores;
 
+import co.unicauca.proyectobase.controladores.PublicacionController;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import javax.ejb.EJB;
@@ -28,7 +29,7 @@ public class ValidadorNombreArticulo implements Validator {
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String nombre = String.valueOf(value);
         System.out.println("Nombre"+ nombre);
-        
+        nombre= nombre.trim();
         /*Validando que el campo no este vacio*/
         if(nombre.length() == 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo es obligatorio");
@@ -50,7 +51,22 @@ public class ValidadorNombreArticulo implements Validator {
             }
                 
         }
+        if(isRegistradoTituloArticulo(nombre, context)){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del articulo a esta registrado. Por favor revise.");
+            throw new ValidatorException(msg);
+        }
             
+    }
+    
+     public boolean isRegistradoTituloArticulo(String tituloArticulo, FacesContext context){
+        /*Buscar en la bd si esta registrado*/
+        boolean variable = false;
+        PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
+                    getValue(context.getELContext(), null, "publicacionController");
+        if (controller.buscarTituloArticulo(tituloArticulo) != null) {
+            variable = true;
+        }
+        return variable;
     }
     
 }

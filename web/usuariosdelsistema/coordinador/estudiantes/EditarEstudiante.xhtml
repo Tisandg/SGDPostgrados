@@ -17,9 +17,7 @@
                     <span class="ui-messages-info-detail">
                         <b>Editar Información Estudiante</b>
                     </span>
-                </div>
-
-                <p:separator/>
+                </div>               
 
                 <h:form id="form_registrar">
                 <p:tab  title="Datos personales" titleStyleClass="title" >                
@@ -98,10 +96,11 @@
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
-                    <p:separator/>
-                <p:commandButton value="Actualizar" actionListener="#{estudianteController.guardarEdicion()}" onclick="if (!confirm('¿Esta seguro que desea guardar los cambios?')) { return false;}; return true;" class="btn btn-primary" />             
-                <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar la edición del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
-                                 
+
+                <br/>
+                <p:commandButton value="Actualizar" actionListener="#{estudianteController.guardarEdicion()}" onclick="if (!confirm('¿Esta seguro que desea guardar los cambios?')) { return false;}; return true;" />&lrm;     
+                <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar la edición del estudiante?')) { return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" immediate="true"/>
+                <br/><br/><br/>
                 </h:form>
             </div>
         </ui:define>

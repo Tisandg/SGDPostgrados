@@ -41,5 +41,13 @@ public class CongresoFacade extends AbstractFacade<Congreso> {
             return null;
         }
     }
+
+    public Congreso findByIssnCongreso(String sn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Congreso findByDoiCongreso(String doi) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

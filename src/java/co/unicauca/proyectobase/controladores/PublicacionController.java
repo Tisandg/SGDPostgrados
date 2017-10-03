@@ -1,9 +1,11 @@
 package co.unicauca.proyectobase.controladores;
 
+import co.unicauca.proyectobase.dao.CapituloLibroFacade;
 import co.unicauca.proyectobase.dao.CongresoFacade;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.LibroFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
+import co.unicauca.proyectobase.dao.RevistaFacade;
 import co.unicauca.proyectobase.entidades.Archivo;
 import co.unicauca.proyectobase.entidades.Congreso;
 import co.unicauca.proyectobase.entidades.Estudiante;
@@ -75,12 +77,21 @@ public class PublicacionController implements Serializable {
 
     @EJB
     private EstudianteFacade daoEst;
+    
     @EJB
     private PublicacionFacade dao;
+    
     @EJB
-    private LibroFacade daoLibro;
+    private RevistaFacade daoRevista;
+    
     @EJB
     private CongresoFacade daoCongreso;
+    
+    @EJB
+    private LibroFacade daoLibro;
+    
+    @EJB
+    private CapituloLibroFacade daoCapituloLibro;
     
     private Publicacion actual;
     private List<Publicacion> listaPublicaciones;
@@ -629,15 +640,14 @@ public class PublicacionController implements Serializable {
                     Date date = new Date();
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String estampaTiempo = "" + datehourFormat.format(date);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente f y hora: " + estampaTiempo);
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
                     limpiarCampos();
                     redirigirAlistar(est.getEstUsuario());
                     // redirigirAlistar(est.getEstUsuario());
                 } catch (IOException | GeneralSecurityException | DocumentException | PathNotFoundException | AccessDeniedException | EJBException ex) {
                     mensajeRegistroFallido();
                     limpiarCampos();
-                    redirigirAlistar(est.getEstUsuario());
-                    //    redirigirAlistar(est.getEstUsuario());
+                    redirigirAlistar(est.getEstUsuario());                    
                     Logger.getLogger(PublicacionController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -648,14 +658,14 @@ public class PublicacionController implements Serializable {
 
     public void limpiarCampos() {
         actual = new Publicacion();
-        Revista rev = new Revista();
+        Revista revi = new Revista();
         Congreso cong = new Congreso();
-        Libro lib = new Libro();
+        Libro libr = new Libro();
         CapituloLibro caplib = new CapituloLibro();
         listaAutores.clear();
-        actual.setRevista(rev);
+        actual.setRevista(revi);
         actual.setCongreso(cong);
-        actual.setLibro(lib);
+        actual.setLibro(libr);
         actual.setCapituloLibro(caplib);
         
 
@@ -664,13 +674,13 @@ public class PublicacionController implements Serializable {
     public void limpiarCampos(String nombreUsuario) {
 
         actual = new Publicacion();
-        Revista rev = new Revista();
+        Revista revi = new Revista();
         Congreso cong = new Congreso();
-        Libro lib = new Libro();
+        Libro libr = new Libro();
         CapituloLibro caplib = new CapituloLibro();
-        actual.setRevista(rev);
+        actual.setRevista(revi);
         actual.setCongreso(cong);
-        actual.setLibro(lib);
+        actual.setLibro(libr);
         actual.setCapituloLibro(caplib);
 
         Estudiante est = dao.obtenerEstudiante(nombreUsuario);
@@ -685,10 +695,7 @@ public class PublicacionController implements Serializable {
 
     public String getnombreAut() {
         Estudiante est = getAuxEstudiante();
-        String nombreAut = "";
-        nombreAut = "" + est.getEstNombre() + " " + est.getEstApellido();
-
-        return nombreAut;
+        return est.getEstNombre() + " " + est.getEstApellido();        
     }
 
     public String guardarEdicion() {
@@ -698,41 +705,7 @@ public class PublicacionController implements Serializable {
         return INICIO;
     }
 
-    /*
-    public String cambiarEstado(int id) {
-        actual = dao.find(id);
-        actual.setEstEstado("Inactivo");
-        dao.edit(actual);
-        mensajeDeshabilitar();
-        return INICIO;
-    }
-
-    
-    public boolean estudianteRegistrado(String codigo) {
-        Estudiante estudiante = dao.find(codigo);
-
-        if (estudiante != null) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public String cifrarBase64(String a) {
-        Base64.Encoder encoder = Base64.getEncoder();
-        String b = encoder.encodeToString(a.getBytes(StandardCharsets.UTF_8));
-        return b;
-    }
-
-    public String descifrarBase64(String a) {
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] decodedByteArray = decoder.decode(a);
-
-        String b = new String(decodedByteArray);
-        return b;
-    }
-    //jquery-3.1.1//
-     */
+    //<editor-fold defaultstate="collapsed" desc="metodos para rediriguir">    
     public void verPublicacion(Publicacion pub) {
         actual = pub;
         cvc.listarPublicacionesEstudiante();
@@ -819,6 +792,7 @@ public class PublicacionController implements Serializable {
         cvc.verGraficaPubVis();
         Utilidades.redireccionar(cvc.getRuta());
     }
+    //</editor-fold>
 
     /*mensajes de confirmacion */
     public void mensajeEditar() {
@@ -827,7 +801,6 @@ public class PublicacionController implements Serializable {
 
     /*
     public void mensajeDeshabilitar() {
-
         addMessage("ha deshabilitado satisfactoriamente la publicacion", "");
     }
 
@@ -880,38 +853,42 @@ public class PublicacionController implements Serializable {
     }
 
     public boolean renderizarRevista() {
-        boolean ret = false;
-        if (actual.getPubTipoPublicacion().equalsIgnoreCase("revista")) {
-            ret = true;
-        }
-        return ret;
+        return actual.getPubTipoPublicacion().equalsIgnoreCase("revista");
+//        boolean ret = false;
+//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("revista")) {
+//            ret = true;
+//        }
+//        return ret;
 
     }
 
     public boolean renderizarCongreso() {
-        boolean ret = false;
-        if (actual.getPubTipoPublicacion().equalsIgnoreCase("congreso")) {
-            ret = true;
-        }
-        return ret;
+        return actual.getPubTipoPublicacion().equalsIgnoreCase("congreso");
+//        boolean ret = false;
+//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("congreso")) {
+//            ret = true;
+//        }
+//        return ret;
 
     }
 
     public boolean renderizarLibro() {
-        boolean ret = false;
-        if (actual.getPubTipoPublicacion().equalsIgnoreCase("libro")) {
-            ret = true;
-        }
-        return ret;
+        return actual.getPubTipoPublicacion().equalsIgnoreCase("libro");
+//        boolean ret = false;
+//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("libro")) {
+//            ret = true;
+//        }
+//        return ret;
 
     }
 
     public boolean renderizarCapLibro() {
-        boolean ret = false;
-        if (actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro")) {
-            ret = true;
-        }
-        return ret;
+        return actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro");
+//        boolean ret = false;
+//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro")) {
+//            ret = true;
+//        }
+//        return ret;
 
     }
 
@@ -1066,24 +1043,20 @@ public class PublicacionController implements Serializable {
 
     public void mensajeConfirmacionHabilitacion() {
         addMessage("Ha habilitado satisfactoriamente la publicacion indicada.", "");
-    }
+    }   
     
-    
-    
-    
+    //<editor-fold defaultstate="collapsed" desc="cambiar estado visado">    
     String visado = "";
-
     public String getVisado() {
         return visado;
     }
-
     public void setVisado(String visado) {
         this.visado = visado;
     }
     
     /**
      * cambia el estado de visado de una publicacion en la base de datos
-     */
+     */    
     public void cambiarEstadoVisado(){
         if (!visado.equals("")){
             actual.setPubVisado(visado);
@@ -1118,30 +1091,9 @@ public class PublicacionController implements Serializable {
                         + actual.obtenerNombrePub() + " está en espera.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
-        }
-        
+        }        
     }
-    /**
-     * @param tituloLibro
-     * @return Libro
-     */
-    public Libro buscarLibroPorTitulo(String tituloLibro) {
-        return daoLibro.findByTituloLibro(tituloLibro);
-    }
-    
-    /**
-     * @param tituloPonencia
-     * @return Congreso
-     */
-    public Congreso buscarPonenciaPorTitulo(String tituloPonencia) {
-        return daoCongreso.findByTituloPonencia(tituloPonencia);
-    }
-    
-    
-    
-    
-    
-    
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="adicionar autores secundarios dinamicamente">    
     List<Autor> listaAutores = new ArrayList<>();    
@@ -1152,13 +1104,16 @@ public class PublicacionController implements Serializable {
         this.listaAutores = listaAutores;
     }
     public void agregarAutorSecundario(){
-        System.out.print("adicionando autor");
+        System.out.print("adicionando autor");        
         if(!nombreAutor.equals("")){
             listaAutores.add(new Autor(this.getNombreAutor()));
             System.out.println("  tamaño: " + listaAutores.size());
             mostrarLista();
             nombreAutor = "";
-        }                
+        }
+        else{
+            //FacesContext.getCurrentInstance().addMessage("msjValAutores", new FacesMessage(FacesMessage.SEVERITY_ERROR, " not a text file", ""));
+        }
     }    
     public void eliminarAutorSecundario(String nombre){        
         System.out.print("eliminar autor: " + nombre);        
@@ -1177,14 +1132,11 @@ public class PublicacionController implements Serializable {
             System.out.print(lis.getNombre() + "     ");
         }
     }
- 
-    
+     
     private String nombreAutor = "";
-
     public String getNombreAutor() {
         return nombreAutor;
     }
-
     public void setNombreAutor(String nombreAutor) {
         this.nombreAutor = nombreAutor;
     }
@@ -1223,11 +1175,42 @@ public class PublicacionController implements Serializable {
         this.valorTexto = texto;
         System.out.println("en recibir texto: " + texto);
     }        
-    //</editor-fold>
-
+    //</editor-fold>              
     
-    public void e(javax.faces.event.ActionEvent actionEvent){
-        
+    //<editor-fold defaultstate="collapsed" desc="validar que no se encuentre almacenada previamente la informacion de un recurso por estudiante">        
+    //revista
+    public Revista buscarDoiRevista(String doi){
+        return daoRevista.findByDoiRevista(doi);
     }
+    public Revista buscarTituloArticulo(String titulo){
+        return daoRevista.findByTituloArticulo(titulo);
+    }
+    
+    //congreso
+    public Congreso buscarIssnCongreso(String issn){
+        return daoCongreso.findByIssnCongreso(issn);
+    }
+    public Congreso buscarDoiCongreso(String doi){
+        return daoCongreso.findByDoiCongreso(doi);
+    }    
+    public Congreso buscarPonenciaPorTitulo(String tituloPonencia) {
+        return daoCongreso.findByTituloPonencia(tituloPonencia);
+    }
+    
+    //libro
+    public Libro buscarIsbnLibro(String issn){
+        return daoLibro.findByIsbnLibro(issn);
+    }
+    public Libro buscarLibroPorTitulo(String tituloLibro) {
+        return daoLibro.findByTituloLibro(tituloLibro);
+    }
+    
+    //capituloLibro
+    public CapituloLibro buscarTituloCapituloLibro(String tituloLibro) {
+        return daoCapituloLibro.findByTituloCapituloLibro(tituloLibro);
+    }
+    public CapituloLibro buscarIsbnCapituloLibro(String issn){
+        return daoCapituloLibro.findByIsbnLibro(issn);
+    }            
     //</editor-fold>
 }

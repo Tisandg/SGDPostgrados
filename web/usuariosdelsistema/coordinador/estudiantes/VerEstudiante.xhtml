@@ -15,9 +15,7 @@
                 <span class="ui-messages-info-detail">
                     <b>Información Estudiante</b>
                 </span>
-            </div>
-            
-            <p:separator/>
+            </div>                        
             
             <h:form id="form_registrar">
                 <p:tab  title="Datos personales" titleStyleClass="title">             
@@ -57,10 +55,11 @@
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
-                <p:separator/>
+                <br/>
                 <h:form>
                     <p:commandButton value="Atrás" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" />                       
                 </h:form>
+                <br/><br/>
             </h:form>
         </ui:define>
     </ui:composition>
