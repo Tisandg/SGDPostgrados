@@ -18,9 +18,7 @@
                 <span class="ui-messages-info-detail">
                     <b>Registrar Publicación</b>
                 </span>
-            </div>
-
-            <p:separator/>
+            </div>           
 
             <h:form id="form_registrar" enctype="multipart/form-data">
                 
@@ -86,7 +84,7 @@
                         </h:panelGroup>
                         <p:selectOneMenu class="form-control"  id="valTipopublicacion" value="#{publicacionController.actual.pubTipoPublicacion}" styleClass="tipopublicacion  addEspacio form-control" 
                                          required="true" requiredMessage="Debe seleccionar un campo de la lista">
-                            <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
+                            <f:selectItem itemLabel="Seleccionar" itemValue="seleccionar"></f:selectItem>
                             <f:selectItem itemLabel="Revista" itemValue="revista"></f:selectItem>
                             <f:selectItem itemLabel="Congreso" itemValue="congreso"></f:selectItem>
                             <f:selectItem itemLabel="Libro" itemValue="libro"></f:selectItem>
@@ -142,7 +140,7 @@
                                     <p:outputLabel value="Categoría:" for="valCategoria" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
-                                <p:selectOneMenu class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}" styleClass="addEspacio form-control"
+                                <p:selectOneMenu class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}"   
                                                  required="true" requiredMessage="Debe seleccionar un campo de la lista">
                                     <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
                                     <f:selectItem itemLabel="A1" itemValue="A1"></f:selectItem>
@@ -196,7 +194,7 @@
                                 <h:panelGroup>
                                     <p:outputLabel value="Título ponencia:" for="valNPonencia" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                                </h:panelGroup>
+                                </h:panelGroup>                                
                                 <p:inputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombrePonencia" />
                                     <p:ajax event="blur" update="msjvalNPonencia" />
@@ -209,7 +207,7 @@
                                 <h:panelGroup>
                                     <p:outputLabel value="Nombre evento:" for="valNEvento" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                                </h:panelGroup>
+                                </h:panelGroup>                                
                                 <p:inputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" styleClass="addEspacio form-control">
                                     <f:validator validatorId="validadorNombreEvento" />
                                     <p:ajax event="blur" update="msjvalNEvento" />
@@ -323,7 +321,7 @@
                             <p:outputLabel for="capLibroPDF" value="Capítulo libro PDF:"/>&nbsp;
                             <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                         </p:panel>
-                    </h:panelGroup>
+                    </h:panelGroup>                    
 
                     <br></br>
 
@@ -339,7 +337,7 @@
                     <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
                                showEffect="clip" hideEffect="blind" />&nbsp;&nbsp;
 
-                    <p:fileUpload id="cartaAprobacionPDF" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" > 
+                    <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" > 
                     </p:fileUpload>  
                     <p:messages for="cartaAprobacion"  id="msjCartaAprobacion"/>
 
@@ -352,7 +350,7 @@
                                 return false;
                             }
                             ;
-                            return true;" action="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary" immediate="true"/>
+                            return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
                 </h:form>
             </h:form>
             <br/>   

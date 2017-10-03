@@ -20,16 +20,13 @@
             
             <p:separator/>
             
-            <br/>
-            
+            <br/>            
             <h:form>
                 <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
                 <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el tipo publicación o nombre publicacion" size="54">
                     <p:ajax update=":tablaPublicaciones" event="keyup"/>
                 </p:inputText>
-
-                <br/>
-                <br/>
+                <br/><br/>
             </h:form>
 
             <p:separator />
@@ -38,7 +35,8 @@
                             paginator="true"
                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="5,10,15" emptyMessage="No tiene publicaciones registradas o no se encuentra ninguno con el criterio de busqueda."
-                            style="text-align: left;">
+                            style="text-align: left;"
+                            >
 
                 <p:column headerText="Tipo Publicación"  >
                     <h:outputText value="#{pub.pubTipoPublicacion}"></h:outputText>
@@ -51,19 +49,17 @@
                 </p:column>
 
                 <p:column headerText="Acciones"   >
-
                     <h:form style="font-size: 10px;">
                         <p:commandButton actionListener="#{publicacionController.verPublicacionEst(pub)}" value="Ver" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>&nbsp;
-                        <p:commandButton rendered="#{pub.pubEstado eq 'Activo'}" onclick="if (!confirm('¿Desea deshabilitar la publicacion?')) { return false;}; return true;" actionListener="#{publicacionController.cambiarEstado(pub.pubIdentificador)}" value="Deshabilitar" class="btn btn-danger btn_listaEstudiantes" style="font-size: 13px;"/>
-                        <p:commandButton rendered="#{pub.pubEstado eq 'Inactivo'}" onclick="if (!confirm('¿Desea habilitar la publicacion?')) { return false;}; return true;" actionListener="#{publicacionController.habilitarPublicacion(pub.pubIdentificador)}" value="Habilitar" class="btn btn-info btn_listaEstudiantes" style="font-size: 13px;"/>
+                        <p:commandButton rendered="#{pub.pubEstado eq 'Activo'}" onclick="if (!confirm('¿Desea deshabilitar la publicacion?')) { return false;}; return true;" actionListener="#{publicacionController.cambiarEstado(pub.pubIdentificador)}" value="Deshabilitar"  style="font-size: 13px;"/>
+                        <p:commandButton rendered="#{pub.pubEstado eq 'Inactivo'}" onclick="if (!confirm('¿Desea habilitar la publicacion?')) { return false;}; return true;" actionListener="#{publicacionController.habilitarPublicacion(pub.pubIdentificador)}" value="Habilitar"  style="font-size: 13px;"/>
                    </h:form>
                 </p:column>
 
             </p:dataTable>
+            <br/><br/>
         </ui:define>
     </ui:composition>
 
 
 </html>
-
-
