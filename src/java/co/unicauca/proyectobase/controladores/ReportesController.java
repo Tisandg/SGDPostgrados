@@ -57,6 +57,10 @@ public class ReportesController implements Serializable {
     ArrayList<Publicacion> segundose;
     ArrayList<Publicacion> primersee;
     ArrayList<Publicacion> segundosee;
+    ArrayList<Publicacion> auxiliar;
+    ArrayList<Publicacion> auxiliar1;
+    ArrayList<Publicacion> auxiliar2;
+    ArrayList<Publicacion> auxiliar3;
 
     String nombre;
     String anios;
@@ -153,7 +157,7 @@ public class ReportesController implements Serializable {
                             Font.BOLD, // estilo
                             BaseColor.WHITE)));
             revista.setHorizontalAlignment(Element.ALIGN_CENTER);
-            revista.setBackgroundColor(BaseColor.GRAY);
+            revista.setBackgroundColor(BaseColor.BLUE);
             revista.setColspan(9);
             table.addCell(revista);
 
@@ -172,7 +176,7 @@ public class ReportesController implements Serializable {
                             Font.BOLD, // estilo
                             BaseColor.WHITE)));
             libro.setHorizontalAlignment(Element.ALIGN_CENTER);
-            libro.setBackgroundColor(BaseColor.GRAY);
+            libro.setBackgroundColor(BaseColor.BLUE);
             libro.setColspan(9);
             table.addCell(libro);
 
@@ -191,7 +195,7 @@ public class ReportesController implements Serializable {
                             Font.BOLD, // estilo
                             BaseColor.WHITE)));
             congreso.setHorizontalAlignment(Element.ALIGN_CENTER);
-            congreso.setBackgroundColor(BaseColor.GRAY);
+            congreso.setBackgroundColor(BaseColor.BLUE);
             congreso.setColspan(9);
             table.addCell(congreso);
 
@@ -209,7 +213,7 @@ public class ReportesController implements Serializable {
                             Font.BOLD, // estilo
                             BaseColor.WHITE)));
             capitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
-            capitulo.setBackgroundColor(BaseColor.GRAY);
+            capitulo.setBackgroundColor(BaseColor.BLUE);
             capitulo.setColspan(9);
             table.addCell(capitulo);
 
@@ -292,7 +296,7 @@ public class ReportesController implements Serializable {
                             Font.BOLD, // estilo
                             BaseColor.WHITE)));
             reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
-            reporte.setBackgroundColor(BaseColor.GRAY);
+            reporte.setBackgroundColor(BaseColor.BLUE);
             reporte.setColspan(9);
             table.addCell(reporte);
 
@@ -313,8 +317,9 @@ public class ReportesController implements Serializable {
         document.close();
     }
 
-    public void ArticulosAnio() {
+    public void ArticulosAnio() throws FileNotFoundException {
 
+        auxiliar= new ArrayList();
         for (int i = 0; i < dao.findAll().size(); i++) {
 
             String an = dao.findAll().get(i).getPubFechaRegistro().toLocaleString();
@@ -326,12 +331,60 @@ public class ReportesController implements Serializable {
 
             if (anios.equals(retorno)) {
                 System.out.println("Publicacion" + dao.findAll().get(i).obtenerNombrePub() + "\t" + i);
+                auxiliar.add(dao.findAll().get(i));
             }
 
         }
+        Document document = new Document();
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        System.out.println("path" + realPath);
+        String conso = realPath + "resources\\pdf\\" + "ConsolidadoPorAño" + ".pdf";
+        FileOutputStream archivo = new FileOutputStream(conso);
+        try {
+            PdfWriter.getInstance(document, archivo);
+            document.open();
+            document.add(new Paragraph("Reporte articulos por año\n"));
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
+            Date currentDate = new Date();
+            String date = formatter.format(currentDate);
+            document.add(new Paragraph("Fecha Generado: " + date));
+            document.add(new Paragraph("\n"));
+            PdfPTable table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{80, 72, 110, 95});
+            table.setLockedWidth(true);
+            table.addCell("Tipo Publicacion");
+            table.addCell("Nombre Publicacion");
+            table.addCell("Estado de visado");
+            table.addCell("Fecha de Registro");
+            PdfPCell reporte = new PdfPCell(new Paragraph("Publicaciones",
+                    FontFactory.getFont("arial", // fuente
+                            8, // tamaño
+                            Font.BOLD, // estilo
+                            BaseColor.WHITE)));
+            reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
+            reporte.setBackgroundColor(BaseColor.BLUE);
+            reporte.setColspan(9);
+            table.addCell(reporte);
+
+            for (int i = 0; i < auxiliar.size(); i++) {
+
+                table.addCell(auxiliar.get(i).getPubTipoPublicacion());
+                table.addCell(auxiliar.get(i).obtenerNombrePub());
+                table.addCell(auxiliar.get(i).getPubVisado());
+                table.addCell(auxiliar.get(i).getPubFechaPublicacion().toString());
+
+            }
+            document.add(table);
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
+        document.close();
     }
 
-    public void obtenerEstudianteAnio() {
+    public void obtenerEstudianteAnio() throws FileNotFoundException {
+        auxiliar1= new ArrayList();
         System.out.println("Nombre" + "\t" + nombree);
         System.out.println("Anio" + "\t" + aniose);
         String[] usuario = nombree.split("@");
@@ -349,13 +402,62 @@ public class ReportesController implements Serializable {
             System.out.println("anio" + retorno);
             if (aniose.equals(retorno)) {
                 System.out.println("Publicacion" + ret.get(i).obtenerNombrePub() + "\t" + i + "Publicador" + "\t" + est.getEstNombre() + "\t" + est.getEstApellido());
+                auxiliar1.add(ret.get(i));
             }
 
         }
+        Document document = new Document();
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        System.out.println("path" + realPath);
+        String conso = realPath + "resources\\pdf\\" + "ConsolidadoPorAñoEstudiante" + ".pdf";
+        FileOutputStream archivo = new FileOutputStream(conso);
+        try {
+            PdfWriter.getInstance(document, archivo);
+            document.open();
+            document.add(new Paragraph("Reporte articulos por año de un Estudiante\n"));
+            document.add(new Paragraph("Estudiante: " + est.getEstNombre() + " " + est.getEstApellido()));
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
+            Date currentDate = new Date();
+            String date = formatter.format(currentDate);
+            document.add(new Paragraph("Fecha Generado: " + date));
+            document.add(new Paragraph("\n"));
+            PdfPTable table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{80, 72, 110, 95});
+            table.setLockedWidth(true);
+            table.addCell("Tipo Publicacion");
+            table.addCell("Nombre Publicacion");
+            table.addCell("Estado de visado");
+            table.addCell("Fecha de Registro");
+            PdfPCell reporte = new PdfPCell(new Paragraph("Publicaciones",
+                    FontFactory.getFont("arial", // fuente
+                            8, // tamaño
+                            Font.BOLD, // estilo
+                            BaseColor.WHITE)));
+            reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
+            reporte.setBackgroundColor(BaseColor.BLUE);
+            reporte.setColspan(9);
+            table.addCell(reporte);
+
+            for (int i = 0; i < auxiliar1.size(); i++) {
+
+                table.addCell(auxiliar1.get(i).getPubTipoPublicacion());
+                table.addCell(auxiliar1.get(i).obtenerNombrePub());
+                table.addCell(auxiliar1.get(i).getPubVisado());
+                table.addCell(auxiliar1.get(i).getPubFechaPublicacion().toString());
+
+            }
+            document.add(table);
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
+        document.close();
+        
     }
 
     //la variable que se debe poner en la vista se llama semestre, y la funcion que se debe llamar es ArticulosSemestre
-    public void ArticulosSemestre() {
+    public void ArticulosSemestre() throws FileNotFoundException {
         primerse = new ArrayList();
         segundose = new ArrayList();
         System.out.println("SEMESTRE" + semestre);
@@ -399,10 +501,107 @@ public class ReportesController implements Serializable {
                 }
             }
         }
+        if(semestre.equals("1")){
+        Document document = new Document();
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        System.out.println("path" + realPath);
+        String conso = realPath + "resources\\pdf\\" + "ConsolidadoPorSemestreUno" + ".pdf";
+        FileOutputStream archivo = new FileOutputStream(conso);
+        try {
+            PdfWriter.getInstance(document, archivo);
+            document.open();
+            document.add(new Paragraph("Reporte articulos semestre 1 \n"));
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
+            Date currentDate = new Date();
+            String date = formatter.format(currentDate);
+            document.add(new Paragraph("Fecha Generado: " + date));
+            document.add(new Paragraph("\n"));
+            PdfPTable table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{80, 72, 110, 95});
+            table.setLockedWidth(true);
+            table.addCell("Tipo Publicacion");
+            table.addCell("Nombre Publicacion");
+            table.addCell("Estado de visado");
+            table.addCell("Fecha de Registro");
+            PdfPCell reporte = new PdfPCell(new Paragraph("Publicaciones",
+                    FontFactory.getFont("arial", // fuente
+                            8, // tamaño
+                            Font.BOLD, // estilo
+                            BaseColor.WHITE)));
+            reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
+            reporte.setBackgroundColor(BaseColor.BLUE);
+            reporte.setColspan(9);
+            table.addCell(reporte);
+
+            for (int i = 0; i < primerse.size(); i++) {
+
+                table.addCell(primerse.get(i).getPubTipoPublicacion());
+                table.addCell(primerse.get(i).obtenerNombrePub());
+                table.addCell(primerse.get(i).getPubVisado());
+                table.addCell(primerse.get(i).getPubFechaPublicacion().toString());
+
+            }
+            document.add(table);
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
+        document.close();
+        
+   }
+        if(semestre.equals("2")){
+            Document document = new Document();
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        System.out.println("path" + realPath);
+        String conso = realPath + "resources\\pdf\\" + "ConsolidadoPorSemestreDos" + ".pdf";
+        FileOutputStream archivo = new FileOutputStream(conso);
+        try {
+            PdfWriter.getInstance(document, archivo);
+            document.open();
+            document.add(new Paragraph("Reporte articulos semeestre 2\n"));
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
+            Date currentDate = new Date();
+            String date = formatter.format(currentDate);
+            document.add(new Paragraph("Fecha Generado: " + date));
+            document.add(new Paragraph("\n"));
+            PdfPTable table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{80, 72, 110, 95});
+            table.setLockedWidth(true);
+            table.addCell("Tipo Publicacion");
+            table.addCell("Nombre Publicacion");
+            table.addCell("Estado de visado");
+            table.addCell("Fecha de Registro");
+            PdfPCell reporte = new PdfPCell(new Paragraph("Publicaciones",
+                    FontFactory.getFont("arial", // fuente
+                            8, // tamaño
+                            Font.BOLD, // estilo
+                            BaseColor.WHITE)));
+            reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
+            reporte.setBackgroundColor(BaseColor.BLUE);
+            reporte.setColspan(9);
+            table.addCell(reporte);
+
+            for (int i = 0; i < segundose.size(); i++) {
+
+                table.addCell(segundose.get(i).getPubTipoPublicacion());
+                table.addCell(segundose.get(i).obtenerNombrePub());
+                table.addCell(segundose.get(i).getPubVisado());
+                table.addCell(segundose.get(i).getPubFechaPublicacion().toString());
+
+            }
+            document.add(table);
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
+        document.close();
+        }
     }
 
     //la variables que se deben poner en la vista se llaman semestree y estudiante, y la funcion que se debe llamar es PublicacionSemestreEstudiante
-    public void PublicacionSemestreEstudiante() {
+    public void PublicacionSemestreEstudiante() throws FileNotFoundException {
         primersee = new ArrayList();
         segundosee = new ArrayList();
         System.out.println("SEMESTRE" + semestree);
@@ -452,6 +651,105 @@ public class ReportesController implements Serializable {
                     System.out.println("Publicacion segundo semestre" + segundosee.get(i).obtenerNombrePub());
                 }
             }
+        }
+        if(semestree.equals("1")){
+        Document document = new Document();
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        System.out.println("path" + realPath);
+        String conso = realPath + "resources\\pdf\\" + "ConsolidadoPorSemestreUnoPorEstudiante" + ".pdf";
+        FileOutputStream archivo = new FileOutputStream(conso);
+        try {
+            PdfWriter.getInstance(document, archivo);
+            document.open();
+            document.add(new Paragraph("Reporte articulos semestre 1 por estudiante \n"));
+            document.add(new Paragraph("Estudiante: " + est.getEstNombre() + " " + est.getEstApellido()));
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
+            Date currentDate = new Date();
+            String date = formatter.format(currentDate);
+            document.add(new Paragraph("Fecha Generado: " + date));
+            document.add(new Paragraph("\n"));
+            PdfPTable table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{80, 72, 110, 95});
+            table.setLockedWidth(true);
+            table.addCell("Tipo Publicacion");
+            table.addCell("Nombre Publicacion");
+            table.addCell("Estado de visado");
+            table.addCell("Fecha de Registro");
+            PdfPCell reporte = new PdfPCell(new Paragraph("Publicaciones",
+                    FontFactory.getFont("arial", // fuente
+                            8, // tamaño
+                            Font.BOLD, // estilo
+                            BaseColor.WHITE)));
+            reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
+            reporte.setBackgroundColor(BaseColor.BLUE);
+            reporte.setColspan(9);
+            table.addCell(reporte);
+
+            for (int i = 0; i < primersee.size(); i++) {
+
+                table.addCell(primersee.get(i).getPubTipoPublicacion());
+                table.addCell(primersee.get(i).obtenerNombrePub());
+                table.addCell(primersee.get(i).getPubVisado());
+                table.addCell(primersee.get(i).getPubFechaPublicacion().toString());
+
+            }
+            document.add(table);
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
+        document.close();
+        
+   }
+        if(semestree.equals("2")){
+            Document document = new Document();
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        System.out.println("path" + realPath);
+        String conso = realPath + "resources\\pdf\\" + "ConsolidadoPorSemestreDosPorEstudiante" + ".pdf";
+        FileOutputStream archivo = new FileOutputStream(conso);
+        try {
+            PdfWriter.getInstance(document, archivo);
+            document.open();
+            document.add(new Paragraph("Reporte articulos semestre 2 por estudiante \n"));
+            document.add(new Paragraph("Estudiante: " + est.getEstNombre() + " " + est.getEstApellido()));
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
+            Date currentDate = new Date();
+            String date = formatter.format(currentDate);
+            document.add(new Paragraph("Fecha Generado: " + date));
+            document.add(new Paragraph("\n"));
+            PdfPTable table = new PdfPTable(4);
+            table.setTotalWidth(new float[]{80, 72, 110, 95});
+            table.setLockedWidth(true);
+            table.addCell("Tipo Publicacion");
+            table.addCell("Nombre Publicacion");
+            table.addCell("Estado de visado");
+            table.addCell("Fecha de Registro");
+            PdfPCell reporte = new PdfPCell(new Paragraph("Publicaciones",
+                    FontFactory.getFont("arial", // fuente
+                            8, // tamaño
+                            Font.BOLD, // estilo
+                            BaseColor.WHITE)));
+            reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
+            reporte.setBackgroundColor(BaseColor.BLUE);
+            reporte.setColspan(9);
+            table.addCell(reporte);
+
+            for (int i = 0; i < segundosee.size(); i++) {
+
+                table.addCell(segundosee.get(i).getPubTipoPublicacion());
+                table.addCell(segundosee.get(i).obtenerNombrePub());
+                table.addCell(segundosee.get(i).getPubVisado());
+                table.addCell(segundosee.get(i).getPubFechaPublicacion().toString());
+
+            }
+            document.add(table);
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
+        document.close();
         }
     }
 
