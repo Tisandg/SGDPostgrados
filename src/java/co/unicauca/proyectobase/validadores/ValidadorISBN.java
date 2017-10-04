@@ -19,7 +19,12 @@ public class ValidadorISBN implements Validator{
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String isbn = value.toString();
-        
+        isbn = isbn.trim();
+        if(isbn.equals("")){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar el ISBN. Campo obligatorio");
+            throw new ValidatorException(msg);
+        }
+                
         if(!isValidoFormato(isbn)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN deben ser numeros en este formato \"xxx-xx-xxxxx-xx-x\".");
             throw new ValidatorException(msg);

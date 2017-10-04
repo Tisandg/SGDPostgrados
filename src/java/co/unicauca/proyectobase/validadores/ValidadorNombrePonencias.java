@@ -63,7 +63,5 @@ public class ValidadorNombrePonencias implements Validator {
             variable = true;
         }
         return variable;
-    }
-    
-    
+    }                   
 }

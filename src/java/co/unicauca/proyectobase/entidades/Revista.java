@@ -31,7 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Revista.findByPubIdentificador", query = "SELECT r FROM Revista r WHERE r.pubIdentificador = :pubIdentificador")
     , @NamedQuery(name = "Revista.findByRevNombreRevista", query = "SELECT r FROM Revista r WHERE r.revNombreRevista = :revNombreRevista")
     , @NamedQuery(name = "Revista.findByRevTituloArticulo", query = "SELECT r FROM Revista r WHERE r.revTituloArticulo = :revTituloArticulo")
-    , @NamedQuery(name = "Revista.findByRevCategoria", query = "SELECT r FROM Revista r WHERE r.revCategoria = :revCategoria")})
+    , @NamedQuery(name = "Revista.findByRevCategoria", query = "SELECT r FROM Revista r WHERE r.revCategoria = :revCategoria")
+    , @NamedQuery(name = "Revista.findByTituloArticulo", query = "SELECT r FROM Revista r WHERE r.revTituloArticulo = :revTitulo")
+})
 public class Revista implements Serializable {
 
     private static final long serialVersionUID = 1L;

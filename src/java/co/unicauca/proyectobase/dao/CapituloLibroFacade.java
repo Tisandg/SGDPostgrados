@@ -1,17 +1,20 @@
 package co.unicauca.proyectobase.dao;
 
+import co.unicauca.proyectobase.entidades.CapituloLibro;
 import co.unicauca.proyectobase.entidades.Libro;
+import co.unicauca.proyectobase.entidades.Revista;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
 
 /**
- * @author Santiago Garcia
+ *
+ * @author Danilo - Unicauca
  */
 @Stateless
-public class LibroFacade extends AbstractFacade<Libro>{
+public class CapituloLibroFacade extends AbstractFacade<CapituloLibro> {
 
     @PersistenceContext(unitName = "ProyectoDoctoradoPU")
     private EntityManager em;
@@ -21,16 +24,15 @@ public class LibroFacade extends AbstractFacade<Libro>{
         return em;
     }
     
-    public LibroFacade() {
-        super(Libro.class);
+    public CapituloLibroFacade() {
+        super(CapituloLibro.class);
     }
-    
-    public Libro findByTituloLibro(String tituloLibro)
-    {
+
+    public CapituloLibro findByTituloCapituloLibro(String tituloCapitulo) {
         //System.out.println("Titulo: "+tituloLibro);
-        Query query= em.createNamedQuery("Libro.findByLibTituloLibro");
-        query.setParameter("libTituloLibro", tituloLibro);
-        List<Libro> resultList= query.getResultList();
+        Query query= em.createNamedQuery("CapituloLibro.findByCaplibTituloCapitulo");
+        query.setParameter("revTitulo", tituloCapitulo);
+        List<CapituloLibro> resultList= query.getResultList();
         if (resultList.size() > 0) {
             return resultList.get(0);
         } else {
@@ -38,11 +40,10 @@ public class LibroFacade extends AbstractFacade<Libro>{
         }
     }
 
-    public Libro findByIsbnLibro(String sn) {
+    public CapituloLibro findByIsbnLibro(String sn) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 
-    public Libro findByTituloCapituloLibro(String tituloLibro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

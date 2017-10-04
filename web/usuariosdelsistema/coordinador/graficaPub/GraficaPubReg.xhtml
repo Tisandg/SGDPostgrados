@@ -26,7 +26,7 @@
                     <h:panelGrid columns="5" cellspacing="5"    >
 
                         <p:outputLabel value="Tipo de reporte &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <p:selectOneMenu class="form-control"  id="valTipoReporte" styleClass="tipopublicacion  addEspacio form-control" 
+                        <p:selectOneMenu class="form-control"  id="valTipoReporte" value="#{reportesController.tipoReporte}" styleClass="tipopublicacion  addEspacio form-control" 
                                          required="true" requiredMessage="Debe seleccionar un campo de la lista">
                             <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
                             <f:selectItem itemLabel="Global" itemValue="global"></f:selectItem>
@@ -35,23 +35,35 @@
                             <f:ajax render="@form" />
                             <f:ajax render="msjvalTipoReporte" />
                         </p:selectOneMenu>
-                        <p:inputText id="correo" placeholder="correo@unicauca.edu.co"/>
+                        <h:panelGroup rendered="#{reportesController.tipoReporte == 'porEstudiante'}">
+                            <p:inputText id="correo" placeholder="correo@unicauca.edu.co"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{reportesController.tipoReporte == 'global'}">
+                            <h:outputText value=""/>
+                        </h:panelGroup>
                         <h:outputText value=""/><h:outputText value=""/>
 
                         <p:outputLabel value="Tipo de tiempo &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <p:selectOneMenu class="form-control"  id="valTipoTiempo" styleClass="tipopublicacion  addEspacio form-control" 
+                        <p:selectOneMenu class="form-control"  id="valTipoTiempo" value="#{reportesController.tiempoEspecifico}" styleClass="tipopublicacion addEspacio form-control" 
                                          required="true" requiredMessage="Debe seleccionar un campo de la lista">
-                            <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
-                            <f:selectItem itemLabel="Por semestre" itemValue="semestre"></f:selectItem>
-                            <f:selectItem itemLabel="Por año" itemValue="año"></f:selectItem>
+                            <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                            <f:selectItem itemLabel="Por semestre" itemValue="semestre"/>
+                            <f:selectItem itemLabel="Por año" itemValue="año"/>
+                            <f:selectItem rendered="#{reportesController.tipoReporte == 'porEstudiante'}" itemLabel="Inicio estudios" itemValue="inicioEstudios"/>
                             <f:validator validatorId="ValidadorListaVacia" />                                                                                                                
                             <f:ajax render="@form" />
                             <f:ajax render="msjvalTipoReporte" />
                         </p:selectOneMenu>
-                        <p:inputText id="tiempoEspecifico" placeholder="Año o semestre"/>
+                        <h:panelGroup rendered="#{reportesController.tiempoEspecifico == 'año'}">
+                            <p:inputText id="anioIngresado" value="#{reportesController.anios}" placeholder="Ingrese el año"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{reportesController.tiempoEspecifico == 'semestre'}">
+                            <p:inputText id="anioConSemestre" value="#{reportesController.anios}" placeholder="Ingrese el año"/>
+                            <p:inputText id="semestreIngresado" value="#{reportesController.semestre}" placeholder="Ingrese el semestre"/>
+                        </h:panelGroup>
                         <h:outputText value=""/><h:outputText value=""/>
 
-                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.listadoPdf()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
+                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.generarConsolidadoGlobal()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
                         <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
                         <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                         <p:separator/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>

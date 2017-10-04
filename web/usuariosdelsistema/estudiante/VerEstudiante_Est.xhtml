@@ -9,20 +9,18 @@
     </h:head>
 
     <ui:composition template="../../plantillas/Estudiante.xhtml">
-        <ui:define name="content"> 
+        <ui:define name="content">
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
                     <b>Información Estudiante</b>
                 </span>
-            </div> 
-
-            <p:separator/>
+            </div>                                                            
 
             <h:form id="form_registrar">
                 <p:tab  title="Datos personales" titleStyleClass="title">             
                     <p:panel header="Datos personales">
                         <div style = "float: left;"></div>
-                        <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
 
                             <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valNombre" value="#{verEstudianteController.auxEstudiante.estNombre}" styleClass="addEspacio form-control" style="color: #3366ff"/>
@@ -56,15 +54,14 @@
 
                         </h:panelGrid>
                     </p:panel>
-                </p:tab>
-                <p:separator/>
-                <h:form>
-                    <h:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(usuariosSessionController.nombreUsuario)}" class="btn btn-primary"  style="float:center;" />                       
-                </h:form> 
-                <br/>
-                <br/>
-                <br/>
+                </p:tab>          
             </h:form>
-        </ui:define>
+            <br/>
+            <h:form>
+                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistar(userLoginView.username)}" />
+            </h:form> 
+            <br/><br/>  
+        </ui:define>              
     </ui:composition>
 </html>
+
