@@ -22,67 +22,86 @@
             </div>
             <p:panel>      
 
-                <h:panelGrid columns="4" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
+                <h:form>
+                    <h:panelGrid columns="5" cellspacing="5"    >
 
-                    <h:form>
-                        <h:outputText value="Año: "></h:outputText>
+                        <p:outputLabel value="Tipo de reporte &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        <p:selectOneMenu class="form-control"  id="valTipoReporte" styleClass="tipopublicacion  addEspacio form-control" 
+                                         required="true" requiredMessage="Debe seleccionar un campo de la lista">
+                            <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
+                            <f:selectItem itemLabel="Global" itemValue="global"></f:selectItem>
+                            <f:selectItem itemLabel="Por estudiante" itemValue="porEstudiante"></f:selectItem>
+                            <f:validator validatorId="ValidadorListaVacia" />                                                                                                                
+                            <f:ajax render="@form" />
+                            <f:ajax render="msjvalTipoReporte" />
+                        </p:selectOneMenu>
+                        <p:inputText id="correo" placeholder="correo@unicauca.edu.co"/>
+                        <h:outputText value=""/><h:outputText value=""/>
+
+                        <p:outputLabel value="Tipo de tiempo &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        <p:selectOneMenu class="form-control"  id="valTipoTiempo" styleClass="tipopublicacion  addEspacio form-control" 
+                                         required="true" requiredMessage="Debe seleccionar un campo de la lista">
+                            <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
+                            <f:selectItem itemLabel="Por semestre" itemValue="semestre"></f:selectItem>
+                            <f:selectItem itemLabel="Por año" itemValue="año"></f:selectItem>
+                            <f:validator validatorId="ValidadorListaVacia" />                                                                                                                
+                            <f:ajax render="@form" />
+                            <f:ajax render="msjvalTipoReporte" />
+                        </p:selectOneMenu>
+                        <p:inputText id="tiempoEspecifico" placeholder="Año o semestre"/>
+                        <h:outputText value=""/><h:outputText value=""/>
+
+                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.listadoPdf()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
+                        <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
+                        <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
+                        <p:separator/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
+                        
+
+                        <p:outputLabel value="Reporte por estudiante: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        <p:inputText id="txtNombre" value = "#{reportesController.nombre}"  size="30" placeholder="ejemplo@unicauca.edu.co"/>
+                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.PublicacionesEst()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
+                        <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/ReportePersonal.pdf"  >Descargar PDF </a>
+                        <h:outputText value=""/>
+
+                        <p:outputLabel value="Reporte por año: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        <p:inputText id="txtPeriodo1" value = "#{reportesController.anios}"  size="7" placeholder="2017"/>
+                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.ArticulosAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
+                        <a  target="_blank"  style="font-weight:bold;" href=""  >Descargar PDF </a>
+                        <h:outputText value=""/>
+
+                        <p:outputLabel value="Reporte estudiante por año: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
+                        <p:inputText id="txtPeriodo2" value = "#{reportesController.aniose}"  size="7" placeholder="2017" />
+                        <p:inputText id="txtNombre2" value = "#{reportesController.nombree}"  size="30" placeholder="ejemplo@unicauca.edu.co"/>
+                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.obtenerEstudianteAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
+                         <a  target="_blank"  style="font-weight:bold;" href=""  >Descargar PDF </a>
+
+                    </h:panelGrid> 
+                    
+                </h:form>
+                
+                <p:separator/>
+                
+                <h:form>
+                    <h:panelGrid columns="3" cellspacing="10">
+                        <h:outputText value="Año: "/>
                         <p:inputText id="txtAnio" value = "#{graficaPubRegController.anio}" maxlength="4" size="6">
                             <f:validator validatorId="validadorAnio"/>
                             <p:ajax event="keyup" update="msjValAnio btnAceptar" />  
                         </p:inputText>  
                         <p:commandButton id="btnAceptar"  value="Buscar"  action="#{graficaPubRegController.iniciar()}" class="btn btn-success"  style="margin-left:10px; float:center;" />                             
                         <p:message for="txtAnio" id="msjValAnio" styleClass="addEspacio"/>
-                        
-                        <br></br>
-                        
-                        <p:outputLabel value="Tipo de reporte: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        
-                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.listadoPdf()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
-                        <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
-                        <br></br>
-                        <p:outputLabel value="Reporte Personal: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <h:outputText value="Usuario: "></h:outputText>
-                        <p:inputText id="txtNombre" value = "#{reportesController.nombre}"  size="30" />
-                         <p:watermark for="txtNombre" value="ejemplo@unicauca.edu.co" id="watermark" />
-                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.PublicacionesEst()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
-                         <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/ReportePersonal.pdf"  >Descargar PDF </a>
-                         <br>
-                        </br>
-                         <p:outputLabel value="Reporte por anio: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <h:outputText value="Anio: "></h:outputText>
-                        <p:inputText id="txtPeriodo1" value = "#{reportesController.anios}"  size="7" />
-                         <p:watermark for="txtPeriodo1" value="2017" id="watermark1" />
-                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.ArticulosAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
-                        <br>
-                        </br>                         
-                         <p:outputLabel value="Reporte estudiante por anio: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <h:outputText value="Anio: "></h:outputText>
-                        <p:inputText id="txtPeriodo2" value = "#{reportesController.aniose}"  size="7" />
-                         <h:outputText value="Nombre: "></h:outputText>
-                        <p:inputText id="txtNombre2" value = "#{reportesController.nombree}"  size="30" />
-                         <p:watermark for="txtPeriodo2" value="2017" id="watermark2" />
-                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.obtenerEstudianteAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
-                         <br>
-                        </br> 
-                         
-                        
-                    </h:form>
-
-                </h:panelGrid>  
-                
-                <br/>
+                    </h:panelGrid>
+                </h:form>
                 
                 <h:body>
                     <p:chart type="bar" model="#{graficaPubRegController.barModel}" style="width:900px; float:center;" />
-
                 </h:body>
 
                 <h:panelGrid columns="4" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
-
                     <p:outputLabel value="Total Publicaciones: &nbsp;&nbsp;&nbsp;" for="valNombAut" styleClass="addEspacio"/>
                     <h:outputText class="form-control" id="valNombAut"  value="#{graficaPubRegController.totalPub}" styleClass="addEspacio form-control"/>
-                   
                 </h:panelGrid>
+                
             </p:panel>
             
             <h:form>

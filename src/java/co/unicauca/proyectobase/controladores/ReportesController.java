@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.controladores;
 
 import co.unicauca.proyectobase.dao.EstudianteFacade;
@@ -35,9 +30,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
- *
  * @author santilopez94
  */
+
 @Named(value = "reportesController")
 @ManagedBean
 @SessionScoped
@@ -46,7 +41,7 @@ public class ReportesController implements Serializable {
     @EJB
     private EstudianteFacade daoEst;
     @EJB
-    private PublicacionFacade dao;
+    private PublicacionFacade daoPublicacion;
     
     ArrayList<Publicacion> rev;
     ArrayList<Publicacion> lib;
@@ -60,6 +55,10 @@ public class ReportesController implements Serializable {
     String aniose;
     String nombree;
 
+    public void ReportesController(){
+        
+    }
+    
     public String getNombree() {
         return nombree;
     }
@@ -84,8 +83,6 @@ public class ReportesController implements Serializable {
         this.anios = anios;
     }
     
-    
-
     public String getNombre() {
         return nombre;
     }
@@ -206,7 +203,7 @@ public class ReportesController implements Serializable {
            }
           document.close();
           
-           return dao.findAll();
+           return daoPublicacion.findAll();
     }
     
      public void llenarListas()
@@ -215,16 +212,19 @@ public class ReportesController implements Serializable {
         lib= new ArrayList();
         con= new ArrayList();
         cap= new ArrayList();
+        int tamanoPublicaciones = daoPublicacion.findAll().size();
+        List<Publicacion> listaPublicaciones = daoPublicacion.findAll();
         
-        for (int i = 0; i < dao.findAll().size(); i++) {
-            if(dao.findAll().get(i).getPubTipoPublicacion().equals("revista"))
-                 rev.add(dao.findAll().get(i));
-            if(dao.findAll().get(i).getPubTipoPublicacion().equals("libro"))
-                 lib.add(dao.findAll().get(i));
-            if(dao.findAll().get(i).getPubTipoPublicacion().equals("congreso"))
-                 con.add(dao.findAll().get(i));
-            if(dao.findAll().get(i).getPubTipoPublicacion().equals("capitulo_libro"))
-                 cap.add(dao.findAll().get(i));
+        for (int i = 0; i < tamanoPublicaciones; i++) {
+            
+            if(listaPublicaciones.get(i).getPubTipoPublicacion().equals("revista"))
+                 rev.add(listaPublicaciones.get(i));
+            if(listaPublicaciones.get(i).getPubTipoPublicacion().equals("libro"))
+                 lib.add(listaPublicaciones.get(i));
+            if(listaPublicaciones.get(i).getPubTipoPublicacion().equals("congreso"))
+                 con.add(listaPublicaciones.get(i));
+            if(listaPublicaciones.get(i).getPubTipoPublicacion().equals("capitulo_libro"))
+                 cap.add(listaPublicaciones.get(i));
         }
         
     }
@@ -238,7 +238,7 @@ public class ReportesController implements Serializable {
          System.out.println("Nombre"+"\t"+nombre);
          String[] usuario= nombre.split("@");
          String username=usuario[0];
-         Estudiante est = dao.obtenerEstudianteP(username);
+         Estudiante est = daoPublicacion.obtenerEstudianteP(username);
          List<Publicacion> ret = est.getPublicacionList();
          for (int i = 0; i < ret.size(); i++) {
              System.out.println("Publicaciones"+"\t"+ i+"\t"+"Nombre"+"\t"+ret.get(i).obtenerNombrePub());
@@ -299,9 +299,9 @@ public class ReportesController implements Serializable {
      {
          
          
-         for (int i = 0; i < dao.findAll().size(); i++) {
+         for (int i = 0; i < daoPublicacion.findAll().size(); i++) {
              
-             String an = dao.findAll().get(i).getPubFechaRegistro().toLocaleString();
+             String an = daoPublicacion.findAll().get(i).getPubFechaRegistro().toLocaleString();
              String a[]= an.split(" ");
              String fecha= a[0];
              String consul[]= fecha.split("/");
@@ -310,7 +310,7 @@ public class ReportesController implements Serializable {
              
              if(anios.equals(retorno))
              {
-                 System.out.println("Publicacion"+dao.findAll().get(i).obtenerNombrePub()+"\t"+i);
+                 System.out.println("Publicacion"+daoPublicacion.findAll().get(i).obtenerNombrePub()+"\t"+i);
              }
              
              
@@ -324,13 +324,13 @@ public class ReportesController implements Serializable {
          System.out.println("Anio"+"\t"+aniose);
          String[] usuario= nombree.split("@");
          String username=usuario[0];
-         Estudiante est = dao.obtenerEstudianteAnio(username);
+         Estudiante est = daoPublicacion.obtenerEstudianteAnio(username);
          List<Publicacion> ret = est.getPublicacionList();
          
          for (int i = 0; i < ret.size(); i++) {
              
          
-             String an = dao.findAll().get(i).getPubFechaRegistro().toLocaleString();
+             String an = daoPublicacion.findAll().get(i).getPubFechaRegistro().toLocaleString();
              String a[]= an.split(" ");
              String fecha= a[0];
              String consul[]= fecha.split("/");
