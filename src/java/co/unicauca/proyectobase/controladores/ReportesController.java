@@ -28,7 +28,9 @@ import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -51,8 +53,8 @@ public class ReportesController implements Serializable {
     @EJB
     private PublicacionFacade daoPublicacion;
     
-    private String tipoReporte;
-    private String tipoTiempo;
+    private String tipoReporte = "";
+    private String tipoTiempo = "";
     private String codigoEstudiante;
     private String anios="";
     private String semestre="";
@@ -477,4 +479,17 @@ public class ReportesController implements Serializable {
         this.codigoEstudiante = codigoEstudiante;
     }
 
+    public void verificarDatos(){
+        System.out.println("----------------------------------");
+        System.out.println("año: "  + anios);
+        System.out.println("semestre: " + semestre);
+        System.out.println("codigo: " + codigoEstudiante);  
+        System.out.println("----------------------------------");
+                
+    }
+    
+    
+    public void limpiarTiempo(AjaxBehaviorEvent event){
+        tipoTiempo = "";
+    }
 }
