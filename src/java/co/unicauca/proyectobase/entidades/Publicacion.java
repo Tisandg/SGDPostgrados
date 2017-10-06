@@ -80,23 +80,37 @@ import org.primefaces.model.UploadedFile;
 @Table(name = "publicacion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Publicacion.findAll", query = "SELECT p FROM Publicacion p")
-    , @NamedQuery(name = "Publicacion.findByPubIdentificador", query = "SELECT p FROM Publicacion p WHERE p.pubIdentificador = :pubIdentificador")
-    , @NamedQuery(name = "Publicacion.findByPubHash", query = "SELECT p FROM Publicacion p WHERE p.pubHash = :pubHash")
-    , @NamedQuery(name = "Publicacion.findByPubDiropkm", query = "SELECT p FROM Publicacion p WHERE p.pubDiropkm = :pubDiropkm")
-    , @NamedQuery(name = "Publicacion.findByPubCreditos", query = "SELECT p FROM Publicacion p WHERE p.pubCreditos = :pubCreditos")
-    , @NamedQuery(name = "Publicacion.findByPubFechaVisado", query = "SELECT p FROM Publicacion p WHERE p.pubFechaVisado = :pubFechaVisado")
-    , @NamedQuery(name = "Publicacion.findByPubFechaRegistro", query = "SELECT p FROM Publicacion p WHERE p.pubFechaRegistro = :pubFechaRegistro")
-    , @NamedQuery(name = "Publicacion.findByPubEstado", query = "SELECT p FROM Publicacion p WHERE p.pubEstado = :pubEstado")
-    , @NamedQuery(name = "Publicacion.findByPubNombreAutor", query = "SELECT p FROM Publicacion p WHERE p.pubNombreAutor = :pubNombreAutor")
-    , @NamedQuery(name = "Publicacion.findByPubAutoresSecundarios", query = "SELECT p FROM Publicacion p WHERE p.pubAutoresSecundarios = :pubAutoresSecundarios")
-    , @NamedQuery(name = "Publicacion.findByPubTipoPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubTipoPublicacion = :pubTipoPublicacion")
-    , @NamedQuery(name = "Publicacion.findByPubFechaPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubFechaPublicacion = :pubFechaPublicacion")
-    , @NamedQuery(name = "Publicacion.findByPubDoi", query = "SELECT p FROM Publicacion p WHERE p.pubDoi = :pubDoi")
-    , @NamedQuery(name = "Publicacion.findByPubIsbn", query = "SELECT p FROM Publicacion p WHERE p.pubIsbn = :pubIsbn")
-    , @NamedQuery(name = "Publicacion.estIdentificacion", query = "SELECT e FROM Estudiante e WHERE e.estIdentificador = :estIdentificador")
+    @NamedQuery(name = "Publicacion.findAll", query = "SELECT p FROM Publicacion p"),
+    @NamedQuery(name = "Publicacion.findByPubIdentificador", query = "SELECT p FROM Publicacion p WHERE p.pubIdentificador = :pubIdentificador"),
+    @NamedQuery(name = "Publicacion.findByPubHash", query = "SELECT p FROM Publicacion p WHERE p.pubHash = :pubHash"),
+    @NamedQuery(name = "Publicacion.findByPubDiropkm", query = "SELECT p FROM Publicacion p WHERE p.pubDiropkm = :pubDiropkm"),
+    @NamedQuery(name = "Publicacion.findByPubCreditos", query = "SELECT p FROM Publicacion p WHERE p.pubCreditos = :pubCreditos"),
+    @NamedQuery(name = "Publicacion.findByPubFechaVisado", query = "SELECT p FROM Publicacion p WHERE p.pubFechaVisado = :pubFechaVisado"),
+    @NamedQuery(name = "Publicacion.findByPubFechaRegistro", query = "SELECT p FROM Publicacion p WHERE p.pubFechaRegistro = :pubFechaRegistro"),
+    @NamedQuery(name = "Publicacion.findByPubEstado", query = "SELECT p FROM Publicacion p WHERE p.pubEstado = :pubEstado"),
+    @NamedQuery(name = "Publicacion.findByPubNombreAutor", query = "SELECT p FROM Publicacion p WHERE p.pubNombreAutor = :pubNombreAutor"),
+    @NamedQuery(name = "Publicacion.findByPubAutoresSecundarios", query = "SELECT p FROM Publicacion p WHERE p.pubAutoresSecundarios = :pubAutoresSecundarios"),
+    @NamedQuery(name = "Publicacion.findByPubTipoPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubTipoPublicacion = :pubTipoPublicacion"),
+    @NamedQuery(name = "Publicacion.findByPubFechaPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubFechaPublicacion = :pubFechaPublicacion"),
+    @NamedQuery(name = "Publicacion.findByPubDoi", query = "SELECT p FROM Publicacion p WHERE p.pubDoi = :pubDoi"),
+    @NamedQuery(name = "Publicacion.findByPubIsbn", query = "SELECT p FROM Publicacion p WHERE p.pubIsbn = :pubIsbn"),
+        
+    @NamedQuery(name = "Publicacion.findAllByYear", query = "SELECT p FROM Publicacion p "
+            + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio ORDER BY  p.pubTipoPublicacion DESC"),
+    
+    @NamedQuery(name = "Publicacion.findAllBySemester", query = "SELECT p FROM Publicacion p "
+            + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio AND FUNC('MONTH',p.pubFechaRegistro) Between :inicio AND :fin "
+            + "ORDER BY  p.pubTipoPublicacion DESC"),
+    
+    @NamedQuery(name = "Publicacion.StudentPublications_Year", query = "SELECT p FROM Publicacion p "
+            + "WHERE p.pubEstIdentificador.estIdentificador = :identificador AND FUNC('YEAR',p.pubFechaRegistro) = :anio "
+            + "ORDER BY  p.pubTipoPublicacion DESC"),
+    
+    @NamedQuery(name = "Publicacion.StudentPublications_Semester", query = "SELECT p FROM Publicacion p "
+            + "WHERE p.pubEstIdentificador.estIdentificador = :identificador AND FUNC('YEAR',p.pubFechaRegistro) = :anio "
+            + "AND FUNC('MONTH',p.pubFechaRegistro) Between :inicio AND :fin ORDER BY  p.pubTipoPublicacion DESC"),
 
-    , @NamedQuery(name = "Publicacion.findAllEst", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro")
+    @NamedQuery(name = "Publicacion.findAllEst", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro")
     , @NamedQuery(name = "Publicacion.findAllRev", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro")
     , @NamedQuery(name = "Publicacion.findAllCong", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro")
     , @NamedQuery(name = "Publicacion.findAllLib", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro")
@@ -105,15 +119,15 @@ import org.primefaces.model.UploadedFile;
     , @NamedQuery(name = "Publicacion.findAllByRev", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro)")
     , @NamedQuery(name = "Publicacion.findAllByCong", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro)")
     , @NamedQuery(name = "Publicacion.findAllByLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro)")
-    , @NamedQuery(name = "Publicacion.findAllByCapLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro )")
+    , @NamedQuery(name = "Publicacion.findAllByCapLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro )"),
 
-    , @NamedQuery(name = "Publicacion.findAllFiltPubEst", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro)")
-    ,@NamedQuery(
+    @NamedQuery(name = "Publicacion.findAllFiltPubEst", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro)"),
+    @NamedQuery(
             name = "findAllPub_Est",
             query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador= :identificacion"
-    )
-    , @NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn")
-    , @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id")
+    ),
+    @NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn"),
+    @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id")
 })
 public class Publicacion implements Serializable {
 

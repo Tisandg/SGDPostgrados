@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.dao;
 
 import co.unicauca.proyectobase.entidades.Estudiante;
@@ -29,6 +24,56 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         super(Publicacion.class);
     }
 
+    /**
+     * Funcion para buscar todas las publicaciones que han sido registradas 
+     * en un determinado año. El listado esta ordenado por tipo de publicacion
+     * de forma descendente
+     * @param anio
+     * @return Lista de publicaciones
+     */
+    public List<Publicacion> publicacionesPorAnio(int anio){
+        javax.persistence.Query query = getEntityManager().createNamedQuery("Publicacion.findAllByYear");
+        query.setParameter("anio", anio);
+        List<Publicacion> lista = null;
+        try {
+            System.out.println("Buscando publicaciones en el año "+anio);
+            lista = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+        }
+        return lista;
+    }
+    
+    /**
+     * Funcion para buscar todas las publicaciones que han registradas 
+     * en un determinado semestre. El listado esta ordenado por tipo de 
+     * publicacion de forma descendente
+     * @param anio
+     * @param semestre
+     * @return Lista de publicaciones
+     */
+    public List<Publicacion> publicacionesPorSemestre(int anio, int semestre){
+        javax.persistence.Query query = getEntityManager().createNamedQuery("Publicacion.findAllBySemester");
+        query.setParameter("anio", anio);
+        if(semestre == 1){
+            query.setParameter("inicio",1);
+            query.setParameter("fin",6);
+        }else{
+            query.setParameter("inicio",7);
+            query.setParameter("fin",12);
+        }
+        List<Publicacion> lista = null;
+        try {
+            System.out.println("Buscando publicaciones en el semestre "+anio+"-"+semestre);
+            lista = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+        }
+        return lista;
+    }
+    
     public int getnumFilasPubRev() {
         try {
             String queryStr;
@@ -90,7 +135,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
     
-        public int CountByMonthYear(String anio, String mes) {
+    public int CountByMonthYear(String anio, String mes) {
 
         String comSimple = "\'";
         String queryStr;
@@ -116,19 +161,70 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
    
     }
 
-    public List<Publicacion> ListadoPublicacionEst(int estIdentificador) {
+    public List<Publicacion> ListadoPublicacionEst(int estudianteId) {
         javax.persistence.Query query = getEntityManager().createNamedQuery("findAllPub_Est");
-        query.setParameter("identificacion", estIdentificador);
+        query.setParameter("identificacion", estudianteId);
         try {
-            System.out.println("co.unicauca.proyectobase.dao.PublicacionFacade.ListadoPublicacionEst()");
-
+            System.out.println("Buscando publicaciones por estudiante");
             return query.getResultList();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
             System.out.println(e);
             return null;
         }
-    }   
+    }
+    
+    /**
+     * Funcion que me retorna la lista de publicaciones que ha registrado un 
+     * estudiante en un determinado año. El listado esta ordenado por tipo de 
+     * publicacion de forma descendente
+     * @param estudianteId
+     * @param anio
+     * @return Lista publicaciones
+     */
+    public List<Publicacion> publicacionesEstudiantePorAnio(int estudianteId,int anio){
+        javax.persistence.Query query = getEntityManager().createNamedQuery("Publicacion.StudentPublications_Year");
+        query.setParameter("identificador", estudianteId);
+        query.setParameter("anio", anio);
+        try {
+            System.out.println("Buscando publicaciones de estudiante por año");
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+            return null;
+        }
+    }
+    
+    /**
+     * Funcion que me retorna la lista de publicaciones que ha registrado un
+     * estudiante en un determinado semestre. El listado esta ordenado por tipo de 
+     * publicacion de forma descendente
+     * @param estudianteId
+     * @param anio
+     * @param semestre
+     * @return Lista publicaciones
+     */
+    public List<Publicacion> publicacionesEstudiantePorSemestre(int estudianteId, int anio, int semestre){
+        javax.persistence.Query query = getEntityManager().createNamedQuery("Publicacion.StudentPublications_Semester");
+        query.setParameter("identificador", estudianteId);
+        query.setParameter("anio", anio);
+        if(semestre == 1){
+            query.setParameter("inicio",1);
+            query.setParameter("fin",6);
+        }else{
+            query.setParameter("inicio",7);
+            query.setParameter("fin",12);
+        }
+        try {
+            System.out.println("Buscando publicaciones de estudiante por semestre");
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+            return null;
+        }
+    }
     
     public List<Publicacion> ListadoPublicacionFilt(String variableFiltrado) {
 

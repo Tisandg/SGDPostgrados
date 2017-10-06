@@ -55,6 +55,23 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
             return null;
         }
     }
+    
+    /**
+     * Funcion para buscar un estudiante por su codigo
+     * @param codigo
+     * @return Estudiante
+     */
+    public Estudiante buscarPorCodigo(String codigo){
+        Query query = em.createNamedQuery("Estudiante.buscarPorCodigo");
+        query.setParameter("estCodigo", codigo);
+        List<Estudiante> resultList = query.getResultList();
+        if (resultList.size() > 0) {
+            return resultList.get(0);
+        } else {
+            return null;
+        }
+    }
+    
     public Estudiante buscarPorCorreoExceptoConId(String correo, Integer id) {
         Query query = em.createNamedQuery("Estudiante.buscarPorCorreoExceptoConId");
         query.setParameter("estCorreo", correo);

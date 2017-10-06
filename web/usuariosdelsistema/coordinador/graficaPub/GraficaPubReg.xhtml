@@ -6,9 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      >
-
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
         <title>Reportes</title>
@@ -23,7 +21,7 @@
             <p:panel>      
 
                 <h:form>
-                    <h:panelGrid columns="5" cellspacing="5"    >
+                    <h:panelGrid columns="5" cellspacing="5">
 
                         <p:outputLabel value="Tipo de reporte &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
                         <p:selectOneMenu class="form-control"  id="valTipoReporte" value="#{reportesController.tipoReporte}" styleClass="tipopublicacion  addEspacio form-control" 
@@ -35,16 +33,17 @@
                             <f:ajax render="@form" />
                             <f:ajax render="msjvalTipoReporte" />
                         </p:selectOneMenu>
+                        
                         <h:panelGroup rendered="#{reportesController.tipoReporte == 'porEstudiante'}">
-                            <p:inputText id="correo" placeholder="correo@unicauca.edu.co"/>
+                            <p:inputText id="codigoEstudiante" value="#{reportesController.codigoEstudiante}" placeholder="Ingrese el codigo"/>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{reportesController.tipoReporte == 'global'}">
                             <h:outputText value=""/>
                         </h:panelGroup>
                         <h:outputText value=""/><h:outputText value=""/>
-
+                        
                         <p:outputLabel value="Tipo de tiempo &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <p:selectOneMenu class="form-control"  id="valTipoTiempo" value="#{reportesController.tiempoEspecifico}" styleClass="tipopublicacion addEspacio form-control" 
+                        <p:selectOneMenu class="form-control"  id="valTipoTiempo" value="#{reportesController.tipoTiempo}" styleClass="tipopublicacion addEspacio form-control" 
                                          required="true" requiredMessage="Debe seleccionar un campo de la lista">
                             <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                             <f:selectItem itemLabel="Por semestre" itemValue="semestre"/>
@@ -54,38 +53,23 @@
                             <f:ajax render="@form" />
                             <f:ajax render="msjvalTipoReporte" />
                         </p:selectOneMenu>
-                        <h:panelGroup rendered="#{reportesController.tiempoEspecifico == 'año'}">
+                        
+                        <h:panelGroup rendered="#{reportesController.tipoTiempo == 'año'}">
                             <p:inputText id="anioIngresado" value="#{reportesController.anios}" placeholder="Ingrese el año"/>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{reportesController.tiempoEspecifico == 'semestre'}">
+                        <h:panelGroup rendered="#{reportesController.tipoTiempo == 'semestre'}">
                             <p:inputText id="anioConSemestre" value="#{reportesController.anios}" placeholder="Ingrese el año"/>
                             <p:inputText id="semestreIngresado" value="#{reportesController.semestre}" placeholder="Ingrese el semestre"/>
                         </h:panelGroup>
                         <h:outputText value=""/><h:outputText value=""/>
-
-                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.generarConsolidadoGlobal()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
-                        <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
-                        <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
-                        <p:separator/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                         
+                        <p:inputText id="anioConSemestreFuera" value="#{reportesController.anios}" placeholder="Ingrese el año aqui"/>
+                        <p:inputText id="semestreIngresadoFuera" value="#{reportesController.semestre}" placeholder="Ingrese el semestre aqui"/>
+                        <p:inputText id="codigoEstudianteF" value="#{reportesController.codigoEstudiante}" placeholder="Ingrese el codigo aqui"/>
 
-                        <p:outputLabel value="Reporte por estudiante: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <p:inputText id="txtNombre" value = "#{reportesController.nombre}"  size="30" placeholder="ejemplo@unicauca.edu.co"/>
-                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.PublicacionesEst()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
-                        <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/ReportePersonal.pdf"  >Descargar PDF </a>
-                        <h:outputText value=""/>
-
-                        <p:outputLabel value="Reporte por año: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <p:inputText id="txtPeriodo1" value = "#{reportesController.anios}"  size="7" placeholder="2017"/>
-                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.ArticulosAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" />
-                        <a  target="_blank"  style="font-weight:bold;" href=""  >Descargar PDF </a>
-                        <h:outputText value=""/>
-
-                        <p:outputLabel value="Reporte estudiante por año: &nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;" />
-                        <p:inputText id="txtPeriodo2" value = "#{reportesController.aniose}"  size="7" placeholder="2017" />
-                        <p:inputText id="txtNombre2" value = "#{reportesController.nombree}"  size="30" placeholder="ejemplo@unicauca.edu.co"/>
-                         <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.obtenerEstudianteAnio()}" value="Generar Reporte" onclick="window.alert('Consolidado Generado')" > </p:commandButton>
-                         <a  target="_blank"  style="font-weight:bold;" href=""  >Descargar PDF </a>
+                        <p:commandButton class="btn btn-success btn_listaEstudiantes" action="#{reportesController.generarReporte()}" value="Generar Reporte"/>
+                        <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/Consolidado.pdf"  >Descargar PDF </a>
+                        <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
 
                     </h:panelGrid> 
                     
