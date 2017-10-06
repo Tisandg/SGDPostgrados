@@ -115,11 +115,14 @@ public class ReportesController implements Serializable {
                 documento.add(new Paragraph("Fecha Generado: " + date));
                 documento.add(new Paragraph("\n"));
 
-                PdfPTable table = new PdfPTable(6);
-                //float[] arreglo = {50,50,50,50,50,50};
+                PdfPTable table = new PdfPTable(new float[]{2,2,2,2,2,2,2});
+                /*float[] arreglo = new float[7];
+                for (int k = 0; k < 7; k++) {
+                    arreglo[k] = 70;
+                }*/
                 
-                //table.setTotalWidth(arreglo);
-                //table.setLockedWidth(true)//
+                //table.setTotalWidth();
+                table.setLockedWidth(true);
                 table.addCell("Autor");
                 table.addCell("Titulo de la publicacion");
                 table.addCell("Publicado en");
@@ -128,10 +131,10 @@ public class ReportesController implements Serializable {
                 table.addCell("Fecha de Registro");
                 //table.addCell("Creditos");
                 
-                j=0;
                 String nombreTipo="";
                 String tipoCategoria="";
                 String publicadoEn="";
+                j=0;
                 
                 for ( i = 0; i < tiposPublicaciones; i++) {
                  
