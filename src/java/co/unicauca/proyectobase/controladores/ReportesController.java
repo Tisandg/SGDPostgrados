@@ -9,12 +9,16 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,6 +30,8 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author santilopez94
@@ -83,10 +89,8 @@ public class ReportesController implements Serializable {
      */
     public void reporteGlobal() throws FileNotFoundException{
         
-        //ArrayList<Publicacion> publicaciones = new ArrayList();
         String nombreTipoPub="";
         int i,j,tamPublicaciones;
-        
         obtenerPublicaciones();
         
         /*Nombre del archivo pdf*/
@@ -96,17 +100,18 @@ public class ReportesController implements Serializable {
         }
         nombreReporte += ".pdf";
         
-        Document documento = new Document();
         String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
         System.out.println("path" + realPath);
         String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
-        FileOutputStream archivoReporte = new FileOutputStream(rutaReporte);
         
         try {
             
             tamPublicaciones = listaPublicaciones.size();
+            System.out.println("tamPublicaciones: "+tamPublicaciones);
+            
             if(tamPublicaciones > 0){
-                
+                FileOutputStream archivoReporte = new FileOutputStream(rutaReporte);
+                Document documento = new Document(PageSize.A4.rotate(), 10, 10, 10, 10);
                 PdfWriter.getInstance(documento, archivoReporte);
                 documento.open();
                 documento.add(new Paragraph("Consolidado de Publicaciones\n"));
@@ -115,21 +120,23 @@ public class ReportesController implements Serializable {
                 documento.add(new Paragraph("Fecha Generado: " + date));
                 documento.add(new Paragraph("\n"));
 
-                PdfPTable table = new PdfPTable(new float[]{2,2,2,2,2,2,2});
-                /*float[] arreglo = new float[7];
-                for (int k = 0; k < 7; k++) {
-                    arreglo[k] = 70;
-                }*/
+                PdfPTable table = new PdfPTable(7);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.setTotalWidth(new float[]{1, 1, 1, 1, 1, 1, 1});
                 
-                //table.setTotalWidth();
-                table.setLockedWidth(true);
                 table.addCell("Autor");
                 table.addCell("Titulo de la publicacion");
                 table.addCell("Publicado en");
                 table.addCell("Categoria/Tipo");
                 table.addCell("Estado de la Publicacion");
                 table.addCell("Fecha de Registro");
-                //table.addCell("Creditos");
+                table.addCell("Creditos");
+                
+                table.setHeaderRows(1);
+                PdfPCell[] cells = table.getRow(0).getCells(); 
+                for (j=0;j<cells.length;j++){
+                   cells[j].setBackgroundColor(BaseColor.LIGHT_GRAY);
+                }
                 
                 String nombreTipo="";
                 String tipoCategoria="";
@@ -137,31 +144,25 @@ public class ReportesController implements Serializable {
                 j=0;
                 
                 for ( i = 0; i < tiposPublicaciones; i++) {
-                 
                     /*Este orden lo determina la forma en que mysql 
                     ordena por tipo de publicacion de forma descendente*/
                     if(i==0){ 
                         nombreTipoPub = "Revista";
                         nombreTipo="revista";
-                        //publicaciones = listaRevista;
                     }
                     if(i==1){ 
                         nombreTipoPub = "Libro"; 
                         nombreTipo="libro";
-                        //publicaciones = listaLibro;
                     }
                     if(i==2){ 
                         nombreTipoPub = "Congreso";
                         nombreTipo="congreso";
-                        //publicaciones = listaCongreso;
                     }
                     if(i==3){ 
                         nombreTipoPub = "Capitulo libro";
                         nombreTipo="capitulo_libro";
-                        //publicaciones = listaCapituloLibro;
                     }
-                    //tamPublicaciones = publicaciones.size();
-
+                    
                     PdfPCell encabezadoTipoPub = new PdfPCell(new Paragraph(nombreTipoPub,
                             FontFactory.getFont("arial", // fuente
                                     8, // tamaño
@@ -172,8 +173,8 @@ public class ReportesController implements Serializable {
                     encabezadoTipoPub.setColspan(9);
                     table.addCell(encabezadoTipoPub);
                     
-                    
-                    while(listaPublicaciones.get(j).getPubTipoPublicacion().equals(nombreTipo)){
+                    do{
+                        tipoCategoria = "Sin categoria";
                         table.addCell(listaPublicaciones.get(j).getPubNombreAutor());
                         table.addCell(listaPublicaciones.get(j).obtenerNombrePub());
                         if(i==0){ 
@@ -181,7 +182,6 @@ public class ReportesController implements Serializable {
                             publicadoEn = listaPublicaciones.get(j).getRevista().getRevNombreRevista();
                         }
                         if(i==1){ 
-                            tipoCategoria = "Sin categoria";
                             publicadoEn = listaPublicaciones.get(j).getLibro().getLibTituloLibro();
                         }
                         if(i==2){ 
@@ -189,7 +189,6 @@ public class ReportesController implements Serializable {
                             publicadoEn = listaPublicaciones.get(j).getCongreso().getCongNombreEvento();
                         }
                         if(i==3){ 
-                            tipoCategoria = "Sin categoria";
                             publicadoEn = listaPublicaciones.get(j).getCapituloLibro().getCaplibTituloLibro();
                         }
                         table.addCell(publicadoEn);
@@ -197,61 +196,26 @@ public class ReportesController implements Serializable {
                         table.addCell(listaPublicaciones.get(j).getPubEstado());
                         table.addCell(listaPublicaciones.get(j).getPubFechaPublicacion().toString());
                         
-                        /*if(listaPublicaciones.get(j).getPubVisado().equals("aprobado")){
-                            table.addCell(""+listaPublicaciones.get(j).getPubCreditos());
-                        }else{
-                            table.addCell("No asignados");
-                        }*/
-                        j++;
-                    }
-                    /*Añadimos los datos de cada publicacion en la tabla*/
-                    /*for ( j = 0; j < tamPublicaciones; j++) {
-                        Publicacion publicacion = listaPublicaciones.get(j);
-                        if(publicacion.getPubTipoPublicacion().equals("revista")){
-                        }
-                        if(publicacion.getPubTipoPublicacion().equals("congreso")){
-                        }
-                        if(publicacion.getPubTipoPublicacion().equals("revista")){
-                        }
-                        if(publicacion.getPubTipoPublicacion().equals("revista")){
-                        }
-                        table.addCell(listaPublicaciones.get(j).getPubNombreAutor());
-                        table.addCell(listaPublicaciones.get(j).obtenerNombrePub());
-                        if(i==0){ 
-                            table.addCell(listaPublicaciones.get(j).getRevista().getRevNombreRevista());
-                            table.addCell(listaPublicaciones.get(j).getRevista().getRevCategoria());
-                        }
-                        if(i==1){ 
-                            table.addCell(listaPublicaciones.get(j).getCongreso().getCongNombreEvento());
-                            table.addCell(listaPublicaciones.get(j).getCongreso().getCongTipoCongreso());
-                        }
-                        if(i==2){ 
-                            table.addCell(listaPublicaciones.get(j).getLibro().getLibTituloLibro());
-                            table.addCell("Sin tipo de libro");
-                        }
-                        if(i==3){ 
-                            table.addCell(listaPublicaciones.get(j).getCapituloLibro().getCaplibTituloLibro());
-                            table.addCell("Sin tipo de libro");
-                        }
-                        table.addCell(listaPublicaciones.get(j).getPubEstado());
-                        table.addCell(listaPublicaciones.get(j).getPubFechaPublicacion().toString());
                         if(listaPublicaciones.get(j).getPubVisado().equals("aprobado")){
                             table.addCell(""+listaPublicaciones.get(j).getPubCreditos());
                         }else{
                             table.addCell("No asignados");
-                        }   
-                    }*/
+                        }
+                        j++;
+                    }while(j<tamPublicaciones && listaPublicaciones.get(j).getPubTipoPublicacion().equals(nombreTipo));
                 }
                 documento.add(table);
+                documento.close();
+                System.out.println("Reporte global generado");
+                //descargarPdf(nombreReporte);
+            }else{
+                System.out.println("No hay datos para generar el reporte");
             }
-            
+
         } catch (Exception ex) {
-            System.out.println("Error " + ex.getMessage());
+            System.out.println("Error: " + ex.getMessage());
         }
-        documento.close();
-        System.out.println("Reporte global generado");
     }
-    
     
     /**
      * Procedimiento que genera el reporte de las publicaciones registradas por
@@ -261,12 +225,14 @@ public class ReportesController implements Serializable {
      * @throws FileNotFoundException 
      */
     public void reportePorEstudiante() throws FileNotFoundException{
-        int i, tamListaPublicaciones = 0;
+        int i, j, tamListaPublicaciones = 0;
         System.out.println("Codigo estudiante" + "\t" + codigoEstudiante);
         Estudiante estudiante = daoEstudiante.buscarPorCodigo(codigoEstudiante);
         int idEstudiante = estudiante.getEstIdentificador();
+        
         List<Publicacion> listaPublicaciones = obtenerPublicacionesEstudiante(idEstudiante);
-
+        tamListaPublicaciones = listaPublicaciones.size();
+        
         /*Nombre del archivo pdf*/
         String nombreReporte = "Reporte_estudiante_"+anios;
         if(tipoTiempo.equals("semestre")){
@@ -274,59 +240,121 @@ public class ReportesController implements Serializable {
         }
         nombreReporte += ".pdf";
         
-        Document document = new Document();
+        
         String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
         System.out.println("path" + realPath);
         String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
-        FileOutputStream archivo = new FileOutputStream(rutaReporte);
-        
         try {
-            PdfWriter.getInstance(document, archivo);
-            document.open();
-            document.add(new Paragraph("Reporte personal de publicaciones\n"));
-            document.add(new Paragraph("Estudiante: " + estudiante.getEstNombre() + " " + estudiante.getEstApellido()));
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
-            String date = formatter.format(new Date());
-            document.add(new Paragraph("Fecha Generado: " + date));
-            document.add(new Paragraph("\n"));
-            
-            PdfPTable table = new PdfPTable(4);
-            table.setTotalWidth(new float[]{70, 72, 110, 95});
-            table.setLockedWidth(true);
-            table.addCell("Autor");
-            table.addCell("Titulo de la publicacion");
-            //table.addCell("Publicado en");
-            //table.addCell("Categoria/Tipo");
-            table.addCell("Estado de la Publicacion");
-            table.addCell("Fecha de Registro");
-            //table.addCell("Creditos");
-                         
-            PdfPCell reporte = new PdfPCell(new Paragraph("Publicaciones",
-                    FontFactory.getFont("arial", // fuente
-                            8, // tamaño
-                            Font.BOLD, // estilo
-                            BaseColor.WHITE)));
-            reporte.setHorizontalAlignment(Element.ALIGN_CENTER);
-            reporte.setBackgroundColor(BaseColor.BLUE);
-            reporte.setColspan(9);
-            table.addCell(reporte);
+            if(tamListaPublicaciones>0){
+                
+                FileOutputStream archivo = new FileOutputStream(rutaReporte);
+                Document document = new Document(PageSize.A4, 10, 10, 10, 10);
+                PdfWriter.getInstance(document, archivo);
+                document.open();
+                document.add(new Paragraph("Reporte personal de publicaciones\n"));
+                document.add(new Paragraph("Estudiante: " + estudiante.getEstNombre() + " " + estudiante.getEstApellido()));
+                DateFormat formatter = new SimpleDateFormat("dd/MM/yy '-' hh:mm:ss");
+                String date = formatter.format(new Date());
+                document.add(new Paragraph("Fecha Generado: " + date));
+                document.add(new Paragraph("\n"));
 
-            tamListaPublicaciones = listaPublicaciones.size();
-            for ( i = 0; i < tamListaPublicaciones; i++) {
+                PdfPTable table = new PdfPTable(7);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.setTotalWidth(new float[]{1, 1, 1, 1, 1, 1, 1});
+
+                table.addCell("Autor");
+                table.addCell("Titulo de la publicacion");
+                table.addCell("Publicado en");
+                table.addCell("Categoria/Tipo");
+                table.addCell("Estado de la Publicacion");
+                table.addCell("Fecha de Registro");
+                table.addCell("Creditos");
+
+                table.setHeaderRows(1);
+                PdfPCell[] cells = table.getRow(0).getCells(); 
+                for (j=0;j<cells.length;j++){
+                   cells[j].setBackgroundColor(BaseColor.LIGHT_GRAY);
+                }
+
+                String nombreTipo="";
+                String tipoCategoria="";
+                String publicadoEn="";
+                String nombreTipoPub="";
+                j=0;
 
 
-                table.addCell(listaPublicaciones.get(i).getPubTipoPublicacion());
-                table.addCell(listaPublicaciones.get(i).obtenerNombrePub());
-                table.addCell(listaPublicaciones.get(i).getPubVisado());
-                table.addCell(listaPublicaciones.get(i).getPubFechaPublicacion().toString());
+                for ( i = 0; i < tiposPublicaciones; i++) {
+                    /*Este orden lo determina la forma en que mysql 
+                    ordena por tipo de publicacion de forma descendente*/
+                    if(i==0){ 
+                        nombreTipoPub = "Revista";
+                        nombreTipo="revista";
+                    }
+                    if(i==1){ 
+                        nombreTipoPub = "Libro"; 
+                        nombreTipo="libro";
+                    }
+                    if(i==2){ 
+                        nombreTipoPub = "Congreso";
+                        nombreTipo="congreso";
+                    }
+                    if(i==3){ 
+                        nombreTipoPub = "Capitulo libro";
+                        nombreTipo="capitulo_libro";
+                    }
+
+                    PdfPCell encabezadoTipoPub = new PdfPCell(new Paragraph(nombreTipoPub,
+                            FontFactory.getFont("arial", // fuente
+                                    8, // tamaño
+                                    Font.BOLD, // estilo
+                                    BaseColor.WHITE)));
+                    encabezadoTipoPub.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    encabezadoTipoPub.setBackgroundColor(BaseColor.BLUE);
+                    encabezadoTipoPub.setColspan(9);
+                    table.addCell(encabezadoTipoPub);
+
+                    while(j<tamListaPublicaciones && listaPublicaciones.get(j).getPubTipoPublicacion().equals(nombreTipo)){
+                        tipoCategoria = "Sin categoria";
+                        table.addCell(listaPublicaciones.get(j).getPubNombreAutor());
+                        table.addCell(listaPublicaciones.get(j).obtenerNombrePub());
+                        if(i==0){ 
+                            tipoCategoria = listaPublicaciones.get(j).getRevista().getRevCategoria();
+                            publicadoEn = listaPublicaciones.get(j).getRevista().getRevNombreRevista();
+                        }
+                        if(i==1){ 
+                            publicadoEn = listaPublicaciones.get(j).getLibro().getLibTituloLibro();
+                        }
+                        if(i==2){ 
+                            tipoCategoria = listaPublicaciones.get(j).getCongreso().getCongTipoCongreso();
+                            publicadoEn = listaPublicaciones.get(j).getCongreso().getCongNombreEvento();
+                        }
+                        if(i==3){ 
+                            publicadoEn = listaPublicaciones.get(j).getCapituloLibro().getCaplibTituloLibro();
+                        }
+                        table.addCell(publicadoEn);
+                        table.addCell(tipoCategoria);
+                        table.addCell(listaPublicaciones.get(j).getPubEstado());
+                        table.addCell(listaPublicaciones.get(j).getPubFechaPublicacion().toString());
+
+                        if(listaPublicaciones.get(j).getPubVisado().equals("aprobado")){
+                            table.addCell(""+listaPublicaciones.get(j).getPubCreditos());
+                        }else{
+                            table.addCell("No asignados");
+                        }
+                        j++;
+                    }
+                }
+                document.add(table);
+                document.close();
+                System.out.println("Reporte por estudiante generado");
+            }else{
+                System.out.println("No hay datos para generar el reporte");
             }
-            document.add(table);
 
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
         }
-        document.close();
-        System.out.println("Reporte por estudiante generado");
+        
     }
     
     /**
@@ -362,6 +390,7 @@ public class ReportesController implements Serializable {
         listaLibro = new ArrayList();
         listaCongreso = new ArrayList();
         listaCapituloLibro = new ArrayList();
+        
         System.out.println("Años son "+anios);
         if(tipoTiempo.equals("año")){
             listaPublicaciones = daoPublicacion.publicacionesPorAnio(Integer.parseInt(anios));
@@ -370,29 +399,39 @@ public class ReportesController implements Serializable {
             listaPublicaciones = daoPublicacion.publicacionesPorSemestre(Integer.parseInt(anios), 
                     Integer.parseInt(semestre));
         }
-        
-        /*int tamLista = publicaciones.size();
-        String tipoPublicacion ;
+    }
+    
+    public void descargarPdf(String nombre) throws FileNotFoundException, IOException{
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        /*Pendiente lo del separador segun el SO*/
+        realPath += "\\resources\\"+nombre;
+        File ficheroPDF = new File(realPath);
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        FileInputStream fis = new FileInputStream(ficheroPDF);
+        byte[] bytes = new byte[1000];
+        int read = 0;
 
-        for (int i = 0; i < tamLista; i++) {
-            tipoPublicacion = publicaciones.get(i).getPubTipoPublicacion();
-            if (tipoPublicacion.equals("revista")) {
-                listaRevista.add(publicaciones.get(i));
+        if (!ctx.getResponseComplete()) {
+            String fileName = ficheroPDF.getName();
+            String contentType = "application/pdf";
+            HttpServletResponse response
+                    = (HttpServletResponse) ctx.getExternalContext().getResponse();
+
+            response.setContentType(contentType);
+
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=\"" + nombre + "\"");
+
+            ServletOutputStream out = response.getOutputStream();
+
+            while ((read = fis.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
             }
-            if (tipoPublicacion.equals("libro")) {
-                listaLibro.add(publicaciones.get(i));
-            }
-            if (tipoPublicacion.equals("congreso")) {
-                listaCongreso.add(publicaciones.get(i));
-            }
-            if (tipoPublicacion.equals("capitulo_libro")) {
-                listaCapituloLibro.add(publicaciones.get(i));
-            }
+            out.flush();
+            out.close();
+            System.out.println("\nDescargado\n");
+            ctx.responseComplete();
         }
-        System.out.println("publicaciones rev "+listaRevista.size());
-        System.out.println("publicaciones cong "+listaCongreso.size());
-        System.out.println("publicaciones Lib "+listaLibro.size());
-        System.out.println("publicaciones Cap "+listaCapituloLibro.size());*/
     }
     
     /**
