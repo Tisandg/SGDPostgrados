@@ -49,10 +49,11 @@
                         </p:selectOneMenu>
                         
                         
-                        <p:inputText id="anoConSemestreFuera" value="#{reportesController.anios}" placeholder="Ingrese el año aquí"/>
+                        <p:inputText id="anoConSemestreFuera" value="#{reportesController.anios}" placeholder="Ingrese el año aquí" disabled="#{reportesController.tipoTiempo == ''}"/>                        
                         <h:outputText value="" rendered="#{reportesController.tipoTiempo == 'año' || reportesController.tipoTiempo == 'inicioEstudios'}"/>
                         <h:outputText value="" rendered="#{reportesController.tipoTiempo == ''}"/>                                                
                         <p:inputText id="semestreIngresadoFuera" value="#{reportesController.semestre}" placeholder="Ingrese el semestre aqui" rendered="#{reportesController.tipoTiempo == 'semestre'}" />
+                        
                                                                     
                         <p:commandButton action="#{reportesController.generarReporte()}" value="Generar Reporte"/>
                     <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/reporte.pdf"  >Descargar PDF </a>
