@@ -104,7 +104,8 @@ public class ReportesController implements Serializable {
         
         String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
         System.out.println("path" + realPath);
-        String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
+        //String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
+        String rutaReporte = realPath + "resources\\pdf\\" + "reporte.pdf";
         
         try {
             
@@ -245,7 +246,8 @@ public class ReportesController implements Serializable {
         
         String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
         System.out.println("path" + realPath);
-        String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
+        //String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
+        String rutaReporte = realPath + "resources\\pdf\\" + "reporte.pdf";
         try {
             if(tamListaPublicaciones>0){
                 
@@ -479,16 +481,6 @@ public class ReportesController implements Serializable {
         this.codigoEstudiante = codigoEstudiante;
     }
 
-    public void verificarDatos(){
-        System.out.println("----------------------------------");
-        System.out.println("año: "  + anios);
-        System.out.println("semestre: " + semestre);
-        System.out.println("codigo: " + codigoEstudiante);  
-        System.out.println("----------------------------------");
-                
-    }
-    
-    
     public void limpiarTiempo(AjaxBehaviorEvent event){
         tipoTiempo = "";
     }
