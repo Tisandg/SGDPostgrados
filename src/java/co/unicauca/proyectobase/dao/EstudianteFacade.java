@@ -101,9 +101,10 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         query.setParameter("nombreUsuario", nomUsuario);
         List<Integer> resultList = query.getResultList();
         if (resultList.size() > 0) {
-            return resultList.get(0);
-        } else {
-            return 0;
-        }                        
+            if(resultList.get(0) != null){
+                return resultList.get(0);
+            }
+        }
+        return 0;
     }
 }

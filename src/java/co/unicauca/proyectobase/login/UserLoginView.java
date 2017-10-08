@@ -87,7 +87,6 @@ public class UserLoginView implements Serializable {
         System.out.println("Verificando datos login");
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
-        System.out.println(this.username.length());
         if (this.username == null) {
             System.out.println("usuario vacio");
         }
@@ -100,6 +99,7 @@ public class UserLoginView implements Serializable {
                 System.out.println("Login Exitoso");
             } catch (ServletException e) {
                 System.out.println("aqui se empaila");
+                System.out.println(e.getMessage() );
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
                 Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
