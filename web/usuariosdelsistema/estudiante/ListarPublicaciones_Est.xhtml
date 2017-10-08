@@ -16,6 +16,10 @@
                 <span class="ui-messages-info-detail">
                     <b>Listado General de Publicaciones</b>
                 </span>
+                <div style = "float: right;">
+                    <p:outputLabel style="font-weight:bold; " value="Número de creditos aprobados: "/>                        
+                    <p:outputLabel style="font-size: 16px; color: red;"  value="#{userLoginView.creditos}&nbsp;"/>
+                </div>
             </div>
             
             <p:separator/>
@@ -25,10 +29,9 @@
                 <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
                 <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el tipo publicación o nombre publicacion" size="54">
                     <p:ajax update=":tablaPublicaciones" event="keyup"/>
-                </p:inputText>
-                <br/><br/>
+                </p:inputText>                
             </h:form>
-
+            <br/>
             <p:separator />
             
             <p:dataTable  id="tablaPublicaciones" var="pub"  value="#{publicacionController.listadoPublicaciones(userLoginView.username)}" rows="10"

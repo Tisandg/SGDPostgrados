@@ -20,6 +20,7 @@ public class ValidadorCohorteEstudiante implements Validator
         Date fecha = new Date();
         int anio = fecha.getYear() + 1900;
         int cohorte;
+        texto = texto.trim();
         
         if(texto.length() == 0)
         {

@@ -20,11 +20,12 @@ public class ValidarCodigoEstudianteNoExistente implements Validator {
             EstudianteController controller = (EstudianteController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "estudianteController");
             Integer identificador = controller.getActual().getEstIdentificador();
+            
             if (identificador == null) {
                 identificador = -1;
             }
             if (controller.buscarPorCodigoExceptoConId(codigo, identificador) != null) {
-                String message = "Ya existe un estudiante registrado con este codigo.";
+                String message = "Ya existe un estudiante registrado con el codigo ingresaso.";
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
                 throw new ValidatorException(msg);
             }

@@ -90,4 +90,20 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         List<Estudiante> findEst = query.getResultList();
         return findEst;
     }
+    
+    /**
+     * busca la cantidad de creditos segun el nombre de usuario
+     * @param nomUsuario nombre de usuario a saber creditos
+     * @return cantidad de creditos del usuario
+     */
+    public int findCreditosByNombreUsuario(String nomUsuario){                           
+        Query query = em.createNamedQuery("Estudiante.findCreditosByNomUsu");
+        query.setParameter("nombreUsuario", nomUsuario);
+        List<Integer> resultList = query.getResultList();
+        if (resultList.size() > 0) {
+            return resultList.get(0);
+        } else {
+            return 0;
+        }                        
+    }
 }

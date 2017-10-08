@@ -93,7 +93,7 @@
                                 <p:outputLabel value="Semestre:" style="font-weight:bold;"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
-                            <p:selectOneMenu id="valSemestre" value="#{estudianteController.actual.estSemestre}">
+                            <p:selectOneMenu id="valSemestre" value="#{estudianteController.actual.estSemestre}" style="width: 100%">
                                 <f:selectItem itemLabel="1" itemValue="1"></f:selectItem>
                                 <f:selectItem itemLabel="2" itemValue="2"></f:selectItem>
                             </p:selectOneMenu>
@@ -109,7 +109,7 @@
                             ;
                             return true;" actionListener="#{estudianteController.agregar()}" class="btn btn-primary " />
                     <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) {
-                                return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary " immediate="true"/>
+                                return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" immediate="true"/>
                 </h:form>
                 <br/><br/><br/>
             </h:form>

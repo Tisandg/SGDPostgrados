@@ -1198,8 +1198,8 @@ public class PublicacionController implements Serializable {
     }
     
     //libro
-    public Libro buscarIsbnLibro(String issn){
-        return daoLibro.findByIsbnLibro(issn);
+    public Libro buscarIsbnLibro(String isbn){
+        return daoLibro.findByIsbnLibro(isbn);
     }
     public Libro buscarLibroPorTitulo(String tituloLibro) {
         return daoLibro.findByTituloLibro(tituloLibro);

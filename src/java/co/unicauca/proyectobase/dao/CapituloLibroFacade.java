@@ -31,7 +31,7 @@ public class CapituloLibroFacade extends AbstractFacade<CapituloLibro> {
     public CapituloLibro findByTituloCapituloLibro(String tituloCapitulo) {
         //System.out.println("Titulo: "+tituloLibro);
         Query query= em.createNamedQuery("CapituloLibro.findByCaplibTituloCapitulo");
-        query.setParameter("revTitulo", tituloCapitulo);
+        query.setParameter("caplibTituloCapitulo", tituloCapitulo);
         List<CapituloLibro> resultList= query.getResultList();
         if (resultList.size() > 0) {
             return resultList.get(0);

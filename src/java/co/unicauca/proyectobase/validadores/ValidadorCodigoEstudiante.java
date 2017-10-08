@@ -1,5 +1,7 @@
 package co.unicauca.proyectobase.validadores;
 
+import co.unicauca.proyectobase.controladores.EstudianteController;
+import co.unicauca.proyectobase.controladores.PublicacionController;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
@@ -29,7 +31,7 @@ public class ValidadorCodigoEstudiante implements Validator {
         }
         
         if(!validarFormato(codigo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe ser numeros en el formato 70_cedulaEstudiante");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe ser numeros en el formato 70_1061...");
             throw new ValidatorException(msg); 
         }
         
@@ -39,9 +41,18 @@ public class ValidadorCodigoEstudiante implements Validator {
         }
         
         if(!validarCedula(codigo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código solo permite numeros y el caracter especial '_'.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código solo permite numeros y el caracter especial \"_\".");
             throw new ValidatorException(msg); 
         }
+        
+        
+        if (isRegistradoEstudianteCodigo(codigo, context)){
+            String message = "Ya existe un estudiante registrado con el codigo ingresaso.";
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", message);
+            throw new ValidatorException(msg);
+        }
+        
+        
     }
     
     //validar que el codigo tenga el formato xx_xxxxxx
@@ -63,5 +74,19 @@ public class ValidadorCodigoEstudiante implements Validator {
         
         Matcher m = p.matcher(aux);
         return m.matches();
+    }
+    
+    public boolean isRegistradoEstudianteCodigo(String codigo, FacesContext context){
+        /*Buscar en la bd si esta registrado*/
+        boolean variable = false;
+        EstudianteController controller = (EstudianteController) context.getApplication().getELResolver().
+                    getValue(context.getELContext(), null, "estudianteController");
+                
+        Integer identificador = controller.getActual().getEstIdentificador();                                         
+                                    
+        if (controller.buscarPorCodigoExceptoConId(codigo, identificador) != null) {
+            variable =  true;            
+        }
+        return variable;
     }
 }

@@ -26,6 +26,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import co.unicauca.proyectobase.controladores.CargarVistaCoordinador;
 import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
+import co.unicauca.proyectobase.dao.EstudianteFacade;
+import co.unicauca.proyectobase.entidades.Estudiante;
 
 /**
  *
@@ -38,6 +40,7 @@ public class UserLoginView implements Serializable {
     private String username;
     private String password;
     private Usuario usuario;
+    private Integer creditos;
 
     private CargarVistaCoordinador cvc;
     private CargarVistaEstudiante cve;
@@ -46,6 +49,8 @@ public class UserLoginView implements Serializable {
     private GrupoTipoUsuarioFacade ejbgtu;
     @Inject
     private UsuarioFacade ejbactual;
+    @EJB
+    private EstudianteFacade EJB_Estudiante;
 
     public String getUsername() {
         return username;
@@ -63,9 +68,17 @@ public class UserLoginView implements Serializable {
         this.password = password;
     }
 
+    public Integer getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(Integer creditos) {
+        this.creditos = creditos;
+    }
+    
     public void sinAcceso() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Error", "Usuario y/o contraseña incorrecto(s)"));
+        context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrecto(s)"));
 
     }
 
@@ -94,7 +107,8 @@ public class UserLoginView implements Serializable {
             }
 
             Principal principal = req.getUserPrincipal();
-            this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);
+            this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);            
+            this.creditos = EJB_Estudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
             ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
             Map<String, Object> sessionMap = external.getSessionMap();
             sessionMap.put("user", this.usuario);

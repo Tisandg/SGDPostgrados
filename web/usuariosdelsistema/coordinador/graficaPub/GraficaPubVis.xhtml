@@ -13,7 +13,7 @@
     <h:head>
         <title>Grafica Publicaciones Visadas</title>
     </h:head>
-    <ui:composition template="./../../../plantillas/PlantGrafica.xhtml">
+    <ui:composition template="./../../../plantillas/Coordinador.xhtml">
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
@@ -49,10 +49,12 @@
                </h:panelGrid>
             </p:panel>
             
+            <br/>
             <h:form>
                 <p:commandButton style="font-size: 13px; float:center;" value="Volver" actionListener="#{publicacionController.redirigirAlistar()}" class="btn btn-primary"/>                       
             </h:form>
                 
+            <br/>
         </ui:define>
     </ui:composition>
 </html>

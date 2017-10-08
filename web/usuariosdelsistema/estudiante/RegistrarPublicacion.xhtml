@@ -33,7 +33,7 @@
                         <p:outputLabel value="" styleClass="addEspacio"/>
                                                                                                        
                         <p:outputLabel value="Autores Secundarios:" styleClass="addEspacio"/>
-                        <p:inputText value="#{publicacionController.nombreAutor}" id="autor">
+                        <p:inputText value="#{publicacionController.nombreAutor}" id="autor" placeholder="Ingrese nombre autor aquí" size="35">
                             <f:validator validatorId="validadorAutoresSecundarios" />
                             <p:ajax event="blur" update="msjValAutores" /> 
                         </p:inputText>                        
@@ -47,7 +47,7 @@
                         <p:outputLabel value="" styleClass="addEspacio"/>
                                                 
                         <p:dataTable id ="tablaAutores" value="#{publicacionController.listaAutores}" var="autor" 
-                                     style="width:250px" emptyMessage="" rendered="true">
+                                     style="width:250px;" emptyMessage="" rendered="true">
                             <p:column width="155">
                                 <p:outputLabel value="#{autor.nombre}" id="nombreAutor"/>                                
                             </p:column>                            
@@ -71,7 +71,7 @@
                        
 
                         <p:outputLabel value="Fecha publicación:" styleClass="addEspacio"/>
-                        <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}">
+                        <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}" size="35">
                             <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
                             <f:validator validatorId="validadorFechaPublicacion" />
                             <p:ajax event="blur" update="msjValFechaPublicacion" />
@@ -82,8 +82,8 @@
                             <h:outputLabel value="Tipo publicación:" styleClass="addEspacio"/>                        
                             <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                         </h:panelGroup>
-                        <p:selectOneMenu class="form-control"  id="valTipopublicacion" value="#{publicacionController.actual.pubTipoPublicacion}" styleClass="tipopublicacion  addEspacio form-control" 
-                                         required="true" requiredMessage="Debe seleccionar un campo de la lista">
+                        <p:selectOneMenu class="form-control"  id="valTipopublicacion" value="#{publicacionController.actual.pubTipoPublicacion}" 
+                                         required="true" requiredMessage="Debe seleccionar un campo de la lista" style="width: 100% !important">
                             <f:selectItem itemLabel="Seleccionar" itemValue="seleccionar"></f:selectItem>
                             <f:selectItem itemLabel="Revista" itemValue="revista"></f:selectItem>
                             <f:selectItem itemLabel="Congreso" itemValue="congreso"></f:selectItem>
@@ -104,7 +104,7 @@
                                     <p:outputLabel value="DOI:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
-                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.actual.pubDoi}">
+                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.actual.pubDoi}" placeholder="10.xxxx/xxxx" size="35">
                                     <f:validator validatorId="validadorDOI" />
                                     <p:ajax event="blur" update="msjValDOIRev" />
                                 </p:inputText>
@@ -117,7 +117,7 @@
                                 <p:outputLabel value="Título artículo:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valNArticulo"  value="#{publicacionController.actual.revista.revTituloArticulo}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valNArticulo"  value="#{publicacionController.actual.revista.revTituloArticulo}" placeholder="Ingrese titulo aquí" size="35">
                                     <f:validator validatorId="validadorNombreArticulo" />
                                     <p:ajax event="blur" update="msjValNombreArticulo" />
                                 </p:inputText>
@@ -130,7 +130,7 @@
                                     <p:outputLabel value="Nombre revista:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
-                                <p:inputText class="form-control" id="valNRevista"  value="#{publicacionController.actual.revista.revNombreRevista}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valNRevista"  value="#{publicacionController.actual.revista.revNombreRevista}" placeholder="Ingrese nombre aquí" size="35">
                                     <f:validator validatorId="validadorNombreRevista" />
                                     <p:ajax event="blur" update="msjValNombreRevista" />
                                 </p:inputText>
@@ -143,7 +143,7 @@
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
                                 <p:selectOneMenu class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}"   
-                                                 required="true" requiredMessage="Debe seleccionar un campo de la lista">
+                                                 required="true" requiredMessage="Debe seleccionar un campo de la lista" style="width: 100% !important">
                                     <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
                                     <f:selectItem itemLabel="A1" itemValue="A1"></f:selectItem>
                                     <f:selectItem itemLabel="A2" itemValue="A2"></f:selectItem>
@@ -155,12 +155,14 @@
                                 <p:message for="valCategoria" id="msjvalCategoriaRevista" />
                                 <h:outputLink style="color: blue " value="https://goo.gl/2Ul5BG">Homologación de categoría de la revista</h:outputLink>                                
                                 
-                            </h:panelGrid>
-                            <h:panelGroup>
+                                <h:outputLabel value=""/>
+                                <h:panelGroup>
                                 <h:outputLabel value="Artículo PDF:" styleClass="addEspacio"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />;
                             </h:panelGroup>
-                            <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>    
+                            </h:panelGrid>
+                            
                         </p:panel>
                     </h:panelGroup>
 
@@ -171,7 +173,7 @@
                                     <h:outputLabel value="ISSN:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valISSN"  value="#{publicacionController.actual.pubIssn}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valISSN"  value="#{publicacionController.actual.pubIssn}" placeholder="123-12-12345-12-1" size="35">
                                     <f:validator validatorId="validadorISSN" />
                                     <p:ajax event="blur" update="msjValISSN" />
                                 </p:inputText>
@@ -184,7 +186,7 @@
                                     <p:outputLabel value="DOI:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valDOICong"  value="#{publicacionController.actual.pubDoi}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valDOICong"  value="#{publicacionController.actual.pubDoi}" placeholder="Ingrese DOI aquí" size="35">
                                     <f:validator validatorId="validadorDOI" />
                                     <p:ajax event="blur" update="msjValDOICong" />
                                 </p:inputText>
@@ -197,7 +199,7 @@
                                     <p:outputLabel value="Título ponencia:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
-                                <p:inputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" placeholder="Ingrese título aquí" size="35">
                                     <f:validator validatorId="validadorNombrePonencia" />
                                     <p:ajax event="blur" update="msjvalNPonencia" />
                                 </p:inputText>
@@ -210,7 +212,7 @@
                                     <p:outputLabel value="Nombre evento:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
-                                <p:inputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valNEvento"  value="#{publicacionController.actual.congreso.congNombreEvento}" placeholder="Ingrese nombre aquí" size="35">
                                     <f:validator validatorId="validadorNombreEvento" />
                                     <p:ajax event="blur" update="msjvalNEvento" />
                                 </p:inputText>
@@ -223,7 +225,7 @@
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
                                 <p:selectOneMenu class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" 
-                                                 styleClass="addEspacio form-control" required="true" requiredMessage="Debe seleccionar un campo de la lista">
+                                                 styleClass="addEspacio form-control" required="true" requiredMessage="Debe seleccionar un campo de la lista" style="width: 100% !important">
                                     <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
                                     <f:selectItem itemLabel="Evento nacional" itemValue="nacional"></f:selectItem>
                                     <f:selectItem itemLabel="Evento internacional" itemValue="internacional"></f:selectItem>
@@ -233,15 +235,14 @@
                                 <p:message for="valTipoCongreso" id="msjvalTipoCongreso" />
                                 <p:outputLabel value=""></p:outputLabel>
                                 <p:outputLabel value=""></p:outputLabel>
-
-                            </h:panelGrid>                                                        
-                            <h:panelGroup>
+                                
+                                <h:panelGroup>
                                 <p:outputLabel value="Congreso PDF:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                            </h:panelGroup>
-                            
-                                
+                            </h:panelGroup>                                                            
                             <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            </h:panelGrid>                                                        
+                            
                         </p:panel>
                     </h:panelGroup>
 
@@ -250,10 +251,10 @@
                             <h:panelGrid columns="5" cellpadding="5">
                                 <h:panelGroup>
                                     <p:outputLabel value="ISBN:" styleClass="addEspacio"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                                 </h:panelGroup>
                                 <p:inputText class="form-control" id="valISBNLibro"  value="#{publicacionController.actual.pubIsbn}" 
-                                             styleClass="addEspacio form-control" placeholder="123-12-12345-12-1">
+                                             styleClass="addEspacio form-control" placeholder="123-12-12345-12-1" size="35">
                                     <f:validator validatorId="validadorISBN" /> 
                                     <p:ajax event="blur" update="msjValISBNLibro" />
                                 </p:inputText>
@@ -264,23 +265,24 @@
 
                                 <h:panelGroup>
                                     <p:outputLabel value="Título libro:" styleClass="addEspacio"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" 
-                                             styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" placeholder="Ingrese título aquí" size="35">
                                     <f:validator validatorId="validadorTituloLibro" />
                                     <p:ajax event="blur" update="msjvalTLibro" />
                                 </p:inputText>
                                 <p:message for="valTLibro" id="msjvalTLibro" /> 
                                 <p:outputLabel value=""></p:outputLabel>
-                                   
-                            </h:panelGrid>
+                            
+                                <h:outputText value=""/>
+                                <h:panelGroup>
+                                    <p:outputLabel value="Libro PDF:"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                </h:panelGroup>
+                                <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                                 
+                                </h:panelGrid>
                             <br/>
-                            <h:panelGroup>
-                                <p:outputLabel value="Libro PDF:"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                            </h:panelGroup>
-                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                                 
+                            
                             
                         </p:panel>
                     </h:panelGroup>
@@ -292,8 +294,8 @@
                                     <p:outputLabel value="ISBN:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valISBNCapLibro"  value="#{publicacionController.actual.pubIsbn}" styleClass="addEspacio form-control">
-                                    <f:validator validatorId="validadorISBN" /> 
+                                <p:inputText class="form-control" id="valISBNCapLibro"  value="#{publicacionController.actual.pubIsbn}" placeholder="123-12-12345-12-1" size="35">
+                                    <f:validator validatorId="validadorISBN"/> 
                                     <p:ajax event="blur" update="msjValISBNCapLibro" />
                                 </p:inputText>
                                 <p:message for="valISBNCapLibro" id="msjValISBNCapLibro" /> 
@@ -304,7 +306,7 @@
                                     <p:outputLabel value="Título libro:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" placeholder="Ingrese título aquí" size="35">
                                     <f:validator validatorId="validadorTituloLibro" />
                                     <p:ajax event="blur" update="msjvalTCLibro" />
                                 </p:inputText>
@@ -316,7 +318,7 @@
                                     <p:outputLabel value="Título capítulo libro:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valTCapLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloCapitulo}" styleClass="addEspacio form-control">
+                                <p:inputText class="form-control" id="valTCapLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloCapitulo}" placeholder="Ingrese título capitulo aquí" size="35">
                                     <f:validator validatorId="validadorTCapituloLibro" />
                                     <p:ajax event="blur" update="msjvalTCapLibro" />
                                 </p:inputText>
@@ -324,14 +326,14 @@
                                 <p:outputLabel value=""></p:outputLabel>
                                 <p:outputLabel value=""></p:outputLabel>
                                 
-
-                            </h:panelGrid>
-                            <br/>
                             <h:panelGroup>
                                 <p:outputLabel value="Capítulo libro PDF:"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
                             <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            </h:panelGrid>
+                            <br/>
+                            
                         </p:panel>
                     </h:panelGroup>                    
 
@@ -349,8 +351,8 @@
                             <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                         </h:panelGroup>
                         <h:panelGroup>                            
-                            <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                             
-                            &rlm;<p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
+                            <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />&rlm;&ensp;
+                            <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
                             <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
                                        showEffect="clip" hideEffect="blind" />&nbsp;&nbsp;                            
                         </h:panelGroup>
@@ -362,12 +364,14 @@
 
                 <br/>
                 <h:form>
+                    <h:panelGrid columns="2" cellspacing="10>">
                     <h:commandButton value="Registrar" action="#{publicacionController.agregar()}" class="btn btn-primary"/> 
                     <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro de la publicación?')) {
                                 return false;
                             }
                             ;
                             return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
+                    </h:panelGrid>
                 </h:form>
             </h:form>
             <br/>   

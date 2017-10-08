@@ -28,7 +28,7 @@ public class ValidadorDOI implements Validator {
         if(doi.length() != 0) 
         {
             if(!validarFormato(doi)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "No cumple con el formato de un DOI: xxxx/xxxx");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El DOI debe tener el siguiente formato numerico: 10.xxxx/xxxx");
                 throw new ValidatorException(msg);
             }
             else {
@@ -43,7 +43,7 @@ public class ValidadorDOI implements Validator {
                     }
 
                     if(!validarPrefijo(doi)) {
-                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del DOI no cumple con el formato: 10.xxxx");
+                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del DOI no cumple con el formato numerico: 10.xxxx");
                         throw new ValidatorException(msg);
                     }
                 }
@@ -51,7 +51,7 @@ public class ValidadorDOI implements Validator {
         }    
         else
         {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Es necesario el DOI para poder registrar");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Es necesario el DOI para poder registrar la publicación");
             throw new ValidatorException(msg);
         }
     }

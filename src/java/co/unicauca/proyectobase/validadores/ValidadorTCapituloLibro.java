@@ -23,7 +23,8 @@ public class ValidadorTCapituloLibro implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String nombre = String.valueOf(value);
-        
+        System.out.println("nombre capitulo:"  + nombre);
+                
        if(nombre.length() == 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del capítulo del libro es obligatorio");
             throw new ValidatorException(msg);

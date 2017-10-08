@@ -52,7 +52,7 @@ public class ValidadorNombreArticulo implements Validator {
                 
         }
         if(isRegistradoTituloArticulo(nombre, context)){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del articulo a esta registrado. Por favor revise.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del articulo ya esta registrado. Por favor revise el dato ingresado.");
             throw new ValidatorException(msg);
         }
             

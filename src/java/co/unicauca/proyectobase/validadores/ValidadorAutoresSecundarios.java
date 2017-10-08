@@ -37,7 +37,7 @@ public class ValidadorAutoresSecundarios implements Validator {
                 }
                 
                 if(!validarNombreAutores(texto)) {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Uno o varios nombres no cumplen con el formato: Nombre(s) Apellido(s)");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre no cumple con el formato: Nombre(s) Apellido(s)");
                     throw new ValidatorException(msg);
                 }
          

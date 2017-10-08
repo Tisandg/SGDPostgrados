@@ -27,10 +27,11 @@ public class ValidadorTituloLibro implements Validator {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro debe contener entre 3 y 200 caracteres");
             throw new ValidatorException(msg);
         } 
-        if(isRegistrado(titulo, context)){
+        //indagar si el titulo de n libro se puede repetir
+        /*if(isRegistrado(titulo, context)){
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro ya esta registrado. Por favor revise.");
             throw new ValidatorException(msg);
-        }
+        }*/
     }
     
     public boolean isRegistrado(String titulo, FacesContext context){

@@ -22,34 +22,34 @@
             <div id="banderaHeader"></div>
         </header>
 
-        <p:menubar style="margin-left: 20px; margin-right: 20px; margin-top: 7px; margin-bottom: 10px;">   
-            <f:facet name="options">
-                <p:commandButton value="Cerrar Sesión" icon="ui-icon-extlink" actionListener="#{userLoginView.salir}" style="font-size: 15px;"/>
-            </f:facet>        
+        <p:menubar style="margin-left: 20px; margin-right: 20px; margin-top: 7px; margin-bottom: 10px;">                           
+            <f:facet name="options">                
+                <p:commandButton value="Cerrar Sesión" icon="ui-icon-extlink" actionListener="#{userLoginView.salir}" style="font-size: 15px;"/>                
+            </f:facet>
         </p:menubar>
 
         <div>
             <div id="menu_coordinador" style="float:left; margin-left: 20px; ">
                 <div class="ui-messages-info ">
-                    <span class="ui-messages-info-detail"><b>Menú Administrador</b></span>
+                    <span class="ui-messages-info-detail"><b>Menú Alumno</b></span>
                 </div>
                 <ui:insert name="left" >
                     <ui:include src="../estudiante/menu.xhtml"></ui:include>
                 </ui:insert>
             </div>
 
-            <div id="contenido_coordinador" style=" width: 83%; float:left ; margin-left: 16px;">
+            <div id="contenido_coordinador" style=" width: 82%; float:left ; margin-left: 16px;">
                 <ui:insert name="content">Content</ui:insert>
             </div>
             
-            <!--<div>
+            <div>
                 <footer class="interno">
-                    <div id="banderaFooter"></div>
-                    <p id="pFooter" style="font-size: 15px; font-family: sans-serif">2017  |  Posgrados facultad de Ingeniería Electrónica y Telecomunicaciones <br/>
+                    <div id="banderaFooter"></div>                    
+                    <p id="pFooter" style="font-size: 15px; font-family: sans-serif" align="center">Posgrados facultad de Ingeniería Electrónica y Telecomunicaciones <br/>
                             <a id="a" href="http://www.unicauca.edu.co" style="color: blue">Universidad del Cauca</a>
                         </p>
                 </footer>
-            </div>-->
+            </div>
         </div>
     </h:body>
 </html>

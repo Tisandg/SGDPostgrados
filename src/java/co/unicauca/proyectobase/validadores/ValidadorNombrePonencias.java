@@ -41,7 +41,7 @@ public class ValidadorNombrePonencias implements Validator {
             throw new ValidatorException(msg);
         } 
         if(isRegistrado(nombre, context)){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre ya esta registrado. Por favor, verifique el nombre de la ponencia .");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título ya esta registrado. Por favor, verifique el título de la ponencia .");
             throw new ValidatorException(msg);
         }
 

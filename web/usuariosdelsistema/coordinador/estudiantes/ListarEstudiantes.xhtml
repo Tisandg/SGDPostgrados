@@ -17,7 +17,7 @@
                     <b>Listado General de Estudiantes</b>
                 </span>
             </div>                        
-            
+            <p:separator />
             <h:form>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -25,7 +25,8 @@
             </h:form>
             
             <br/>
-                
+            
+            
             <h:form>
                 <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" styleClass="addEspacio" style="font-weight:bold;"/>
                 <p:inputText id="textoFiltrado" placeholder="Ingrese el código, nombres o apellidos del estudiante" value="#{estudianteController.variableFiltrado}" size="45">
@@ -64,6 +65,7 @@
                 </p:column>                
             </p:dataTable>
             
+            <br/>           <br/>
         </ui:define>
     </ui:composition>
 </html>

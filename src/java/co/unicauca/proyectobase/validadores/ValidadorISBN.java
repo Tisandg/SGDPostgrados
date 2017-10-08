@@ -1,5 +1,6 @@
 package co.unicauca.proyectobase.validadores;
 
+import co.unicauca.proyectobase.controladores.PublicacionController;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
@@ -26,9 +27,15 @@ public class ValidadorISBN implements Validator{
         }
                 
         if(!isValidoFormato(isbn)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN deben ser numeros en este formato \"xxx-xx-xxxxx-xx-x\".");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"xxx-xx-xxxxx-xx-x\".");
             throw new ValidatorException(msg);
         }
+        
+        /*
+        if(isRegistrado(isbn, context)){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ya exite un libro almacenado con el ISBN ingresado.");
+            throw new ValidatorException(msg);
+        }*/
 
     }
     
@@ -86,6 +93,17 @@ public class ValidadorISBN implements Validator{
         Pattern p = Pattern.compile("^[0-9]*$");
         Matcher m = p.matcher(cadena); 
         return m.find();
+    }
+    
+    public boolean isRegistrado(String isbn, FacesContext context){
+        boolean variable = false;
+        PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
+                    getValue(context.getELContext(), null, "publicacionController");
+        if (controller.buscarIsbnLibro(isbn) != null) {
+            variable = true;
+        }
+        System.out.println("validado isbn: " + variable);
+        return variable;        
     }
     
 }
