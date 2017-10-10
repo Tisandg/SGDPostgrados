@@ -44,9 +44,9 @@
                             <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" style="color: #3366ff"/>                                                                                                                                                                                                                
                         </h:panelGrid>
-                        <h:panelGrid columns="3" cellspacing="5">
+                        <h:panelGrid columns="3" cellspacing="5" rendered="#{publicacionController.actual.pubVisado != 'aprobado'}">
                             <h:outputLabel value="Cambiar estado visado:" style="font-weight:bold;"/>
-                            <p:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px">                        
+                            <p:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" >
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
                                 <f:selectItem itemLabel="En espera" itemValue="espera" />
                                 <f:selectItem itemLabel="Aprobado" itemValue="aprobado" />

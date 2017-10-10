@@ -36,6 +36,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class Revista implements Serializable {
 
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "rev_doi")
+    private String revDoi;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -138,6 +143,14 @@ public class Revista implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Revista[ pubIdentificador=" + pubIdentificador + " ]";
+    }
+
+    public String getRevDoi() {
+        return revDoi;
+    }
+
+    public void setRevDoi(String revDoi) {
+        this.revDoi = revDoi;
     }
     
 }

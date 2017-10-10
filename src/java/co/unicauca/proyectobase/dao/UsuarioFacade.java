@@ -33,10 +33,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     
     public List<Usuario> findAllByNombreUsuario(String nombreUsuario)
     {
+        System.out.println("buscando usuario: " + nombreUsuario);
         Query query= em.createNamedQuery("Usuario.findByNombreUsuario");
         query.setParameter("nombreUsuario", nombreUsuario);
         List<Usuario> findUsuario= query.getResultList();
         System.out.println("Datos de la lista"+ findUsuario);
+        System.out.println("buscando usuario: " + nombreUsuario+ " resultado: " + findUsuario.toString());
         return findUsuario;
     }
     

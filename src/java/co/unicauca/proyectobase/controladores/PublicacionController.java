@@ -167,7 +167,7 @@ public class PublicacionController implements Serializable {
     }
 
     public String getCreditos() {
-        creditos = "" + actual.getPubCreditos();
+        creditos = "" + daoEst.findCreditosByNombreUsuario(nombreAutor);
         if (creditos.equalsIgnoreCase("null")) {
             creditos = "0";
         }
@@ -511,7 +511,7 @@ public class PublicacionController implements Serializable {
 
     }
 
-    public void agregar() {
+    public void agregar() throws IOException {
         System.out.println("Registrando publicacion");
         /* formatoValido -> se utiliza para verificar que el usario
            suba unicamente archivos en formato pdf*/
@@ -555,10 +555,8 @@ public class PublicacionController implements Serializable {
                 try {
 
                     actual.setPubEstIdentificador(est);
-                    String nombreAut = "";
-                    nombreAut = "" + est.getEstNombre() + " " + est.getEstApellido();
-
-                    actual.setPubNombreAutor(nombreAut);
+                    String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
+                    
                     int numPubRevis = dao.getnumFilasPubRev();
                     actual.setPubIdentificador(numPubRevis);
 
@@ -626,7 +624,7 @@ public class PublicacionController implements Serializable {
                         CollArchivo.add(arcTablaC);
                     }
                     actual.setArchivoCollection(CollArchivo);
-                    actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF);
+                    actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF, getPubDoi(), getPubIsbn(), getPubIssn());
 
                     actual.setPubEstado("Activo");
                     /* Asigna espera como estado del visado la publicacion */
@@ -644,7 +642,7 @@ public class PublicacionController implements Serializable {
                     limpiarCampos();
                     redirigirAlistar(est.getEstUsuario());
                     // redirigirAlistar(est.getEstUsuario());
-                } catch (IOException | GeneralSecurityException | DocumentException | PathNotFoundException | AccessDeniedException | EJBException ex) {
+                } catch (EJBException ex) {
                     mensajeRegistroFallido();
                     limpiarCampos();
                     redirigirAlistar(est.getEstUsuario());                    
@@ -879,17 +877,10 @@ public class PublicacionController implements Serializable {
 //            ret = true;
 //        }
 //        return ret;
-
     }
 
     public boolean renderizarCapLibro() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro");
-//        boolean ret = false;
-//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro")) {
-//            ret = true;
-//        }
-//        return ret;
-
     }
 
     public void asignarCreditos() {
@@ -898,8 +889,7 @@ public class PublicacionController implements Serializable {
             realiza el visado de la publicacion */
         Date date = new Date();
 
-        int auxCreditos = Integer.parseInt(creditos);
-        actual.setPubCreditos(auxCreditos);
+        int auxCreditos = Integer.parseInt(creditos);        
         actual.setPubFechaVisado(date);
         dao.edit(actual);
         dao.flush();
@@ -922,10 +912,11 @@ public class PublicacionController implements Serializable {
         if (actual.getPubVisado().equalsIgnoreCase("aceptada")) {
 
             int creditos_actuales = actual.getPubEstIdentificador().getEstCreditos();
-            int creditos_nuevos = creditos_actuales - actual.getPubCreditos();
+            
+            //hay que agregar logica de creditos aqui
+            int creditos_nuevos = creditos_actuales + getCreditosByTipoPub("tiopPub") ;
             creditos_nuevos = creditos_nuevos + auxCreditos;
-            actual.getPubEstIdentificador().setEstCreditos(creditos_nuevos);
-            actual.setPubCreditos(auxCreditos);
+            actual.getPubEstIdentificador().setEstCreditos(creditos_nuevos);            
             actual.setPubNumActa(acta);
             daoEst.edit(actual.getPubEstIdentificador());
             Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Edición de Creditos de publicacion", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" + "A la publicación de nombre " + actual.obtenerNombrePub() + " se le han editado los creditos obtenidos, el nuevo número de creditos asignados es: " + auxCreditos);
@@ -936,8 +927,7 @@ public class PublicacionController implements Serializable {
         } /* Si no la publicacion no ha sido aceptada 
              indica que esta en espera */ else {
             if (actual.getPubEstIdentificador().getEstCreditos() == null) {
-                actual.getPubEstIdentificador().setEstCreditos(auxCreditos);
-                actual.setPubCreditos(auxCreditos);
+                actual.getPubEstIdentificador().setEstCreditos(auxCreditos);                
                 actual.setPubNumActa(acta);
                 daoEst.edit(actual.getPubEstIdentificador());
                 actual.setPubVisado("aceptada");
@@ -950,8 +940,7 @@ public class PublicacionController implements Serializable {
             } else {
                 int creditos_actuales = actual.getPubEstIdentificador().getEstCreditos();
                 int creditos_nuevos = creditos_actuales + auxCreditos;
-                actual.getPubEstIdentificador().setEstCreditos(creditos_nuevos);
-                actual.setPubCreditos(auxCreditos);
+                actual.getPubEstIdentificador().setEstCreditos(creditos_nuevos);                
                 actual.setPubNumActa(acta);
                 actual.setPubVisado("aceptada");
                 Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Asignación de Creditos de publicación", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" + "La publicación de nombre " + actual.obtenerNombrePub() + " ha sido revisada, y se la ha asignado el siguiente número de creditos: " + auxCreditos);
@@ -965,6 +954,15 @@ public class PublicacionController implements Serializable {
 
         }
 
+    }
+    
+    /**
+     * obtiene la cantidad de creditos que se deben asignar dependiendo del tipo de publicacion
+     * @param tipoPub tipo de publicacion que se registro
+     * @return numero de creditos correspondientes al tipo de publicacion
+     */
+    public int getCreditosByTipoPub(String tipoPub){
+        return 1;
     }
 
     public void mensajeRechazar() {
@@ -1069,7 +1067,7 @@ public class PublicacionController implements Serializable {
                         + actual.getPubEstIdentificador().getEstApellido()
                         + "\n\nLe informamos que su publicación con nombre " 
                         + actual.obtenerNombrePub() + " fue aprobada !ENHORABUENA¡."
-                        + "\nNúmero de creditos: " + actual.getPubCreditos());
+                        + "\nNúmero de creditos: " + actual.getPubEstIdentificador().getEstCreditos());
             }
             if(visado.equalsIgnoreCase("No Aprobado")){
                 String mensaje =  "Apreciado "
@@ -1213,4 +1211,38 @@ public class PublicacionController implements Serializable {
         return daoCapituloLibro.findByIsbnLibro(issn);
     }            
     //</editor-fold>
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="cambios en registar publicacion">
+    private String pubDoi;
+    private String pubIsbn;
+    private String pubIssn;
+    
+    public String getPubDoi() {
+        return pubDoi;
+    }
+
+    public void setPubDoi(String pubDoi) {
+        this.pubDoi = pubDoi;
+    }
+
+    public String getPubIsbn() {
+        return pubIsbn;
+    }
+
+    public void setPubIsbn(String pubIsbn) {
+        this.pubIsbn = pubIsbn;
+    }
+
+    public String getPubIssn() {
+        return pubIssn;
+    }
+
+    public void setPubIssn(String pubIssn) {
+        this.pubIssn = pubIssn;
+    }
+    
+//</editor-fold>
+
+    
 }

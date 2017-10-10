@@ -1,8 +1,6 @@
 package co.unicauca.proyectobase.dao;
 
 import co.unicauca.proyectobase.entidades.CapituloLibro;
-import co.unicauca.proyectobase.entidades.Libro;
-import co.unicauca.proyectobase.entidades.Revista;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -32,6 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Libro.findByLibTituloLibro", query = "SELECT l FROM Libro l WHERE l.libTituloLibro = :libTituloLibro")})
 public class Libro implements Serializable {
 
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "lib_isbn")
+    private String libIsbn;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -106,6 +111,14 @@ public class Libro implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Libro[ pubIdentificador=" + pubIdentificador + " ]";
+    }
+
+    public String getLibIsbn() {
+        return libIsbn;
+    }
+
+    public void setLibIsbn(String libIsbn) {
+        this.libIsbn = libIsbn;
     }
     
 }

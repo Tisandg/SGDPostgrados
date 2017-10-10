@@ -6,6 +6,7 @@
 package co.unicauca.proyectobase.entidades;
 
 import java.io.Serializable;
+import javax.enterprise.inject.Default;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +33,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "CapituloLibro.findByCaplibTituloLibro", query = "SELECT c FROM CapituloLibro c WHERE c.caplibTituloLibro = :caplibTituloLibro")
     , @NamedQuery(name = "CapituloLibro.findByCaplibTituloCapitulo", query = "SELECT c FROM CapituloLibro c WHERE c.caplibTituloCapitulo = :caplibTituloCapitulo")})
 public class CapituloLibro implements Serializable {
+
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "caplib_isbn")
+    private String caplibIsbn;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -121,6 +127,14 @@ public class CapituloLibro implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.CapituloLibro[ pubIdentificador=" + pubIdentificador + " ]";
+    }
+
+    public String getCaplibIsbn() {
+        return caplibIsbn;
+    }
+
+    public void setCaplibIsbn(String caplibIsbn) {
+        this.caplibIsbn = caplibIsbn;
     }
     
 }
