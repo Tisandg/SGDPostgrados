@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDocumentoCreateDlg" widgetVar="TipoDocumentoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleTipoDocumento.CreateTipoDocumentoTitle}">
+            <h:form id="TipoDocumentoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tipoDocumentoController.selected != null}">
+                        <p:outputLabel value="#{bundleTipoDocumento.CreateTipoDocumentoLabel_identificador}" for="identificador" />
+                        <p:inputText id="identificador" value="#{tipoDocumentoController.selected.identificador}" title="#{bundleTipoDocumento.CreateTipoDocumentoTitle_identificador}" required="true" requiredMessage="#{bundleTipoDocumento.CreateTipoDocumentoRequiredMessage_identificador}"/>
+                        <p:outputLabel value="#{bundleTipoDocumento.CreateTipoDocumentoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoDocumentoController.selected.nombre}" title="#{bundleTipoDocumento.CreateTipoDocumentoTitle_nombre}" required="true" requiredMessage="#{bundleTipoDocumento.CreateTipoDocumentoRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundleTipoDocumento.CreateTipoDocumentoLabel_creditos}" for="creditos" />
+                        <p:inputText id="creditos" value="#{tipoDocumentoController.selected.creditos}" title="#{bundleTipoDocumento.CreateTipoDocumentoTitle_creditos}" required="true" requiredMessage="#{bundleTipoDocumento.CreateTipoDocumentoRequiredMessage_creditos}"/>
+                        <p:outputLabel value="#{bundleTipoDocumento.CreateTipoDocumentoLabel_correquisitos}" for="correquisitos" />
+                        <p:selectOneMenu id="correquisitos" value="#{tipoDocumentoController.selected.correquisitos}" >
+                            <f:selectItems value="#{tipoDocumentoController.itemsAvailableSelectOne}"
+                                           var="correquisitosItem"
+                                           itemValue="#{correquisitosItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDocumentoController.create}" value="#{bundleTipoDocumento.Save}" update="display,:TipoDocumentoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TipoDocumentoCreateDialog');"/>
+                    <p:commandButton value="#{bundleTipoDocumento.Cancel}" onclick="TipoDocumentoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

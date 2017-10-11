@@ -137,6 +137,10 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
+    @JoinColumn(name = "id_tipo_documento", referencedColumnName = "identificador")
+    @ManyToOne
+    private TipoDocumento idTipoDocumento;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -1110,6 +1114,14 @@ public class Publicacion implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Publicacion[ pubIdentificador=" + pubIdentificador + " ]";
+    }
+
+    public TipoDocumento getIdTipoDocumento() {
+        return idTipoDocumento;
+    }
+
+    public void setIdTipoDocumento(TipoDocumento idTipoDocumento) {
+        this.idTipoDocumento = idTipoDocumento;
     }
 
 }

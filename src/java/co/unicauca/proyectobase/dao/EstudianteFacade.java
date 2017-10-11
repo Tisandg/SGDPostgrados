@@ -107,4 +107,26 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         }
         return 0;
     }
+
+    public String findNombre(String nombreUsuario) {
+        System.out.println("buscando nombre: " + nombreUsuario);
+        Query query = em.createNamedQuery("Estudiante.findNombreByUsuario");
+        query.setParameter("nombreUsuario", nombreUsuario);
+        List<Estudiante> resultList = query.getResultList();        
+        if(!resultList.isEmpty()){    
+            System.out.println("encontrado: " + resultList.get(0).toString());
+            return resultList.get(0).getEstNombre() + " "+ resultList.get(0).getEstApellido();
+        }
+        return "";
+    }
+
+    public String findNombreById(Estudiante nombreUsuario) {        
+        Query query = em.createNamedQuery("Estudiante.findNombreById");
+        query.setParameter("id", nombreUsuario.getEstIdentificador());
+        List<Estudiante> resultList = query.getResultList();        
+        if(!resultList.isEmpty()){                
+            return resultList.get(0).getEstNombre() + " "+ resultList.get(0).getEstApellido();
+        }
+        return "";
+    }
 }

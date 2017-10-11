@@ -16,7 +16,7 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Registrar Publicación</b>
+                    <b>Registrar Documentos</b>
                 </span>
             </div>           
 
@@ -29,7 +29,7 @@
                     </div>
                     <h:panelGrid columns="3" cellpadding="5">
                         <p:outputLabel value="Nombre Autor:" styleClass="addEspacio"/>
-                        <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" styleClass="addEspacio form-control" style="color: #3366ff"></h:outputText>
+                        <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" style="color: #3366ff"></h:outputText>
                         <p:outputLabel value="" styleClass="addEspacio"/>
                                                                                                        
                         <p:outputLabel value="Autores Secundarios:" styleClass="addEspacio"/>
@@ -69,7 +69,8 @@
                        
 
                         <p:outputLabel value="Fecha publicación:" styleClass="addEspacio"/>
-                        <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}" size="35">
+                        <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}" size="35" 
+                                     pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es">
                             <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
                             <f:validator validatorId="validadorFechaPublicacion" />
                             <p:ajax event="blur" update="msjValFechaPublicacion" />
@@ -238,7 +239,7 @@
                                 <p:outputLabel value="Congreso PDF:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>                                                            
-                            <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                                <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                             </h:panelGrid>                                                        
                             
                         </p:panel>

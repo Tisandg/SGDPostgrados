@@ -40,6 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByEstado", query = "SELECT u FROM Usuario u WHERE u.estado = :estado")})
 public class Usuario implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
+    private List<Estudiante> estudianteList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
+    private List<Coordinador> coordinadorList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,6 +88,14 @@ public class Usuario implements Serializable {
         this.contrasena = contrasena;
         this.estado = estado;
     }
+
+    public Usuario(String nombres, String apellidos, String nombreUsuario, String contrasena) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.nombreUsuario = nombreUsuario;
+        this.contrasena = contrasena;
+    }
+    
 
     public Integer getId() {
         return id;
@@ -164,6 +177,24 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Usuario[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Estudiante> getEstudianteList() {
+        return estudianteList;
+    }
+
+    public void setEstudianteList(List<Estudiante> estudianteList) {
+        this.estudianteList = estudianteList;
+    }
+
+    @XmlTransient
+    public List<Coordinador> getCoordinadorList() {
+        return coordinadorList;
+    }
+
+    public void setCoordinadorList(List<Coordinador> coordinadorList) {
+        this.coordinadorList = coordinadorList;
     }
     
 }

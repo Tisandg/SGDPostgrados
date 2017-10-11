@@ -22,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,7 +35,6 @@ import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.enterprise.context.SessionScoped;
 /*import java.nio.charset.StandardCharsets;
 import java.util.Base64;*/
 import javax.faces.application.FacesMessage;
@@ -41,7 +42,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIOutput;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -50,10 +50,10 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
-@Named(value = "publicacionController")
+@Named(value = "documentoController")
 @ManagedBean
 @SessionScoped
-public class PublicacionController implements Serializable {
+public class DocumentoController implements Serializable {
 
     @EJB
     private EstudianteFacade daoEst;
@@ -74,8 +74,8 @@ public class PublicacionController implements Serializable {
     private CapituloLibroFacade daoCapituloLibro;
     
     private Publicacion actual;
-    private List<Publicacion> listaPublicaciones;
-    private UploadedFile publicacionPDF;
+    private List<Publicacion> listaDocumentos;
+    private UploadedFile documentoPDF;
     private UploadedFile TablaContenidoPDF;
     private UploadedFile cartaAprobacionPDF;
     private byte[] exportContent;
@@ -146,22 +146,6 @@ public class PublicacionController implements Serializable {
         this.numActa = numActa;
     }
 
-    public String obtenerNombreUsuario(String nombreUsuario){
-        return daoEst.findNombre(nombreUsuario);        
-    }
-    
-    /**
-     * metodo para buscar el nombre de usuario de cada publicacion que desea ver el coordinador
-     * @return nombre de usuario
-     */
-    public String obtenerNombreUsuarioCoor(){
-        return daoEst.findNombreById(actual.getPubEstIdentificador());        
-    }
-        
-    public String obtenerNombreUsuarioById(Estudiante nombreUsuario){
-        return daoEst.findNombreById(nombreUsuario);
-        
-    }
     public String getCreditos() {
         creditos = "" + daoEst.findCreditosByNombreUsuario(nombreAutor);
         if (creditos.equalsIgnoreCase("null")) {
@@ -182,13 +166,13 @@ public class PublicacionController implements Serializable {
         this.pdfUrl = pdfUrl;
     }
 
-    public UploadedFile getPublicacionPDF() {
-        return publicacionPDF;
+    public UploadedFile getDocumentoPDF() {
+        return documentoPDF;
     }
 
-    public void setPublicacionPDF(UploadedFile publicacionPDF) {
+    public void setDocumentoPDF(UploadedFile documentoPDF) {
 
-        this.publicacionPDF = publicacionPDF;
+        this.documentoPDF = documentoPDF;
     }
 
     public UploadedFile getTablaContenidoPDF() {
@@ -208,19 +192,19 @@ public class PublicacionController implements Serializable {
         this.cartaAprobacionPDF = cartaAprobacionPDF;
     }
 
-    public List<Publicacion> getListaPublicaciones() {
-        return listaPublicaciones;
+    public List<Publicacion> getListaDocumentos() {
+        return listaDocumentos;
     }
 
     public void setListaEstudiantes(List<Publicacion> listaPublicacion) {
-        this.listaPublicaciones = listaPublicacion;
+        this.listaDocumentos = listaPublicacion;
     }
 
     String INICIO = "index";
     String CREAR = "new";
     String EDITAR = "editar";
 
-    public PublicacionController() {
+    public DocumentoController() {
         cve = new CargarVistaEstudiante();
         cvc = new CargarVistaCoordinador();
     }
@@ -235,48 +219,65 @@ public class PublicacionController implements Serializable {
     public String index() {
         return INICIO;
     }
-    
-    
-    //<editor-fold defaultstate="collapsed" desc="listado de publicaciones">   
+
     public List<Publicacion> listado() {
+
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
+
             return dao.findAll();
+
         } else {
+
             return dao.ListadoPublicacionFilt(variableFiltrado);
+
         }
-    }               
+
+    }
+   
+        
+    
 
     public List<Publicacion> listadoEspera() {
+
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
+
             return listaPublicacionVisadoEspera(dao.findAll());
+
         } else {
             return listaPublicacionVisadoEspera(dao.ListadoPublicacionFilt(variableFiltrado));
         }
     }
 
     public List<Publicacion> listadoRevisadas() {
+
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
+
             return listaPublicacionVisadoRevisada(dao.findAll());
+
         } else {
             return listaPublicacionVisadoRevisada(dao.ListadoPublicacionFilt(variableFiltrado));
         }
     }
     
     public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
+
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
+
             Estudiante est = dao.obtenerEstudiante(nombreUsuario);
             setAuxEstudiante(est);
             int idEstudiante = est.getEstIdentificador();
             return dao.ListadoPublicacionEst(idEstudiante);
+
         } else {
+
             Estudiante est = dao.obtenerEstudiante(nombreUsuario);
             setAuxEstudiante(est);
             int idEstudiante = est.getEstIdentificador();
             return dao.ListadoPublicacionEstFilt(idEstudiante, variableFiltrado);
+
         }
-    }    
-    //</editor-fold>
-    
+
+    }
     
 
     /* Lista las publicaciones que su estado de Visado sea: espera,
@@ -302,14 +303,11 @@ public class PublicacionController implements Serializable {
         }
         return listado;
     }
-    
-    
-    
 
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
-        facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+        //facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
     
     public void pdfCartaAprob() throws FileNotFoundException, IOException, IOException, IOException {
@@ -494,22 +492,19 @@ public class PublicacionController implements Serializable {
     }
 
     public void agregar() throws IOException {
-        System.out.println("Registrando publicacion");
+        System.out.println("Registrando documento");
         /* formatoValido -> se utiliza para verificar que el usario
            suba unicamente archivos en formato pdf*/
         boolean formatoValido = true;
-        if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
-
+        if (!documentoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documentoPDF.getContentType())) {
             FacesContext.getCurrentInstance().addMessage("valPublicacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicación en formato PDF", ""));
             formatoValido = false;
         }
         if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(TablaContenidoPDF.getContentType())) {
-
             FacesContext.getCurrentInstance().addMessage("valTContenido", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la Tabla de Contenido en formato PDF", ""));
             formatoValido = false;
         }
         if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
-
             FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la carta de aprobación en formato PDF", ""));
             formatoValido = false;
         }
@@ -518,7 +513,7 @@ public class PublicacionController implements Serializable {
             /* puedeSubir  ->  se utiliza para comprobar que el usuario ha seleccionado 
                 el PDF de la publicacion o en su defecto la carta de aprobacion*/
             boolean puedeSubir = false;
-            if (publicacionPDF.getFileName().equalsIgnoreCase("")) {
+            if (documentoPDF.getFileName().equalsIgnoreCase("")) {
                 if (cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
 
                     FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicación", ""));
@@ -530,15 +525,12 @@ public class PublicacionController implements Serializable {
                 puedeSubir = true;
             }
 
-            if (puedeSubir == true) {
-                //else {
-                System.out.println("agregar");
+            if (puedeSubir) {                
+                System.out.println("agregando documento");
                 Estudiante est = getAuxEstudiante();
                 try {
-
                     actual.setPubEstIdentificador(est);
-                    String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
-                    
+                    String nombreAut = est.getEstNombre() + " " + est.getEstApellido();                   
                     int numPubRevis = dao.getnumFilasPubRev();
                     actual.setPubIdentificador(numPubRevis);
 
@@ -547,7 +539,6 @@ public class PublicacionController implements Serializable {
                     if (actual.getPubTipoPublicacion().equals("revista")) {
                         actual.getRevista().setPubIdentificador(numPubRevis);
                         actual.getRevista().setPublicacion(actual);
-                        actual.getRevista().setRevDoi(pubDoi);
                         actual.setCongreso(null);
                         actual.setCapituloLibro(null);
                         actual.setLibro(null);
@@ -557,8 +548,6 @@ public class PublicacionController implements Serializable {
 
                         actual.getCongreso().setPubIdentificador(numPubRevis);
                         actual.getCongreso().setPublicacion(actual);
-                        actual.getCongreso().setCongIssn(pubIssn);
-                        actual.getCongreso().setCongDoi(pubDoi);
                         actual.setRevista(null);
                         actual.setCapituloLibro(null);
                         actual.setLibro(null);
@@ -568,7 +557,6 @@ public class PublicacionController implements Serializable {
                         /* SI no es una revista, el objeto a adicionar es un congreso*/
                         actual.getLibro().setPubIdentificador(numPubRevis);
                         actual.getLibro().setPublicacion(actual);
-                        actual.getLibro().setLibIsbn(pubIsbn);
                         actual.setRevista(null);
                         actual.setCongreso(null);
                         actual.setCapituloLibro(null);
@@ -578,7 +566,6 @@ public class PublicacionController implements Serializable {
                         /* SI no es una revista, el objeto a adicionar es un congreso*/
                         actual.getCapituloLibro().setPubIdentificador(numPubRevis);
                         actual.getCapituloLibro().setPublicacion(actual);
-                        actual.getCapituloLibro().setCaplibIsbn(pubIsbn);
                         actual.setRevista(null);
                         actual.setCongreso(null);
                         actual.setLibro(null);
@@ -594,7 +581,7 @@ public class PublicacionController implements Serializable {
                     CollArchivo.add(archCartaAprob);
 
                     //int numArchivos = numPubRevis;
-                    if (!publicacionPDF.getFileName().equalsIgnoreCase("")) {
+                    if (!documentoPDF.getFileName().equalsIgnoreCase("")) {
                         Archivo archArt = new Archivo();
                         numArchivos = numArchivos + 1;
                         archArt.setArcPubIdentificador(actual);
@@ -611,7 +598,7 @@ public class PublicacionController implements Serializable {
                         CollArchivo.add(arcTablaC);
                     }
                     actual.setArchivoCollection(CollArchivo);
-                    actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF, getPubDoi(), getPubIsbn(), getPubIssn());
+                    actual.agregarMetadatos(documentoPDF, TablaContenidoPDF, cartaAprobacionPDF, getPubDoi(), getPubIsbn(), getPubIssn());
 
                     actual.setPubEstado("Activo");
                     /* Asigna espera como estado del visado la publicacion */
@@ -633,7 +620,7 @@ public class PublicacionController implements Serializable {
                     mensajeRegistroFallido();
                     limpiarCampos();
                     redirigirAlistar(est.getEstUsuario());                    
-                    Logger.getLogger(PublicacionController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DocumentoController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
@@ -651,13 +638,10 @@ public class PublicacionController implements Serializable {
         actual.setRevista(revi);
         actual.setCongreso(cong);
         actual.setLibro(libr);
-        actual.setCapituloLibro(caplib);
-        
-
+        actual.setCapituloLibro(caplib);       
     }
 
     public void limpiarCampos(String nombreUsuario) {
-
         actual = new Publicacion();
         Revista revi = new Revista();
         Congreso cong = new Congreso();
@@ -673,7 +657,6 @@ public class PublicacionController implements Serializable {
     }
 
     public void fijarEstudiante(String nombreUsuario) {
-
         Estudiante est = dao.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
     }
@@ -778,8 +761,9 @@ public class PublicacionController implements Serializable {
         Utilidades.redireccionar(cvc.getRuta());
     }
     //</editor-fold>
-
-    /*mensajes de confirmacion */
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="mensajes de confirmacion">   
     public void mensajeEditar() {
         addMessage("ha editado satisfactoriamente la publicacion", "");
     }
@@ -798,7 +782,15 @@ public class PublicacionController implements Serializable {
     }
 
     public void mensajeRegistroFallido() {
-        addErrorMessage("Ocurrio un error durante el registro de la Publicacion ", "");
+        addErrorMessage("Ocurrio un error durante el registro de la Publicación ", "");
+    }
+    
+    public void mensajeVisar() {
+        addMessage("Ha visado satisfactoriamente la publicacion", "");
+    }
+
+    public void mensajeEditarCreditos() {
+        addMessage("Ha editado satisfactoriamente los creditos de la publicacion", "");
     }
 
     public void addMessage(String summary, String detail) {
@@ -810,6 +802,10 @@ public class PublicacionController implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+    public void mensajeRechazar() {
+        addMessage("El visado de la publicacion ha sido rechazado", "");
+    }
+    //</editor-fold>
 
     public Estudiante getAuxEstudiante() {
         return auxEstudiante;
@@ -837,38 +833,23 @@ public class PublicacionController implements Serializable {
 
     }
 
+    //<editor-fold defaultstate="collapsed" desc="renderizar tipos documento">    
     public boolean renderizarRevista() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("revista");
-//        boolean ret = false;
-//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("revista")) {
-//            ret = true;
-//        }
-//        return ret;
-
     }
 
     public boolean renderizarCongreso() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("congreso");
-//        boolean ret = false;
-//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("congreso")) {
-//            ret = true;
-//        }
-//        return ret;
-
     }
 
     public boolean renderizarLibro() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("libro");
-//        boolean ret = false;
-//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("libro")) {
-//            ret = true;
-//        }
-//        return ret;
     }
 
     public boolean renderizarCapLibro() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro");
     }
+    //</editor-fold>
 
     public void asignarCreditos() {
 
@@ -883,15 +864,7 @@ public class PublicacionController implements Serializable {
         redirigirAlistar();
 
     }
-
-    public void mensajeVisar() {
-        addMessage("Ha visado satisfactoriamente la publicacion", "");
-    }
-
-    public void mensajeEditarCreditos() {
-        addMessage("Ha editado satisfactoriamente los creditos de la publicacion", "");
-    }
-
+    
     public void visarPublicacion() {
 
         int auxCreditos = Integer.parseInt(creditos);
@@ -952,9 +925,7 @@ public class PublicacionController implements Serializable {
         return 1;
     }
 
-    public void mensajeRechazar() {
-        addMessage("El visado de la publicacion ha sido rechazado", "");
-    }
+    
 
     public void RechazarPublicacion() {
         actual.setPubVisado("rechazada");
@@ -1005,7 +976,7 @@ public class PublicacionController implements Serializable {
             dao.flush();
             mensajeDeshabilitar();
         } catch (EJBException e) {
-
+            System.out.println("error en cambiarEstado() clase documentoController");
         }
     }
 

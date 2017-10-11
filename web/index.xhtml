@@ -14,12 +14,12 @@
     </h:head> 
     <h:body>
         <div id="antorcha"></div>
-	<div id="bandera"></div>
+        <div id="bandera"></div>
         <header>
-		<a href="http://www.unicauca.edu.co" id="logoU"></a>
-		<p class="separador"></p>
-                <p class="textLogin" style="padding-top: 12px;">Doctorado en Ciencias de la Electrónica</p>
-	</header>
+            <a href="http://www.unicauca.edu.co" id="logoU"></a>
+            <p class="separador"></p>
+            <p class="textLogin" style="padding-top: 12px;">Doctorado en Ciencias de la Electrónica</p>
+        </header>
 
 
         <main class="contenedorExterior">
@@ -38,32 +38,32 @@
                             <p:commandButton class="botonInicioSesion" value="Ingresar" action="#{userLoginView.login()}" oncomplete="handleLoginRequest(xhr, status, args)" ></p:commandButton>
                         </h:panelGrid>
                     </h:form>
-                    
+
                     <h:form> 
-                    <p:growl id="growl" showDetail="true" sticky="true" />  
- 
-                    <p:panel header="Growl">  
-                     <h:panelGrid columns="2" cellpadding="5">  
-                         <p:outputLabel for="msg" value="Message:" />   
-                      <p:inputText id="msg" value="#{growlView.message}" required="true" />  
-                        </h:panelGrid>  
- 
-                <p:commandButton value="Save" actionListener="#{growlView.saveMessage}" update="growl" />  
-                </p:panel> 
-            </h:form>  
-                                        
+                        <p:growl id="growl" showDetail="true" sticky="true" />  
+
+                        <p:panel header="Growl">  
+                            <h:panelGrid columns="2" cellpadding="5">  
+                                <p:outputLabel for="msg" value="Message:" />   
+                                <p:inputText id="msg" value="#{growlView.message}" required="true" />  
+                            </h:panelGrid>  
+
+                            <p:commandButton value="Save" actionListener="#{growlView.saveMessage}" update="growl" />  
+                        </p:panel> 
+                    </h:form>  
+
                 </div>
             </div>
         </main>
         <br /> <br /> 
-        
+
         <footer class="pie-index">
-            
-		<p>2017  |  Posgrados facultad de Ingeniería Electrónica y Telecomunicaciones <br />
-                    <a href="http://www.unicauca.edu.co">Universidad del Cauca</a>  |  <a style="color: white;" href="mailto:simca@unicauca.edu.co"><span class="glyphicon glyphicon-envelope"></span>&nbsp;@unicauca.edu.co</a>
-		</p>
-	</footer>
-        
+
+            <p>2017  |  Posgrados facultad de Ingeniería Electrónica y Telecomunicaciones <br />
+                <a href="http://www.unicauca.edu.co">Universidad del Cauca</a>  |  <a style="color: white;" href="mailto:simca@unicauca.edu.co"><span class="glyphicon glyphicon-envelope"></span>&nbsp;@unicauca.edu.co</a>
+            </p>
+        </footer>
+
         <p:dialog visible="#{usuariosSessionController.errorSesion}" 
                   resizable="false" width="250"
                   widgetVar="errorInicioSesion" closable="false"
@@ -73,7 +73,7 @@
             <p:panelGrid styleClass="panelgrid" style="text-align:center" >
                 <p:row >
                     <p:column  style="background: #C8CDD6">
-                       <p:outputLabel value="El usuario o la contraseña no son correctos" />            
+                        <p:outputLabel value="El usuario o la contraseña no son correctos" />            
                     </p:column>
                 </p:row>
                 <p:row>
@@ -87,7 +87,10 @@
             </p:panelGrid>
 
         </p:dialog>
+        <br />
+        <h:link outcome="/plantillas/tipoDocumento/List" value="Show All TipoDocumento Items"/>
     </h:body>
+
 </html>
 
 

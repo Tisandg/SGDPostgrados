@@ -8,5 +8,9 @@
             <base-name>/BundleUsuarios</base-name>
             <var>bundleUsuarios</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleTipoDocumento</base-name>
+            <var>bundleTipoDocumento</var>
+        </resource-bundle>
     </application>
 </faces-config>

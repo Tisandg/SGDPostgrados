@@ -133,17 +133,20 @@ public class EstudianteController implements Serializable {
             actual.setEstContrasena("contrasena");
 
             // configuracion de estudiante como usuario del sistema
-            Usuario user = new Usuario();
-            user.setApellidos(actual.getEstApellido());
-            user.setContrasena(actual.getEstContrasena());
+            Usuario user = new Usuario(actual.getEstNombre(), actual.getEstApellido(), actual.getEstUsuario(), actual.getEstContrasena());
+            //user.setApellidos(actual.getEstApellido());
+            //user.setContrasena(actual.getEstContrasena());
             user.setEstado("activo");
-            user.setNombreUsuario(actual.getEstUsuario());
-            user.setNombres(actual.getEstNombre());
-            user.setContrasena(contrasena);
-            // controlador usuario del contexto actual
+            //user.setNombreUsuario(actual.getEstUsuario());
+            //user.setNombres(actual.getEstNombre());
+            //user.setContrasena(contrasena);
+            
+            // controlador usuario del contexto actual            
             UsuarioController uc = getUsuarioController();
             uc.setCurrent(user);
             uc.create();
+                               
+
             // definir tipo de usuario para el estudiante 
             TipoUsuario tu = new TipoUsuario(2, "ESTUDIANTE");
             // definir grupo tipo de usuario para el estudiante 
@@ -162,14 +165,19 @@ public class EstudianteController implements Serializable {
             gtuc.setCurrent(gtu);
             gtuc.create();
 
+            //agregar id de usuario a estudiante
+            System.out.println("id de ususario: "+ uc.getCurrent().toString());     
+            actual.setUsuarioId(user);
+                        
             getFacade().create(actual);
             getFacade().flush();
             mensajeconfirmarRegistro();
-            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Registro en Doctorados de Ciencias de la Elecrónica ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Ciencias de la Electrónica fue exitoso,para ingresar sírvase usar los siguientes datos: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());
+            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Registro en Doctorados de Ciencias de la Elecrónica ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Ciencias de la Electrónica fue exitoso,para ingresar sírvase usar los siguientes datos: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());            
+            
             limpiarCampos();
             redirigirAlistar();
         } catch (EJBException e) {
-            System.out.println("Error -- EstudianteController -- mensaje: "+ e.getMessage().toString());
+            System.out.println("Error -- EstudianteController -- mensaje: "+ e.getMessage());
         }
     }
 
