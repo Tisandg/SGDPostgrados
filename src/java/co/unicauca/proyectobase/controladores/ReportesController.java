@@ -178,7 +178,7 @@ public class ReportesController implements Serializable {
                     
                     do{
                         tipoCategoria = "Sin categoria";
-                        table.addCell(listaPublicaciones.get(j).getPubNombreAutor());
+                        table.addCell(listaPublicaciones.get(j).getPubEstIdentificador().getEstCreditos()+"");
                         table.addCell(listaPublicaciones.get(j).obtenerNombrePub());
                         if(i==0){ 
                             tipoCategoria = listaPublicaciones.get(j).getRevista().getRevCategoria();
@@ -200,7 +200,7 @@ public class ReportesController implements Serializable {
                         table.addCell(listaPublicaciones.get(j).getPubFechaPublicacion().toString());
                         
                         if(listaPublicaciones.get(j).getPubVisado().equals("aprobado")){
-                            table.addCell(""+listaPublicaciones.get(j).getPubCreditos());
+                            table.addCell(""+listaPublicaciones.get(j).getPubEstIdentificador().getEstCreditos());
                         }else{
                             table.addCell("No asignados");
                         }
@@ -319,7 +319,7 @@ public class ReportesController implements Serializable {
 
                     while(j<tamListaPublicaciones && listaPublicaciones.get(j).getPubTipoPublicacion().equals(nombreTipo)){
                         tipoCategoria = "Sin categoria";
-                        table.addCell(listaPublicaciones.get(j).getPubNombreAutor());
+                        table.addCell(listaPublicaciones.get(j).getPubEstIdentificador().getEstNombre());
                         table.addCell(listaPublicaciones.get(j).obtenerNombrePub());
                         if(i==0){ 
                             tipoCategoria = listaPublicaciones.get(j).getRevista().getRevCategoria();
@@ -341,7 +341,7 @@ public class ReportesController implements Serializable {
                         table.addCell(listaPublicaciones.get(j).getPubFechaPublicacion().toString());
 
                         if(listaPublicaciones.get(j).getPubVisado().equals("aprobado")){
-                            table.addCell(""+listaPublicaciones.get(j).getPubCreditos());
+                            table.addCell(""+listaPublicaciones.get(j).getPubEstIdentificador().getEstNombre());
                         }else{
                             table.addCell("No asignados");
                         }

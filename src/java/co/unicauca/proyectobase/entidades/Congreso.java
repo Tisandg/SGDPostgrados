@@ -34,6 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Congreso.findByCongTipoCongreso", query = "SELECT c FROM Congreso c WHERE c.congTipoCongreso = :congTipoCongreso")})
 public class Congreso implements Serializable {
 
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "cong_doi")
+    private String congDoi;
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "cong_issn")
+    private String congIssn;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -136,6 +145,22 @@ public class Congreso implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Congreso[ pubIdentificador=" + pubIdentificador + " ]";
+    }
+
+    public String getCongDoi() {
+        return congDoi;
+    }
+
+    public void setCongDoi(String congDoi) {
+        this.congDoi = congDoi;
+    }
+
+    public String getCongIssn() {
+        return congIssn;
+    }
+
+    public void setCongIssn(String congIssn) {
+        this.congIssn = congIssn;
     }
     
 }

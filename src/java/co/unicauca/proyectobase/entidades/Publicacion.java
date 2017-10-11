@@ -2,6 +2,8 @@ package co.unicauca.proyectobase.entidades;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
+import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -74,7 +76,7 @@ import org.primefaces.model.UploadedFile;
 
 /**
  *
- * @author DELL7
+ * @author Unicauca
  */
 @Entity
 @Table(name = "publicacion")
@@ -84,17 +86,16 @@ import org.primefaces.model.UploadedFile;
     @NamedQuery(name = "Publicacion.findByPubIdentificador", query = "SELECT p FROM Publicacion p WHERE p.pubIdentificador = :pubIdentificador"),
     @NamedQuery(name = "Publicacion.findByPubHash", query = "SELECT p FROM Publicacion p WHERE p.pubHash = :pubHash"),
     @NamedQuery(name = "Publicacion.findByPubDiropkm", query = "SELECT p FROM Publicacion p WHERE p.pubDiropkm = :pubDiropkm"),
-    @NamedQuery(name = "Publicacion.findByPubCreditos", query = "SELECT p FROM Publicacion p WHERE p.pubCreditos = :pubCreditos"),
     @NamedQuery(name = "Publicacion.findByPubFechaVisado", query = "SELECT p FROM Publicacion p WHERE p.pubFechaVisado = :pubFechaVisado"),
     @NamedQuery(name = "Publicacion.findByPubFechaRegistro", query = "SELECT p FROM Publicacion p WHERE p.pubFechaRegistro = :pubFechaRegistro"),
     @NamedQuery(name = "Publicacion.findByPubEstado", query = "SELECT p FROM Publicacion p WHERE p.pubEstado = :pubEstado"),
-    @NamedQuery(name = "Publicacion.findByPubNombreAutor", query = "SELECT p FROM Publicacion p WHERE p.pubNombreAutor = :pubNombreAutor"),
     @NamedQuery(name = "Publicacion.findByPubAutoresSecundarios", query = "SELECT p FROM Publicacion p WHERE p.pubAutoresSecundarios = :pubAutoresSecundarios"),
     @NamedQuery(name = "Publicacion.findByPubTipoPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubTipoPublicacion = :pubTipoPublicacion"),
     @NamedQuery(name = "Publicacion.findByPubFechaPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubFechaPublicacion = :pubFechaPublicacion"),
-    @NamedQuery(name = "Publicacion.findByPubDoi", query = "SELECT p FROM Publicacion p WHERE p.pubDoi = :pubDoi"),
-    @NamedQuery(name = "Publicacion.findByPubIsbn", query = "SELECT p FROM Publicacion p WHERE p.pubIsbn = :pubIsbn"),
-        
+    @NamedQuery(name = "Publicacion.findByPubNumActa", query = "SELECT p FROM Publicacion p WHERE p.pubNumActa = :pubNumActa"),
+    @NamedQuery(name = "Publicacion.findByPubVisado", query = "SELECT p FROM Publicacion p WHERE p.pubVisado = :pubVisado"),
+    
+    //consutas nuevas
     @NamedQuery(name = "Publicacion.findAllByYear", query = "SELECT p FROM Publicacion p "
             + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio ORDER BY  p.pubTipoPublicacion DESC"),
     
@@ -110,24 +111,29 @@ import org.primefaces.model.UploadedFile;
             + "WHERE p.pubEstIdentificador.estIdentificador = :identificador AND FUNC('YEAR',p.pubFechaRegistro) = :anio "
             + "AND FUNC('MONTH',p.pubFechaRegistro) Between :inicio AND :fin ORDER BY  p.pubTipoPublicacion DESC"),
 
-    @NamedQuery(name = "Publicacion.findAllEst", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllRev", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllCong", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllLib", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllCapLib", query = "SELECT p FROM Publicacion p WHERE  p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro")
+    @NamedQuery(name = "Publicacion.findAllEst", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllRev", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllCong", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllLib", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllCapLib", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro")
 
-    , @NamedQuery(name = "Publicacion.findAllByRev", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro)")
-    , @NamedQuery(name = "Publicacion.findAllByCong", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro)")
-    , @NamedQuery(name = "Publicacion.findAllByLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro)")
-    , @NamedQuery(name = "Publicacion.findAllByCapLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro )"),
+    , @NamedQuery(name = "Publicacion.findAllByRev", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro)")
+    , @NamedQuery(name = "Publicacion.findAllByCong", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro)")
+    , @NamedQuery(name = "Publicacion.findAllByLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro)")
+    , @NamedQuery(name = "Publicacion.findAllByCapLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro )"),
 
-    @NamedQuery(name = "Publicacion.findAllFiltPubEst", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubNombreAutor LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro)"),
+    @NamedQuery(name = "Publicacion.findAllFiltPubEst", query = "SELECT p FROM Publicacion p WHERE  "
+            + "(p.pubEstIdentificador.estIdentificador =:identificacion) AND "
+            + "(p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion "
+            + "LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo "
+            + "LIKE :variableFiltro)"),
     @NamedQuery(
             name = "findAllPub_Est",
             query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador= :identificacion"
     ),
-    @NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn"),
+    //@NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn"),
     @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id")
+
 })
 public class Publicacion implements Serializable {
 
@@ -143,8 +149,6 @@ public class Publicacion implements Serializable {
     @Size(max = 30)
     @Column(name = "pub_diropkm")
     private String pubDiropkm;
-    @Column(name = "pub_creditos")
-    private Integer pubCreditos;
     @Column(name = "pub_fecha_visado")
     @Temporal(TemporalType.DATE)
     private Date pubFechaVisado;
@@ -154,11 +158,6 @@ public class Publicacion implements Serializable {
     @Size(max = 15)
     @Column(name = "pub_estado")
     private String pubEstado;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 60)
-    @Column(name = "pub_nombre_autor")
-    private String pubNombreAutor;
     @Size(max = 300)
     @Column(name = "pub_autores_secundarios")
     private String pubAutoresSecundarios;
@@ -174,16 +173,6 @@ public class Publicacion implements Serializable {
     private Date pubFechaPublicacion;
     @Column(name = "pub_num_acta")
     private Integer pubNumActa;
-    @Size(max = 30)
-    @Column(name = "pub_doi")
-    private String pubDoi;
-    @Size(max = 30)
-    @Column(name = "pub_isbn")
-    private String pubIsbn;
-    @Size(max = 30)
-    @Column(name = "pub_issn")
-    private String pubIssn;
-
     @Size(max = 20)
     @Column(name = "pub_visado")
     private String pubVisado;
@@ -201,7 +190,7 @@ public class Publicacion implements Serializable {
     @JoinColumn(name = "pub_est_identificador", referencedColumnName = "est_identificador")
     @ManyToOne
     private Estudiante pubEstIdentificador;
-
+    
     public Publicacion() {
         this.pubAutoresSecundarios = "";
     }
@@ -211,15 +200,21 @@ public class Publicacion implements Serializable {
         this.pubAutoresSecundarios = "";
     }
 
-    public Publicacion(Integer pubIdentificador, String pubNombreAutor, String pubTipoPublicacion, Date pubFechaPublicacion) {
+    public Publicacion(Integer pubIdentificador, String pubTipoPublicacion, Date pubFechaPublicacion) {
         this.pubIdentificador = pubIdentificador;
-        this.pubNombreAutor = pubNombreAutor;
         this.pubTipoPublicacion = pubTipoPublicacion;
         this.pubFechaPublicacion = pubFechaPublicacion;
         this.pubAutoresSecundarios = "";
     }
-
-    public void agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF) throws IOException, GeneralSecurityException, DocumentException, PathNotFoundException, AccessDeniedException {
+    
+    
+    
+    
+    
+    
+    
+    @SuppressWarnings("empty-statement")
+    public void agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF ,  String pubDoi,String pubIsbn, String pubIssn) throws IOException {
 
         /*Nombre de los archivos que se almacenaran en el repositorio*/
         MetodosPDF mpdf = new MetodosPDF();
@@ -303,17 +298,18 @@ public class Publicacion implements Serializable {
             subidaArchivos.add(tablaContenido);
         }
 
-        CrearPDFA_Metadata(subidaArchivos, estampaTiempo);
+        CrearPDFA_Metadata(subidaArchivos, estampaTiempo, pubDoi, pubIsbn, pubIssn);
 
         String hash = mpdf.obtenerHash(destArticulo);
 
         /*  Metodo para almacenar en el Gestor Documental(OPENKM), carta de aprobacion,
             el articulo en formato PDFA y la Tabla de Contenido del Articulo (formato PDFA) */
         //   SubirOpenKM(rutasArchivos, nombreArchivos, estampaTiempo, codigoFirma, hash);
-        SubirOpenKM(subidaArchivos, estampaTiempo, codigoFirma, hash);
+        SubirOpenKM(subidaArchivos, estampaTiempo, codigoFirma, hash, pubDoi, pubIsbn, pubIssn);        
+        
     }
 
-    public void SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash) throws IOException {
+    public void SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash, String pubDoi,String pubIsbn, String pubIssn) throws IOException {
 
         /* Inicia una instancia del Gestor Documental Openkm*/
         this.setPubHash(hash);
@@ -323,7 +319,7 @@ public class Publicacion implements Serializable {
         String password = "admin";
         OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
         try {
-            boolean crearFolder = false;
+            boolean crearFolder;
             String rutaFolderCrear;
             /* codigoFirma - en este caso corresponde al nombre de la carpeta que contendra
                 el articulo y su tabla de contenido en formato PDFA
@@ -335,7 +331,7 @@ public class Publicacion implements Serializable {
                 /* Se valida si el forder a crear existe o no*/
                 ws.isValidFolder(rutaFolderCrear);
                 crearFolder = false;
-            } catch (Exception e) {
+            } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
                 crearFolder = true;
             }
             if (crearFolder == true) {
@@ -350,7 +346,7 @@ public class Publicacion implements Serializable {
                 /* Se valida si el forder a crear existe o no*/
                 ws.isValidFolder(rutaFolderCrear);
                 crearFolder = false;
-            } catch (Exception e) {
+            } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
                 crearFolder = true;
             }
             if (crearFolder == true) {
@@ -395,7 +391,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:revista.nombreAutor")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubNombreAutor);
+                            name.setValue("" + this.pubEstIdentificador.getEstNombre());
                         }
                         if (fElement.getName().equals("okp:revista.autoresSecundarios")) {
                             Input name = (Input) fElement;
@@ -427,15 +423,15 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:revista.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubDoi);
+                            name.setValue("" + pubDoi);
                         }
                         if (fElement.getName().equals("okp:revista.ISBN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIsbn);
+                            name.setValue("" + pubIsbn);
                         }
                         if (fElement.getName().equals("okp:revista.ISSN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIssn);
+                            name.setValue("" + pubIssn);
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:revista", fElements);
@@ -473,7 +469,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:congreso.nombreAutor")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubNombreAutor);
+                            name.setValue("" + this.pubEstIdentificador.getEstNombre());
                         }
                         if (fElement.getName().equals("okp:congreso.autoresSecundarios")) {
                             Input name = (Input) fElement;
@@ -505,15 +501,15 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:congreso.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubDoi);
+                            name.setValue("" + pubDoi);
                         }
                         if (fElement.getName().equals("okp:congreso.ISBN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIsbn);
+                            name.setValue("" + pubIsbn);
                         }
                         if (fElement.getName().equals("okp:congreso.ISSN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIssn);
+                            name.setValue("" + pubIssn);
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:congreso", fElements);
@@ -550,7 +546,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:capLibro.nombreAutor")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubNombreAutor);
+                            name.setValue("" + this.pubEstIdentificador.getEstNombre());
                         }
                         if (fElement.getName().equals("okp:capLibro.autoresSecundarios")) {
                             Input name = (Input) fElement;
@@ -578,15 +574,15 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:capLibro.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubDoi);
+                            name.setValue(pubDoi);
                         }
                         if (fElement.getName().equals("okp:capLibro.ISBN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIsbn);
+                            name.setValue(pubIsbn);
                         }
                         if (fElement.getName().equals("okp:capLibro.ISSN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIssn);
+                            name.setValue(pubIssn);
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:capLibro", fElements);
@@ -624,7 +620,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:libro.nombreAutor")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubNombreAutor);
+                            name.setValue("" + this.pubEstIdentificador.getEstNombre());
                         }
                         if (fElement.getName().equals("okp:libro.autoresSecundarios")) {
                             Input name = (Input) fElement;
@@ -648,15 +644,15 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:libro.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubDoi);
+                            name.setValue(pubDoi);
                         }
                         if (fElement.getName().equals("okp:libro.ISBN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIsbn);
+                            name.setValue(pubIsbn);
                         }
                         if (fElement.getName().equals("okp:libro.ISSN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubIssn);
+                            name.setValue(pubIssn);
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro", fElements);
@@ -674,7 +670,7 @@ public class Publicacion implements Serializable {
 
     }
 
-    private void CrearPDFA_Metadata(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo) {
+    private void CrearPDFA_Metadata(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String pubDoi,String pubIsbn, String pubIssn) {
 
         for (int s = 0; s < subidaArchivos.size(); s++) {
 
@@ -695,8 +691,8 @@ public class Publicacion implements Serializable {
                 document.addHeader("Identificador Archivo", "" + arch.getArcIdentificador());
                 document.addHeader("tipoPDF_cargar", "" + subidaArchivos.get(s).getTipoPDF());
                 document.addHeader("Estampa Tiempo", "" + estampaTiempo);
-                document.addAuthor("" + this.pubNombreAutor);
-                document.addCreator("" + this.pubNombreAutor);
+                document.addAuthor("" + this.pubEstIdentificador.getEstNombre());
+                document.addCreator("" + this.pubEstIdentificador.getEstNombre());
                 try{
                 document.addHeader("Autores_Secundarios", this.pubAutoresSecundarios);
                 }catch(Exception e){
@@ -728,18 +724,18 @@ public class Publicacion implements Serializable {
                     document.addHeader("Titulo_Capitulo", this.capituloLibro.getCaplibTituloCapitulo());
                 }
 
-                if (this.pubDoi == null) {
-                    this.pubDoi = "";
+                if (pubDoi == null) {
+                    pubDoi = "";
                 }
-                if (this.pubIsbn == null) {
-                    this.pubIsbn = "";
+                if (pubIsbn == null) {
+                    pubIsbn = "";
                 }
-                if (this.pubIssn == null) {
-                    this.pubIssn = "";
+                if (pubIssn == null) {
+                    pubIssn = "";
                 }
-                document.addHeader("DOI", this.pubDoi);
-                document.addHeader("ISBN", this.pubIsbn);
-                document.addHeader("ISSN", this.pubIssn);
+                document.addHeader("DOI", pubDoi);
+                document.addHeader("ISBN",pubIsbn);
+                document.addHeader("ISSN",pubIssn);
                 document.addCreationDate();
 
                 writer.setTagged();
@@ -952,6 +948,7 @@ public class Publicacion implements Serializable {
 
         return nombrePub;
     }
+    
 
     public Integer getPubIdentificador() {
         return pubIdentificador;
@@ -975,14 +972,6 @@ public class Publicacion implements Serializable {
 
     public void setPubDiropkm(String pubDiropkm) {
         this.pubDiropkm = pubDiropkm;
-    }
-
-    public Integer getPubCreditos() {
-        return pubCreditos;
-    }
-
-    public void setPubCreditos(Integer pubCreditos) {
-        this.pubCreditos = pubCreditos;
     }
 
     public Date getPubFechaVisado() {
@@ -1009,14 +998,6 @@ public class Publicacion implements Serializable {
         this.pubEstado = pubEstado;
     }
 
-    public String getPubNombreAutor() {
-        return pubNombreAutor;
-    }
-
-    public void setPubNombreAutor(String pubNombreAutor) {
-        this.pubNombreAutor = pubNombreAutor;
-    }
-
     public String getPubAutoresSecundarios() {
         return pubAutoresSecundarios;
     }
@@ -1034,10 +1015,7 @@ public class Publicacion implements Serializable {
     }
 
     public Date getPubFechaPublicacion() {
-
-        FormatoFechas fecha = new FormatoFechas(pubFechaPublicacion);
-        return fecha;
-        //       return pubFechaPublicacion;
+        return pubFechaPublicacion;
     }
 
     public void setPubFechaPublicacion(Date pubFechaPublicacion) {
@@ -1052,30 +1030,6 @@ public class Publicacion implements Serializable {
         this.pubNumActa = pubNumActa;
     }
 
-  
- 
-
-    
-    public String getPubDoi() {
-        return pubDoi;
-    }
-
-    public void setPubDoi(String pubDoi) {
-        this.pubDoi = pubDoi;
-    }
-
-    public String getPubIsbn() {
-        return pubIsbn;
-    }
-
-    public void setPubIsbn(String pubIsbn) {
-        this.pubIsbn = pubIsbn;
-    }
-
-    public String getPubIssn() {
-        return pubIssn;
-    }
-
     public String getPubVisado() {
         return pubVisado;
     }
@@ -1083,28 +1037,7 @@ public class Publicacion implements Serializable {
     public void setPubVisado(String pubVisado) {
         this.pubVisado = pubVisado;
     }
-
-    public void setPubIssn(String pubIssn) {
-        this.pubIssn = pubIssn;
-    }
-
-    public Libro getLibro() {
-        return libro;
-    }
-
-    public void setLibro(Libro libro) {
-        this.libro = libro;
-    }
-
-    @XmlTransient
-    public Collection<Archivo> getArchivoCollection() {
-        return archivoCollection;
-    }
-
-    public void setArchivoCollection(Collection<Archivo> archivoCollection) {
-        this.archivoCollection = archivoCollection;
-    }
-
+    
     public Congreso getCongreso() {
         return congreso;
     }
@@ -1128,13 +1061,30 @@ public class Publicacion implements Serializable {
     public void setCapituloLibro(CapituloLibro capituloLibro) {
         this.capituloLibro = capituloLibro;
     }
+    
+    public Libro getLibro() {
+        return libro;
+    }
 
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
+    
     public Estudiante getPubEstIdentificador() {
         return pubEstIdentificador;
     }
 
     public void setPubEstIdentificador(Estudiante pubEstIdentificador) {
         this.pubEstIdentificador = pubEstIdentificador;
+    }
+    
+    @XmlTransient
+    public Collection<Archivo> getArchivoCollection() {
+        return archivoCollection;
+    }
+
+    public void setArchivoCollection(Collection<Archivo> archivoCollection) {
+        this.archivoCollection = archivoCollection;
     }
 
     @Override

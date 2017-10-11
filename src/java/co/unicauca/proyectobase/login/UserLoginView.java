@@ -107,8 +107,13 @@ public class UserLoginView implements Serializable {
             }
 
             Principal principal = req.getUserPrincipal();
+            System.out.println("buscando usuario");
             this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);            
+            
+            System.out.println("buscando usuario");
             this.creditos = EJB_Estudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
+            
+            System.out.println("creditos: " + creditos);
             ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
             Map<String, Object> sessionMap = external.getSessionMap();
             sessionMap.put("user", this.usuario);
