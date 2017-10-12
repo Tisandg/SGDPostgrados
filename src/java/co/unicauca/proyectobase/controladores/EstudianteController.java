@@ -1,9 +1,11 @@
 package co.unicauca.proyectobase.controladores;
 
 import co.unicauca.proyectobase.dao.EstudianteFacade;
+import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.GrupoTipoUsuario;
 import co.unicauca.proyectobase.entidades.GrupoTipoUsuarioPK;
+import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.TipoUsuario;
 import co.unicauca.proyectobase.entidades.Usuario;
 import co.unicauca.proyectobase.utilidades.Utilidades;
@@ -27,6 +29,10 @@ public class EstudianteController implements Serializable {
 
     @EJB
     private EstudianteFacade ejbFacade;
+    @EJB
+    private PublicacionFacade daoPublicacion;
+    
+    
     private Estudiante actual;
     private String cohorte;
     private String variableFiltrado;
@@ -367,5 +373,19 @@ public class EstudianteController implements Serializable {
     private EstudianteFacade getFacade()
     {
         return this.ejbFacade;
+    }
+    
+    public List<Publicacion> PublicacionPorEstudiante(String codigo)
+    {
+        
+        Estudiante estudiante = ejbFacade.buscarPorCodigo(codigo);
+        int idEstudianteConsulta = estudiante.getEstIdentificador();
+        List<Publicacion> pub= daoPublicacion.ListadoPublicacionEst(idEstudianteConsulta);
+        for (int i = 0; i < pub.size(); i++) {
+          System.out.println("Publicacion" + pub.get(i).obtenerNombrePub());  
+        }
+        
+        return pub;
+        
     }
 }
