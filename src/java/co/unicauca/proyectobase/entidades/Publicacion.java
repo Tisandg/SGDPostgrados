@@ -1021,6 +1021,13 @@ public class Publicacion implements Serializable {
     public Date getPubFechaPublicacion() {
         return pubFechaPublicacion;
     }
+    
+    public String ObtenerFecha()
+    {
+        String fecha= pubFechaPublicacion.toLocaleString();
+        String solof[] = fecha.split(" ");
+        return solof[0];
+    }
 
     public void setPubFechaPublicacion(Date pubFechaPublicacion) {
         this.pubFechaPublicacion = pubFechaPublicacion;
