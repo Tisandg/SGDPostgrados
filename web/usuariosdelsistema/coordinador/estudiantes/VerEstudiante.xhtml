@@ -51,6 +51,26 @@
 
                             <p:outputLabel value="Número de creditos:&nbsp;&nbsp;&nbsp;" for="valCreditos" style="font-weight:bold;"/>
                             <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            
+                            <p:dataTable  id="tablaPublicacionesEstudiante" var="pub" value="#{estudianteController.PublicacionPorEstudiante(estudianteController.actual.estCodigo)}" rows="15"
+                                  paginator="true"
+                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
+                                  style="text-align: left;">
+                            
+                            <p:column headerText="Tipo Publicación"  >
+                                <h:outputText value="#{pub.pubTipoPublicacion}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Publicación"  >
+                                <h:outputText value="#{pub.obtenerNombrePub()}"/>
+                            </p:column>
+                            <p:column headerText="Fecha publicación:"  >
+                                <h:outputText value="#{pub.pubFechaPublicacion.toString()}"/>
+                            </p:column>
+                                
+                           </p:dataTable>
+                            
+                          
 
                         </h:panelGrid>
                     </p:panel>
