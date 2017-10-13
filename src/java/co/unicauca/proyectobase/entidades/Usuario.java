@@ -96,6 +96,14 @@ public class Usuario implements Serializable {
         this.contrasena = contrasena;
     }
     
+    public Usuario(String nombres, String apellidos, String nombreUsuario, String contrasena, String estado) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.nombreUsuario = nombreUsuario;
+        this.contrasena = contrasena;
+        this.estado = estado;
+    }
+    
 
     public Integer getId() {
         return id;

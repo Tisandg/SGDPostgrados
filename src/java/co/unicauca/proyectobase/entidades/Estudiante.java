@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Estudiante.findAll", query = "SELECT e FROM Estudiante e"),
     @NamedQuery(name = "Estudiante.findByEstIdentificador", query = "SELECT e FROM Estudiante e WHERE e.estIdentificador = :estIdentificador"),
-    @NamedQuery(name = "Estudiante.findByEstCodigo", query = "SELECT e FROM Estudiante e WHERE e.estCodigo = :estCodigo"),
     @NamedQuery(name = "Estudiante.buscarPorCodigoExceptoConId", query = "SELECT e FROM Estudiante e WHERE e.estCodigo = :estCodigo  and e.estIdentificador != :estIdentificador "),
     @NamedQuery(name = "Estudiante.buscarPorCodigo", query = "SELECT e FROM Estudiante e WHERE e.estCodigo = :estCodigo"),
     @NamedQuery(name = "Estudiante.buscarPorCorreoExceptoConId", query = "SELECT e FROM Estudiante e WHERE e.estCorreo = :estCorreo  and e.estIdentificador != :estIdentificador "),
@@ -46,12 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estudiante.findByEstSemestre", query = "SELECT e FROM Estudiante e WHERE e.estSemestre = :estSemestre"),
     @NamedQuery(name = "Estudiante.findByEstEstado", query = "SELECT e FROM Estudiante e WHERE e.estEstado = :estEstado"),
     @NamedQuery(name = "Estudiante.findByEstUsuario", query = "SELECT e FROM Estudiante e WHERE e.estUsuario = :estUsuario"),
-    @NamedQuery(name = "Estudiante.findByEstContrasena", query = "SELECT e FROM Estudiante e WHERE e.estContrasena = :estContrasena"),
     @NamedQuery(name = "Estudiante.findAllByString", query = "SELECT e FROM Estudiante e WHERE e.estCodigo LIKE :texto OR e.estNombre LIKE :texto OR e.estApellido LIKE :texto"),
     @NamedQuery(name = "Estudiante.findCreditosByNomUsu", query = "SELECT e.estCreditos FROM Estudiante e WHERE e.estUsuario = :nombreUsuario"),        
     @NamedQuery(name = "Estudiante.findNombreByUsuario", query = "SELECT e FROM Estudiante e WHERE e.estUsuario = :nombreUsuario"),
-        
-    @NamedQuery(name = "Estudiante.findNombreById", query = "SELECT e FROM Estudiante e WHERE e.estIdentificador = :id")    
 })
 public class Estudiante implements Serializable {
 
@@ -93,9 +89,9 @@ public class Estudiante implements Serializable {
     @Size(max = 20)
     @Column(name = "est_usuario")
     private String estUsuario;
-    @Size(max = 40)
+    /*@Size(max = 65)
     @Column(name = "est_contrasena")
-    private String estContrasena;
+    private String estContrasena;*/
     @Column(name = "est_creditos")
     private Integer estCreditos;
     
@@ -200,13 +196,13 @@ public class Estudiante implements Serializable {
         this.estUsuario = estUsuario;
     }
 
-    public String getEstContrasena() {
+    /*public String getEstContrasena() {
         return estContrasena;
     }
 
     public void setEstContrasena(String estContrasena) {
         this.estContrasena = estContrasena;
-    }
+    }*/
 
     @XmlTransient
     public List<Doctorado> getDoctoradoList() {
@@ -249,7 +245,13 @@ public class Estudiante implements Serializable {
     @Override
     public String toString() 
     {
-        return "Estudiante{" + "estIdentificador=" + estIdentificador + ", estCodigo=" + estCodigo + ", estNombre=" + estNombre + ", estApellido=" + estApellido + ", estCorreo=" + estCorreo + ", estCohorte=" + estCohorte + ", estTutor=" + estTutor + ", estSemestre=" + estSemestre + ", estEstado=" + estEstado + ", estUsuario=" + estUsuario + ", estContrasena=" + estContrasena + ", estCreditos=" + estCreditos + ", doctoradoList=" + doctoradoList + ", publicacionList=" + publicacionList + '}'; 
+        return "Estudiante{" + "estIdentificador=" + estIdentificador + ", estCodigo=" + 
+                estCodigo + ", estNombre=" + estNombre + ", estApellido=" + estApellido + 
+                ", estCorreo=" + estCorreo + ", estCohorte=" + estCohorte + ", estTutor=" + 
+                estTutor + ", estSemestre=" + estSemestre + ", estEstado=" + estEstado + 
+                ", estUsuario=" + estUsuario + //", estContrasena=" + estContrasena + 
+                ", estCreditos=" + estCreditos + ", doctoradoList=" + doctoradoList + 
+                ", publicacionList=" + publicacionList + '}'; 
     }
 
     public Usuario getUsuarioId() {

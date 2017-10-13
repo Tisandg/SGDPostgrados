@@ -53,10 +53,10 @@ public class TipoUsuario implements Serializable {
 
     public TipoUsuario(Integer id) {
         this.id = id;
-    }
-
-    public TipoUsuario(Integer id, String nombre) {
-        this.id = id;
+        String nombre = "";
+        if(id == 1){    nombre = "PROFESOR";    }       
+        if(id == 2){    nombre = "ESTUDIANTE";    }
+        if(id == 3){    nombre = "COORDINADOR";    }
         this.nombre = nombre;
     }
 

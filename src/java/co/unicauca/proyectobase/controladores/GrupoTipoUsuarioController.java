@@ -36,8 +36,6 @@ public class GrupoTipoUsuarioController implements Serializable {
         this.current = current;
     }
     
-    
-
     public GrupoTipoUsuario getSelected() {
         if (current == null) {
             current = new GrupoTipoUsuario();

@@ -131,30 +131,24 @@ public class EstudianteController implements Serializable {
     public void agregar() 
     {
         try {
-            System.out.println("est:"+actual);
             String contrasena = Utilidades.sha256(actual.getEstCodigo());
             String[] nombreusuario = actual.getEstCorreo().split("@"); // para un unico dominio
             actual.setEstUsuario(nombreusuario[0]);
             actual.setEstEstado("activo");
-            actual.setEstContrasena("contrasena");
 
+            //System.out.println("est:"+actual);
             // configuracion de estudiante como usuario del sistema
-            Usuario user = new Usuario(actual.getEstNombre(), actual.getEstApellido(), actual.getEstUsuario(), actual.getEstContrasena());
-            //user.setApellidos(actual.getEstApellido());
-            //user.setContrasena(actual.getEstContrasena());
-            user.setEstado("activo");
-            //user.setNombreUsuario(actual.getEstUsuario());
-            //user.setNombres(actual.getEstNombre());
-            //user.setContrasena(contrasena);
+            Usuario user = new Usuario(actual.getEstNombre(), actual.getEstApellido(), actual.getEstUsuario(), 
+                    contrasena, "activo");
             
             // controlador usuario del contexto actual            
             UsuarioController uc = getUsuarioController();
             uc.setCurrent(user);
-            uc.create();
-                               
+            uc.create();  
 
             // definir tipo de usuario para el estudiante 
-            TipoUsuario tu = new TipoUsuario(2, "ESTUDIANTE");
+            TipoUsuario tu = new TipoUsuario(2);
+            
             // definir grupo tipo de usuario para el estudiante 
             GrupoTipoUsuario gtu = new GrupoTipoUsuario();
             gtu.setNombreUsuario(user.getNombreUsuario());
@@ -178,8 +172,10 @@ public class EstudianteController implements Serializable {
             getFacade().create(actual);
             getFacade().flush();
             mensajeconfirmarRegistro();
-            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Registro en Doctorados de Ciencias de la Elecrónica ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Ciencias de la Electrónica fue exitoso,para ingresar sírvase usar los siguientes datos: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());            
             
+            /*Mejorar este procedimiento de enviar mensaje, el mensaje no deberia ir 
+            como parametro, solo seria enviarle el objeto estudiante*/
+            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Registro en Doctorados de Ciencias de la Elecrónica ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Ciencias de la Electrónica fue exitoso,para ingresar sírvase usar los siguientes datos: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());            
             limpiarCampos();
             redirigirAlistar();
         } catch (EJBException e) {
