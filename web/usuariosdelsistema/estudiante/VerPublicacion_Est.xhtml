@@ -24,22 +24,13 @@
                         <h:panelGrid columns="2" cellspacing="10">                                    
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.actual.pubNombreAutor}" style="color: #3366ff"/>
-
+                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.obtenerNombreUsuario(userLoginView.username)}" style="color: #3366ff"/>
+                            
                             <p:outputLabel value="Autores secundarios:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.actual.pubAutoresSecundarios}" style="color: #3366ff"/>
 
                             <p:outputLabel value="Tipo publicación:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" style="color: #3366ff"/>
-
-                            <p:outputLabel value="DOI:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valDOI"  value="#{publicacionController.actual.pubDoi}" style="color: #3366ff"/>
-
-                            <p:outputLabel value="ISBN:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valIBN" value="#{publicacionController.actual.pubIsbn}" style="color: #3366ff"/>
-
-                            <p:outputLabel value="ISSN:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valISSN" value="#{publicacionController.actual.pubIssn}" style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" style="color: #3366ff"/>                           
 
                             <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" style="color: #3366ff"/>
@@ -51,9 +42,12 @@
                             <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>                            
                         </h:panelGrid>
                         <br/>
-                            <p:panel header="Anexos">
+                            <p:panel header="Información documento">
 
-                                <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarRevista() == true}">                                                                                        
+                                <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarRevista() == true}">                                    
+                                    <p:outputLabel value="DOI:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control"  value="#{publicacionController.actual.revista.revDoi}" style="color: #3366ff"/> 
+                            
                                     <p:outputLabel value="Título artículo:"  style="font-weight:bold;"/>
                                     <h:outputText class="form-control" id="valNArticulo"  value="#{publicacionController.actual.revista.revTituloArticulo}" style="color: #3366ff"/>
 
@@ -65,6 +59,12 @@
                                 </h:panelGrid>
 
                                 <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarCongreso() == true}">
+                                    <p:outputLabel value="DOI:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control"  value="#{publicacionController.actual.congreso.congDoi}" style="color: #3366ff"/>
+                                    
+                                    <p:outputLabel value="ISSN:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" value="#{publicacionController.actual.congreso.congIssn}" style="color: #3366ff"/>
+
                                     <h:outputLabel value="Título ponencia:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control" id="valNPonencia"  value="#{publicacionController.actual.congreso.congTituloPonencia}" style="color: #3366ff"/>                                                    
 
@@ -75,12 +75,18 @@
                                     <h:outputText class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" style="color: #3366ff"/>
                                 </h:panelGrid>            
 
-                                <h:panelGrid columns="2" cellpadding="10"  rendered="#{publicacionController.renderizarLibro() == true}">                                                                                        
+                                <h:panelGrid columns="2" cellpadding="10"  rendered="#{publicacionController.renderizarLibro() == true}">         
+                                    <p:outputLabel value="ISBN:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" value="#{publicacionController.actual.libro.libIsbn}" style="color: #3366ff"/>
+                                    
                                     <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}"/>                                                                                                                                            
                                 </h:panelGrid>            
 
-                                <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarCapLibro() == true}">                                            
+                                <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarCapLibro() == true}">
+                                    <p:outputLabel value="ISBN:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" value="#{publicacionController.actual.capituloLibro.caplibIsbn}" style="color: #3366ff"/>
+                                    
                                     <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}"/>                                                    
 
@@ -96,7 +102,7 @@
                                     <h:commandButton style="margin-right: 100px;"  value="Ver"   action="#{publicacionController.pdfPub()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
 
                                     <p:outputLabel value="Tabla de Contenido:" style="font-weight:bold;"/>
-                                    <h:commandButton style="margin-right:  100px; font-size: 13px; " value="Ver "  action="#{publicacionController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />                                                
+                                    <h:commandButton style="margin-right:  100px; font-size: 13px; " value="Ver "  action="#{documentoController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />                                                
                                 </h:panelGrid>
                             </p:panel>
                         </p:panel>

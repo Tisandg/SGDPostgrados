@@ -52,6 +52,9 @@ public abstract class AbstractFacade<T> {
                     System.out.println(actual.toString());
                 }
             }
+            catch(Exception e){
+                System.out.println("Error creando entidad: " + e.getMessage());
+            }
         }
     }
 

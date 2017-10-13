@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,9 +48,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estudiante.findByEstUsuario", query = "SELECT e FROM Estudiante e WHERE e.estUsuario = :estUsuario"),
     @NamedQuery(name = "Estudiante.findByEstContrasena", query = "SELECT e FROM Estudiante e WHERE e.estContrasena = :estContrasena"),
     @NamedQuery(name = "Estudiante.findAllByString", query = "SELECT e FROM Estudiante e WHERE e.estCodigo LIKE :texto OR e.estNombre LIKE :texto OR e.estApellido LIKE :texto"),
-    @NamedQuery(name = "Estudiante.findCreditosByNomUsu", query = "SELECT e.estCreditos FROM Estudiante e WHERE e.estUsuario = :nombreUsuario")
+    @NamedQuery(name = "Estudiante.findCreditosByNomUsu", query = "SELECT e.estCreditos FROM Estudiante e WHERE e.estUsuario = :nombreUsuario"),        
+    @NamedQuery(name = "Estudiante.findNombreByUsuario", query = "SELECT e FROM Estudiante e WHERE e.estUsuario = :nombreUsuario"),
+        
+    @NamedQuery(name = "Estudiante.findNombreById", query = "SELECT e FROM Estudiante e WHERE e.estIdentificador = :id")    
 })
 public class Estudiante implements Serializable {
+
+    @OneToMany(mappedBy = "pubEstIdentificador")
+    private List<Publicacion> documentoList;
+
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Usuario usuarioId;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -238,6 +250,23 @@ public class Estudiante implements Serializable {
     public String toString() 
     {
         return "Estudiante{" + "estIdentificador=" + estIdentificador + ", estCodigo=" + estCodigo + ", estNombre=" + estNombre + ", estApellido=" + estApellido + ", estCorreo=" + estCorreo + ", estCohorte=" + estCohorte + ", estTutor=" + estTutor + ", estSemestre=" + estSemestre + ", estEstado=" + estEstado + ", estUsuario=" + estUsuario + ", estContrasena=" + estContrasena + ", estCreditos=" + estCreditos + ", doctoradoList=" + doctoradoList + ", publicacionList=" + publicacionList + '}'; 
+    }
+
+    public Usuario getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    @XmlTransient
+    public List<Publicacion> getDocumentoList() {
+        return documentoList;
+    }
+
+    public void setDocumentoList(List<Publicacion> documentoList) {
+        this.documentoList = documentoList;
     }
     
 }

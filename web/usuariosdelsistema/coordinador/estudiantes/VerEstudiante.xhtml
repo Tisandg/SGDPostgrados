@@ -51,10 +51,31 @@
 
                             <p:outputLabel value="Número de creditos:&nbsp;&nbsp;&nbsp;" for="valCreditos" style="font-weight:bold;"/>
                             <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+           
+                          
 
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
+                     <h:panelGrid columns="1" cellpadding="5"  id="panelRegistrarEst">
+                            <p:dataTable  id="tablaPublicacionesEstudiante" var="pub" value="#{estudianteController.PublicacionPorEstudiante(estudianteController.actual.estCodigo)}" rows="15"
+                                  paginator="true"
+                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
+                                  style="text-align: center;">
+                            
+                            <p:column headerText="Tipo Publicación"  >
+                                <h:outputText value="#{pub.pubTipoPublicacion}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Publicación"  >
+                                <h:outputText value="#{pub.obtenerNombrePub()}"/>
+                            </p:column>
+                            <p:column headerText="Fecha publicación:"  >
+                                <h:outputText value="#{pub.ObtenerFecha()} "/>
+                            </p:column>
+                                
+                           </p:dataTable>
+                         </h:panelGrid> 
                 <br/>
                 <h:form>
                     <p:commandButton value="Atrás" actionListener="#{estudianteController.redirigirAlistar()}" class="btn btn-primary" />                       

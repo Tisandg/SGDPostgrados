@@ -158,7 +158,7 @@
                                 <h:outputLabel for="revistaPDF" value="Artículo PDF:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>
-                            <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <p:fileUpload id="revistaPDF" value="#{publicacionController.documentoPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                         </p:panel>
                     </h:panelGroup>
 
@@ -232,7 +232,7 @@
 
                             </h:panelGrid>
                             <p:outputLabel for="congresoPDF" value="Congreso PDF:"/>&nbsp;
-                            <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <p:fileUpload id="congresoPDF" value="#{publicacionController.documentoPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                         </p:panel>
                     </h:panelGroup>
 
@@ -271,7 +271,7 @@
                                 <p:outputLabel for="libroPDF" value="Libro PDF:"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>
-                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                                 
+                            <p:fileUpload id="libroPDF" value="#{publicacionController.documentoPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                                 
                             
                         </p:panel>
                     </h:panelGroup>
@@ -319,7 +319,7 @@
                             </h:panelGrid>
                             <br/>
                             <p:outputLabel for="capLibroPDF" value="Capítulo libro PDF:"/>&nbsp;
-                            <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <p:fileUpload id="capLibroPDF" value="#{publicacionController.documentoPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                         </p:panel>
                     </h:panelGroup>                    
 

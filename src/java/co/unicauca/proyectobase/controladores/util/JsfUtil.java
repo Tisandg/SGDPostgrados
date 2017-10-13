@@ -22,6 +22,10 @@ public class JsfUtil {
         }
         return items;
     }
+    
+    public static boolean isValidationFailed() {
+        return FacesContext.getCurrentInstance().isValidationFailed();
+    }
 
     public static void addErrorMessage(Exception ex, String defaultMsg) {
         String msg = ex.getLocalizedMessage();
@@ -55,6 +59,12 @@ public class JsfUtil {
     public static Object getObjectFromRequestParameter(String requestParameterName, Converter converter, UIComponent component) {
         String theId = JsfUtil.getRequestParameter(requestParameterName);
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
+    }
+    
+    public static enum PersistAction {
+        CREATE,
+        DELETE,
+        UPDATE
     }
 
 }

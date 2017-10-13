@@ -107,10 +107,10 @@ public class UserLoginView implements Serializable {
             }
 
             Principal principal = req.getUserPrincipal();
-            System.out.println("buscando usuario");
+            System.out.println("buscando usuario en control: " + principal.getName());
             this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);            
             
-            System.out.println("buscando usuario");
+            System.out.println("buscando creditos");
             this.creditos = EJB_Estudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
             
             System.out.println("creditos: " + creditos);

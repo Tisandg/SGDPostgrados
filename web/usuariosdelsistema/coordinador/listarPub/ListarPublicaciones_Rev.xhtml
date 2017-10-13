@@ -40,15 +40,15 @@
            
             <p:separator />
 
-            <p:dataTable  id="tablaPublicaciones" var="pub" value="#{publicacionController.listadoRevisadas()}" rows="10"
+            <p:dataTable  id="tablaPublicaciones" var="pub" value="#{publicacionController.listadoRevisadas()}" rows="15"
                           paginator="true"
                           paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                          rowsPerPageTemplate="5,10,15" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
+                          rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
                           style="text-align: left;">   
 
 
                 <p:column headerText="Nombre del autor principal" >
-                    <h:outputText value="#{pub.pubNombreAutor}"></h:outputText>
+                    <h:outputText value="#{publicacionController.obtenerNombreUsuarioById(pub.pubEstIdentificador)}"></h:outputText>
                 </p:column>
                 <p:column headerText="Tipo Publicación"  >
                     <h:outputText value="#{pub.pubTipoPublicacion}"></h:outputText>
@@ -57,7 +57,7 @@
                     <h:outputText value="#{pub.obtenerNombrePub()}"></h:outputText>
                 </p:column>
                 <p:column headerText="Fecha publicación:"  >
-                    <h:outputText value="#{pub.pubFechaPublicacion.toString()}"></h:outputText>
+                    <h:outputText value="#{pub.ObtenerFecha()}"></h:outputText>
                 </p:column>
 
                 <p:column headerText="Acción"   >

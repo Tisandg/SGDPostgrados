@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDocumentoViewDlg" widgetVar="TipoDocumentoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleTipoDocumento.ViewTipoDocumentoTitle}">
+            <h:form id="TipoDocumentoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tipoDocumentoController.selected != null}">
+                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_identificador}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.identificador}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_identificador}"/>
+                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_nombre}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.nombre}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_nombre}"/>
+                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_creditos}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.creditos}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_creditos}"/>
+                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_correquisitos}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.correquisitos}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_correquisitos}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundleTipoDocumento.Close}" onclick="TipoDocumentoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
