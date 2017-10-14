@@ -35,7 +35,7 @@
                             <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" style="color: #3366ff"/>                                                                                                                                                                                                                
                         </h:panelGrid>
-                        <h:panelGrid columns="3" cellspacing="5" rendered="#{publicacionController.actual.pubVisado != 'aprobado'}">
+                        <h:panelGrid id="formAprobar" columns="3" cellspacing="5" rendered="#{publicacionController.actual.pubVisado != 'aprobado'}">
                             <h:outputLabel value="Cambiar estado visado:" style="font-weight:bold;"/>
                             <p:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" >
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
@@ -47,10 +47,10 @@
 
                             <p:dialog header="Enviar Observaciones" widgetVar="dlg2" modal="true" height="150">                                                
                                 <h:inputTextarea id="obs" rows = "7" cols = "80">
-                                    <f:ajax listener="#{publicacionController.recibirTexto}" execute="obs" event="blur" ></f:ajax>                                                    
+                                    <f:ajax listener="#{publicacionController.recibirTexto}" execute="obs" event="blur"></f:ajax>                                                    
                                 </h:inputTextarea>         
                                 <br/>
-                                <p:commandButton value="Enviar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis" onclick="PF('dlg2').hide()"/>
+                                <p:commandButton value="Enviar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis formAprobar" onclick="PF('dlg2').hide()"/>
                             </p:dialog>
                         </h:panelGrid>  
                                                     
