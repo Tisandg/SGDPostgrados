@@ -9,14 +9,14 @@
 
 
     <h:head>
-        <title>Registrar Publicacion</title>
+        <title>Registrar publicacion</title>
     </h:head>
 
     <ui:composition template="../../plantillas/Estudiante.xhtml">
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Registrar Documentos</b>
+                    <b>Registrar documentos</b>
                 </span>
             </div>           
 
@@ -28,11 +28,12 @@
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                     </div>
                     <h:panelGrid columns="3" cellpadding="5">
-                        <p:outputLabel value="Nombre Autor:" styleClass="addEspacio"/>
+                        <p:outputLabel value="Nombre autor:" styleClass="addEspacio"/>
                         <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" style="color: #3366ff"></h:outputText>
                         <p:outputLabel value="" styleClass="addEspacio"/>
+                   
                                                                                                        
-                        <p:outputLabel value="Autores Secundarios:" styleClass="addEspacio"/>
+                        <p:outputLabel value="Autores secundarios:" styleClass="addEspacio"/>
                         <p:inputText value="#{publicacionController.nombreAutor}" id="autor" placeholder="Ingrese nombre autor aquí" size="35">
                             <f:validator validatorId="validadorAutoresSecundarios" />
                             <p:ajax event="blur" update="msjValAutores" /> 
@@ -57,8 +58,8 @@
                                             render="tablaAutores" />                                    
                                 </p:commandButton>
                             </p:column>                                                            
-                        </p:dataTable>                                                   
- 
+                        </p:dataTable>   
+          
                         <!--
                         <p:outputLabel value="Autores Secundarios:" for="valASecundarios" styleClass="addEspacio"/>
                         <p:inputText class="form-control" id="valASecundarios"  value="#//{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control">
@@ -87,7 +88,7 @@
                             <f:selectItem itemLabel="Revista" itemValue="revista"></f:selectItem>
                             <f:selectItem itemLabel="Congreso" itemValue="congreso"></f:selectItem>
                             <f:selectItem itemLabel="Libro" itemValue="libro"></f:selectItem>
-                            <f:selectItem itemLabel="Capítulo Libro" itemValue="capitulo_libro"></f:selectItem>
+                            <f:selectItem itemLabel="Capítulo libro" itemValue="capitulo_libro"></f:selectItem>
                             <f:validator validatorId="ValidadorListaVacia" />                                                                                                                
                             <f:ajax render="@form" />
                             <f:ajax render="msjvalTipoPublicacion" />
@@ -157,7 +158,7 @@
                                 <h:outputLabel value=""/>
                                 <h:panelGroup>
                                 <h:outputLabel value="Artículo PDF:" styleClass="addEspacio"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />;
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
                             <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>    
                             </h:panelGrid>
