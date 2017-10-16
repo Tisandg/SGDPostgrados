@@ -30,14 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Libro.findAll", query = "SELECT l FROM Libro l")
     , @NamedQuery(name = "Libro.findByPubIdentificador", query = "SELECT l FROM Libro l WHERE l.pubIdentificador = :pubIdentificador")
     , @NamedQuery(name = "Libro.findByLibTituloLibro", query = "SELECT l FROM Libro l WHERE l.libTituloLibro = :libTituloLibro")})
-public class Libro implements Serializable {
-
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
-    @Column(name = "lib_isbn")
-    private String libIsbn;
-
+public class Libro implements Serializable 
+{
     private static final long serialVersionUID = 1L;
+
     @Id
     @Basic(optional = false)
     @NotNull
@@ -51,6 +47,13 @@ public class Libro implements Serializable {
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;
+    @Size(max = 25)
+    @Column(name = "editorial")
+    private String editorial;
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "lib_isbn")
+    private String libIsbn;
 
     public Libro() {
     }
@@ -119,6 +122,14 @@ public class Libro implements Serializable {
 
     public void setLibIsbn(String libIsbn) {
         this.libIsbn = libIsbn;
+    }
+
+    public String getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(String editorial) {
+        this.editorial = editorial.toUpperCase();
     }
     
 }

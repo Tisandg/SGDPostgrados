@@ -261,7 +261,6 @@
                                 <h:outputLink style="color: blue" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
                                 <h:outputLink style="color: blue" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>
                                 
-
                                 <h:panelGroup>
                                     <p:outputLabel value="Título libro:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
@@ -270,16 +269,28 @@
                                     <f:validator validatorId="validadorTituloLibro" />
                                     <p:ajax event="blur" update="msjvalTLibro" />
                                 </p:inputText>
-                                <p:message for="valTLibro" id="msjvalTLibro" /> 
+                                <p:message for="valTLibro" id="msjvalTLibro" />
+                                <p:outputLabel value=""></p:outputLabel>
                                 <p:outputLabel value=""></p:outputLabel>
                             
+                                <h:panelGroup>
+                                    <p:outputLabel value="Editorial:" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
+                                </h:panelGroup>
+                                <p:inputText class="form-control" id="valELibro" value="#{publicacionController.actual.libro.editorial}" size="35">
+                                    <f:validator validatorId="validadorEditorialLibro"/>
+                                    <p:ajax event="blur" update="msjvalELibro"/>
+                                </p:inputText>
+                                <p:message for="valELibro" id="msjvalELibro" />
+                                <p:outputLabel value=""></p:outputLabel>
                                 <h:outputText value=""/>
+                                
                                 <h:panelGroup>
                                     <p:outputLabel value="Libro PDF:"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
                                 <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                                 
-                                </h:panelGrid>
+                            </h:panelGrid>
                             <br/>
                             
                             

@@ -76,11 +76,14 @@
                                 </h:panelGrid>            
 
                                 <h:panelGrid columns="2" cellpadding="10"  rendered="#{publicacionController.renderizarLibro() == true}">         
+                                    <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" style="color: #3366ff"/>
+                                    
                                     <p:outputLabel value="ISBN:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control" value="#{publicacionController.actual.libro.libIsbn}" style="color: #3366ff"/>
                                     
-                                    <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
-                                    <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}"/>                                                                                                                                            
+                                    <h:outputLabel value="Editorial:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" value="#{publicacionController.actual.libro.editorial}" style="color: #3366ff"/>
                                 </h:panelGrid>            
 
                                 <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarCapLibro() == true}">
