@@ -13,7 +13,7 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Información Estudiante</b>
+                    <b>Información estudiante</b>
                 </span>
             </div>                        
             
@@ -24,33 +24,56 @@
                                   
                         <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
 
-                            <p:outputLabel value="Nombres:" for="valNombre" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}" styleClass="addEspacio form-control" style="color: #3366ff"/>
-
+                            <p:outputLabel value="Nombres:" for="valNombre" style="font-weight:bold;" />
+                            <h:outputText class="form-control" id="valNombre" value="#{estudianteController.actual.estNombre}"  style="color: #3366ff"/>
+                            
+                            <p:separator/>
+                            <br/>
+                            
                             <p:outputLabel value="Apellidos:" for="valApellido" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valApellido"  value="#{estudianteController.actual.estApellido}" style="color: #3366ff"/>
 
+                            <p:separator />
+                            <br/>
+                            
                             <p:outputLabel value="Código:" for="valCodigo" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valCodigo" value="#{estudianteController.actual.estCodigo}"  style="color: #3366ff"/>
 
+                            <p:separator />
+                            <br/>
+                            
                             <p:outputLabel value="Correo electrónico:" for="valCorreo" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valCorreo" value="#{estudianteController.actual.estCorreo}"  style="color: #3366ff"/>
 
+                            <p:separator />
+                            <br/>
+                            
                             <p:outputLabel value="Nombre tutor:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valNombreTutor" value="#{estudianteController.actual.estTutor}"  style="color: #3366ff"/>
 
+                            <p:separator />
+                            <br/>
+                            
                             <p:outputLabel value="Cohorte:" for="valCohorte" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" styleClass="addEspacio form-control" style="color: #3366ff"/>                        
+                            <h:outputText class="form-control" id="valCohorte" value="#{estudianteController.actual.estCohorte}" style="color: #3366ff"/>                        
 
+                            <p:separator />
+                            <br/>
+                            
                             <p:outputLabel value="Semestre:" for="valSemestre" style="font-weight:bold;"/>
-                            <h:outputText class="form-control"  id="valSemestre" value="#{estudianteController.actual.estSemestre}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            <h:outputText class="form-control"  id="valSemestre" value="#{estudianteController.actual.estSemestre}" style="color: #3366ff"/>
 
+                            <p:separator />
+                            <br/>
+                            
                             <p:outputLabel value="Estado:" for="valEstado" style="font-weight:bold;"/>
-                            <h:outputText class="form-control"  id="valEstado" value="#{estudianteController.actual.estEstado}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            <h:outputText class="form-control"  id="valEstado" value="#{estudianteController.actual.estEstado}"  style="color: #3366ff"/>
 
+                            <p:separator />
+                            <br/>
 
                             <p:outputLabel value="Número de creditos:&nbsp;&nbsp;&nbsp;" for="valCreditos" style="font-weight:bold;"/>
-                            <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                            <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.credi}"  style="color: #3366ff"/>
            
                           
 
@@ -74,10 +97,10 @@
                                   rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
                                   style="text-align: center;">
                             
-                            <p:column headerText="Tipo Publicación"  >
+                            <p:column headerText="Tipo publicación"  >
                                 <h:outputText value="#{pub.pubTipoPublicacion}"/>
                             </p:column>
-                            <p:column headerText="Nombre Publicación"  >
+                            <p:column headerText="Nombre publicación"  >
                                 <h:outputText value="#{pub.obtenerNombrePub()}"/>
                             </p:column>
                             <p:column headerText="Fecha publicación:"  >

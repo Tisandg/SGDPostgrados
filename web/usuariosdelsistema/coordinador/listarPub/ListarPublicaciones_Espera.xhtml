@@ -14,7 +14,7 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Listado Publicaciones en Espera</b>
+                    <b>Listado de publicaciones en espera</b>
                 </span>
             </div>
             
@@ -41,13 +41,13 @@
                           style="text-align: left;">   
 
 
-                <p:column headerText="Nombre del autor principal" >
+                <p:column headerText="Nombre autor principal" >
                     <h:outputText value="#{publicacionController.obtenerNombreUsuarioById(pub.pubEstIdentificador)}"></h:outputText>
                 </p:column>
-                <p:column headerText="Tipo Publicación"  >
+                <p:column headerText="Tipo publicación"  >
                     <h:outputText value="#{pub.pubTipoPublicacion}"></h:outputText>
                 </p:column>
-                <p:column headerText="Nombre Publicación"  >
+                <p:column headerText="Nombre publicación"  >
                     <h:outputText value="#{pub.obtenerNombrePub()}"></h:outputText>
                 </p:column>
                 <p:column headerText="Fecha publicación:"  >

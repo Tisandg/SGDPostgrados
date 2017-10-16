@@ -55,7 +55,7 @@
                         <p:inputText id="semestreIngresadoFuera" value="#{reportesController.semestre}" placeholder="Ingrese el semestre aqui" rendered="#{reportesController.tipoTiempo == 'semestre'}" />
                         
                                                                     
-                        <p:commandButton action="#{reportesController.generarReporte()}" value="Generar Reporte"/>
+                        <p:commandButton action="#{reportesController.generarReporte()}" value="Generar reporte"/>
                     <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/reporte.pdf"  >Descargar PDF </a>
                     <h:outputText value=""/>
                         
@@ -92,7 +92,7 @@
                 </h:body>
 
                 <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
-                    <p:outputLabel value="Total Publicaciones:"  style="font-weight: bold"/>
+                    <p:outputLabel value="Total publicaciones:"  style="font-weight: bold"/>
                     <h:outputText class="form-control" id="valNombAut"  value="#{graficaPubRegController.totalPub}" style="color: #0044cc; font-weight: bold; font-family: sans-serif"/>
                 </h:panelGrid>
                 

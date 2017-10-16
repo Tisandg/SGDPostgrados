@@ -15,7 +15,7 @@
             <div class="panel-heading">
                     <div class="ui-messages-info ">
                         <span class="ui-messages-info-detail">
-                            <b>Listado General de Publicaciones</b>
+                            <b>Listado general de publicaciones</b>
                         </span>
                     </div>
                 
@@ -48,13 +48,13 @@
                                   rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
                                   style="text-align: left;">   
 
-                    <p:column headerText="Nombre del autor principal" >
+                    <p:column headerText="Nombre autor principal" >
                         <h:outputText value="#{publicacionController.obtenerNombreUsuarioById(pub.pubEstIdentificador)}"/>
                     </p:column>
-                    <p:column headerText="Tipo Publicación"  >
+                    <p:column headerText="Tipo publicación"  >
                         <h:outputText value="#{pub.pubTipoPublicacion}"/>
                     </p:column>
-                    <p:column headerText="Nombre Publicación"  >
+                    <p:column headerText="Nombre publicación"  >
                         <h:outputText value="#{pub.obtenerNombrePub()}"/>
                     </p:column>
                     <p:column headerText="Fecha publicación:"  >
