@@ -263,15 +263,12 @@ public class PublicacionController implements Serializable {
     }
     
     public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
+        Estudiante est = dao.obtenerEstudiante(nombreUsuario);
+        setAuxEstudiante(est);
+        int idEstudiante = est.getEstIdentificador();
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            Estudiante est = dao.obtenerEstudiante(nombreUsuario);
-            setAuxEstudiante(est);
-            int idEstudiante = est.getEstIdentificador();
             return dao.ListadoPublicacionEst(idEstudiante);
         } else {
-            Estudiante est = dao.obtenerEstudiante(nombreUsuario);
-            setAuxEstudiante(est);
-            int idEstudiante = est.getEstIdentificador();
             return dao.ListadoPublicacionEstFilt(idEstudiante, variableFiltrado);
         }
     }    
@@ -730,7 +727,7 @@ public class PublicacionController implements Serializable {
     public void redirigirAlistar() {
 
         limpiarCampos();
-        System.out.println("si esta pasando por aqui");
+        System.out.println("si esta pasando por aqui lista estudiante");
         
         cvc.listarPublicaciones();
         Utilidades.redireccionar(cvc.getRuta());

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.login;
 
 import co.unicauca.proyectobase.dao.GrupoTipoUsuarioFacade;
@@ -27,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import co.unicauca.proyectobase.controladores.CargarVistaCoordinador;
 import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
-import co.unicauca.proyectobase.entidades.Estudiante;
 
 /**
  *
@@ -76,65 +70,65 @@ public class UserLoginView implements Serializable {
         this.creditos = creditos;
     }
     
-    public void sinAcceso() {
+    public void mensajeSinAcceso() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrecto(s)"));
-
     }
-
+    
     public void login() throws ServletException 
     {
         System.out.println("Verificando datos login");
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
-        if (this.username == null) {
-            System.out.println("usuario vacio");
-        }
+        if (username.length()==0 | password.length()==0) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "Los campos no pueden ir vacios"));
+            Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+        }else{
+            System.out.println("Campos llenos");
+            if (req.getUserPrincipal() == null){
+                try 
+                {
+                    req.login(this.username, this.password);
+                    System.out.println("Login Exitoso");
+                } catch (ServletException e) {
+                    System.out.println(e.getMessage() );
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
+                    Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+                    return;
+                }
 
-        if (req.getUserPrincipal() == null);
-        {
-            try 
-            {
-                req.login(this.username, this.password);
-                System.out.println("Login Exitoso");
-            } catch (ServletException e) {
-                System.out.println("aqui se empaila");
-                System.out.println(e.getMessage() );
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
-                Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
-                return;
+                Principal principal = req.getUserPrincipal();
+                System.out.println("buscando usuario en control: " + principal.getName());
+                this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);            
+                
+                System.out.println("buscando creditos");
+                this.creditos = EJB_Estudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
+
+                ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
+                Map<String, Object> sessionMap = external.getSessionMap();
+                sessionMap.put("user", this.usuario);
+
+                List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
+                int id_tipo = lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
+
+                switch (id_tipo) 
+                {
+                    case 2:
+                        cve = new CargarVistaEstudiante();
+                        Utilidades.redireccionar(cve.getRuta());
+                        break;
+
+                    case 3:
+                        cvc = new CargarVistaCoordinador();
+                        Utilidades.redireccionar(cvc.getRuta());
+                        break;
+
+                }
             }
-
-            Principal principal = req.getUserPrincipal();
-            System.out.println("buscando usuario en control: " + principal.getName());
-            this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);            
-            
-            System.out.println("buscando creditos");
-            this.creditos = EJB_Estudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
-            
-            System.out.println("creditos: " + creditos);
-            ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
-            Map<String, Object> sessionMap = external.getSessionMap();
-            sessionMap.put("user", this.usuario);
-
-            List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
-            int id_tipo = lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
-
-            switch (id_tipo) 
-            {
-                case 2:
-                    cve = new CargarVistaEstudiante();
-                    Utilidades.redireccionar(cve.getRuta());
-                    break;
-
-                case 3:
-                    cvc = new CargarVistaCoordinador();
-                    Utilidades.redireccionar(cvc.getRuta());
-                    break;
-
-            }
         }
+        
     }
 
     public void salir() throws IOException 
