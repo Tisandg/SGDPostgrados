@@ -48,11 +48,11 @@
                         <p:outputLabel value="" styleClass="addEspacio"/>
                                                                                                                  
                         <p:dataTable id ="tablaAutores" value="#{publicacionController.listaAutores}" var="autor" 
-                                     style="width:250px;" emptyMessage="" rendered="true">
-                            <p:column width="155">
+                                     style="width:302px;" emptyMessage="" rendered="true">
+                            <p:column width="180">
                                 <p:outputLabel value="#{autor.nombre}" id="nombreAutor"/>                                
                             </p:column>                            
-                            <p:column  class="gridsinbordes" width="27">
+                            <p:column  class="gridsinbordes" width="22">
                                 <p:commandButton id="eliminarNombreAutor" icon="ui-icon-close">
                                     <f:ajax event="click" listener="#{publicacionController.eliminarAutorSecundario(autor.nombre)}" 
                                             render="tablaAutores" />                                    

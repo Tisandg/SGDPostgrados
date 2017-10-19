@@ -137,6 +137,9 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "publicacion")
+    private PracticaDocente practicaDocente;
+
     @JoinColumn(name = "id_tipo_documento", referencedColumnName = "identificador")
     @ManyToOne
     private TipoDocumento idTipoDocumento;
@@ -1134,6 +1137,14 @@ public class Publicacion implements Serializable {
 
     public void setIdTipoDocumento(TipoDocumento idTipoDocumento) {
         this.idTipoDocumento = idTipoDocumento;
+    }
+
+    public PracticaDocente getPracticaDocente() {
+        return practicaDocente;
+    }
+
+    public void setPracticaDocente(PracticaDocente practicaDocente) {
+        this.practicaDocente = practicaDocente;
     }
 
 }
