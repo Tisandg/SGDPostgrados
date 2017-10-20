@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoDocumento.findByMinCreditos", query = "SELECT t FROM TipoDocumento t WHERE t.minCreditos = :minCreditos")})
 public class TipoDocumento implements Serializable {
 
+    @OneToMany(mappedBy = "idTipoDocumento")
+    private List<Publicacion> publicacionList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,6 +156,15 @@ public class TipoDocumento implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.TipoDocumento[ identificador=" + identificador + " ]";
+    }
+
+    @XmlTransient
+    public List<Publicacion> getPublicacionList() {
+        return publicacionList;
+    }
+
+    public void setPublicacionList(List<Publicacion> publicacionList) {
+        this.publicacionList = publicacionList;
     }
 
 }
