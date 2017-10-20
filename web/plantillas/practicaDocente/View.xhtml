@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PracticaDocenteViewDlg" widgetVar="PracticaDocenteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewPracticaDocenteTitle}">
+            <h:form id="PracticaDocenteViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{practicaDocenteController.selected != null}">
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_pubIdentificador}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.pubIdentificador}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_pubIdentificador}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_fechaInicio}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.fechaInicio}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_fechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_fechaTerminacion}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.fechaTerminacion}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_fechaTerminacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_lugarPractica}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.lugarPractica}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_lugarPractica}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_publicacion}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.publicacion}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_publicacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="PracticaDocenteViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
