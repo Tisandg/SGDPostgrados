@@ -757,7 +757,7 @@ public class PublicacionController implements Serializable {
     /*redireccion para volver a registrar */
     public void redirigirARegistrar(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
-        cve.registrarPublicacion();
+        cve.registrarDocumento();                
         Utilidades.redireccionar(cve.getRuta());
     }
 

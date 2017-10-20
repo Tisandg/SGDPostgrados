@@ -12,17 +12,33 @@
         <title>Registrar practica docente</title>
     </h:head>
 
-    <ui:composition template="../../../plantillas/Estudiante.xhtml">
-        <ui:define name="contenidoPractica">             
-
-            <h:form id="form_registrar" enctype="multipart/form-data">
+    <h:form id="form_registrar_prac" enctype="multipart/form-data">
                                 
-                <div style = "float: right;">
-                        <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
-                        <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
-                   </div>
-            </h:form>
-            <br/>   
-        </ui:define>
-    </ui:composition>
+        <div style = "float: right;">
+            <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
+            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+        </div>
+        <h:panelGrid columns="3" cellpadding="5">
+            <p:outputLabel value="Nombre autor:" styleClass="addEspacio"/>
+            <h:outputText class="form-control" id="valNombreAutor"  value="#{userLoginView.username}" style="color: #3366ff"></h:outputText>
+            <p:outputLabel value="" styleClass="addEspacio"/>
+        </h:panelGrid>
+                
+        
+        
+        <h:form>
+            <h:panelGrid columns="2" cellspacing="10>">
+                <h:commandButton value="Registrar" action="#{practicaDocenteController.agregar()}" class="btn btn-primary"/> 
+            <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del documento?')) {
+                        return false;
+                    }
+                    ;
+                    return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
+            </h:panelGrid>
+        </h:form>
+        
+    </h:form>
+               
+            
+    
 </html>  

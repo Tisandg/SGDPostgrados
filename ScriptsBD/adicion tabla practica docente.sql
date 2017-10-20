@@ -27,3 +27,18 @@ INSERT INTO tipo_documento (nombre, creditos ) values ('revista',0);
 INSERT INTO tipo_documento (nombre, creditos, max_creditos, min_creditos) values ('Practica docente',1,3,6);
 COMMIT;
 
+START TRANSACTION;
+INSERT INTO tipo_documento (nombre, creditos, max_creditos, min_creditos) values ('Pasantía de investigación',0,16,19);
+INSERT INTO tipo_documento (nombre, creditos, max_creditos, min_creditos) values ('Seminario II',3,3,3);
+INSERT INTO tipo_documento (nombre, creditos, max_creditos, min_creditos) values ('Tesis I',9,9,9);
+INSERT INTO tipo_documento (nombre, creditos, correquisitos, max_creditos, min_creditos) values ('Tesis II',35,8,35,35);
+INSERT INTO tipo_documento (nombre, creditos) values ('Idioma',0);
+INSERT INTO tipo_documento (nombre, creditos) values ('Adicionales',0);
+COMMIT;
+
+
+
+
+
+--fijar una variable global en mysql dependiendo el valor de una consulta
+set @practica := (select creditos from tipo_documento where nombre = 'Practica docente');
