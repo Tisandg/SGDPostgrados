@@ -3,9 +3,24 @@ package co.unicauca.proyectobase.controladores;
 import co.unicauca.proyectobase.entidades.PracticaDocente;
 import co.unicauca.proyectobase.controladores.util.JsfUtil;
 import co.unicauca.proyectobase.controladores.util.JsfUtil.PersistAction;
+import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.PracticaDocenteFacade;
+import co.unicauca.proyectobase.dao.PublicacionFacade;
+import co.unicauca.proyectobase.entidades.Archivo;
+import co.unicauca.proyectobase.entidades.CapituloLibro;
+import co.unicauca.proyectobase.entidades.Congreso;
+import co.unicauca.proyectobase.entidades.Estudiante;
+import co.unicauca.proyectobase.entidades.Libro;
+import co.unicauca.proyectobase.entidades.Publicacion;
+import co.unicauca.proyectobase.entidades.Revista;
+import co.unicauca.proyectobase.utilidades.Utilidades;
+import java.io.IOException;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -14,29 +29,61 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 @Named("practicaDocenteController")
 @SessionScoped
 public class PracticaDocenteController implements Serializable {
 
-    @EJB
-    private co.unicauca.proyectobase.dao.PracticaDocenteFacade ejbFacade;
-    private List<PracticaDocente> items = null;
-    private PracticaDocente selected;
+    
 
-    public PracticaDocenteController() {
+    @EJB
+    private PracticaDocenteFacade ejbFacade;
+    @EJB
+    private PublicacionFacade dao;
+    @EJB
+    private EstudianteFacade daoEst;
+    
+    private List<PracticaDocente> items = null;
+    private PracticaDocente actual;
+    private Publicacion pub;
+    private UploadedFile documento;
+    private Estudiante auxEstudiante;
+    private CargarVistaEstudiante cve;
+
+    public PracticaDocenteController() {       
+        cve = new CargarVistaEstudiante();
+    
+    }  
+    
+    public Estudiante getAuxEstudiante() {
+        return auxEstudiante;
     }
 
+    public void setAuxEstudiante(Estudiante auxEstudiante) {
+        this.auxEstudiante = auxEstudiante;
+    }
+    
+    public UploadedFile getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(UploadedFile documento) {
+        this.documento = documento;
+    }
+    
     public PracticaDocente getSelected() {
-        return selected;
+        return actual;
     }
 
     public void setSelected(PracticaDocente selected) {
-        this.selected = selected;
+        this.actual = selected;
     }
 
     protected void setEmbeddableKeys() {
@@ -50,9 +97,9 @@ public class PracticaDocenteController implements Serializable {
     }
 
     public PracticaDocente prepareCreate() {
-        selected = new PracticaDocente();
+        actual = new PracticaDocente();
         initializeEmbeddableKey();
-        return selected;
+        return actual;
     }
 
     public void create() {
@@ -69,7 +116,7 @@ public class PracticaDocenteController implements Serializable {
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteDeleted"));
         if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
+            actual = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
@@ -82,13 +129,13 @@ public class PracticaDocenteController implements Serializable {
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
+        if (actual != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(actual);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(actual);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -108,7 +155,7 @@ public class PracticaDocenteController implements Serializable {
             }
         }
     }
-
+    
     public PracticaDocente getPracticaDocente(java.lang.Integer id) {
         return getFacade().find(id);
     }
@@ -161,5 +208,131 @@ public class PracticaDocenteController implements Serializable {
         }
 
     }
+    
+    
 
+    //<editor-fold defaultstate="collapsed" desc="codigo nuevo">
+    
+    
+    /*redireccion para volver a registrar */
+    public void redirigirARegistrar(String nombreUsuario) {
+        limpiarCampos(nombreUsuario);
+        cve.registrarPractica();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+    
+     public void limpiarCampos(String nombreUsuario) {        
+        this.inicializarVariables();
+        Estudiante est = ejbFacade.obtenerEstudiante(nombreUsuario);
+        setAuxEstudiante(est);
+    }
+     
+    public void inicializarVariables() {
+        actual = new PracticaDocente();
+        pub = new Publicacion();        
+    }
+     
+    /**
+     * metodo que fija el formato para recibir fecha desde la vista
+     * @param event 
+     */
+    public void onDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
+        facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+    
+    
+    /**
+     * agrega un registro de practica docente del estudiante BD
+     * @throws IOException 
+     */
+    public void AgregarPracticaDocente()
+    {
+         System.out.println("Registrando practica docente");
+         boolean formatoValido = true;
+         if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {
+
+            FacesContext.getCurrentInstance().addMessage("valPublicacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la practica docente en formato PDF", ""));
+            formatoValido = false;
+        }
+        if (formatoValido == true) {
+             boolean puedeSubir = false;
+             if (documento.getFileName().equalsIgnoreCase("")) {
+                FacesContext.getCurrentInstance().addMessage("Documento practica docente", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir evidencia de practica docente", ""));             
+             }
+             else puedeSubir = true;             
+             
+             if (puedeSubir) {                 
+                System.out.println("Agregando practica docente");
+                Estudiante est = getAuxEstudiante();
+                try{
+                    pub.setPubEstIdentificador(est);
+                    String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
+                    //gijar el identificador consultando la cantidad de filas
+                    int numPubRevis = dao.getnumFilasPubRev();
+                    pub.setPubIdentificador(numPubRevis);
+                    
+                    ArrayList<Archivo> CollArchivo = new ArrayList<>();
+                    int numArchivos = dao.getIdArchivo();
+
+                    Archivo pd = new Archivo();
+                    pd.setArcPubIdentificador(pub);
+                    pd.setArcIdentificador(numArchivos);
+                    pd.setArctipoPDFcargar("cartaAprobacion");
+                    CollArchivo.add(pd);
+                    
+                    if (!documento.getFileName().equalsIgnoreCase("")) {
+                        Archivo archArt = new Archivo();
+                        numArchivos = numArchivos + 1;
+                        archArt.setArcPubIdentificador(pub);
+                        archArt.setArcIdentificador(numArchivos);
+                        archArt.setArctipoPDFcargar("tipoPublicacion");
+                    }
+                    
+                    pub.setArchivoCollection(CollArchivo);
+                    try{
+                        pub.AgregarPracticaDocente(documento);
+                    }catch(IOException e){
+                        System.out.println("error agregando documento a practica docente en metodo agregarPracticaDocente() del controlador de practica docente ");                                
+                    }
+                    
+                    pub.setPubEstado("Activo");                    
+                    pub.setPubVisado("espera");
+                    pub.setPubTipoPublicacion("Practica docente");
+                    pub.setPubFechaPublicacion(new Date());
+                    
+                    //almacenar el objeto en la base de datos
+                    dao.create(pub);
+                    dao.flush();                    
+                    
+                    mensajeconfirmarRegistro();
+                    Date date = new Date();                    
+                    DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    String estampaTiempo = "" + datehourFormat.format(date);
+                    String[] fecha = estampaTiempo.split(" ");
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
+                    redirigirAlistar(est.getEstUsuario());                                                                
+                }catch(EJBException ex)
+                {
+                    System.out.println("Error: No se pudo registrar la publicacion");
+                    redirigirAlistar(est.getEstUsuario());  
+                }
+            }                                  
+        }         
+    }    
+     
+     public void redirigirAlistar(String nombreUsuario) 
+    {
+        //limpiarCampos();
+        System.out.println("si esta pasando por aqui");        
+        cve.verPublicaciones();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+     
+      public void mensajeconfirmarRegistro() {
+          System.out.println("Registrada con exito");
+    }
+
+//</editor-fold>
 }

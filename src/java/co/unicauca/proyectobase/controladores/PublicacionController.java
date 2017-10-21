@@ -89,7 +89,7 @@ public class PublicacionController implements Serializable {
     private String creditos;
     private String variableFiltrado;
     
-    private String motRechazo;
+    private String motivoRechazo;
     
     private CargarVistaEstudiante cve;
     private CargarVistaCoordinador cvc;
@@ -99,12 +99,12 @@ public class PublicacionController implements Serializable {
     ArrayList<Publicacion> con;
     ArrayList<Publicacion> cap;
 
-    public String getMotRechazo() {
-        return motRechazo;
+    public String getMotivoRechazo() {
+        return motivoRechazo;
     }
 
-    public void setMotRechazo(String motRechazo) {
-        this.motRechazo = motRechazo;
+    public void setMotivoRechazo(String motivoRechazo) {
+        this.motivoRechazo = motivoRechazo;
     }
 
     public void onComplete() {  
@@ -520,18 +520,15 @@ public class PublicacionController implements Serializable {
             boolean puedeSubir = false;
             if (publicacionPDF.getFileName().equalsIgnoreCase("")) {
                 if (cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
-
                     FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicación", ""));
                 } else {
                     puedeSubir = true;
-
                 }
             } else {
                 puedeSubir = true;
             }
 
-            if (puedeSubir == true) {
-                //else {
+            if (puedeSubir) {                
                 System.out.println("agregar");
                 Estudiante est = getAuxEstudiante();
                 try {
@@ -542,8 +539,8 @@ public class PublicacionController implements Serializable {
                     int numPubRevis = dao.getnumFilasPubRev();
                     actual.setPubIdentificador(numPubRevis);
 
-                    /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  
-               capitulo de un libro se crea el objeto respectivo*/
+                    //<editor-fold defaultstate="collapsed" desc="adicion de campos dependiendo tipo de publicacion">                   
+                    /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  capitulo de un libro se crea el objeto respectivo*/
                     if (actual.getPubTipoPublicacion().equals("revista")) {
                         actual.getRevista().setPubIdentificador(numPubRevis);
                         actual.getRevista().setPublicacion(actual);
@@ -583,6 +580,7 @@ public class PublicacionController implements Serializable {
                         actual.setCongreso(null);
                         actual.setLibro(null);
                     }
+                    //</editor-fold>
 
                     ArrayList<Archivo> CollArchivo = new ArrayList<>();
                     int numArchivos = dao.getIdArchivo();
@@ -613,11 +611,10 @@ public class PublicacionController implements Serializable {
                     actual.setArchivoCollection(CollArchivo);
                     actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF, getPubDoi(), getPubIsbn(), getPubIssn());
 
-                    actual.setPubEstado("Activo");
-                    /* Asigna espera como estado del visado la publicacion */
-                    actual.setPubVisado("espera");
-                    
+                    actual.setPubEstado("Activo");                    
+                    actual.setPubVisado("espera");                    
                     fijarAutoresSecundarios();
+                    
                     dao.create(actual);
                     dao.flush();
                     mensajeconfirmarRegistro();
@@ -757,7 +754,7 @@ public class PublicacionController implements Serializable {
     /*redireccion para volver a registrar */
     public void redirigirARegistrar(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
-        cve.registrarDocumento();                
+        cve.registrarPublicacion();
         Utilidades.redireccionar(cve.getRuta());
     }
 
@@ -960,7 +957,7 @@ public class PublicacionController implements Serializable {
         actual.setPubVisado("rechazada");
         dao.edit(actual);
         dao.flush();
-        Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Revisión de publicación", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" +"La publicación de nombre " + actual.obtenerNombrePub() + " ha sido revisada y se determino que no se aprueba, el motivo es el siguiente: " + "\n" + motRechazo);
+        Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Revisión de publicación", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" +"La publicación de nombre " + actual.obtenerNombrePub() + " ha sido revisada y se determino que no se aprueba, el motivo es el siguiente: " + "\n" + motivoRechazo);
         mensajeRechazar();
         redirigirAlistarRevisadas();
        

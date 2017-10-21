@@ -98,8 +98,7 @@ public class UserLoginView implements Serializable {
                 req.login(this.username, this.password);
                 System.out.println("Login Exitoso");
             } catch (ServletException e) {
-                System.out.println("aqui se empaila");
-                System.out.println(e.getMessage() );
+                System.out.println("aqui se empaila");                
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
                 Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");

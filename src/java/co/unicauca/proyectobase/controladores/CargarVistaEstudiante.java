@@ -50,6 +50,9 @@ public class CargarVistaEstudiante implements Serializable
     public void registrarDocumento(){
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/Tab_registro_documentos.xhtml";
     }
+    public void registrarPractica(){
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPracticaDocente.xhtml";
+    }
     
     public void verPublicaciones()
     {

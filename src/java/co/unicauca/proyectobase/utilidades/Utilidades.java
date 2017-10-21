@@ -47,6 +47,7 @@ public class Utilidades {
             
             Session session = Session.getInstance(prop,
                 new javax.mail.Authenticator() {
+                    @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(de, clave);
                     }

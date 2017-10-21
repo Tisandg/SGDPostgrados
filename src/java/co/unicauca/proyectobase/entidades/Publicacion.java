@@ -315,6 +315,39 @@ public class Publicacion implements Serializable {
         SubirOpenKM(subidaArchivos, estampaTiempo, codigoFirma, hash, pubDoi, pubIsbn, pubIssn);        
         
     }
+    
+    public void AgregarPracticaDocente(UploadedFile ArchivoPD) throws IOException
+    {
+        MetodosPDF mpdf = new MetodosPDF();
+        String codigoEst = this.pubEstIdentificador.getEstCodigo();
+        String codigoFirma = mpdf.codigoFirma(codigoEst);
+        codigoFirma = codigoFirma.trim();
+
+        String nombrePD = "Practica Docente-" + codigoFirma;
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        //   String destCartaAprob = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
+        String destPD = realPath + "WEB-INF\\temp\\" + nombrePD + ".pdf";
+        Date date = new Date();
+        DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String estampaTiempo = "" + datehourFormat.format(date);
+        this.setPubFechaRegistro(date);
+        
+        ArrayList<tipoPDF_cargar> subidaArchivos = new ArrayList<>();
+         if (!ArchivoPD.getFileName().equalsIgnoreCase("")) {
+            tipoPDF_cargar practicadocente = new tipoPDF_cargar();
+            practicadocente.setNombreArchivo(nombrePD);
+            practicadocente.setRutaArchivo(destPD);
+            practicadocente.setTipoPDF("practicaDocente");
+            practicadocente.setArchivoIS(ArchivoPD.getInputstream());
+            subidaArchivos.add(practicadocente);
+        }
+         
+         CrearPDFA_MetadataPD(subidaArchivos, estampaTiempo);
+         String hash = mpdf.obtenerHash(destPD);
+         SubirOpenKMPD(subidaArchivos, estampaTiempo, codigoFirma, hash); 
+        
+        
+    }
 
     public void SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash, String pubDoi,String pubIsbn, String pubIssn) throws IOException {
 
@@ -769,6 +802,140 @@ public class Publicacion implements Serializable {
             document.close();
 
         }
+    }
+    
+    public void SubirOpenKMPD(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash)
+    {
+        this.setPubHash(hash);
+        String host = "http://localhost:8083/OpenKM";
+         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
+        String username = "okmAdmin";
+        String password = "admin";
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+        try{
+             boolean crearFolder;
+            String rutaFolderCrear;
+            /* codigoFirma - en este caso corresponde al nombre de la carpeta que contendra
+                el articulo y su tabla de contenido en formato PDFA
+                Ruta del folder a crear en el Gestor Openkm*/
+            // rutaFolderCrear = "/okm:root/Doctorado_Electronica/" + codigoFirma;
+            rutaFolderCrear = "/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario();
+            this.setPubDiropkm(codigoFirma);
+            try {
+                /* Se valida si el forder a crear existe o no*/
+                ws.isValidFolder(rutaFolderCrear);
+                crearFolder = false;
+            } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
+                crearFolder = true;
+            }
+            if (crearFolder == true) {
+                /* Si no existe el folder, se crea con la ruta(rutaFolderCrear)*/
+                Folder fld = new Folder();
+                fld.setPath(rutaFolderCrear);
+                ws.createFolder(fld);
+            }
+
+            rutaFolderCrear = "/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario() + "/" + codigoFirma;
+            try {
+                /* Se valida si el forder a crear existe o no*/
+                ws.isValidFolder(rutaFolderCrear);
+                crearFolder = false;
+            } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
+                crearFolder = true;
+            }
+            if (crearFolder == true) {
+                /* Si no existe el folder, se crea con la ruta(rutaFolderCrear)*/
+                Folder fld = new Folder();
+                fld.setPath(rutaFolderCrear);
+                ws.createFolder(fld);
+            }
+             for (int i = 0; i < subidaArchivos.size(); i++) {
+                  Archivo arch = (Archivo) archivoCollection.toArray()[i];
+                  InputStream is = new FileInputStream("" + subidaArchivos.get(i).getRutaArchivo());
+                    com.openkm.sdk4j.bean.Document doc = new com.openkm.sdk4j.bean.Document();
+                    doc.setPath(rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf");
+                    ws.createDocument(doc, is);
+
+                    IOUtils.closeQuietly(is);
+                    List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:practica");
+                    for (FormElement fElement : fElements) {
+                      if (fElement.getName().equals("okp:practica.identPublicacion")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.pubIdentificador);
+                        }
+                        if (fElement.getName().equals("okp:practica.identArchivo")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + arch.getArcIdentificador());
+                        }
+
+                        if (fElement.getName().equals("okp:practica.tipoPDFCargar")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + subidaArchivos.get(i).getTipoPDF());
+                        }
+                        if (fElement.getName().equals("okp:practica.estampaTiempo")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + estampaTiempo);
+                        }
+                        if (fElement.getName().equals("okp:practica.nombreAutor")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.pubEstIdentificador.getEstNombre());
+                        }
+                    }
+                    ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:practica", fElements);
+                    
+             }
+            
+        }catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
+            e.printStackTrace();
+        }
+            
+    }
+    
+    /**
+     * agregar practica docente a openKM
+     * @param subidaArchivos archivos que se suben
+     * @param estampaTiempo 
+     */
+    private void CrearPDFA_MetadataPD(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo)
+    {           
+        for (int s = 0; s < subidaArchivos.size(); s++) {
+            Document document = new Document();
+            PdfReader reader;         
+            try
+            {
+                PdfAWriter writer = PdfAWriter.getInstance(document, new FileOutputStream(
+                        subidaArchivos.get(s).getRutaArchivo()), PdfAConformanceLevel.PDF_A_1B);
+                writer.setTagged();               
+
+                Archivo arch = (Archivo) archivoCollection.toArray()[s];
+                                                        
+                document.addHeader("Identificador Publicacion", "" + this.pubIdentificador);
+                document.addHeader("Identificador Archivo", "" + arch.getArcIdentificador());
+                document.addHeader("tipoPDF_cargar", "" + subidaArchivos.get(s).getTipoPDF());
+                document.addHeader("Estampa Tiempo", "" + estampaTiempo);
+                document.addAuthor("" + this.pubEstIdentificador.getEstNombre());
+                document.addCreator("" + this.pubEstIdentificador.getEstNombre());
+                writer.setTagged();
+                writer.createXmpMetadata();
+                writer.setCompressionLevel(9);
+                document.open();
+                PdfContentByte cb = writer.getDirectContent();
+                reader = new PdfReader(subidaArchivos.get(s).getArchivoIS());
+                PdfImportedPage page;
+                int pageCount = reader.getNumberOfPages();
+                for (int i = 0; i < pageCount; i++) {
+                    document.newPage();
+                    page = writer.getImportedPage(reader, i + 1);
+                    cb.addTemplate(page, 0, 0);
+                }             
+            }catch(DocumentException | IOException de){
+                System.err.println("error en metodo CrearPDFA_MetadataPD() de clase publicacion.java");
+                System.out.println(de.getMessage());
+            }finally{
+               document.close();
+            }           
+        }
+        
     }
 
     public archivoPDF descargaCartaAprobac() {

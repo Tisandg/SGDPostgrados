@@ -10,14 +10,19 @@
 
     <h:head>
         <title>Registrar publicacion</title>
-    </h:head>
-<!--
-    <ui:composition template="Tab_registro_documentos.xhtml">
-        <ui:define name="practica">      -->           
-
-            <h:form id="form_registrar" enctype="multipart/form-data">
-                
-                <!--<p:panel header="Datos publicación">-->
+    </h:head>             
+    
+    <ui:composition template="../../../plantillas/Estudiante.xhtml">
+    <ui:define name="content">
+             <div class="ui-messages-info ">
+                 <span class="ui-messages-info-detail">                     
+                     <p:commandButton actionListener="#{publicacionController.redirigirARegistrar(userLoginView.username)}" value="publicación"/>&nbsp;
+                     <p:commandButton actionListener="#{practicaDocenteController.redirigirARegistrar(userLoginView.username)}" value="Practica docente"/>                     
+                 </span>
+             </div>             
+            
+            <h:form id="form_registrar" enctype="multipart/form-data">    
+                <p:panel header="Datos publicación">
                     <div style = "float: right;">
                         <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -364,9 +369,7 @@
                         </h:panelGroup>
                         
                         <p:messages for="cartaAprobacion"  id="msjCartaAprobacion"/>
-                    </h:panelGrid>
-
-                <!--</p:panel>-->
+                    </h:panelGrid>               
 
                 <br/>
                 <h:form>
@@ -379,10 +382,10 @@
                             return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
                     </h:panelGrid>
                 </h:form>
-            </h:form>
-            <br/>   
-       
-            <!--</ui:define>
+                </p:panel>
+                <br/>
+            </h:form>      
+        
+    </ui:define>
     </ui:composition>
-    -->
 </html>  
