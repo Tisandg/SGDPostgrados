@@ -301,11 +301,12 @@ public class PracticaDocenteController implements Serializable {
                     pub.setPubVisado("espera");
                     pub.setPubTipoPublicacion("Practica docente");
                     pub.setPubFechaPublicacion(new Date());
+                    actual.setPubIdentificador(pub.getPubIdentificador());
                     
                     //almacenar el objeto en la base de datos
                     dao.create(pub);
                     dao.flush();                    
-                    
+                    ejbFacade.create(this.actual);
                     mensajeconfirmarRegistro();
                     Date date = new Date();                    
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -326,13 +327,19 @@ public class PracticaDocenteController implements Serializable {
     {
         //limpiarCampos();
         System.out.println("si esta pasando por aqui");        
-        cve.verPublicaciones();
+        //cve.verPublicacion();
         Utilidades.redireccionar(cve.getRuta());
     }
      
       public void mensajeconfirmarRegistro() {
           System.out.println("Registrada con exito");
     }
+      
+      public void limpiarcampos()
+      {
+          actual= new PracticaDocente();
+          
+      }
 
 //</editor-fold>
 }
