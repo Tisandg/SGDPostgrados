@@ -80,4 +80,10 @@ public class CargarVistaCoordinador implements Serializable
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPub/VerPublicacion_Coord.xhtml";
     }
+    
+    public void listarPracticaDocente()
+    {
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPrac/ListarPractica_Docente.xhtml";
+        
+    }
 }

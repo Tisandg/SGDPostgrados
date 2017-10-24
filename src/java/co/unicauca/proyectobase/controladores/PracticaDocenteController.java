@@ -56,6 +56,16 @@ public class PracticaDocenteController implements Serializable {
     private UploadedFile documento;
     private Estudiante auxEstudiante;
     private CargarVistaEstudiante cve;
+    private String variableFiltrado;
+
+    public String getVariableFiltrado() {
+        return variableFiltrado;
+    }
+
+    public void setVariableFiltrado(String variableFiltrado) {
+        this.variableFiltrado = variableFiltrado;
+    }
+    
 
     public PracticaDocenteController() {       
         cve = new CargarVistaEstudiante();
@@ -342,4 +352,15 @@ public class PracticaDocenteController implements Serializable {
       }
 
 //</editor-fold>
+      
+      public List<PracticaDocente> listado()
+      {
+         //  if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
+            return ejbFacade.findAll();
+       // } 
+           //else {
+           // return ejbFacade.ListadoPracticaFilt(variableFiltrado);
+        //}
+          
+      }
 }

@@ -768,6 +768,12 @@ public class PublicacionController implements Serializable {
         cvc.verGraficaPubReg();
         Utilidades.redireccionar(cvc.getRuta());
     }
+    
+     public void redirigirPracticaDocente() 
+    {
+        cvc.listarPracticaDocente();
+        Utilidades.redireccionar(cvc.getRuta());
+    }
 
     public void redirigirGraficaPubVis() 
     {

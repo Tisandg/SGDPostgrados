@@ -2,6 +2,7 @@ package co.unicauca.proyectobase.dao;
 
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.PracticaDocente;
+import co.unicauca.proyectobase.entidades.Publicacion;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -44,5 +45,30 @@ public class PracticaDocenteFacade extends AbstractFacade<PracticaDocente> {
             System.out.println(e);
             return null;
         }
+    }
+        public List<PracticaDocente> ListadoPracticaFilt(String variableFiltrado) {
+
+//        javax.persistence.Query query = em.createNamedQuery("PracticaDocente.findAll");
+//        query.setParameter("variableFiltro", "%" + variableFiltrado + "%");
+//        List<PracticaDocente> findPub = query.getResultList();
+        
+       //if (findPub.isEmpty()) {
+            javax.persistence.Query query = em.createNamedQuery("PracticaDocente.findByFechaInicio");
+            query.setParameter("fechaInicio", "%" + variableFiltrado + "%");
+            List<PracticaDocente> findPub = query.getResultList();
+        //}
+        if (findPub.isEmpty()) {
+            query = em.createNamedQuery("PracticaDocente.findByFechaTerminacion");
+            query.setParameter("fechaTerminacion", "%" + variableFiltrado + "%");
+            findPub = query.getResultList();
+        }
+        if (findPub.isEmpty()) {
+            query = em.createNamedQuery("PracticaDocente.findByLugarPractica");
+            query.setParameter("lugarPractica", "%" + variableFiltrado + "%");
+            findPub = query.getResultList();
+        }
+       
+        return findPub;
+
     }
 }

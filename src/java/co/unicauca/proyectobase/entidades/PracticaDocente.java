@@ -82,6 +82,13 @@ public class PracticaDocente implements Serializable {
     public Date getFechaInicio() {
         return fechaInicio;
     }
+    
+     public String getFechaIn() {
+        String fecha= fechaInicio.toLocaleString();
+        String tomar[] = fecha.split(" ");
+        
+        return tomar[0];
+    }
 
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
@@ -89,6 +96,13 @@ public class PracticaDocente implements Serializable {
 
     public Date getFechaTerminacion() {
         return fechaTerminacion;
+    }
+    
+     public String getFechaTer() {
+        String fecha= fechaTerminacion.toLocaleString();
+        String tomar[] = fecha.split(" ");
+        
+        return tomar[0];
     }
 
     public void setFechaTerminacion(Date fechaTerminacion) {
