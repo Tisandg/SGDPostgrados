@@ -29,7 +29,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PracticaDocente.findByPubIdentificador", query = "SELECT p FROM PracticaDocente p WHERE p.pubIdentificador = :pubIdentificador"),
     @NamedQuery(name = "PracticaDocente.findByFechaInicio", query = "SELECT p FROM PracticaDocente p WHERE p.fechaInicio = :fechaInicio"),
     @NamedQuery(name = "PracticaDocente.findByFechaTerminacion", query = "SELECT p FROM PracticaDocente p WHERE p.fechaTerminacion = :fechaTerminacion"),
-    @NamedQuery(name = "PracticaDocente.findByLugarPractica", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica = :lugarPractica")})
+    @NamedQuery(name = "PracticaDocente.findByLugarPractica", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica = :lugarPractica"),
+        
+    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica")
+
+})
 public class PracticaDocente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -151,3 +155,4 @@ public class PracticaDocente implements Serializable {
     }
 
 }
+

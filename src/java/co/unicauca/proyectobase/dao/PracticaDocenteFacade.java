@@ -53,20 +53,21 @@ public class PracticaDocenteFacade extends AbstractFacade<PracticaDocente> {
 //        List<PracticaDocente> findPub = query.getResultList();
         
        //if (findPub.isEmpty()) {
-            javax.persistence.Query query = em.createNamedQuery("PracticaDocente.findByFechaInicio");
-            query.setParameter("fechaInicio", "%" + variableFiltrado + "%");
-            List<PracticaDocente> findPub = query.getResultList();
-        //}
-        if (findPub.isEmpty()) {
-            query = em.createNamedQuery("PracticaDocente.findByFechaTerminacion");
-            query.setParameter("fechaTerminacion", "%" + variableFiltrado + "%");
-            findPub = query.getResultList();
-        }
-        if (findPub.isEmpty()) {
-            query = em.createNamedQuery("PracticaDocente.findByLugarPractica");
+            javax.persistence.Query query = em.createNamedQuery("PracticaDocente.findByLugarPracticaLike");
             query.setParameter("lugarPractica", "%" + variableFiltrado + "%");
-            findPub = query.getResultList();
-        }
+            List<PracticaDocente> findPub = query.getResultList();
+            
+        //}
+//        if (findPub.isEmpty()) {
+//            query = em.createNamedQuery("PracticaDocente.findByFechaTerminacion");
+//            query.setParameter("fechaTerminacion", "%" + variableFiltrado + "%");
+//            findPub = query.getResultList();
+//        }
+//        if (findPub.isEmpty()) {
+//            query = em.createNamedQuery("PracticaDocente.findByFechaInicio");
+//            query.setParameter("fechaInicio", "%" + variableFiltrado + "%");
+//            findPub = query.getResultList();
+//        }
        
         return findPub;
 

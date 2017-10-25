@@ -355,12 +355,12 @@ public class PracticaDocenteController implements Serializable {
       
       public List<PracticaDocente> listado()
       {
-         //  if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            return ejbFacade.findAll();
-       // } 
-           //else {
-           // return ejbFacade.ListadoPracticaFilt(variableFiltrado);
-        //}
+        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
+           return ejbFacade.findAll();
+        } 
+        else {
+           return ejbFacade.ListadoPracticaFilt(variableFiltrado);
+        }
           
       }
 }
