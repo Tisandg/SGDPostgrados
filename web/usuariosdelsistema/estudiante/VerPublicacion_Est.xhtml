@@ -14,24 +14,33 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Información de Publicación</b>
+                    <b>Información de publicación</b>
                 </span>
             </div>
                         
             <h:form id="form_registrar">
                 <p:tab  title="Información Publicación" titleStyleClass="title">             
-                    <p:panel header="Datos Generales">
-                        <h:panelGrid columns="2" cellspacing="10">                                    
+                    <p:panel header="Datos generales">
+                        <h:panelGrid columns="2" cellspacing="5">                                    
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.obtenerNombreUsuario(userLoginView.username)}" style="color: #3366ff"/>
                             
+                            <p:separator/>
+                            <br/>
+                            
                             <p:outputLabel value="Autores secundarios:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.actual.pubAutoresSecundarios}" style="color: #3366ff"/>
 
+                            <p:separator/>
+                            <br/>
+                            
                             <p:outputLabel value="Tipo publicación:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" style="color: #3366ff"/>                           
 
+                            <p:separator/>
+                            <br/>
+                            
                             <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" style="color: #3366ff"/>
                             
@@ -76,11 +85,14 @@
                                 </h:panelGrid>            
 
                                 <h:panelGrid columns="2" cellpadding="10"  rendered="#{publicacionController.renderizarLibro() == true}">         
+                                    <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" style="color: #3366ff"/>
+                                    
                                     <p:outputLabel value="ISBN:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control" value="#{publicacionController.actual.libro.libIsbn}" style="color: #3366ff"/>
                                     
-                                    <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
-                                    <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}"/>                                                                                                                                            
+                                    <h:outputLabel value="Editorial:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" value="#{publicacionController.actual.libro.editorial}" style="color: #3366ff"/>
                                 </h:panelGrid>            
 
                                 <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarCapLibro() == true}">
@@ -95,13 +107,13 @@
                                 </h:panelGrid>            
 
                                 <h:panelGrid columns="2" cellpadding="10" id="panelRegistrar"  >
-                                    <p:outputLabel value="Evidencia Publicación:" style="font-weight:bold;"/>
+                                    <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
                                     <h:commandButton style="margin-right: 100px ;" value="Ver " action="#{publicacionController.pdfCartaAprob()}" class="btn btn-success" onclick="this.form.target = '_blank'"/>
 
                                     <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
                                     <h:commandButton style="margin-right: 100px;"  value="Ver"   action="#{publicacionController.pdfPub()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
 
-                                    <p:outputLabel value="Tabla de Contenido:" style="font-weight:bold;"/>
+                                    <p:outputLabel value="Tabla de contenido:" style="font-weight:bold;"/>
                                     <h:commandButton style="margin-right:  100px; font-size: 13px; " value="Ver "  action="#{documentoController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />                                                
                                 </h:panelGrid>
                             </p:panel>

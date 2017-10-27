@@ -14,28 +14,44 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Información de Publicación</b>
+                    <b>Información publicación</b>
                 </span>
             </div>                    
                     
             <h:form id="form_registrar">
-                <p:tab  title="Información Publicación" titleStyleClass="title">             
-                    <p:panel header="Datos Generales">                                
-                        <h:panelGrid columns="2" cellspacing="10">
+                <p:tab  title="Información publicación" titleStyleClass="title">             
+                    <p:panel header="Datos generales">                                
+                        <h:panelGrid columns="2" cellspacing="5">
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.obtenerNombreUsuarioCoor()}"  style="color: #3366ff"/>
 
+                            <p:separator/>
+                            <br/>
+                            
                             <p:outputLabel value="Autores secundarios:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.actual.pubAutoresSecundarios}" style="color: #3366ff"/>
 
+                            <p:separator/>
+                            <br/>
+                            
                             <p:outputLabel value="Tipo publicación:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" style="color: #3366ff"/>                           
 
+                            <p:separator/>
+                            <br/>
+                            
                             <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" style="color: #3366ff"/>                                                                                                                                                                                                                
+                        
+                            <p:separator/>
+                            <br/>
+                            
                         </h:panelGrid>
-                        <h:panelGrid columns="3" cellspacing="5" rendered="#{publicacionController.actual.pubVisado != 'aprobado'}">
+
+                        
+                        
+                        <h:panelGrid id="formAprobar" columns="3" cellspacing="5" rendered="#{publicacionController.actual.pubVisado != 'aprobado'}">
                             <h:outputLabel value="Cambiar estado visado:" style="font-weight:bold;"/>
                             <p:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" >
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
@@ -45,12 +61,15 @@
                             </p:selectOneMenu>
                             <p:commandButton value="Aceptar" update="valEstadoVis" onclick="PF('dlg2').show();"/>                                    
 
-                            <p:dialog header="Enviar Observaciones" widgetVar="dlg2" modal="true" height="150">                                                
+                            <p:separator/>
+                            <br/>
+                            
+                            <p:dialog header="Enviar observaciones" widgetVar="dlg2" modal="true" height="150">                                                
                                 <h:inputTextarea id="obs" rows = "7" cols = "80">
-                                    <f:ajax listener="#{publicacionController.recibirTexto}" execute="obs" event="blur" ></f:ajax>                                                    
+                                    <f:ajax listener="#{publicacionController.recibirTexto}" execute="obs" event="blur"></f:ajax>                                                    
                                 </h:inputTextarea>         
                                 <br/>
-                                <p:commandButton value="Enviar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis" onclick="PF('dlg2').hide()"/>
+                                <p:commandButton value="Enviar" actionListener="#{publicacionController.cambiarEstadoVisado}" update="valEstadoVis formAprobar" onclick="PF('dlg2').hide()"/>
                             </p:dialog>
                         </h:panelGrid>  
                                                     
@@ -93,12 +112,14 @@
                             </h:panelGrid>            
 
                             <h:panelGrid columns="2" cellpadding="5" rendered="#{publicacionController.renderizarLibro() == true}">   
+                                <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" style="color: #3366ff"/>
                                 
                                 <p:outputLabel value="ISBN:" style="font-weight:bold;"/>
                                 <h:outputText class="form-control" value="#{publicacionController.actual.libro.libIsbn}" style="color: #3366ff"/>
-                                    
-                                <h:outputLabel value="Título libro:" style="font-weight:bold;"/>
-                                <h:outputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}"/> 
+                                
+                                <p:outputLabel value="Editorial:" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" value="#{publicacionController.actual.libro.editorial}" style="color: #3366ff"/>
                             </h:panelGrid>            
 
                             <h:panelGrid columns="2" cellpadding="5" rendered="#{publicacionController.renderizarCapLibro() == true}">
@@ -110,16 +131,18 @@
 
                                 <h:outputLabel value="Título capítulo libro:" style="font-weight:bold;"/>
                                 <h:outputText class="form-control" id="valTCapLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloCapitulo}" styleClass="addEspacio form-control"/>
-                            </h:panelGrid>            
+                            </h:panelGrid>
+                            
+                            <p:separator/>
 
                             <h:panelGrid columns="2" cellpadding="5" id="panelRegistrar"  >                                                                                            
-                                <p:outputLabel value="Evidencia Publicación:" style="font-weight:bold;"/>
+                                <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
                                 <p:commandButton  value="Ver " action="#{publicacionController.pdfCartaAprob()}" onclick="this.form.target = '_blank'" />
 
                                 <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
                                 <p:commandButton   value="Ver"   action="#{publicacionController.pdfPub()}" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
 
-                                <p:outputLabel value="Tabla de Contenido:" style="font-weight:bold"/>
+                                <p:outputLabel value="Tabla de contenido:" style="font-weight:bold"/>
                                 <p:commandButton  value="Ver "  action="#{publicacionController.pdfPubTC()}" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
                             </h:panelGrid>
                         </p:panel>

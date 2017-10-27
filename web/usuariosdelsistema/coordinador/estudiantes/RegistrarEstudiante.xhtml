@@ -14,7 +14,7 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Registrar Estudiante</b>
+                    <b>Registrar estudiante</b>
                 </span>
             </div>             
 
@@ -51,7 +51,7 @@
                                 <p:outputLabel value="Código:" style="font-weight:bold;"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
-                            <p:inputText class="form-control" id="valCodigo" placeholder="70_xxxxxxxx" value="#{estudianteController.actual.estCodigo}">
+                            <p:inputText class="form-control" id="valCodigo" placeholder="70_123123123" value="#{estudianteController.actual.estCodigo}">
                                 <f:validator validatorId="validadorCodigoEstudiante"/>
                                 <f:validator validatorId="ValidarCodigoEstudianteNoExistente"/>
                                 <p:ajax event="blur" update="msjValCodigo"/>
@@ -73,7 +73,7 @@
                                 <p:outputLabel value="Cohorte:" style="font-weight:bold;"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />  
                             </h:panelGroup>
-                            <p:inputText class="form-control" id="valCohorte" placeholder="2xxx" value="#{estudianteController.actual.estCohorte}">
+                            <p:inputText class="form-control" id="valCohorte" placeholder="2000" value="#{estudianteController.actual.estCohorte}">
                                 <f:validator validatorId="validadorCohorteEstudiante"/>
                                 <p:ajax event="blur" update="msjValCohorte"/>
                             </p:inputText>
