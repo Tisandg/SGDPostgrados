@@ -10,18 +10,18 @@
 
     <h:head>
         <title>Registrar publicacion</title>
-    </h:head>
-
-    <ui:composition template="../../plantillas/Estudiante.xhtml">
-        <ui:define name="content"> 
-            <div class="ui-messages-info ">
-                <span class="ui-messages-info-detail">
-                    <b>Registrar documentos</b>
-                </span>
-            </div>           
-
-            <h:form id="form_registrar" enctype="multipart/form-data">
-                
+    </h:head>             
+    
+    <ui:composition template="../../../plantillas/Estudiante.xhtml">
+    <ui:define name="content">
+             <div class="ui-messages-info ">
+                 <span class="ui-messages-info-detail">                     
+                     <p:commandButton actionListener="#{publicacionController.redirigirARegistrar(userLoginView.username)}" value="publicación"/>&nbsp;
+                     <p:commandButton actionListener="#{practicaDocenteController.redirigirARegistrar(userLoginView.username)}" value="Practica docente"/>                     
+                 </span>
+             </div>             
+            
+            <h:form id="form_registrar" enctype="multipart/form-data">    
                 <p:panel header="Datos publicación">
                     <div style = "float: right;">
                         <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
@@ -48,11 +48,11 @@
                         <p:outputLabel value="" styleClass="addEspacio"/>
                                                                                                                  
                         <p:dataTable id ="tablaAutores" value="#{publicacionController.listaAutores}" var="autor" 
-                                     style="width:250px;" emptyMessage="" rendered="true">
-                            <p:column width="155">
+                                     style="width:302px;" emptyMessage="" rendered="true">
+                            <p:column width="180">
                                 <p:outputLabel value="#{autor.nombre}" id="nombreAutor"/>                                
                             </p:column>                            
-                            <p:column  class="gridsinbordes" width="27">
+                            <p:column  class="gridsinbordes" width="22">
                                 <p:commandButton id="eliminarNombreAutor" icon="ui-icon-close">
                                     <f:ajax event="click" listener="#{publicacionController.eliminarAutorSecundario(autor.nombre)}" 
                                             render="tablaAutores" />                                    
@@ -368,9 +368,7 @@
                         </h:panelGroup>
                         
                         <p:messages for="cartaAprobacion"  id="msjCartaAprobacion"/>
-                    </h:panelGrid>
-
-                </p:panel>
+                    </h:panelGrid>               
 
                 <br/>
                 <h:form>
@@ -383,8 +381,10 @@
                             return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
                     </h:panelGrid>
                 </h:form>
-            </h:form>
-            <br/>   
-        </ui:define>
+                </p:panel>
+                <br/>
+            </h:form>      
+        
+    </ui:define>
     </ui:composition>
 </html>  

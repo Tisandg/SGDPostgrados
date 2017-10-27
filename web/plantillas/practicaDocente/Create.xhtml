@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PracticaDocenteCreateDlg" widgetVar="PracticaDocenteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreatePracticaDocenteTitle}">
+            <h:form id="PracticaDocenteCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{practicaDocenteController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_pubIdentificador}" for="pubIdentificador" />
+                        <p:inputText id="pubIdentificador" value="#{practicaDocenteController.selected.pubIdentificador}" title="#{bundlePracticaDocente.CreatePracticaDocenteTitle_pubIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.CreatePracticaDocenteRequiredMessage_pubIdentificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{practicaDocenteController.selected.fechaInicio}" title="#{bundlePracticaDocente.EditPracticaDocenteTitle_fechaInicio}" required="true" requiredMessage="#{bundlePracticaDocente.EditPracticaDocenteRequiredMessage_fechaInicio}" showOn="button"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_fechaTerminacion}" for="fechaTerminacion" />
+                        <p:calendar id="fechaTerminacion" pattern="MM/dd/yyyy" value="#{practicaDocenteController.selected.fechaTerminacion}" title="#{bundlePracticaDocente.EditPracticaDocenteTitle_fechaTerminacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditPracticaDocenteRequiredMessage_fechaTerminacion}" showOn="button"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_lugarPractica}" for="lugarPractica" />
+                        <p:inputText id="lugarPractica" value="#{practicaDocenteController.selected.lugarPractica}" title="#{bundlePracticaDocente.CreatePracticaDocenteTitle_lugarPractica}" required="true" requiredMessage="#{bundlePracticaDocente.CreatePracticaDocenteRequiredMessage_lugarPractica}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_publicacion}" for="publicacion" />
+                        <p:selectOneMenu id="publicacion" value="#{practicaDocenteController.selected.publicacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditPracticaDocenteRequiredMessage_publicacion}">
+                            <f:selectItems value="#{publicacionController.itemsAvailableSelectOne}"
+                                           var="publicacionItem"
+                                           itemValue="#{publicacionItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{practicaDocenteController.create}" value="#{bundlePracticaDocente.Save}" update="display,:PracticaDocenteListForm:datalist,:growl" oncomplete="handleSubmit(args,'PracticaDocenteCreateDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="PracticaDocenteCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

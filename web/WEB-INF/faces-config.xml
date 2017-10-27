@@ -12,5 +12,9 @@
             <base-name>/BundleTipoDocumento</base-name>
             <var>bundleTipoDocumento</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePracticaDocente</base-name>
+            <var>bundlePracticaDocente</var>
+        </resource-bundle>
     </application>
 </faces-config>

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Unicauca
+ * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @Entity
 @Table(name = "tipo_documento")
@@ -30,8 +30,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoDocumento.findAll", query = "SELECT t FROM TipoDocumento t"),
     @NamedQuery(name = "TipoDocumento.findByIdentificador", query = "SELECT t FROM TipoDocumento t WHERE t.identificador = :identificador"),
     @NamedQuery(name = "TipoDocumento.findByNombre", query = "SELECT t FROM TipoDocumento t WHERE t.nombre = :nombre"),
-    @NamedQuery(name = "TipoDocumento.findByCreditos", query = "SELECT t FROM TipoDocumento t WHERE t.creditos = :creditos")})
+    @NamedQuery(name = "TipoDocumento.findByCreditos", query = "SELECT t FROM TipoDocumento t WHERE t.creditos = :creditos"),
+    @NamedQuery(name = "TipoDocumento.findByMaxCreditos", query = "SELECT t FROM TipoDocumento t WHERE t.maxCreditos = :maxCreditos"),
+    @NamedQuery(name = "TipoDocumento.findByMinCreditos", query = "SELECT t FROM TipoDocumento t WHERE t.minCreditos = :minCreditos")})
 public class TipoDocumento implements Serializable {
+
+    @OneToMany(mappedBy = "idTipoDocumento")
+    private List<Publicacion> publicacionList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,13 +53,15 @@ public class TipoDocumento implements Serializable {
     @NotNull
     @Column(name = "creditos")
     private int creditos;
+    @Column(name = "max_creditos")
+    private Integer maxCreditos;
+    @Column(name = "min_creditos")
+    private Integer minCreditos;
     @OneToMany(mappedBy = "correquisitos")
     private List<TipoDocumento> tipoDocumentoList;
     @JoinColumn(name = "correquisitos", referencedColumnName = "identificador")
     @ManyToOne
     private TipoDocumento correquisitos;
-    @OneToMany(mappedBy = "idTipoDocumento")
-    private List<Publicacion> publicacionList;
 
     public TipoDocumento() {
     }
@@ -93,6 +100,22 @@ public class TipoDocumento implements Serializable {
         this.creditos = creditos;
     }
 
+    public Integer getMaxCreditos() {
+        return maxCreditos;
+    }
+
+    public void setMaxCreditos(Integer maxCreditos) {
+        this.maxCreditos = maxCreditos;
+    }
+
+    public Integer getMinCreditos() {
+        return minCreditos;
+    }
+
+    public void setMinCreditos(Integer minCreditos) {
+        this.minCreditos = minCreditos;
+    }
+
     @XmlTransient
     public List<TipoDocumento> getTipoDocumentoList() {
         return tipoDocumentoList;
@@ -108,15 +131,6 @@ public class TipoDocumento implements Serializable {
 
     public void setCorrequisitos(TipoDocumento correquisitos) {
         this.correquisitos = correquisitos;
-    }
-
-    @XmlTransient
-    public List<Publicacion> getPublicacionList() {
-        return publicacionList;
-    }
-
-    public void setPublicacionList(List<Publicacion> publicacionList) {
-        this.publicacionList = publicacionList;
     }
 
     @Override
@@ -142,6 +156,15 @@ public class TipoDocumento implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.TipoDocumento[ identificador=" + identificador + " ]";
+    }
+
+    @XmlTransient
+    public List<Publicacion> getPublicacionList() {
+        return publicacionList;
+    }
+
+    public void setPublicacionList(List<Publicacion> publicacionList) {
+        this.publicacionList = publicacionList;
     }
 
 }
