@@ -45,31 +45,5 @@ public class PracticaDocenteFacade extends AbstractFacade<PracticaDocente> {
             System.out.println(e);
             return null;
         }
-    }
-        public List<PracticaDocente> ListadoPracticaFilt(String variableFiltrado) {
-
-//        javax.persistence.Query query = em.createNamedQuery("PracticaDocente.findAll");
-//        query.setParameter("variableFiltro", "%" + variableFiltrado + "%");
-//        List<PracticaDocente> findPub = query.getResultList();
-        
-       //if (findPub.isEmpty()) {
-            javax.persistence.Query query = em.createNamedQuery("PracticaDocente.findByLugarPracticaLike");
-            query.setParameter("lugarPractica", "%" + variableFiltrado + "%");
-            List<PracticaDocente> findPub = query.getResultList();
-            
-        //}
-//        if (findPub.isEmpty()) {
-//            query = em.createNamedQuery("PracticaDocente.findByFechaTerminacion");
-//            query.setParameter("fechaTerminacion", "%" + variableFiltrado + "%");
-//            findPub = query.getResultList();
-//        }
-//        if (findPub.isEmpty()) {
-//            query = em.createNamedQuery("PracticaDocente.findByFechaInicio");
-//            query.setParameter("fechaInicio", "%" + variableFiltrado + "%");
-//            findPub = query.getResultList();
-//        }
-       
-        return findPub;
-
-    }
+    }        
 }

@@ -19,10 +19,8 @@
                         </span>
                     </div>
                 
-                    <p:separator />
-                    
-                    <br/>
-                    
+                    <p:separator />                    
+                    <br/>                    
                     <h:form>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -31,47 +29,38 @@
                     
                     <h:form>
                         <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
-                        <p:inputText id="textoFiltrado" value="#{practicaDocenteController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
+                        <p:inputText id="textoFiltrado" value="#{practicaDocenteController.variableFiltrado}" placeholder="Ingrese el nombre del autor, fecha de inicio, fecha terminación o lugar de practica" size="60">
                             <p:ajax update=":tablaPractica" event="keyup"/>
-                        </p:inputText>
-                        
-                        <br/>
-                        <br/>
-                    </h:form>
-                    
+                        </p:inputText>                        
+                        <br/><br/>
+                    </h:form>                    
                     <p:separator />
-
                 
                 <p:dataTable  id="tablaPractica" var="prac" value="#{practicaDocenteController.listado()}" rows="15"
                                   paginator="true"
                                   paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                  rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
+                                  rowsPerPageTemplate="15,30,50" emptyMessage="No se han registrado practicas o no se encuentra ninguna con el criterio de busqueda."
                                   style="text-align: left;">   
                     <p:column headerText="Nombre autor principal" >
-                        <h:outputText value="#{publicacionController.obtenerNombreUsuarioById(prac.publicacion.pubEstIdentificador)}"/>
+                        <h:outputText value="#{practicaDocenteController.formatoNombreUsuario(prac.publicacion.pubEstIdentificador)}"/>
                     </p:column>
                     
-                    <p:column headerText="Fecha Inicio"  >
+                    <p:column headerText="Fecha Inicio">
                         <h:outputText value="#{prac.fechaIn}"/>
                     </p:column>
-                    <p:column headerText="Fecha Terminacion"  >
+                    <p:column headerText="Fecha Terminacion">
                         <h:outputText value="#{prac.fechaTer}"/>
                     </p:column>
                     <p:column headerText="Lugar de practica"  >
                         <h:outputText value="#{prac.lugarPractica}"/>
-                    </p:column>
-
-                   
-
+                    </p:column>                  
                     <p:column headerText="Acción"   >
-                        <h:form style="font-size: 10px;">
-                           
+                        <h:form style="font-size: 10px;">                           
                         </h:form>
                     </p:column>
                 </p:dataTable>
             </div>
-            <br/>
-            <br/>
+            <br/><br/>
         </ui:define>
     </ui:composition>
 

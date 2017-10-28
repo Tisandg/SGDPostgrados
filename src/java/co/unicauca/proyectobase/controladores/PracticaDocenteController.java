@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -341,26 +342,49 @@ public class PracticaDocenteController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
      
-      public void mensajeconfirmarRegistro() {
-          System.out.println("Registrada con exito");
+    public void mensajeconfirmarRegistro() {
+        System.out.println("Registrada con exito");
     }
       
-      public void limpiarcampos()
-      {
-          actual= new PracticaDocente();
-          
-      }
+    public void limpiarcampos()
+    {
+        actual= new PracticaDocente();
+    }
 
-//</editor-fold>
-      
-      public List<PracticaDocente> listado()
-      {
-        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-           return ejbFacade.findAll();
-        } 
+    /**
+     * concatena el nombre y el apellido del estudiante
+     * @param est estudiante con la informacion nesesaria
+     * @return Informacion del estudiante en formato << nombre apellido >>
+     */
+    public String formatoNombreUsuario(Estudiante est){
+        return est.getEstNombre() + " " + est.getEstApellido();
+    }
+                
+    /**
+     * retorna una lista que contiene objetos de tipo practicaDocente 
+     * @return si variableFiltrado == null retorna todas las praticas, de lo contrario retorna las coincidencias de nombre, fecha inicio fecha fin o lugar
+     */
+    public List<PracticaDocente> listado(){
+        List<PracticaDocente> result = ejbFacade.findAll();
+
+        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {  return result;  } 
         else {
-           return ejbFacade.ListadoPracticaFilt(variableFiltrado);
+            List<PracticaDocente> resultFilter = new ArrayList<>();  
+            //revisar, esta haciendo las consultas tres veces
+            //System.out.println(result.size());
+            for (PracticaDocente item : result) {                                
+                String nombre = item.getPublicacion().getPubEstIdentificador().getEstNombre() + item.getPublicacion().getPubEstIdentificador().getEstApellido();                
+                if(nombre.contains(variableFiltrado) || 
+                        item.getFechaIn().contains(variableFiltrado) || 
+                        item.getFechaTer().contains(variableFiltrado) || 
+                        item.getLugarPractica().contains(variableFiltrado)){
+                    resultFilter.add(item);
+                }                
+            }
+            return resultFilter;           
         }
-          
-      }
+    }
+    
+    //</editor-fold>
+    
 }
