@@ -1,6 +1,7 @@
 package co.unicauca.proyectobase.entidades;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -31,11 +32,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PracticaDocente.findByFechaTerminacion", query = "SELECT p FROM PracticaDocente p WHERE p.fechaTerminacion = :fechaTerminacion"),
     @NamedQuery(name = "PracticaDocente.findByLugarPractica", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica = :lugarPractica"),
         
-    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica")
+    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),    
+    @NamedQuery(name = "PracticaDocente.findByFechaInicioLike", query = "SELECT p FROM PracticaDocente p WHERE FUNCTION('TO_CHAR',p.fechaInicio,'dd/MM/yyyy') LIKE :fecha"),
+    @NamedQuery(name = "PracticaDocente.findByFechaTerminacionLike", query = "SELECT p FROM PracticaDocente p WHERE FUNCTION('TO_CHAR',p.fechaTerminacion,'dd/MM/yyyy') LIKE :fecha")
+        
+        
+         
 
 })
 public class PracticaDocente implements Serializable {
-
+//@NamedQuery(name = "PracticaDocente.findByNombreAutor", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -87,11 +93,8 @@ public class PracticaDocente implements Serializable {
         return fechaInicio;
     }
     
-     public String getFechaIn() {
-        String fecha= fechaInicio.toLocaleString();
-        String tomar[] = fecha.split(" ");
-        
-        return tomar[0];
+     public String getFechaIn() {        
+        return new SimpleDateFormat("dd-MMMM-yyyy").format(fechaInicio);
     }
 
     public void setFechaInicio(Date fechaInicio) {
@@ -103,10 +106,7 @@ public class PracticaDocente implements Serializable {
     }
     
      public String getFechaTer() {
-        String fecha= fechaTerminacion.toLocaleString();
-        String tomar[] = fecha.split(" ");
-        
-        return tomar[0];
+        return new SimpleDateFormat("dd-MMMM-yyyy").format(fechaTerminacion);
     }
 
     public void setFechaTerminacion(Date fechaTerminacion) {
