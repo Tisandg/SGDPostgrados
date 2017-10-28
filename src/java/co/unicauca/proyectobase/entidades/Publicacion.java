@@ -129,7 +129,7 @@ import org.primefaces.model.UploadedFile;
             + "LIKE :variableFiltro)"),
     @NamedQuery(
             name = "findAllPub_Est",
-            query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador= :identificacion"
+            query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador = :identificacion"
     ),
     //@NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn"),
     @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id")
@@ -198,6 +198,8 @@ public class Publicacion implements Serializable {
     @ManyToOne
     private Estudiante pubEstIdentificador;
     
+    
+    
     public Publicacion() {
         this.pubAutoresSecundarios = "";
     }
@@ -214,12 +216,7 @@ public class Publicacion implements Serializable {
         this.pubAutoresSecundarios = "";
     }
     
-    
-    
-    
-    
-    
-    
+
     @SuppressWarnings("empty-statement")
     public void agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF ,  String pubDoi,String pubIsbn, String pubIssn) throws IOException {
 
@@ -235,17 +232,14 @@ public class Publicacion implements Serializable {
 
         if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
             nombrePublicacion = this.revista.getRevTituloArticulo();
-
         }
         if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
             nombrePublicacion = this.congreso.getCongTituloPonencia();
         }
         if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
             nombrePublicacion = this.libro.getLibTituloLibro();
-
         }
         if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
-
             nombrePublicacion = this.capituloLibro.getCaplibTituloCapitulo();
         }
 
@@ -350,13 +344,11 @@ public class Publicacion implements Serializable {
     }
 
     public void SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash, String pubDoi,String pubIsbn, String pubIssn) throws IOException {
-
-        /* Inicia una instancia del Gestor Documental Openkm*/
-        this.setPubHash(hash);
         String host = "http://localhost:8083/OpenKM";
-         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";
+        /* Inicia una instancia del Gestor Documental Openkm*/
+        this.setPubHash(hash);
         OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
         try {
             boolean crearFolder;
@@ -804,11 +796,35 @@ public class Publicacion implements Serializable {
         }
     }
     
+    public boolean eliminarOpenkm() throws LockException{
+        String host = "http://localhost:8083/OpenKM";
+        String username = "okmAdmin";
+        String password = "admin";
+        boolean eliminado = false;
+        boolean existe = false;
+        String rutaFolder="/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario() + "/" + this.pubDiropkm;
+        Folder folder = new Folder();
+        folder.setPath(rutaFolder);
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+        try {
+            /* Se valida si el forder a eliminar existe o no*/
+            ws.isValidFolder(rutaFolder);
+            existe = true;
+            if(existe){
+                ws.deleteFolder(rutaFolder);
+                eliminado = true;
+            }
+        } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
+            System.out.println("Error al eliminar documento: "+e.getMessage());
+        }
+        
+        return eliminado;
+    }
+    
     public void SubirOpenKMPD(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash)
     {
         this.setPubHash(hash);
         String host = "http://localhost:8083/OpenKM";
-         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";
         OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);

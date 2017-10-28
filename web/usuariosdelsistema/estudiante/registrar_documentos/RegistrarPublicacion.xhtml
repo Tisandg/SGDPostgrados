@@ -67,8 +67,10 @@
                         </p:inputText>
                         <p:message for="valASecundarios" id="msjValAutores" />-->
                        
-
-                        <p:outputLabel value="Fecha publicación:" styleClass="addEspacio"/>
+                        <h:panelGroup>
+                            <p:outputLabel value="Fecha publicación:" styleClass="addEspacio"/>
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                        </h:panelGroup>
                         <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}" size="35" 
                                      pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es">
                             <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
@@ -103,7 +105,7 @@
                                     <p:outputLabel value="DOI:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
-                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.pubDoi}" placeholder="10.xxxx/xxxx" size="35">
+                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.pubDoi}" placeholder="Ej: 10.xxxx/xxxx" size="35">
                                     <f:validator validatorId="validadorDOI" />
                                     <p:ajax event="blur" update="msjValDOIRev" />
                                 </p:inputText>
@@ -172,7 +174,7 @@
                                     <h:outputLabel value="ISSN:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valISSN"  value="#{publicacionController.pubIssn}" placeholder="123-12-12345-12-1" size="35">
+                                <p:inputText class="form-control" id="valISSN"  value="#{publicacionController.pubIssn}" placeholder="Ej: 1234-1234 o 1234-123X" size="35">
                                     <f:validator validatorId="validadorISSN" />
                                     <p:ajax event="blur" update="msjValISSN" />
                                 </p:inputText>
@@ -185,7 +187,7 @@
                                     <p:outputLabel value="DOI:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valDOICong"  value="#{publicacionController.pubDoi}" placeholder="Ingrese DOI aquí" size="35">
+                                <p:inputText class="form-control" id="valDOICong"  value="#{publicacionController.pubDoi}" placeholder="Ej: 10.xxxx/xxxx" size="35">
                                     <f:validator validatorId="validadorDOI" />
                                     <p:ajax event="blur" update="msjValDOICong" />
                                 </p:inputText>
@@ -253,7 +255,7 @@
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                                 </h:panelGroup>
                                 <p:inputText class="form-control" id="valISBNLibro"  value="#{publicacionController.pubIsbn}" 
-                                             styleClass="addEspacio form-control" placeholder="123-12-12345-12-1" size="35">
+                                             styleClass="addEspacio form-control" placeholder="Ej: 123-12-12345-12-1" size="35">
                                     <f:validator validatorId="validadorISBN" /> 
                                     <p:ajax event="blur" update="msjValISBNLibro" />
                                 </p:inputText>
@@ -304,7 +306,7 @@
                                     <p:outputLabel value="ISBN:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valISBNCapLibro"  value="#{publicacionController.pubIsbn}" placeholder="123-12-12345-12-1" size="35">
+                                <p:inputText class="form-control" id="valISBNCapLibro"  value="#{publicacionController.pubIsbn}" placeholder="Ej: 123-12-12345-12-1" size="35">
                                     <f:validator validatorId="validadorISBN"/> 
                                     <p:ajax event="blur" update="msjValISBNCapLibro" />
                                 </p:inputText>
@@ -378,7 +380,7 @@
                                 return false;
                             }
                             ;
-                            return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
+                            return true;" action="#{publicacionController.redirigirPublicacionesEst()}" class="btn btn-primary" immediate="true"/>
                     </h:panelGrid>
                 </h:form>
                 </p:panel>

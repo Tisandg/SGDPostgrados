@@ -24,9 +24,9 @@ import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 
 /**
- *
  * @hola unicauca
  */
+
 @ManagedBean
 @SessionScoped
 public class UserLoginView implements Serializable {
@@ -126,6 +126,8 @@ public class UserLoginView implements Serializable {
                         break;
 
                 }
+            }else{
+                System.out.println("Ya se ha iniciado sesion");
             }
         }
         

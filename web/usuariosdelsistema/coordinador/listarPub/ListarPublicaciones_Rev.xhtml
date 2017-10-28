@@ -7,14 +7,14 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
-        <title>Listado de Publicaciones</title>
+        <title>Listado de documentos</title>
     </h:head>
     <!-- IMPLEMENTATION -->
     <ui:composition template="./../../../plantillas/Coordinador.xhtml">
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Listado de publicaciones revisadas</b>
+                    <b>Listado de documentacion revisados</b>
                 </span>
             </div>
             
@@ -30,7 +30,7 @@
 
             <h:form>
                 <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
-                <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
+                <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo documento o titulo documento" size="58">
                     <p:ajax update=":tablaPublicaciones" event="keyup"/>
                 </p:inputText>
 

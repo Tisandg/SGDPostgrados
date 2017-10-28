@@ -33,13 +33,8 @@ public class ValidadorISSN implements Validator {
         
         if (issn.length() != 0) {
 
-            if (issn.length() != 8) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Longitud del ISSN es incorrecta, debe ser de 8 numeros o 7 numeros y una X ");
-                throw new ValidatorException(msg);
-            }
-
             if (!validarFormato(issn)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Formato del ISSN es incorrecto, debe ser de 8 numeros o 7 numeros y una X ");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Formato del ISSN es incorrecto. Intente de nuevo");
                 throw new ValidatorException(msg);
             }
         }
@@ -49,7 +44,7 @@ public class ValidadorISSN implements Validator {
     //valida el formato del DOI
     public boolean validarFormato(String doi) {
         //  Pattern p = Pattern.compile("(^([0-9]{4})+([0-9]{3})+([0-9X]{1}))$");
-        Pattern p = Pattern.compile("(^([0-9]{4})+([0-9]{3})+([0-9X]{1}))$");
+        Pattern p = Pattern.compile("(^([0-9]{4})+([-]{1})+([0-9]{3})+([0-9X]{1}))$");
         //http://www.issn.org/es/comprender-el-issn/que-es-el-numero-issn/
         //https://goo.gl/jQFjlJ
         //Pattern p = Pattern.compile("^([0-9])");
