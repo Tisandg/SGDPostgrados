@@ -390,8 +390,8 @@ public class PracticaDocenteController implements Serializable {
         }
     }
      public List<PracticaDocente> listadoDesdeEst(){
-         
-         List<PracticaDocente> result = ejbFacade.findAll();
+         //aqui hay que recibir el nombre de usuario como variale
+         List<PracticaDocente> result = ejbFacade.practicaDocente("dlopezs");
          return result; 
         //if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {   } 
       /*  else {

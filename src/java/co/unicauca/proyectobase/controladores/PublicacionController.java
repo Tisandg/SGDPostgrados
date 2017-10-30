@@ -268,7 +268,7 @@ public class PublicacionController implements Serializable {
         }
     }
     
-    public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
+     public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
         Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
         int idEstudiante = est.getEstIdentificador();
