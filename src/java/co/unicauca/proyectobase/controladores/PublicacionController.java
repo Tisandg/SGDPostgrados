@@ -664,13 +664,13 @@ public class PublicacionController implements Serializable {
             addMessage("La publicación no se puede eliminar por que ha sido aceptada por el coordinador", "");
         }else{
             try{
-                /*Eliminamos primero los archivos que estan en el openKm
+                /*Eliminamos primero los documentos que estan en el openKm
                   y luego eliminamos los registros de la base de datos*/
-                if(actual.eliminarOpenkm()){
-                    daoPublicacion.remove(actual);
-                    daoPublicacion.flush();
-                    System.out.println("Documentacion eliminada");
-                }
+                actual.eliminarDocOpenkm();
+                daoPublicacion.remove(actual);
+                daoPublicacion.flush();
+                System.out.println("Documentacion eliminada");
+                
             }catch(LockException e){
                 addMessage("La publicación no se ha podido eliminar", "");
                 System.out.println("PublicacionController: "+e.getMessage());
@@ -739,9 +739,10 @@ public class PublicacionController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
 
-    public void editarPublicacion(Publicacion pub) {
+    public void irAEditar(Publicacion pub) {
         actual = pub;
-        Utilidades.redireccionar("/ProyectoII/faces/componentes/gestionPublicaciones/EditarPublicacion.xhtml");
+        cve.editarDocumentacion();
+        Utilidades.redireccionar(cve.getRuta());
     }
 
     /*redireccionamiento para boton cancelar*/

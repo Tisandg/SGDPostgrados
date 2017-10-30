@@ -796,7 +796,7 @@ public class Publicacion implements Serializable {
         }
     }
     
-    public boolean eliminarOpenkm() throws LockException{
+    public boolean eliminarDocOpenkm() throws LockException{
         String host = "http://localhost:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";

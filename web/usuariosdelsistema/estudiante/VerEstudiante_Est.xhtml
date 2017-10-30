@@ -52,25 +52,6 @@
                         <p:tooltip id="toolTipGrow" for="ayuda" value="Indica el número total de creditos obtenidos mediante las publicaciones aprobadas."
                                    showEffect="clip" hideEffect="blind" />
                         
-                        <h:form>
-                            <p:commandButton  value="Cambiar contraseña" actionListener="#{usuarioController.editarContrasena()}" />
-                            <h:panelGroup rendered="#{usuarioController.editarContrasena = true}">
-                                <h:outputLabel value="Contraseña actual:" for="valContrasenaActual" styleClass="addEspacio" style="font-weight:bold;"/>
-                                <p:inputText class="form-control" id="valContrasenaActual" placeholder="Digite contraseña actual" value="#{verEstudianteController.contrasenas.contrasenaActual}">
-                                    <!--f:validator validatorId="validadorContrasenaEstudiante"/-->
-                                </p:inputText>
-
-                                <h:outputLabel value="Nueva contraseña:" for="valContrasenaNueva" styleClass="addEspacio" style="font-weight:bold;"/>
-                                <p:inputText class="form-control" id="valContrasenaNueva" placeholder="Digite su nueva contraseña" value="#{verEstudianteController.contrasenas.nuevaContrasena}">
-                                </p:inputText>
-
-                                <h:outputLabel value="Contraseña actual:" for="valContrasenaNuevaR" styleClass="addEspacio" style="font-weight:bold;"/>
-                                <p:inputText class="form-control" id="valContrasenaNuevaR" placeholder="Vuelva a digitar la nueva contraseña" value="#{verEstudianteController.contrasenas.nuevaContrasenaR}">
-                                </p:inputText>
-                                <p:commandButton  value="Cambiar contraseña" actionListener="#{verEstudianteController.cambiarContrasena()}" />
-                            </h:panelGroup>
-                        </h:form>
-                        
                     </h:panelGrid>
                 </p:panel>
 
