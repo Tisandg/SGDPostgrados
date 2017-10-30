@@ -36,13 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PracticaDocente.findByFechaTerminacion", query = "SELECT p FROM PracticaDocente p WHERE p.fechaTerminacion = :fechaTerminacion"),
     @NamedQuery(name = "PracticaDocente.findByLugarPractica", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica = :lugarPractica"),
         
-    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),    
-    @NamedQuery(name = "PracticaDocente.findByFechaInicioLike", query = "SELECT p FROM PracticaDocente p WHERE FUNCTION('TO_CHAR',p.fechaInicio,'dd/MM/yyyy') LIKE :fecha"),
-    @NamedQuery(name = "PracticaDocente.findByFechaTerminacionLike", query = "SELECT p FROM PracticaDocente p WHERE FUNCTION('TO_CHAR',p.fechaTerminacion,'dd/MM/yyyy') LIKE :fecha")
-        
-        
-         
-
+    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),        
+    
+    @NamedQuery(name = "PracticaDocente.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like 'Practica docente'")
+                         
 })
 public class PracticaDocente implements Serializable {
 //@NamedQuery(name = "PracticaDocente.findByNombreAutor", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),

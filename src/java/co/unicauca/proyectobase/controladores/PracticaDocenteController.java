@@ -107,6 +107,7 @@ public class PracticaDocenteController implements Serializable {
         return ejbFacade;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Codigo generd por jsf">    
     public PracticaDocente prepareCreate() {
         actual = new PracticaDocente();
         initializeEmbeddableKey();
@@ -165,7 +166,7 @@ public class PracticaDocenteController implements Serializable {
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PersistenceErrorOccured"));
             }
         }
-    }
+    }    
     
     public PracticaDocente getPracticaDocente(java.lang.Integer id) {
         return getFacade().find(id);
@@ -219,12 +220,11 @@ public class PracticaDocenteController implements Serializable {
         }
 
     }
-    
+    //</editor-fold>
     
 
     //<editor-fold defaultstate="collapsed" desc="codigo nuevo">
-    
-    
+        
     /*redireccion para volver a registrar */
     public void redirigirARegistrar(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
@@ -255,8 +255,7 @@ public class PracticaDocenteController implements Serializable {
     
     
     /**
-     * agrega un registro de practica docente del estudiante BD
-     * @throws IOException 
+     * agrega un registro de practica docente del estudiante BD 
      */
     public void AgregarPracticaDocente()
     {
@@ -311,6 +310,7 @@ public class PracticaDocenteController implements Serializable {
                     pub.setPubEstado("Activo");                    
                     pub.setPubVisado("espera");
                     pub.setPubTipoPublicacion("Practica docente");
+                    pub.setIdTipoDocumento(ejbFacade.findTipoDocumento());
                     pub.setPubFechaPublicacion(new Date());
                     actual.setPubIdentificador(pub.getPubIdentificador());
                     
