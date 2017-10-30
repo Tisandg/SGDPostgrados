@@ -20,7 +20,7 @@
             <h:form id="form_registrar">
                 <p:panel header="Datos personales">
 
-                    <h:panelGrid columns="4" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
                         <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio" style="font-weight:bold;"/>
                         <h:outputText class="form-control" id="valNombre" value="#{verEstudianteController.auxEstudiante.estNombre}" styleClass="addEspacio form-control" style="color: #3366ff"/>
 
@@ -51,10 +51,12 @@
                         <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué indica el número de creditos?</h:outputLink>
                         <p:tooltip id="toolTipGrow" for="ayuda" value="Indica el número total de creditos obtenidos mediante las publicaciones aprobadas."
                                    showEffect="clip" hideEffect="blind" />
-                        
+                    </h:panelGrid>    
                         <h:form>
+                            <br/>
                             <p:commandButton  value="Cambiar contraseña" actionListener="#{usuarioController.editarContrasena()}" />
-                            <h:panelGroup rendered="#{usuarioController.editarContrasena = true}">
+                            <h:panelGroup rendered="#{usuarioController.editarContrasena = true}" >
+                                <h:panelGrid columns="2">
                                 <h:outputLabel value="Contraseña actual:" for="valContrasenaActual" styleClass="addEspacio" style="font-weight:bold;"/>
                                 <p:inputText class="form-control" id="valContrasenaActual" placeholder="Digite contraseña actual" value="#{verEstudianteController.contrasenas.contrasenaActual}">
                                     <!--f:validator validatorId="validadorContrasenaEstudiante"/-->
@@ -68,10 +70,12 @@
                                 <p:inputText class="form-control" id="valContrasenaNuevaR" placeholder="Vuelva a digitar la nueva contraseña" value="#{verEstudianteController.contrasenas.nuevaContrasenaR}">
                                 </p:inputText>
                                 <p:commandButton  value="Cambiar contraseña" actionListener="#{verEstudianteController.cambiarContrasena()}" />
+                            </h:panelGrid>
                             </h:panelGroup>
+                            
                         </h:form>
                         
-                    </h:panelGrid>
+                    
                 </p:panel>
 
             </h:form>

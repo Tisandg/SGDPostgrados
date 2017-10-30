@@ -244,3 +244,18 @@ thead {
   background-color: white;
 }
 
+    .CuadroDeBotonesSesion
+{   
+    position: absolute;
+    padding: 15px 60px 5px 60px;
+    color: #FFFFFF;
+    text-align: center;
+    border: 3px  solid #ffffff;
+    border-style: none none solid;
+    right: 20px;
+    top: 30px;
+    border-radius: 20px;    
+    background-color: #5c9ccc;
+    font-weight: bold;
+    font-size: 15px;
+}
