@@ -14,7 +14,7 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Listado de publicaciones en espera</b>
+                    <b>Lista de documentos en espera</b>
                 </span>
             </div>
             
@@ -24,7 +24,7 @@
             
             <h:form>
                 <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
-                <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
+                <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo de documento o nombre documento" size="58">
                     <p:ajax update=":tablaPublicaciones" event="keyup"/>
                 </p:inputText>
 
@@ -37,20 +37,20 @@
             <p:dataTable  id="tablaPublicaciones" var="pub" value="#{publicacionController.listadoEspera()}" rows="15"
                           paginator="true"
                           paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                          rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
+                          rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen documentos registrados o no se encuentra ninguno con el criterio de busqueda."
                           style="text-align: left;">   
 
 
                 <p:column headerText="Nombre autor principal" >
                     <h:outputText value="#{publicacionController.obtenerNombreUsuarioById(pub.pubEstIdentificador)}"></h:outputText>
                 </p:column>
-                <p:column headerText="Tipo publicación"  >
+                <p:column headerText="Tipo de documento"  >
                     <h:outputText value="#{pub.pubTipoPublicacion}"></h:outputText>
                 </p:column>
-                <p:column headerText="Nombre publicación"  >
+                <p:column headerText="Nombre documento"  >
                     <h:outputText value="#{pub.obtenerNombrePub()}"></h:outputText>
                 </p:column>
-                <p:column headerText="Fecha publicación:"  >
+                <p:column headerText="Fecha de registro"  >
                     <h:outputText value="#{pub.ObtenerFecha()}"></h:outputText>
                 </p:column>
 

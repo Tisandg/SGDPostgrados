@@ -13,13 +13,13 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Información estudiante</b>
+                    <b>Datos personales</b>
                 </span>
             </div>                        
             
             <h:form id="form_registrar">
                 <p:tab  title="Datos personales" titleStyleClass="title">             
-                    <p:panel header="Datos personales">
+                    <p:panel header="Estudiante">
                         <div style = "float: left;"></div>
                                   
                         <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
@@ -80,7 +80,7 @@
                         </h:panelGrid>
                     </p:panel>
                     <br/>
-                    <p:panel header="Publicaciones">
+                    <p:panel header="Documentos">
                         
                         <h:panelGroup style="display:block; text-align:right">
                             <!--<p:outputLabel style="font-weight:bold; " value="Convención de colores "/>-->
@@ -97,17 +97,17 @@
                                   rowsPerPageTemplate="15,30,50" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
                                   style="text-align: center;">
                             
-                            <p:column headerText="Tipo publicación"  >
+                            <p:column headerText="Tipo de documento"  >
                                 <h:outputText value="#{pub.pubTipoPublicacion}"/>
                             </p:column>
-                            <p:column headerText="Nombre publicación"  >
+                            <p:column headerText="Nombre documento"  >
                                 <h:outputText value="#{pub.obtenerNombrePub()}"/>
                             </p:column>
-                            <p:column headerText="Fecha publicación:"  >
+                            <p:column headerText="Fecha de registro"  >
                                 <h:outputText value="#{pub.ObtenerFecha()} "/>
                             </p:column>
                             
-                            <p:column headerText="Opciones" width="100" >
+                            <p:column headerText="Acciones" width="100" >
                                 <h:form style="font-size: 10px;">
                                     <p:commandButton actionListener="#{publicacionController.verPublicacion(pub)}" value="Ver" style="font-size: 13px;"/>
                                     <h:panelGroup rendered="#{pub.pubVisado == 'espera'}">

@@ -16,13 +16,13 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Registrar documentos</b>
+                    <b>Registrar documento</b>
                 </span>
             </div>           
 
             <h:form id="form_registrar" enctype="multipart/form-data">
                 
-                <p:panel header="Datos publicación">
+                <p:panel header="Información del documento">
                     <div style = "float: right;">
                         <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -79,7 +79,7 @@
                         <p:message for="event" id="msjValFechaPublicacion" />
 
                         <h:panelGroup>
-                            <h:outputLabel value="Tipo publicación:" styleClass="addEspacio"/>                        
+                            <h:outputLabel value="Tipo de documento:" styleClass="addEspacio"/>                        
                             <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                         </h:panelGroup>
                         <p:selectOneMenu class="form-control"  id="valTipopublicacion" value="#{publicacionController.actual.pubTipoPublicacion}" 
@@ -347,7 +347,7 @@
                         <h:outputText value=""/>
                         
                         <h:panelGroup>
-                            <p:outputLabel value="Evidencia de publicación:" />
+                            <p:outputLabel value="Evidencia de documento:" />
                             <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                         </h:panelGroup>
                         <h:panelGroup>                            
