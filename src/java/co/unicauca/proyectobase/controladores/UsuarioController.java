@@ -4,13 +4,16 @@ import co.unicauca.proyectobase.entidades.Usuario;
 import co.unicauca.proyectobase.controladores.util.JsfUtil;
 import co.unicauca.proyectobase.controladores.util.PaginationHelper;
 import co.unicauca.proyectobase.dao.UsuarioFacade;
+import co.unicauca.proyectobase.utilidades.Utilidades;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -25,6 +28,9 @@ import javax.faces.model.SelectItem;
 public class UsuarioController implements Serializable {
 
     private Usuario current;
+    private contrasenaView contrasenas = new contrasenaView();
+    private boolean editarContrasena;
+    
     private DataModel items = null;
     @EJB
     private UsuarioFacade ejbFacade;
@@ -32,9 +38,14 @@ public class UsuarioController implements Serializable {
     private int selectedItemIndex;
 
     public UsuarioController() {
+        this.editarContrasena = false;
+        this.contrasenas = new contrasenaView();
     }
 
     public Usuario getCurrent() {
+        if(current == null){
+            current= new Usuario();
+        }
         return current;
     }
 
@@ -42,6 +53,64 @@ public class UsuarioController implements Serializable {
         this.current = current;
     }
 
+    public boolean isEditarContrasena() {
+        return editarContrasena;
+    }
+
+    public void setEditarContrasena(boolean editarContrasena) {
+        this.editarContrasena = editarContrasena;
+    }
+    
+    public contrasenaView getContrasenas() {
+        return contrasenas;
+    }
+
+    public void setContrasenas(contrasenaView contrasenas) {
+        this.contrasenas = contrasenas;
+    }
+    
+    public void editarContrasena(){
+        
+        if(this.editarContrasena = false){
+            this.editarContrasena = true;
+        }else{
+            this.editarContrasena = false;
+        }
+        System.out.println("Cambiando editar contrasena: "+this.editarContrasena);
+    }
+    
+    public boolean cambiarContrasena(){
+        
+        System.out.println("Cambiando contraseña...");
+        boolean respuesta = false;
+        /*Comprobar que la contraseña actual digitada coincida con la que 
+          esta guardada*/
+        System.out.println("Contraseña actual ingresada: "+this.contrasenas.getContrasenaActual());
+        String contrasenaActual = Utilidades.sha256(this.contrasenas.getContrasenaActual());
+        System.out.println("Contraseña actual guardada "+ current.getContrasena());
+        if(contrasenaActual.equals(current.getContrasena())){
+            /*Contraseñas coinciden*/
+            System.out.println("Contraseñas actuales son contraseñas");
+            String nuevaContrasena = Utilidades.sha256(this.contrasenas.getNuevaContrasena());
+            try{
+                this.current.setContrasena(nuevaContrasena);
+                ejbFacade.edit(current);
+                ejbFacade.flush();
+                respuesta = true;
+                System.out.println("Contrasena modificada");
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Exito", "Contraseña ha sido cambiada"));
+            }catch(EJBException e){
+                System.out.println("Error al editar contraseña");
+            }
+            
+        }else{
+            System.out.println("Contrasena no modificada");
+        }
+        
+        return respuesta;
+    }
+    
     public Usuario getSelected() {
         if (current == null) {
             current = new Usuario();

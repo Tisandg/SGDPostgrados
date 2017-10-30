@@ -733,7 +733,7 @@ public class DocumentoController implements Serializable {
         limpiarCampos();
         System.out.println("si esta pasando por aqui");
         
-        cvc.listarPublicacionesRevisdas();
+        cvc.listarPublicacionesRevisadas();
         Utilidades.redireccionar(cvc.getRuta());
     }
 

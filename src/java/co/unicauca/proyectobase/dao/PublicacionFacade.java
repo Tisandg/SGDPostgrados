@@ -54,7 +54,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
      * @return Lista de publicaciones
      */
     public List<Publicacion> publicacionesPorSemestre(int anio, int semestre){
-        javax.persistence.Query query = getEntityManager().createNamedQuery("Publicacion.findAllBySemester");
+        Query query = getEntityManager().createNamedQuery("Publicacion.findAllBySemester");
         query.setParameter("anio", anio);
         if(semestre == 1){
             query.setParameter("inicio",1);
@@ -117,8 +117,21 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
 
     public Estudiante obtenerEstudiante(String nombreUsuario) {
 
-        String comSimple = "\'";
-        String queryStr;
+        Query consulta = getEntityManager().createNamedQuery("Estudiante.findByEstUsuario");
+        consulta.setParameter("estUsuario", nombreUsuario);
+        try{
+            List<Estudiante> resultado = consulta.getResultList();
+            if(resultado.size()>0){
+                return resultado.get(0);
+            }else{
+                System.out.println("No se puede obtener estudiante");
+            }
+        }catch(Exception e){
+            System.out.println("Error " + e.getMessage());
+        }
+        return null;
+
+        /*
         queryStr = " SELECT est_identificador FROM doctorado.estudiante WHERE est_usuario = " + comSimple + nombreUsuario + comSimple;
         javax.persistence.Query query = getEntityManager().createNativeQuery(queryStr);
         List results = query.getResultList();
@@ -132,7 +145,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
             System.out.println("Error " + e.getMessage());
             System.out.println(e);
             return null;
-        }
+        }*/
     }
     
     public int CountByMonthYear(String anio, String mes) {

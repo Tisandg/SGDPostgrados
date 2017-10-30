@@ -26,16 +26,14 @@
                     <p:submenu label = "Documentos">
                         <p:menuitem value="Lista de documentos"                                     
                                     icon="ui-icon-document-b" 
-                                    action="#{publicacionController.redirigirAlistar(userLoginView.username)}" ajax="false"/>
+                                    action="#{publicacionController.redirigirPublicacionesEst()}" ajax="false"/>
                         
                         <p:menuitem value="Registrar documento"                                     
                                     icon="ui-icon-document-b" 
                                     action="#{publicacionController.redirigirARegistrar(userLoginView.username)}" ajax="false"/>
-                        
-                       
+
                     </p:submenu>
-                    
-                    
+       
                 </p:menu>
             </h:form>  
         </ui:composition>

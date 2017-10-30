@@ -71,7 +71,7 @@ public class CargarVistaCoordinador implements Serializable
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPub/ListarPublicaciones_Espera.xhtml";
     }
     
-    public void listarPublicacionesRevisdas()
+    public void listarPublicacionesRevisadas()
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPub/ListarPublicaciones_Rev.xhtml";
     }
@@ -79,5 +79,11 @@ public class CargarVistaCoordinador implements Serializable
     public void listarPublicacionesEstudiante()
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPub/VerPublicacion_Coord.xhtml";
+    }
+    
+    public void listarPracticaDocente()
+    {
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPrac/ListarPractica_Docente.xhtml";
+        
     }
 }
