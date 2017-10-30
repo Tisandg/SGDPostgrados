@@ -341,7 +341,12 @@ public class PracticaDocenteController implements Serializable {
         //cve.verPublicacion();
         Utilidades.redireccionar(cve.getRuta());
     }
-     
+    public void redirigirPracticasEst() 
+    {
+        System.out.println("Listando practicas desde estudiante");
+        cve.verPracticas();
+        Utilidades.redireccionar(cve.getRuta());
+    }
     public void mensajeconfirmarRegistro() {
         System.out.println("Registrada con exito");
     }
@@ -383,6 +388,28 @@ public class PracticaDocenteController implements Serializable {
             }
             return resultFilter;           
         }
+    }
+     public List<PracticaDocente> listadoDesdeEst(){
+         
+         List<PracticaDocente> result = ejbFacade.findAll();
+         return result; 
+        //if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {   } 
+      /*  else {
+            List<PracticaDocente> resultFilter = new ArrayList<>();  
+            //revisar, esta haciendo las consultas tres veces
+            //System.out.println(result.size());
+            for (PracticaDocente item : result) {                                
+                String nombre = item.getPublicacion().getPubEstIdentificador().getEstNombre() + item.getPublicacion().getPubEstIdentificador().getEstApellido();                
+                if(nombre.contains(variableFiltrado) || 
+                        item.getFechaIn().contains(variableFiltrado) || 
+                        item.getFechaTer().contains(variableFiltrado) || 
+                        item.getLugarPractica().contains(variableFiltrado)){
+                    resultFilter.add(item);
+                }                
+            }
+            return resultFilter;           
+        }*/
+     // return null;
     }
     
     //</editor-fold>

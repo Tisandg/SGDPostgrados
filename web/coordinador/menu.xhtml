@@ -18,7 +18,7 @@
             <h:form>
                 <p:menu id="menu_coordinador">
                     <p:submenu label = "Estudiantes" >
-                        <p:menuitem value="Lista estudiantes"                                      
+                        <p:menuitem value="Lista de estudiantes"                                      
                                     icon=" ui-icon-bookmark" 
                                     action="#{estudianteController.redirigirAlistar()}" ajax="false"
                                     />
@@ -27,8 +27,8 @@
                                     action="#{estudianteController.redirigirARegistrar()}" ajax="false"
                                     />
                     </p:submenu>
-                    <p:submenu label = "Lista publicaciones">
-                        <p:menuitem value="Todas"                                     
+                    <p:submenu label = "Documentos">
+                        <p:menuitem value="Todos"                                     
                                     icon="ui-icon-document-b" 
                                     action="#{publicacionController.redirigirAlistar()}" ajax="false"/>
                         
@@ -36,7 +36,7 @@
                                     icon="ui-icon-document-b" 
                                     action="#{publicacionController.redirigirAlistarEspera()}" ajax="false"/>
                         
-                        <p:menuitem value="Revisadas"                                     
+                        <p:menuitem value="Revisados"                                     
                                     icon="ui-icon-document-b"
                                     action="#{publicacionController.redirigirAlistarRevisadas()}" ajax="false">          
                             
@@ -61,7 +61,7 @@
                                     action="#{publicacionController.redirigirGraficaPubReg()}" ajax="false">          
                         </p:menuitem>
                         
-                        <p:menuitem value="Publicaciones visadas"                                     
+                        <p:menuitem value="Documentos visados"                                     
                                     icon="ui-icon-document-b"
                                     action="#{publicacionController.redirigirGraficaPubVis()}" ajax="false">          
                         </p:menuitem>
