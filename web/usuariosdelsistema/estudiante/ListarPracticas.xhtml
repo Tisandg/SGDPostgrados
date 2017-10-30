@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Listar Publicaciones</title>
+    </h:head>
+    <!-- IMPLEMENTATION -->
+    <ui:composition template="../../plantillas/Estudiante.xhtml">
+        <ui:define name="content"> 
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Lista de practicas</b>
+                </span>
+                <div style = "float: right;">
+                    <p:outputLabel style="font-weight:bold; " value="Número de creditos aprobados: "/>                        
+                    <p:outputLabel style="font-size: 16px; color: red;"  value="#{userLoginView.creditos}&nbsp;"/>
+                </div>
+            </div>
+            
+            <p:separator/>
+            
+            <br/>            
+            <h:form>
+                <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
+                <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el tipo documento o nombre documento" size="54">
+                    <p:ajax update=":tablaPublicaciones" event="keyup"/>
+                </p:inputText>                
+            </h:form>
+            <br/>
+            <p:separator />
+            
+            <p:dataTable  id="tablaPublicaciones" var="prac"  value="#{practicaDocenteController.listadoDesdeEst()}" rows="10"
+                            paginator="true"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="15,30,50" emptyMessage="No tiene publicaciones registradas o no se encuentra ninguno con el criterio de busqueda."
+                            style="text-align: left;"
+                            >
+
+                <p:column headerText="Fecha Inicio">
+                        <h:outputText value="#{prac.fechaIn}"/>
+                    </p:column>
+                    <p:column headerText="Fecha Terminacion">
+                        <h:outputText value="#{prac.fechaTer}"/>
+                    </p:column>
+                    <p:column headerText="Lugar de practica"  >
+                        <h:outputText value="#{prac.lugarPractica}"/>
+                    </p:column>         
+                
+            </p:dataTable>
+            <br/><br/>
+        </ui:define>
+    </ui:composition>
+
+
+</html>

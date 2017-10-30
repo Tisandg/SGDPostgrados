@@ -45,5 +45,19 @@ public class PracticaDocenteFacade extends AbstractFacade<PracticaDocente> {
             System.out.println(e);
             return null;
         }
-    }        
+    }       
+    public List<PracticaDocente> practicaDocente(String nombreUsuario){
+        System.out.println("EL nombre es  "+nombreUsuario);
+        javax.persistence.Query query = getEntityManager().createNamedQuery("PracticaDocente.misPracticas");
+        //query.setParameter("nombrllke", nombreUsuario);
+        List<PracticaDocente> lista = null;
+        try {
+            
+            lista = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+        }
+        return lista;
+    }
 }
