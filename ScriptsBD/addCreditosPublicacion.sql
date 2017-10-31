@@ -1,0 +1,1 @@
+alter table publicacion add column pub_creditos int(3) default 0;
