@@ -746,8 +746,7 @@ public class PublicacionController implements Serializable {
 
     /*redireccionamiento para boton cancelar*/
     public void redirigirPublicacionesEst() 
-    {
-        System.out.println("Listando documentacion desde estudiante");
+    {        
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }

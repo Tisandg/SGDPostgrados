@@ -324,21 +324,19 @@ public class PracticaDocenteController implements Serializable {
                     String estampaTiempo = "" + datehourFormat.format(date);
                     String[] fecha = estampaTiempo.split(" ");
                     Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
-                    redirigirAlistar(est.getEstUsuario());                                                                
+                    redirigirAlistar();                                                                
                 }catch(EJBException ex)
                 {
                     System.out.println("Error: No se pudo registrar la publicacion");
-                    redirigirAlistar(est.getEstUsuario());  
+                    redirigirAlistar();  
                 }
             }                                  
         }         
     }    
      
-     public void redirigirAlistar(String nombreUsuario) 
-    {
-        //limpiarCampos();
-        System.out.println("si esta pasando por aqui");        
-        //cve.verPublicacion();
+     public void redirigirAlistar() 
+    {                
+        cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }
     public void redirigirPracticasEst() 

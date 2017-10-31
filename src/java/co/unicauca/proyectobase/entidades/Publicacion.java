@@ -1,5 +1,6 @@
 package co.unicauca.proyectobase.entidades;
 
+import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -247,14 +248,16 @@ public class Publicacion implements Serializable {
         }
 
 
+        PropiedadesOS os = new PropiedadesOS();
+        
         /*Obtiene la ruta de la ubicacion del servidor donde se almacenaran 
-          temporalmente los archivos ,para luego subirlos al Gestor Documental OpenKm  */
-        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+          temporalmente los archivos ,para luego subirlos al Gestgor Documental OpenKm  */
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(os.getSeparator());        
         //   String destCartaAprob = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
-        String destCartaAprob = realPath + "WEB-INF\\temp\\" + nombreCartaAprob + ".pdf";
-        String destArticulo = realPath + "WEB-INF\\temp\\" + nombrePublicacion + ".pdf";
+        String destCartaAprob = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombreCartaAprob + ".pdf";
+        String destArticulo = realPath + "WEB-INF"+ os.getSeparator() + "temp" + os.getSeparator() + nombrePublicacion + ".pdf";
         //  String destTablaC = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
-        String destTablaC = realPath + "WEB-INF\\temp\\" + nombreTablaC + ".pdf";
+        String destTablaC = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombreTablaC + ".pdf";
 
 
         /*  Estampa de Tiempo
