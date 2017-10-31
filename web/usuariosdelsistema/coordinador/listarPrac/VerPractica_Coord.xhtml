@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Ver Practica docente</title>
+    </h:head>
+
+    <ui:composition template="./../../../plantillas/Coordinador.xhtml">
+        <ui:define name="content"> 
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Informacion practica docente</b>
+                </span>
+            </div>                    
+                    
+            <h:form id="form_registrar">
+                <p:tab  title="Información publicación" titleStyleClass="title">             
+                    <p:panel header="Datos generales">                                
+                        <h:panelGrid columns="2" cellspacing="5">
+
+                            <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valNombAut"  value="#{practicaDocenteController.formatoNombreUsuario(practicaDocenteController.selected.publicacion.pubEstIdentificador)}"  style="color: #3366ff"/>
+
+                            <p:separator/>
+                            <br/>
+                            
+                            <p:outputLabel value="Fecha Inicio:" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valAutSec"  value="#{practicaDocenteController.selected.fechaIn}" style="color: #3366ff"/>
+
+                            <p:separator/>
+                            <br/>
+                            
+                            <p:outputLabel value="Fecha Terminacion:" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valTipoPub"  value="#{practicaDocenteController.selected.fechaTer}" style="color: #3366ff"/>                           
+
+                            <p:separator/>
+                            <br/>
+                            
+                            <h:outputLabel value="Lugar:" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valEstadoVis" value="#{practicaDocenteController.selected.lugarPractica}" style="color: #3366ff"/>                                                                                                                                                                                                                
+                        
+                            <p:separator/>
+                            <br/>
+                            
+                        </h:panelGrid>
+
+                       
+                        <p:separator/>
+
+                            <h:panelGrid columns="2" cellpadding="5" id="panelRegistrar"  >                                                                                            
+                                <p:outputLabel value="Evidencia practica docente:" style="font-weight:bold;"/>
+                                <p:commandButton  value="Ver " action="#{practicaDocenteController.pdfPubPD()}" onclick="this.form.target = '_blank'" />
+
+                                
+                            </h:panelGrid>
+                        </p:panel>
+                </p:tab>
+                <br/>
+                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistarCoord(usuariosSessionController.nombreUsuario)}"/>                       
+                <br/><br/><br/>                       
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
