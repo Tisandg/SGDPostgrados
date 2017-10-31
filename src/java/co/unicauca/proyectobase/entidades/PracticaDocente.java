@@ -1,8 +1,15 @@
 package co.unicauca.proyectobase.entidades;
 
+import com.openkm.sdk4j.OKMWebservices;
+import com.openkm.sdk4j.OKMWebservicesFactory;
+import com.openkm.sdk4j.bean.QueryParams;
+import com.openkm.sdk4j.bean.QueryResult;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,6 +76,7 @@ public class PracticaDocente implements Serializable {
     private Publicacion publicacion;
 
     public PracticaDocente() {
+        publicacion= new Publicacion();
     }
 
     public PracticaDocente(Integer pubIdentificador) {
@@ -153,6 +161,52 @@ public class PracticaDocente implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.PracticaDocente[ pubIdentificador=" + pubIdentificador + " ]";
+    }
+    
+    public archivoPDF descargaPubPrac() {
+        archivoPDF archivo = new archivoPDF();
+        String tipoPDF = "practicaDocente";
+
+        String host = "http://localhost:8083/OpenKM";
+         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
+        String username = "okmAdmin";
+        String password = "admin";
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+
+        try {
+
+            Map<String, String> properties = new HashMap();
+            /* Se comprueba el tipo de publicacion: revista congreso , un libro 
+                o un capitulo de un libro que se devolvera como resultado*/
+           
+                properties.put("okp:practica.identPublicacion", "" + publicacion.getPubIdentificador());
+                properties.put("okp:practica.tipoPDFCargar", "" + tipoPDF);
+
+            
+            
+            // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
+            QueryParams qParams = new QueryParams();
+            qParams.setProperties(properties);
+            int posPub = 0;
+            for (QueryResult qr : ws.find(qParams)) {
+                if (posPub == 0) {
+                    String auxDoc = qr.getDocument().getPath();
+                    String[] arrayNombre = auxDoc.split("/");
+                    int pos = arrayNombre.length;
+                    String nombreDoc = arrayNombre[pos - 1];
+                    System.out.println("nombreDocPUB: " + nombreDoc);
+                    InputStream initialStream = ws.getContent(qr.getDocument().getPath());
+                    archivo.setArchivo(initialStream);
+                    archivo.setNombreArchivo(nombreDoc);
+                }
+                posPub = posPub + 1;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("datos"+ archivo.getArchivo());
+        return archivo;
     }
 
 }

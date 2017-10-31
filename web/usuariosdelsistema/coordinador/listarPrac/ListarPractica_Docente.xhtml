@@ -55,7 +55,8 @@
                         <h:outputText value="#{prac.lugarPractica}"/>
                     </p:column>                  
                     <p:column headerText="Acción"   >
-                        <h:form style="font-size: 10px;">                           
+                        <h:form style="font-size: 10px;"> 
+                            <p:commandButton actionListener="#{practicaDocenteController.verPractica(prac)}" value="Ver" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
                         </h:form>
                     </p:column>
                 </p:dataTable>

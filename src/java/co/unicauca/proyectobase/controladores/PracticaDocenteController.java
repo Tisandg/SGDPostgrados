@@ -13,8 +13,16 @@ import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.Revista;
+import co.unicauca.proyectobase.entidades.archivoPDF;
 import co.unicauca.proyectobase.utilidades.Utilidades;
+import com.openkm.sdk4j.OKMWebservices;
+import com.openkm.sdk4j.OKMWebservicesFactory;
+import com.openkm.sdk4j.bean.QueryParams;
+import com.openkm.sdk4j.bean.QueryResult;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -22,7 +30,9 @@ import java.text.SimpleDateFormat;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +45,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.servlet.http.HttpServletResponse;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -57,6 +68,7 @@ public class PracticaDocenteController implements Serializable {
     private UploadedFile documento;
     private Estudiante auxEstudiante;
     private CargarVistaEstudiante cve;
+    private CargarVistaCoordinador cvc;
     private String variableFiltrado;
 
     public String getVariableFiltrado() {
@@ -70,6 +82,7 @@ public class PracticaDocenteController implements Serializable {
 
     public PracticaDocenteController() {       
         cve = new CargarVistaEstudiante();
+        cvc= new CargarVistaCoordinador();
     
     }  
     
@@ -411,5 +424,46 @@ public class PracticaDocenteController implements Serializable {
     }
     
     //</editor-fold>
+     
+     public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
+        archivoPDF archivoPublic = actual.descargaPubPrac();
+       
+        
+        if (archivoPublic.getNombreArchivo().equals("")) {
+            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
+
+        } else {
+            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
+            InputStream fis = archivoPublic.getArchivo();
+            
+            
+            HttpServletResponse response
+                    = (HttpServletResponse) FacesContext.getCurrentInstance()
+                            .getExternalContext().getResponse();
+
+            response.setContentType("application/pdf");
+            // response.setHeader("Content-Disposition", "inline;filename=" + archivoPublic.getNombreArchivo() + ".pdf");
+            response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
+            byte[] buffer = new byte[8 * 1024];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                response.getOutputStream().write(buffer, 0, bytesRead);
+                
+            }
+            
+            // response.getOutputStream().write(buf);
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+            FacesContext.getCurrentInstance().responseComplete();
+
+        }
+    }
+     
+      public void verPractica(PracticaDocente prac) {
+        actual = prac;
+        cvc.listarPracticaDocenteVer();
+        Utilidades.redireccionar(cvc.getRuta());
+    }
+         
     
 }
