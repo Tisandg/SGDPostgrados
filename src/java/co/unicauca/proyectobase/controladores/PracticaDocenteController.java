@@ -7,32 +7,22 @@ import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.PracticaDocenteFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.entidades.Archivo;
-import co.unicauca.proyectobase.entidades.CapituloLibro;
-import co.unicauca.proyectobase.entidades.Congreso;
 import co.unicauca.proyectobase.entidades.Estudiante;
-import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.Publicacion;
-import co.unicauca.proyectobase.entidades.Revista;
 import co.unicauca.proyectobase.entidades.archivoPDF;
+import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import co.unicauca.proyectobase.utilidades.Utilidades;
-import com.openkm.sdk4j.OKMWebservices;
-import com.openkm.sdk4j.OKMWebservicesFactory;
-import com.openkm.sdk4j.bean.QueryParams;
-import com.openkm.sdk4j.bean.QueryResult;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -245,7 +235,7 @@ public class PracticaDocenteController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
     
-     public void limpiarCampos(String nombreUsuario) {        
+    public void limpiarCampos(String nombreUsuario) {        
         this.inicializarVariables();
         Estudiante est = ejbFacade.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
@@ -340,7 +330,7 @@ public class PracticaDocenteController implements Serializable {
                     redirigirAlistar();                                                                
                 }catch(EJBException ex)
                 {
-                    System.out.println("Error: No se pudo registrar la publicacion");
+                    System.out.println("Error: No se pudo registrar la publicacion. error: " + ex.getMessage());
                     redirigirAlistar();  
                 }
             }                                  
@@ -426,36 +416,24 @@ public class PracticaDocenteController implements Serializable {
     //</editor-fold>
      
      public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaPubPrac();
-       
-        
+        archivoPDF archivoPublic = actual.descargaPubPrac();                   
         if (archivoPublic.getNombreArchivo().equals("")) {
-            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
-
-        } else {
-            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
-            InputStream fis = archivoPublic.getArchivo();
-            
-            
-            HttpServletResponse response
-                    = (HttpServletResponse) FacesContext.getCurrentInstance()
-                            .getExternalContext().getResponse();
-
-            response.setContentType("application/pdf");
-            // response.setHeader("Content-Disposition", "inline;filename=" + archivoPublic.getNombreArchivo() + ".pdf");
+            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado la evidencia de la practica docente", ""));            
+        } else {                        
+            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");            
+            InputStream fis = archivoPublic.getArchivo();                       
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            System.out.println("Response: " + response.toString());
+            response.setContentType("application/pdf");            
             response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
             byte[] buffer = new byte[8 * 1024];
             int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1) {
-                response.getOutputStream().write(buffer, 0, bytesRead);
-                
-            }
-            
-            // response.getOutputStream().write(buf);
+                response.getOutputStream().write(buffer, 0, bytesRead);                
+            }                        
             response.getOutputStream().flush();
             response.getOutputStream().close();
             FacesContext.getCurrentInstance().responseComplete();
-
         }
     }
      

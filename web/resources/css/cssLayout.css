@@ -233,6 +233,15 @@
     margin-right: 10px;
 }
 
+#efectoCarga{
+    background: url(../img/carga4.gif) no-repeat;
+    width: 126px;
+    height: 126px;
+    float: left;
+    margin-right: 10px;
+    opacity: 1;
+}
+
 #banderaHeader {
     background: url(../images/bandera-head-int.png) no-repeat;
     width: 195px;

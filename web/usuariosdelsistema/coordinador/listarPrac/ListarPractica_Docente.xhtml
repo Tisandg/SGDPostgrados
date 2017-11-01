@@ -41,11 +41,11 @@
                                   paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                   rowsPerPageTemplate="15,30,50" emptyMessage="No se han registrado practicas o no se encuentra ninguna con el criterio de busqueda."
                                   style="text-align: left;">   
-                    <p:column headerText="Nombre autor principal" >
+                    <p:column headerText="Nombre autor principal">
                         <h:outputText value="#{practicaDocenteController.formatoNombreUsuario(prac.publicacion.pubEstIdentificador)}"/>
                     </p:column>
                     
-                    <p:column headerText="Fecha Inicio">
+                    <p:column headerText="Fecha Inicio" filterBy="#{prac.fechaIn}">
                         <h:outputText value="#{prac.fechaIn}"/>
                     </p:column>
                     <p:column headerText="Fecha Terminacion">

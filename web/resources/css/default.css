@@ -244,7 +244,7 @@ thead {
   background-color: white;
 }
 
-    .CuadroDeBotonesSesion
+.CuadroDeBotonesSesion
 {   
     position: absolute;
     padding: 15px 60px 5px 60px;
@@ -255,7 +255,7 @@ thead {
     right: 20px;
     top: 30px;
     border-radius: 20px;    
-    background-color: #5c9ccc;
+    background-color: rgba(0,0,0, 0.3);     
     font-weight: bold;
-    font-size: 15px;
+    font-size: 15px;   
 }

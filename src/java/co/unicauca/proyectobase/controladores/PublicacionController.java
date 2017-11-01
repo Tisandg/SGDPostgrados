@@ -279,9 +279,7 @@ public class PublicacionController implements Serializable {
         }
     }    
     //</editor-fold>
-    
-    
-
+       
     /* Lista las publicaciones que su estado de Visado sea: espera,
      es decir publicaciones que aun no han sido visadas*/
     public List<Publicacion> listaPublicacionVisadoEspera(List<Publicacion> lista) {
@@ -319,15 +317,10 @@ public class PublicacionController implements Serializable {
         archivoPDF archivoPublic = actual.descargaCartaAprobac();
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Para esta publicacion el Usuario no ha cargado un PDF de la carta de aprobacion  ", ""));
-
         } else {
             String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
             InputStream fis = archivoPublic.getArchivo();
-
-            HttpServletResponse response
-                    = (HttpServletResponse) FacesContext.getCurrentInstance()
-                            .getExternalContext().getResponse();
-
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             response.setContentType("application/pdf");
             // response.setHeader("Content-Disposition", "inline;filename=" + archivoPublic.getNombreArchivo() + ".pdf");
             response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
@@ -336,7 +329,6 @@ public class PublicacionController implements Serializable {
             while ((bytesRead = fis.read(buffer)) != -1) {
                 response.getOutputStream().write(buffer, 0, bytesRead);
             }
-
             // response.getOutputStream().write(buf);
             response.getOutputStream().flush();
             response.getOutputStream().close();
@@ -346,35 +338,23 @@ public class PublicacionController implements Serializable {
 
     public void pdfPub() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaPublicacion();
-
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF para esta publicacion", ""));
-
         } else {
-
             String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
             InputStream fis = archivoPublic.getArchivo();
-
-            HttpServletResponse response
-                    = (HttpServletResponse) FacesContext.getCurrentInstance()
-                            .getExternalContext().getResponse();
-
-            response.setContentType("application/pdf");
-            // response.setHeader("Content-Disposition", "inline;filename=" + archivoPublic.getNombreArchivo() + ".pdf");
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.setContentType("application/pdf");            
             response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
             byte[] buffer = new byte[8 * 1024];
             int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1) {
                 response.getOutputStream().write(buffer, 0, bytesRead);
-            }
-
-            // response.getOutputStream().write(buf);
+            }           
             response.getOutputStream().flush();
             response.getOutputStream().close();
             FacesContext.getCurrentInstance().responseComplete();
-
         }
-
     }
 
     public void pdfPubTC() throws FileNotFoundException, IOException, IOException, IOException {
@@ -505,7 +485,7 @@ public class PublicacionController implements Serializable {
         String tituloMensaje = "";
         String mensaje = "";
         
-        if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
+            if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
             tituloMensaje = "valPublicacion";
             mensaje = "Debe subir la publicación o la evidencia de la publicación en formato PDF";
             formatoValido = false;

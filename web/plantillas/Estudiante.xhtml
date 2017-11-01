@@ -19,7 +19,7 @@
         
         <header class="interno">
             <div id="logoU"></div>
-            <div id="banderaHeader"></div>
+            <div id="banderaHeader"></div>                        
             
             <div class="CuadroDeBotonesSesion">
                 <ui:insert name="CuadroDeBotonesSesion"> 
@@ -46,6 +46,8 @@
         </p:menubar>
 
         <div>
+            
+            
             <div id="menu_coordinador" style="float:left; margin-left: 20px; ">
                 <div class="ui-messages-info ">
                     <span class="ui-messages-info-detail"><b>Menú estudiante</b>    </span>
@@ -55,15 +57,19 @@
                 </ui:insert>
             </div>
 
-            <div id="contenido_coordinador" style=" width: 82%; float:left ; margin-left: 16px;">
+            <div id="contenido_coordinador" style=" width: 82%; float:left ; margin-left: 16px;">                                
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <div id="efectoCarga"></div>
+                </p:dialog>
                 <ui:insert name="content">Contenido documentos</ui:insert>                
             </div>
-            
+           
         </div>
         <footer class="interno">
-            <div id="banderaFooter"></div>                                        
-            <p id="pFooter" style="font-size: 15px; font-family: sans-serif" align="center">Facultad de Ingeniería Electrónica y Telecomunicaciones <br/>
-                <a id="a" href="http://www.unicauca.edu.co" style="color: blue">Universidad del Cauca</a>
+            <div id="banderaFooter"></div>                     
+            <p id="pFooter" style="font-size: 15px; font-family: sans-serif" align="center">Facultad de Ingeniería Electrónica y Telecomunicaciones <br/>                
+                <a id="a" href="http://www.unicauca.edu.co" style="color: blue">Universidad del Cauca</a>                
             </p>
         </footer>
     </h:body>

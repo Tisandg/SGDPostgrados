@@ -5,6 +5,7 @@
  */
 package co.unicauca.proyectobase.controladores;
 
+import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
@@ -43,15 +44,16 @@ public class CargarVistaEstudiante implements Serializable
     }
     
     public void registrarPublicacion()
-    {
-        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPublicacion.xhtml";
+    {        
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPublicacion.xhtml";        
     }
     
     public void registrarDocumento(){
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/Tab_registro_documentos.xhtml";
     }
-    public void registrarPractica(){
-        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPracticaDocente.xhtml";
+    public void registrarPractica(){        
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPracticaDocente.xhtml";        
+        
     }
     
     public void verPublicaciones()
