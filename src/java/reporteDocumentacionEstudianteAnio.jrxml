@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c2aeef0-cc31-4143-969d-2554d0ac9f4d">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Serif" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Serif" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Serif" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Serif" fontSize="12"/>
+	<style name="Heading 4" fontSize="12" isBold="true" isItalic="true"/>
+	<parameter name="anio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2017]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codEst" class="java.lang.String">
+		<defaultValueExpression><![CDATA["70_1234567891"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     usuario.`nombres` AS usuario_nombres,
+     publicacion.`pub_fecha_registro` AS publicacion_pub_fecha_registro,
+     publicacion.`pub_creditos` AS publicacion_pub_creditos,
+     estudiante.`est_codigo` AS estudiante_est_codigo,
+     estudiante.`est_identificador` AS est_identificador,
+     tipo_documento.`nombre` AS tipo_documento_nombre
+FROM
+     `estudiante` estudiante INNER JOIN `publicacion` publicacion ON estudiante.`est_identificador` = publicacion.`pub_est_identificador`
+     INNER JOIN `usuario` usuario ON estudiante.`usuario_id` = usuario.`id`
+     INNER JOIN `tipo_documento` tipo_documento ON publicacion.`id_tipo_documento` = tipo_documento.`identificador`
+WHERE
+     YEAR(publicacion.`pub_fecha_registro`) = $P{anio}
+ AND estudiante.`est_codigo` = $P{codEst}
+ORDER BY
+     tipo_documento_nombre ASC]]>
+	</queryString>
+	<field name="usuario_nombres" class="java.lang.String"/>
+	<field name="publicacion_pub_fecha_registro" class="java.sql.Date"/>
+	<field name="publicacion_pub_creditos" class="java.lang.Integer"/>
+	<field name="estudiante_est_codigo" class="java.lang.String"/>
+	<field name="est_identificador" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_documento_nombre" class="java.lang.String"/>
+	<variable name="tipo_documento_nombre_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{tipo_documento_nombre}]]></variableExpression>
+	</variable>
+	<variable name="publicacion_pub_creditos_2" class="java.lang.Integer" resetType="Group" resetGroup="grupo_id_estudiante" calculation="Sum">
+		<variableExpression><![CDATA[$F{publicacion_pub_creditos}]]></variableExpression>
+	</variable>
+	<variable name="publicacion_pub_fecha_registro_1" class="java.lang.Integer" resetType="Group" resetGroup="grupo_id_estudiante" calculation="Count">
+		<variableExpression><![CDATA[$F{publicacion_pub_fecha_registro}]]></variableExpression>
+	</variable>
+	<group name="grupo_tipo_documentacion">
+		<groupExpression><![CDATA[$F{tipo_documento_nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="34" forecolor="#3333FF" backcolor="#CCCCCC" uuid="d8fd65e3-8dfc-4bca-a73b-15e825dbc81d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo_documento_nombre}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="grupo_id_estudiante">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<textField>
+					<reportElement x="0" y="0" width="195" height="20" uuid="cb246c68-a6cc-48e4-8216-2c8571eca2ea"/>
+					<textElement>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{usuario_nombres}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="grupo_id_estudiante">
+					<reportElement x="402" y="0" width="153" height="20" uuid="ace35ce4-4464-4c87-bde9-aded413bffad"/>
+					<textElement>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{publicacion_pub_creditos_2}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="grupo_id_estudiante">
+					<reportElement x="197" y="0" width="205" height="20" uuid="8adadf68-463f-414a-86b1-c371b8a7f650"/>
+					<textElement>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{publicacion_pub_fecha_registro_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="102" splitType="Stretch">
+			<frame>
+				<reportElement style="Heading 4" mode="Opaque" x="0" y="0" width="555" height="102" backcolor="#006699" uuid="5e917349-198d-4344-a191-7f732be062c2"/>
+				<staticText>
+					<reportElement x="20" y="20" width="440" height="43" forecolor="#FFFFFF" uuid="66790422-029d-4d8e-bb67-60855dbcd720"/>
+					<textElement>
+						<font size="28" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REPORTE ESTUDIANTE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="21" y="76" width="54" height="20" forecolor="#FFFFFF" uuid="4d4d3690-10c8-4df7-bf34-979d0ce6ebb6"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Codigo: ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="75" y="76" width="100" height="20" forecolor="#FFFFFF" uuid="4ee5fa79-1591-4a81-a370-1f2bcd553963"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{codEst}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="196" y="76" width="33" height="20" forecolor="#FFFFFF" uuid="3a360cf9-233a-4a4f-8bce-2be277ceacfb"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Año:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="232" y="76" width="100" height="20" forecolor="#FFFFFF" uuid="245cd86b-bb5b-4d10-a61a-715811b1d035"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="403" y="0" width="152" height="20" backcolor="#CCCCFF" uuid="9bc57958-1107-435d-82df-ee8676fd0233"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Total creditos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="197" y="0" width="206" height="20" backcolor="#CCCCFF" uuid="0a128139-fb83-4555-adc6-39b1a3837b0f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Total documentos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="197" height="20" backcolor="#CCCCFF" uuid="4fc51dfb-602a-4e26-8030-05a04e4c14e7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Estudiante]]></text>
+			</staticText>
+			<line>
+				<reportElement x="195" y="0" width="1" height="20" uuid="d23456bf-ab9a-40ee-8815-5a0dbd2327fe"/>
+			</line>
+			<line>
+				<reportElement x="402" y="0" width="1" height="20" uuid="47621e11-8561-4b47-b7d8-afc57c249ee0"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<line>
+				<reportElement x="0" y="-4" width="553" height="1" uuid="d8b49adb-7681-46da-a097-c4c5b5ece828"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="026456f5-2504-4569-9933-256ab504b898"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="74a6355b-c021-4a5d-9cf2-4f0ca6e9cb3d"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

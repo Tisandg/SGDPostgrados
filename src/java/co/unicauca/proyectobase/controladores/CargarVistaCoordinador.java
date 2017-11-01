@@ -86,4 +86,10 @@ public class CargarVistaCoordinador implements Serializable
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPrac/ListarPractica_Docente.xhtml";
         
     }
+    public void listarPracticaDocenteVer()
+    {
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPrac/VerPractica_Coord.xhtml";
+        
+    }
+    
 }
