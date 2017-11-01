@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
-    <Scope Scope="Project"/>
+    <Scope Scope="Project">
+        <Node id="coordinador/menu.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/estudiante/ListarPracticas.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/listarPub/ListarPublicaciones_Coord.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="usuariosdelsistema/estudiante/VerEstudiante_Est.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/graficaPub/GraficaPubVis.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="plantillas/practicaDocente/Edit.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/listarPub/VerPublicacion_Coord.xhtml" x="1400" y="600" zoom="true"/>
+        <Node id="coordinador/content.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="plantillas/practicaDocente/List.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="usuariosdelsistema/estudiante/registrar_documentos/RegistrarPracticaDocente.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="plantillas/practicaDocente/Create.xhtml" x="1150" y="750" zoom="true"/>
+        <Node id="index.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="plantillas/Estudiante.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="plantillas/Coordinador.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/grupoTipoUsuario/View.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/listarPub/ListarPublicaciones_Espera.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="usuariosdelsistema/estudiante/EditarPublicacion.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/tipoUsuario/Create.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="plantillas/practicaDocente/View.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/grupoTipoUsuario/Create.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/grupoTipoUsuario/List.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="estudiante/content.xhtml" x="900" y="1050" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/tipoUsuario/Edit.xhtml" x="1650" y="600" zoom="true"/>
+        <Node id="estudiante/menu.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/listarPub/ListarPublicaciones_Rev.xhtml" x="400" y="1200" zoom="true"/>
+        <Node id="plantillas/tipoDocumento/List.xhtml" x="650" y="900" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/usuario/Create.xhtml" x="1900" y="450" zoom="true"/>
+        <Node id="plantillas/tipoDocumento/Edit.xhtml" x="1150" y="900" zoom="true"/>
+        <Node id="usuariosdelsistema/estudiante/registrar_documentos/RegistrarPublicacion.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="plantillas/tipoDocumento/View.xhtml" x="650" y="1050" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/estudiantes/RegistrarEstudiante.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/estudiantes/EditarEstudiante.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/estudiante/VerPublicacion_Est.xhtml" x="2150" y="300" zoom="true"/>
+        <Node id="componentes/gestionPublicaciones/VerPublicacion.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/graficaPub/GraficaPubReg.xhtml" x="150" y="1200" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/listarPrac/VerPractica_Coord.xhtml" x="900" y="900" zoom="true"/>
+        <Node id="roles/ClienteCoordinador.xhtml" x="150" y="1350" zoom="true"/>
+        <Node id="template.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/usuario/View.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="plantillas/tipoDocumento/Create.xhtml" x="2400" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/estudiantes/VerEstudiante.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/usuario/Edit.xhtml" x="1900" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/estudiantes/ListarEstudiantes.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="usuariosdelsistema/coordinador/listarPrac/ListarPractica_Docente.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="plantillas/PlantGrafica.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/grupoTipoUsuario/Edit.xhtml" x="400" y="1050" zoom="true"/>
+        <Node id="error.xhtml" x="2150" y="150" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/usuario/List.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="usuariosdelsistema/estudiante/ListarPublicaciones_Est.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="componentes/gestionPublicaciones/EditarPublicacion.xhtml" x="1400" y="750" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/tipoUsuario/View.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="usuariosdelsistema/gestionUsuariosSistema/tipoUsuario/List.xhtml" x="650" y="750" zoom="true"/>
+    </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>
