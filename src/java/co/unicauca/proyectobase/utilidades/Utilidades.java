@@ -3,6 +3,7 @@ package co.unicauca.proyectobase.utilidades;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
@@ -93,4 +94,16 @@ public class Utilidades {
         }
         return sb.toString();
     }
+    
+     public static int[] getListaAnios() {
+        Calendar cal = Calendar.getInstance();
+        int anioInicio = 1999;
+        int anioActual = cal.get(Calendar.YEAR);
+        int[] vectorA = new int[anioActual - anioInicio];
+        for (int i = 0; i < vectorA.length; i++) {
+            vectorA[i] = anioActual--;
+        }
+        return vectorA;
+    }
+
 }

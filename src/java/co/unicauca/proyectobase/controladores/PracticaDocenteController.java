@@ -13,8 +13,10 @@ import co.unicauca.proyectobase.entidades.archivoPDF;
 import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -60,6 +62,16 @@ public class PracticaDocenteController implements Serializable {
     private CargarVistaEstudiante cve;
     private CargarVistaCoordinador cvc;
     private String variableFiltrado;
+    private String nombrePD;
+
+    public String getNombrePD() {
+        
+        return nombrePD;
+    }
+
+    public void setNombrePD(String nombrePD) {
+        this.nombrePD = nombrePD;
+    }
 
     public String getVariableFiltrado() {
         return variableFiltrado;
@@ -418,22 +430,31 @@ public class PracticaDocenteController implements Serializable {
      public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaPubPrac();                   
         if (archivoPublic.getNombreArchivo().equals("")) {
-            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado la evidencia de la practica docente", ""));            
-        } else {                        
-            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");            
-            InputStream fis = archivoPublic.getArchivo();                       
-            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            System.out.println("Response: " + response.toString());
-            response.setContentType("application/pdf");            
-            response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
+            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
+
+        } else {
+            
+            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
+            InputStream fis = archivoPublic.getArchivo();
+            String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+            //String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
+            String rutaPrac = realPath + "resources\\pdf\\" + nombreArchivo[0] +".pdf";
+             System.out.println("path" + rutaPrac);
+            OutputStream out = new FileOutputStream(rutaPrac);
+            //String enviar= nombreArchivo[0]+".pdf";
+            nombrePD= nombreArchivo[0]+".pdf";
             byte[] buffer = new byte[8 * 1024];
             int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1) {
-                response.getOutputStream().write(buffer, 0, bytesRead);                
-            }                        
-            response.getOutputStream().flush();
-            response.getOutputStream().close();
-            FacesContext.getCurrentInstance().responseComplete();
+               
+                out.write(buffer, 0 , bytesRead);
+            }
+            
+            // response.getOutputStream().write(buf);
+           
+            out.close();
+            
+            
         }
     }
      
@@ -442,6 +463,7 @@ public class PracticaDocenteController implements Serializable {
         cvc.listarPracticaDocenteVer();
         Utilidades.redireccionar(cvc.getRuta());
     }
-         
+     
+       
     
 }

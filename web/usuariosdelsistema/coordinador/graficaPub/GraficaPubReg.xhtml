@@ -20,44 +20,51 @@
             </div>
             <p:panel>      
 
-                <h:form id="generarReporte">
-                    <h:panelGrid columns="4" cellspacing="10">
+                <h:form id="form" target="_blank">
+                    <h:panelGrid  columns="1" cellspacing="5">
+                        <h:panelGrid  columns="3" cellspacing="5">
 
                         <p:outputLabel value="Tipo de reporte" style="font-weight:bold;" />
-                        <p:selectOneMenu id="valTipoReporte" value="#{reportesController.tipoReporte}" 
+                            <p:selectOneMenu id="valTipoReporte" value="#{reportesJasperController.tipoReporte}" 
                                          required="true" requiredMessage="Debe seleccionar un campo de la lista">
-                            <f:selectItem itemLabel="Seleccionar" itemValue="" />
-                            <f:selectItem itemLabel="Global" itemValue="global" />
-                            <f:selectItem itemLabel="Por estudiante" itemValue="porEstudiante" />
-                            <f:validator validatorId="ValidadorListaVacia" />
-                            <f:ajax render="@form msjvalTipoReporte valTipoTiempo" event="change" listener="#{reportesController.limpiarTiempo}" />
+                                <f:selectItems value="#{reportesJasperController.listaTiposReporte()}"/>
+                                <f:ajax render="@form"/>
                         </p:selectOneMenu>
-                        
-                        <p:inputText id="codigoEstudianteF" value="#{reportesController.codigoEstudiante}" placeholder="Ingrese el codigo aqui" rendered="#{reportesController.tipoReporte == 'porEstudiante'}"/>                        
-                        <h:outputText rendered="#{reportesController.tipoReporte != 'porEstudiante'}" value=""/>
-                        <h:outputText value=""/>
-                                                                       
+                            <p:inputText id="codigoEstudianteF" required="#{reportesJasperController.pedirCodEstudiante()}" value="#{reportesJasperController.codEstudiante}" placeholder="Ingrese el codigo de estudiante"  rendered="#{reportesJasperController.pedirCodEstudiante()}"/>                        
+                        </h:panelGrid> 
+                        <h:panelGrid  columns="4" cellspacing="5">
                         <p:outputLabel value="Rango de tiempo" style="font-weight:bold;" />
-                        <p:selectOneMenu id="valTipoTiempo" value="#{reportesController.tipoTiempo}" styleClass="tipopublicacion addEspacio form-control" 
+                            <p:selectOneMenu id="valTipoTiempo" value="#{reportesJasperController.tiempo}" styleClass="tipopublicacion addEspacio form-control" 
                                          required="true" requiredMessage="Debe seleccionar un campo de la lista">
-                            <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                            <f:selectItem itemLabel="Por semestre" itemValue="semestre"/>
-                            <f:selectItem itemLabel="Por año" itemValue="año"/>                            
-                            <f:selectItem itemLabel="Inicio estudios" itemValue="inicioEstudios" itemDisabled="#{reportesController.tipoReporte != 'porEstudiante'}"/>
-                            <f:validator validatorId="ValidadorListaVacia" />                               
-                             <f:ajax render="@form msjvalTipoReporte" />                                     
+                                <f:selectItems value="#{reportesJasperController.listaTiempo()}" />                                   
+                                <f:ajax render="@form"/>
                         </p:selectOneMenu>
+                            <p:selectOneMenu id="selectanio" value="#{reportesJasperController.anio}" rendered="#{reportesJasperController.pedirAnio()}">
+                                <f:selectItems value="#{reportesJasperController.getListaAnios()}" /> 
+                            </p:selectOneMenu>
+                            <p:selectOneMenu value="#{reportesJasperController.semestre}" rendered="#{reportesJasperController.pedirSemestre()}">
+                                <f:selectItem itemLabel="1" itemValue="1" />                        
+                                <f:selectItem itemLabel="2" itemValue="2" />  
+                            </p:selectOneMenu>
+                        </h:panelGrid> 
                         
+                        <h:panelGrid  columns="3" cellspacing="5">
+                            <p:commandLink title="descargar reporte en formato pdf" action="#{reportesJasperController.getReportePdf()}" ajax="false">
+                                <h:graphicImage title="descargar reporte en formato pdf" name="images/pdf-icon.png" />
+                            </p:commandLink>
+                            <p:commandLink  action="#{reportesJasperController.getReporteExcel()}"  ajax="false">
+                                <h:graphicImage  title="descargar reporte en formato excel" name="images/excel-xls-icon.png" />
+                            </p:commandLink>
+                        </h:panelGrid> 
                         
-                        <p:inputText id="anoConSemestreFuera" value="#{reportesController.anios}" placeholder="Ingrese el año aquí" disabled="#{reportesController.tipoTiempo == ''}"/>                        
-                        <h:outputText value="" rendered="#{reportesController.tipoTiempo == 'año' || reportesController.tipoTiempo == 'inicioEstudios'}"/>
-                        <h:outputText value="" rendered="#{reportesController.tipoTiempo == ''}"/>                                                
-                        <p:inputText id="semestreIngresadoFuera" value="#{reportesController.semestre}" placeholder="Ingrese el semestre aqui" rendered="#{reportesController.tipoTiempo == 'semestre'}" />
+                        <!--<p:commandButton  action="{reportesController.generarReporte()}" value="Generar Reporte"/>-->
+                        <!--<a  target="_blank"  style="font-weight:bold;" href="../../resources/pdf/reporte.pdf"  >Descargar PDF </a>-->
+                        <!--<h:outputText value=""/>-->
                         
                                                                     
-                        <p:commandButton action="#{reportesController.generarReporte()}" value="Generar reporte"/>
-                    <a  target="_blank"  style="font-weight:bold;" href="../../../resources/pdf/reporte.pdf"  >Descargar PDF </a>
-                    <h:outputText value=""/>
+                        <!--<p:inputText id="anioConSemestreFuera" value="{reportesController.anios}" placeholder="Ingrese el año aquí"/>
+                        <p:inputText id="semestreIngresadoFuera" value="{reportesController.semestre}" placeholder="Ingrese el semestre aqui"/>
+                        <p:inputText id="codigoEstudianteF" value="{reportesController.codigoEstudiante}" placeholder="Ingrese el codigo aqui"/>-->
                         
                         
                         <!--<p:inputText id="anioConSemestreFuera" value="#{reportesController.anios}" placeholder="Ingrese el año aquí"/>
@@ -92,7 +99,7 @@
                 </h:body>
 
                 <h:panelGrid columns="2" cellspacing="10"  styleClass="elementosCentrados bajarGrid"  >
-                    <p:outputLabel value="Total publicaciones:"  style="font-weight: bold"/>
+                    <p:outputLabel value="Total Publicaciones:"  style="font-weight: bold"/>
                     <h:outputText class="form-control" id="valNombAut"  value="#{graficaPubRegController.totalPub}" style="color: #0044cc; font-weight: bold; font-family: sans-serif"/>
                 </h:panelGrid>
                 
