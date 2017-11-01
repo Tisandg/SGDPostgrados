@@ -1,0 +1,7 @@
+<property-group label="practica" name="okg:practica">
+    <input label="Identificador Publicacion" type="text" name="okp:practica.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:practica.identArchivo"/>
+     <input label="TipoPDF_Cargar" type="text" name="okp:practica.tipoPDFCargar"/>  
+    <input label="Estampa Tiempo" type="text" name="okp:practica.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:practica.nombreAutor"/>
+</property-group>

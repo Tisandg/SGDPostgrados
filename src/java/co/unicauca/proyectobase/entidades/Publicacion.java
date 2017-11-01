@@ -137,6 +137,9 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
+    @Column(name = "pub_creditos")
+    private Integer pubCreditos;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "publicacion")
     private PracticaDocente practicaDocente;
 
@@ -902,7 +905,8 @@ public class Publicacion implements Serializable {
              }
             
         }catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
-            e.printStackTrace();
+            System.out.println("error en metodo SubirOpenKMPD de publicacion.java. error: " + e.getMessage());
+                    
         }
             
     }
@@ -1328,6 +1332,14 @@ public class Publicacion implements Serializable {
 
     public void setPracticaDocente(PracticaDocente practicaDocente) {
         this.practicaDocente = practicaDocente;
+    }
+
+    public Integer getPubCreditos() {
+        return pubCreditos;
+    }
+
+    public void setPubCreditos(Integer pubCreditos) {
+        this.pubCreditos = pubCreditos;
     }
 
 }

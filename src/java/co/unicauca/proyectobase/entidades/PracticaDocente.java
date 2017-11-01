@@ -27,18 +27,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PracticaDocente.findAll", query = "SELECT p FROM PracticaDocente p"),
+    @NamedQuery(name = "PracticaDocente.misPracticas", query = "SELECT p FROM PracticaDocente p "),    
+    
+    @NamedQuery(name = "PracticaDocente.buscarPracticasByNombreUsuario", query = "select pr from PracticaDocente pr where pr.pubIdentificador IN (SELECt p.pubIdentificador FROM Publicacion p where P.pubEstIdentificador = (select e.estIdentificador from Estudiante e where e.estUsuario = :nombreUsuario))"),
+        
     @NamedQuery(name = "PracticaDocente.findByPubIdentificador", query = "SELECT p FROM PracticaDocente p WHERE p.pubIdentificador = :pubIdentificador"),
     @NamedQuery(name = "PracticaDocente.findByFechaInicio", query = "SELECT p FROM PracticaDocente p WHERE p.fechaInicio = :fechaInicio"),
     @NamedQuery(name = "PracticaDocente.findByFechaTerminacion", query = "SELECT p FROM PracticaDocente p WHERE p.fechaTerminacion = :fechaTerminacion"),
     @NamedQuery(name = "PracticaDocente.findByLugarPractica", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica = :lugarPractica"),
         
-    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),    
-    @NamedQuery(name = "PracticaDocente.findByFechaInicioLike", query = "SELECT p FROM PracticaDocente p WHERE FUNCTION('TO_CHAR',p.fechaInicio,'dd/MM/yyyy') LIKE :fecha"),
-    @NamedQuery(name = "PracticaDocente.findByFechaTerminacionLike", query = "SELECT p FROM PracticaDocente p WHERE FUNCTION('TO_CHAR',p.fechaTerminacion,'dd/MM/yyyy') LIKE :fecha")
-        
-        
-         
-
+    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),        
+    
+    @NamedQuery(name = "PracticaDocente.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like 'Practica docente'")
+                         
 })
 public class PracticaDocente implements Serializable {
 //@NamedQuery(name = "PracticaDocente.findByNombreAutor", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),

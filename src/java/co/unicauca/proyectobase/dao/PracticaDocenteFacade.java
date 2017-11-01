@@ -3,6 +3,7 @@ package co.unicauca.proyectobase.dao;
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.PracticaDocente;
 import co.unicauca.proyectobase.entidades.Publicacion;
+import co.unicauca.proyectobase.entidades.TipoDocumento;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -45,5 +46,33 @@ public class PracticaDocenteFacade extends AbstractFacade<PracticaDocente> {
             System.out.println(e);
             return null;
         }
-    }        
+    }       
+    public List<PracticaDocente> practicaDocente(String nombreUsuario){
+        System.out.println("EL nombre es  "+nombreUsuario);
+        javax.persistence.Query query = getEntityManager().createNamedQuery("PracticaDocente.buscarPracticasByNombreUsuario");
+        query.setParameter("nombreUsuario", nombreUsuario);
+        List<PracticaDocente> lista = null;
+        try {
+            
+            lista = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+        }
+        return lista;
+    }
+    
+    public TipoDocumento findTipoDocumento(){        
+        javax.persistence.Query query = getEntityManager().createNamedQuery("PracticaDocente.findIdTipoDocumento");        
+        List<TipoDocumento> lista = null;
+        try {            
+            lista = query.getResultList();
+            if(lista != null || !lista.isEmpty()){
+                return lista.get(0);
+            }
+        } catch (Exception e) {
+            System.out.println("Error en findTipoDocumento de PracticaDocenteFacade. Err: " + e.getMessage());            
+        }
+        return null;
+    }
 }
