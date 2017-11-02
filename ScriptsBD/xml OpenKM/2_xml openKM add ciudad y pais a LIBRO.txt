@@ -1,0 +1,16 @@
+<property-group label="libro" name="okg:libro">
+    <input label="Identificador Publicacion" type="text" name="okp:libro.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:libro.identArchivo"/>
+    <input label="TipoPDF_Cargar" type="text" name="okp:libro.tipoPDFCargar"/>   
+    <input label="Estampa Tiempo" type="text" name="okp:libro.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:libro.nombreAutor"/>
+    <input label="Autores Secundarios" type="text" name="okp:libro.autoresSecundarios" />
+    <input label="Fecha Publicacion"   type="text" name="okp:libro.fechaPublicacion"/>
+    <input label="Tipo Publicacion"  type="text"  name="okp:libro.tipoPublicacion"/>   
+    <input label="Titulo Libro"   type="text" name="okp:libro.tituloLibro"/> 
+    <input label="DOI"   type="text"  name="okp:libro.DOI"/>
+    <input label="ISBN"  type="text"  name="okp:libro.ISBN"/>  
+    <input label="ISSN"  type="text"  name="okp:libro.ISSN"/>
+    <input label="Pais"  type="text"  name="okp:libro.pais"/>  
+    <input label="Ciudad"  type="text"  name="okp:libro.ciudad"/>
+</property-group>

@@ -431,6 +431,7 @@ public class Publicacion implements Serializable {
                             Input name = (Input) fElement;
                             name.setValue("" + this.pubAutoresSecundarios);
                         }
+                        
 
                         SimpleDateFormat formateador = new SimpleDateFormat("MM-yyyy");
                         String FechaPublicacion = formateador.format(this.pubFechaPublicacion);
@@ -659,7 +660,7 @@ public class Publicacion implements Serializable {
                         if (fElement.getName().equals("okp:libro.autoresSecundarios")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.pubAutoresSecundarios);
-                        }
+                        }                        
 
                         SimpleDateFormat formateador = new SimpleDateFormat("MM-yyyy");
                         String FechaPublicacion = formateador.format(this.pubFechaPublicacion);
@@ -675,36 +676,43 @@ public class Publicacion implements Serializable {
                         if (fElement.getName().equals("okp:libro.tituloLibro")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.libro.getLibTituloLibro());
-                        }
-                        if (fElement.getName().equals("okp:libro.DOI")) {
+                        }                                                                        
+                        if(fElement.getName().equals("okp:libro.editorialLibro")){
                             Input name = (Input) fElement;
-                            name.setValue(pubDoi);
+                            name.setValue(this.libro.getEditorial().toUpperCase());
                         }
                         if (fElement.getName().equals("okp:libro.ISBN")) {
                             Input name = (Input) fElement;
                             name.setValue(pubIsbn);
                         }
+                        //adiciones
+                        if (fElement.getName().equals("okp:libro.pais")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.libro.getPais());
+                        }
+                        if (fElement.getName().equals("okp:libro.ciudad")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.libro.getCiudad());
+                        }
+                        //no deberia tener
                         if (fElement.getName().equals("okp:libro.ISSN")) {
                             Input name = (Input) fElement;
                             name.setValue(pubIssn);
                         }
-                        if(fElement.getName().equals("okp:libro.editorialLibro"))
-                        {
+                        //no deberia tener
+                        if (fElement.getName().equals("okp:libro.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue(this.libro.getEditorial().toUpperCase());
-                        }
+                            name.setValue(pubDoi);
+                        }                                                
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro", fElements);
-
                 }
-
                 File fichero = new File(subidaArchivos.get(i).getRutaArchivo());
                 fichero.delete();
-
             }
 
         } catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
-            e.printStackTrace();
+            System.out.println("error en subirOpenKM clase publicacion.java");
         }
 
     }

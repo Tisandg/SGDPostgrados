@@ -1095,17 +1095,21 @@ public class PublicacionController implements Serializable {
         this.listaAutores = listaAutores;
     }
     public void agregarAutorSecundario(){
-        System.out.print("adicionando autor");        
+        System.out.print("adicionando autor");
         if(!nombreAutor.equals("")){
-            listaAutores.add(new Autor(this.getNombreAutor()));
-            System.out.println("  tamaño: " + listaAutores.size());
-            mostrarLista();
-            nombreAutor = "";
+            if(!listaAutores.contains(new Autor(this.getNombreAutor()))){
+                listaAutores.add(new Autor(this.getNombreAutor()));
+                System.out.println("autor adicionado");
+                //System.out.println("  tamaño: " + listaAutores.size());
+                //mostrarLista();
+            }                        
         }
         else{
             //FacesContext.getCurrentInstance().addMessage("msjValAutores", new FacesMessage(FacesMessage.SEVERITY_ERROR, " not a text file", ""));
+            System.out.println("nombre autor repetido");            
         }
-    }    
+        nombreAutor = "";
+    }
     public void eliminarAutorSecundario(String nombre){        
         System.out.print("eliminar autor: " + nombre);        
         for (int i = 0; i < listaAutores.size(); i++) {

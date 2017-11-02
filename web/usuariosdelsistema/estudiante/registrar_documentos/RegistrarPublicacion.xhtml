@@ -36,7 +36,7 @@
                    
                                                                                                        
                         <p:outputLabel value="Autores secundarios:" styleClass="addEspacio"/>
-                        <p:inputText value="#{publicacionController.nombreAutor}" id="autor" placeholder="Ingrese nombre autor aquí" size="35">
+                        <p:inputText value="#{publicacionController.nombreAutor}" id="autor" placeholder="Ingrese nombre autor aquí" size="43">
                             <f:validator validatorId="validadorAutoresSecundarios" />
                             <p:ajax event="blur" update="msjValAutores" /> 
                          </p:inputText>
@@ -73,11 +73,11 @@
                             <p:outputLabel value="Fecha publicación:" styleClass="addEspacio"/>
                             <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                         </h:panelGroup>
-                        <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}" size="35" 
+                        <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}" size="43" 
                                      pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es">
                             <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
                             <f:validator validatorId="validadorFechaPublicacion" />
-                            <p:ajax event="blur" update="msjValFechaPublicacion" />
+                            <p:ajax event="change" update="msjValFechaPublicacion" />
                         </p:calendar>
                         <p:message for="event" id="msjValFechaPublicacion" />
 
@@ -256,11 +256,11 @@
                                     <p:outputLabel value="ISBN:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valISBNLibro"  value="#{publicacionController.pubIsbn}" 
-                                             styleClass="addEspacio form-control" placeholder="Ej: 123-12-12345-12-1" size="35">
+                                <p:inputMask mask="999-99-99999-99-9"  class="form-control" id="valISBNLibro"  value="#{publicacionController.pubIsbn}" 
+                                             styleClass="addEspacio form-control" placeholder="123-12-12345-12-1" size="35">
                                     <f:validator validatorId="validadorISBN" /> 
                                     <p:ajax event="blur" update="msjValISBNLibro" />
-                                </p:inputText>
+                                </p:inputMask>                                
                                 <p:message for="valISBNLibro" id="msjValISBNLibro" /> 
                                 <h:outputLink style="color: blue" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
                                 <h:outputLink style="color: blue" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>
@@ -269,7 +269,8 @@
                                     <p:outputLabel value="Título libro:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" placeholder="Ingrese título aquí" size="35">
+                                <p:inputText class="form-control" id="valTLibro"  value="#{publicacionController.actual.libro.libTituloLibro}" 
+                                             placeholder="Ingrese título aquí" size="35">
                                     <f:validator validatorId="validadorTituloLibro" />
                                     <p:ajax event="blur" update="msjvalTLibro" />
                                 </p:inputText>
@@ -281,11 +282,38 @@
                                     <p:outputLabel value="Editorial:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valELibro" value="#{publicacionController.actual.libro.editorial}" size="35">
+                                <p:inputText class="form-control" id="valELibro" value="#{publicacionController.actual.libro.editorial}" size="35"
+                                             placeholder="Ingrese la editorial aquí" >
                                     <f:validator validatorId="validadorEditorialLibro"/>
                                     <p:ajax event="blur" update="msjvalELibro"/>
                                 </p:inputText>
                                 <p:message for="valELibro" id="msjvalELibro" />
+                                <p:outputLabel value=""></p:outputLabel>
+                                <h:outputText value=""/>
+                                
+                                <h:panelGroup>
+                                    <p:outputLabel value="País:" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
+                                </h:panelGroup>
+                                <p:inputText class="form-control" id="valPaisLibro" value="#{publicacionController.actual.libro.pais}" size="35"
+                                             placeholder="Ingrese el país aquí" >
+                                    <f:validator validatorId="validadorCampoPaisVacio"/>
+                                    <p:ajax event="blur" update="msjvalPaisLibro"/>
+                                </p:inputText>
+                                <p:message for="valPaisLibro" id="msjvalPaisLibro" />
+                                <p:outputLabel value=""></p:outputLabel>
+                                <h:outputText value=""/>
+                                
+                                <h:panelGroup>
+                                    <p:outputLabel value="Ciudad:" styleClass="addEspacio"/>
+                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
+                                </h:panelGroup>
+                                <p:inputText class="form-control" id="valCiudadLibro" value="#{publicacionController.actual.libro.ciudad}" size="35"
+                                             placeholder="Ingrese la ciudad aquí" >
+                                    <f:validator validatorId="validadorCampoCiudadVacio"/>
+                                    <p:ajax event="blur" update="msjvalCiudadLibro"/>
+                                </p:inputText>
+                                <p:message for="valCiudadLibro" id="msjvalCiudadLibro" />
                                 <p:outputLabel value=""></p:outputLabel>
                                 <h:outputText value=""/>
                                 
@@ -308,10 +336,12 @@
                                     <p:outputLabel value="ISBN:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valISBNCapLibro"  value="#{publicacionController.pubIsbn}" placeholder="Ej: 123-12-12345-12-1" size="35">
-                                    <f:validator validatorId="validadorISBN"/> 
+                                <p:inputMask mask="999-99-99999-99-9"  class="form-control" id="valISBNCapLibro"  
+                                             value="#{publicacionController.pubIsbn}"  size="35"
+                                             styleClass="addEspacio form-control" placeholder="123-12-12345-12-1">
+                                    <f:validator validatorId="validadorISBN" /> 
                                     <p:ajax event="blur" update="msjValISBNCapLibro" />
-                                </p:inputText>
+                                </p:inputMask>                               
                                 <p:message for="valISBNCapLibro" id="msjValISBNCapLibro" /> 
                                 <h:outputLink style="color: blue" value="https://goo.gl/jQFjlJ">Conozca más sobre el ISBN</h:outputLink>
                                 <h:outputLink style="color: blue" value="https://goo.gl/DQUANK">Verifique su ISBN</h:outputLink>                                
@@ -320,7 +350,8 @@
                                     <p:outputLabel value="Título libro:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>
-                                <p:inputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" placeholder="Ingrese título aquí" size="35">
+                                <p:inputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" 
+                                             placeholder="Ingrese título aquí" size="35">
                                     <f:validator validatorId="validadorTituloLibro" />
                                     <p:ajax event="blur" update="msjvalTCLibro" />
                                 </p:inputText>
