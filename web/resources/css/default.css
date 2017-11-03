@@ -163,6 +163,22 @@ h1 {
     
 }
 
+.botonVerPractica{
+    border: 1px solid #c5dbec !important;
+    background: #dfeffc !important;
+    width: 40px !important;
+    height: 30px !important;
+    margin: 0 auto 10px !important;
+    display: block !important;
+    color: #555555 !important;
+    font-size: 13px !important;
+    box-shadow: none !important;
+    font-weight: bold !important;
+    color: #2e6e9e !important;
+    border-radius: 5px;
+    
+}
+
 .botonRegresar{
     width: 100px !important;
     height: 20px !important;
