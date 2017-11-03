@@ -246,7 +246,7 @@ public class PublicacionController implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="listado de publicaciones">   
     public List<Publicacion> listado() {
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            return daoPublicacion.findAll();
+            return daoPublicacion.ListadoSoloPublicacion();
         } else {
             return daoPublicacion.ListadoPublicacionFilt(variableFiltrado);
         }
@@ -254,7 +254,7 @@ public class PublicacionController implements Serializable {
 
     public List<Publicacion> listadoEspera() {
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            return listaPublicacionVisadoEspera(daoPublicacion.findAll());
+            return listaPublicacionVisadoEspera(daoPublicacion.ListadoSoloPublicacion());
         } else {
             return listaPublicacionVisadoEspera(daoPublicacion.ListadoPublicacionFilt(variableFiltrado));
         }
@@ -262,7 +262,7 @@ public class PublicacionController implements Serializable {
 
     public List<Publicacion> listadoRevisadas() {
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            return listaPublicacionVisadoRevisada(daoPublicacion.findAll());
+            return listaPublicacionVisadoRevisada(daoPublicacion.ListadoSoloPublicacion());
         } else {
             return listaPublicacionVisadoRevisada(daoPublicacion.ListadoPublicacionFilt(variableFiltrado));
         }

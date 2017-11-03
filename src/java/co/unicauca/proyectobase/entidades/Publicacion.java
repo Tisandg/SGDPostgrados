@@ -95,7 +95,7 @@ import org.primefaces.model.UploadedFile;
     @NamedQuery(name = "Publicacion.findByPubFechaPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubFechaPublicacion = :pubFechaPublicacion"),
     @NamedQuery(name = "Publicacion.findByPubNumActa", query = "SELECT p FROM Publicacion p WHERE p.pubNumActa = :pubNumActa"),
     @NamedQuery(name = "Publicacion.findByPubVisado", query = "SELECT p FROM Publicacion p WHERE p.pubVisado = :pubVisado"),
-    
+    @NamedQuery(name = "Publicacion.findByOnlyPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubTipoPublicacion IN (\"revista\",\"libro\",\"capitulo_libro\",\"congreso\")"),
     //consutas nuevas
     @NamedQuery(name = "Publicacion.findAllByYear", query = "SELECT p FROM Publicacion p "
             + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio ORDER BY  p.pubTipoPublicacion DESC"),
