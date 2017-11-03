@@ -433,26 +433,26 @@ public class PracticaDocenteController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
 
         } else {
-            
-            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
             InputStream fis = archivoPublic.getArchivo();
-            String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
-            //String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
-            String rutaPrac = realPath + "resources\\pdf\\" + nombreArchivo[0] +".pdf";
-             System.out.println("path" + rutaPrac);
-            OutputStream out = new FileOutputStream(rutaPrac);
-            //String enviar= nombreArchivo[0]+".pdf";
-            nombrePD= nombreArchivo[0]+".pdf";
+            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
+            HttpServletResponse response
+                    = (HttpServletResponse) FacesContext.getCurrentInstance()
+                            .getExternalContext().getResponse();
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
+
             byte[] buffer = new byte[8 * 1024];
             int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1) {
-               
-                out.write(buffer, 0 , bytesRead);
+                response.getOutputStream().write(buffer, 0, bytesRead);
             }
-            
-            // response.getOutputStream().write(buf);
-           
-            out.close();
+
+            response.getOutputStream().write(buffer);
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+            FacesContext.getCurrentInstance().responseComplete();
+
             
             
         }
