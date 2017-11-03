@@ -1,5 +1,6 @@
 package co.unicauca.proyectobase.entidades;
 
+import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -200,8 +201,7 @@ public class Publicacion implements Serializable {
     @JoinColumn(name = "pub_est_identificador", referencedColumnName = "est_identificador")
     @ManyToOne
     private Estudiante pubEstIdentificador;
-    
-    
+           
     
     public Publicacion() {
         this.pubAutoresSecundarios = "";
@@ -244,17 +244,16 @@ public class Publicacion implements Serializable {
         }
         if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
             nombrePublicacion = this.capituloLibro.getCaplibTituloCapitulo();
-        }
-
-
+        }      
+        PropiedadesOS os = new PropiedadesOS();
         /*Obtiene la ruta de la ubicacion del servidor donde se almacenaran 
-          temporalmente los archivos ,para luego subirlos al Gestor Documental OpenKm  */
-        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+          temporalmente los archivos ,para luego subirlos al Gestgor Documental OpenKm  */
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(os.getSeparator());        
         //   String destCartaAprob = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
-        String destCartaAprob = realPath + "WEB-INF\\temp\\" + nombreCartaAprob + ".pdf";
-        String destArticulo = realPath + "WEB-INF\\temp\\" + nombrePublicacion + ".pdf";
+        String destCartaAprob = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombreCartaAprob + ".pdf";
+        String destArticulo = realPath + "WEB-INF"+ os.getSeparator() + "temp" + os.getSeparator() + nombrePublicacion + ".pdf";
         //  String destTablaC = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
-        String destTablaC = realPath + "WEB-INF\\temp\\" + nombreTablaC + ".pdf";
+        String destTablaC = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombreTablaC + ".pdf";
 
 
         /*  Estampa de Tiempo
@@ -320,10 +319,10 @@ public class Publicacion implements Serializable {
         String codigoFirma = mpdf.codigoFirma(codigoEst);
         codigoFirma = codigoFirma.trim();
 
+        PropiedadesOS os = new PropiedadesOS();
         String nombrePD = "Practica Docente-" + codigoFirma;
-        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
-        //   String destCartaAprob = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
-        String destPD = realPath + "WEB-INF\\temp\\" + nombrePD + ".pdf";
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(os.getSeparator());
+        String destPD = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombrePD + ".pdf";
         Date date = new Date();
         DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String estampaTiempo = "" + datehourFormat.format(date);
@@ -432,6 +431,7 @@ public class Publicacion implements Serializable {
                             Input name = (Input) fElement;
                             name.setValue("" + this.pubAutoresSecundarios);
                         }
+                        
 
                         SimpleDateFormat formateador = new SimpleDateFormat("MM-yyyy");
                         String FechaPublicacion = formateador.format(this.pubFechaPublicacion);
@@ -660,7 +660,7 @@ public class Publicacion implements Serializable {
                         if (fElement.getName().equals("okp:libro.autoresSecundarios")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.pubAutoresSecundarios);
-                        }
+                        }                        
 
                         SimpleDateFormat formateador = new SimpleDateFormat("MM-yyyy");
                         String FechaPublicacion = formateador.format(this.pubFechaPublicacion);
@@ -676,36 +676,43 @@ public class Publicacion implements Serializable {
                         if (fElement.getName().equals("okp:libro.tituloLibro")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.libro.getLibTituloLibro());
-                        }
-                        if (fElement.getName().equals("okp:libro.DOI")) {
+                        }                                                                        
+                        if(fElement.getName().equals("okp:libro.editorialLibro")){
                             Input name = (Input) fElement;
-                            name.setValue(pubDoi);
+                            name.setValue(this.libro.getEditorial().toUpperCase());
                         }
                         if (fElement.getName().equals("okp:libro.ISBN")) {
                             Input name = (Input) fElement;
                             name.setValue(pubIsbn);
                         }
+                        //adiciones
+                        if (fElement.getName().equals("okp:libro.pais")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.libro.getPais());
+                        }
+                        if (fElement.getName().equals("okp:libro.ciudad")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.libro.getCiudad());
+                        }
+                        //no deberia tener
                         if (fElement.getName().equals("okp:libro.ISSN")) {
                             Input name = (Input) fElement;
                             name.setValue(pubIssn);
                         }
-                        if(fElement.getName().equals("okp:libro.editorialLibro"))
-                        {
+                        //no deberia tener
+                        if (fElement.getName().equals("okp:libro.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue(this.libro.getEditorial().toUpperCase());
-                        }
+                            name.setValue(pubDoi);
+                        }                                                
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro", fElements);
-
                 }
-
                 File fichero = new File(subidaArchivos.get(i).getRutaArchivo());
                 fichero.delete();
-
             }
 
         } catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
-            e.printStackTrace();
+            System.out.println("error en subirOpenKM clase publicacion.java");
         }
 
     }
@@ -825,21 +832,21 @@ public class Publicacion implements Serializable {
     }
     
     public void SubirOpenKMPD(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash)
-    {
-        this.setPubHash(hash);
+    {        
         String host = "http://localhost:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";
         OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
         try{
-             boolean crearFolder;
+            boolean crearFolder;
             String rutaFolderCrear;
             /* codigoFirma - en este caso corresponde al nombre de la carpeta que contendra
                 el articulo y su tabla de contenido en formato PDFA
                 Ruta del folder a crear en el Gestor Openkm*/
             // rutaFolderCrear = "/okm:root/Doctorado_Electronica/" + codigoFirma;
             rutaFolderCrear = "/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario();
-            this.setPubDiropkm(codigoFirma);
+            this.setPubHash(hash);
+            this.setPubDiropkm(codigoFirma);            
             try {
                 /* Se valida si el forder a crear existe o no*/
                 ws.isValidFolder(rutaFolderCrear);
@@ -878,7 +885,7 @@ public class Publicacion implements Serializable {
                     IOUtils.closeQuietly(is);
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:practica");
                     for (FormElement fElement : fElements) {
-                      if (fElement.getName().equals("okp:practica.identPublicacion")) {
+                        if (fElement.getName().equals("okp:practica.identPublicacion")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.pubIdentificador);
                         }
@@ -912,7 +919,7 @@ public class Publicacion implements Serializable {
     }
     
     /**
-     * agregar practica docente a openKM
+     * agregar metadatos de practica docente a openKM
      * @param subidaArchivos archivos que se suben
      * @param estampaTiempo 
      */
@@ -1020,7 +1027,7 @@ public class Publicacion implements Serializable {
         String tipoPDF = "tipoPublicacion";
 
         String host = "http://localhost:8083/OpenKM";
-         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
+        //String host = "http://wmyserver.sytes.net:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";
         OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
@@ -1066,8 +1073,9 @@ public class Publicacion implements Serializable {
                 posPub = posPub + 1;
 
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
+            System.out.println("error en descargaPublicacion de clase publicacion.java");
+            System.out.println("error: " + e.getMessage());                    
         }
         return archivo;
     }

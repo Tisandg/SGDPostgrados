@@ -93,6 +93,12 @@
                                     
                                     <h:outputLabel value="Editorial:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control" value="#{publicacionController.actual.libro.editorial}" style="color: #3366ff"/>
+                                    
+                                    <h:outputLabel value="País:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" value="#{publicacionController.actual.libro.pais}" style="color: #3366ff"/>
+                                    
+                                    <h:outputLabel value="Ciudad:" style="font-weight:bold;"/>
+                                    <h:outputText class="form-control" value="#{publicacionController.actual.libro.ciudad}" style="color: #3366ff"/>
                                 </h:panelGrid>            
 
                                 <h:panelGrid columns="2" cellpadding="10" rendered="#{publicacionController.renderizarCapLibro() == true}">

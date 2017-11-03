@@ -144,8 +144,10 @@ public class ReportesJasperController implements Serializable {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/doctorado",
                     "doctorado", "doctorado");
+            //las credenciales que esta en los manuales para la base de datos son:
+            //      "Doctorado", "Doc2017_I"
             return con;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Database.getConnection() Error -->" + ex.getMessage());
             return null;
         }

@@ -18,14 +18,17 @@ import javax.mail.internet.MimeMessage;
 public class Utilidades {
 
     public static void redireccionar(String pagina) {
-
+        System.out.println("EN REDIRECCIONAR A: " + pagina);
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext extcontext = context.getExternalContext();
         extcontext.getFlash().setKeepMessages(true);
         try {
+            System.out.println("REDIRIGUIENDO EN TRY");
             extcontext.redirect(pagina);
         } catch (IOException ex) {
+            System.out.println("Errror al redireccionar. err: " + ex.getMessage());
             Logger.getLogger("Error al redireccionar a " + pagina);
+            
         }
     }
 

@@ -40,12 +40,89 @@ public class UserLoginView implements Serializable {
     private CargarVistaEstudiante cve;
 
     @EJB
-    private GrupoTipoUsuarioFacade ejbgtu;
+    private GrupoTipoUsuarioFacade ejbGrupoUsuario;
     @Inject
-    private UsuarioFacade ejbactual;
+    private UsuarioFacade ejbUsuarioActual;
     @EJB
-    private EstudianteFacade EJB_Estudiante;
+    private EstudianteFacade ejbEstudiante;
 
+    
+    public void login() throws ServletException 
+    {
+        System.out.println("Verificando datos login");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
+        if (username.length()==0 | password.length()==0) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "Los campos no pueden ir vacios"));
+            Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+        }else{
+            if (req.getUserPrincipal() == null){
+                try 
+                {
+                    req.login(this.username, this.password);
+                    System.out.println("Login Exitoso");
+                } catch (ServletException e) {
+                    System.out.println(e.getMessage());
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
+                    Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+                    return;
+                }
+
+                Principal principal = req.getUserPrincipal();
+                System.out.println("buscando usuario en control: " + principal.getName());
+                this.usuario = ejbUsuarioActual.findAllByNombreUsuario(principal.getName()).get(0);            
+                
+                System.out.println("buscando creditos");
+                this.creditos = ejbEstudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
+
+                ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
+                Map<String, Object> sessionMap = external.getSessionMap();
+                sessionMap.put("user", this.usuario);
+
+                List<GrupoTipoUsuario> lista = ejbGrupoUsuario.findAllByNombreUsuario(this.username);
+                int id_tipo = lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
+
+                switch (id_tipo) 
+                {
+                    case 2:
+                        cve = new CargarVistaEstudiante();
+                        Utilidades.redireccionar(cve.getRuta());
+                        break;
+
+                    case 3:
+                        cvc = new CargarVistaCoordinador();
+                        Utilidades.redireccionar(cvc.getRuta());
+                        break;
+
+                }
+            }else{
+                System.out.println("Ya se ha iniciado sesion");
+                Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
+            }
+        }
+        
+    }
+
+    public void salir() throws IOException 
+    {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
+        try 
+        {
+            req.logout();
+            req.getSession().invalidate();
+            fc.getExternalContext().invalidateSession();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoII/faces/index.xhtml");
+
+        } catch (ServletException e) 
+        {
+            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILED", "Cerrar Sesion"));
+        }
+    }
+    
+    /******* Gets and Sets *******/
     public String getUsername() {
         return username;
     }
@@ -68,86 +145,6 @@ public class UserLoginView implements Serializable {
 
     public void setCreditos(Integer creditos) {
         this.creditos = creditos;
-    }
-    
-    public void mensajeSinAcceso() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrecto(s)"));
-    }
-    
-    public void login() throws ServletException 
-    {
-        System.out.println("Verificando datos login");
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
-        if (username.length()==0 | password.length()==0) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Error", "Los campos no pueden ir vacios"));
-            Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
-        }else{
-            System.out.println("Campos llenos");
-            if (req.getUserPrincipal() == null){
-                try 
-                {
-                    req.login(this.username, this.password);
-                    System.out.println("Login Exitoso");
-                } catch (ServletException e) {
-                    System.out.println(e.getMessage() );
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
-                    Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
-                    return;
-                }
-
-                Principal principal = req.getUserPrincipal();
-                System.out.println("buscando usuario en control: " + principal.getName());
-                this.usuario = ejbactual.findAllByNombreUsuario(principal.getName()).get(0);            
-                
-                System.out.println("buscando creditos");
-                this.creditos = EJB_Estudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
-
-                ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
-                Map<String, Object> sessionMap = external.getSessionMap();
-                sessionMap.put("user", this.usuario);
-
-                List<GrupoTipoUsuario> lista = ejbgtu.findAllByNombreUsuario(this.username);
-                int id_tipo = lista.get(0).getGrupoTipoUsuarioPK().getIdTipo();
-
-                switch (id_tipo) 
-                {
-                    case 2:
-                        cve = new CargarVistaEstudiante();
-                        Utilidades.redireccionar(cve.getRuta());
-                        break;
-
-                    case 3:
-                        cvc = new CargarVistaCoordinador();
-                        Utilidades.redireccionar(cvc.getRuta());
-                        break;
-
-                }
-            }else{
-                System.out.println("Ya se ha iniciado sesion");
-            }
-        }
-        
-    }
-
-    public void salir() throws IOException 
-    {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
-        try 
-        {
-            req.logout();
-            req.getSession().invalidate();
-            fc.getExternalContext().invalidateSession();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoII/faces/index.xhtml");
-
-        } catch (ServletException e) 
-        {
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILED", "Cerrar Sesion"));
-        }
     }
 
 }

@@ -35,10 +35,3 @@ INSERT INTO tipo_documento (nombre, creditos, correquisitos, max_creditos, min_c
 INSERT INTO tipo_documento (nombre, creditos) values ('Idioma',0);
 INSERT INTO tipo_documento (nombre, creditos) values ('Adicionales',0);
 COMMIT;
-
-
-
-
-
---fijar una variable global en mysql dependiendo el valor de una consulta
-set @practica := (select creditos from tipo_documento where nombre = 'Practica docente');

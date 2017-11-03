@@ -27,7 +27,7 @@ public class ValidadorISBN implements Validator{
         }
                 
         if(!isValidoFormato(isbn)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"xxx-xx-xxxxx-xx-x\".");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"123-12-12345-12-1\".");
             throw new ValidatorException(msg);
         }
         

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.controladores;
 
 import java.io.Serializable;
@@ -26,13 +21,11 @@ public class CargarVistaCoordinador implements Serializable
         return this.ruta;
     }
 
-    public CargarVistaCoordinador() 
-    {
+    public CargarVistaCoordinador() {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/estudiantes/ListarEstudiantes.xhtml";
     }
     
-    public void verEstudiante()
-    {
+    public void verEstudiante(){
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/estudiantes/VerEstudiante.xhtml";
     }
     

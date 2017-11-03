@@ -7,32 +7,24 @@ import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.PracticaDocenteFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.entidades.Archivo;
-import co.unicauca.proyectobase.entidades.CapituloLibro;
-import co.unicauca.proyectobase.entidades.Congreso;
 import co.unicauca.proyectobase.entidades.Estudiante;
-import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.Publicacion;
-import co.unicauca.proyectobase.entidades.Revista;
 import co.unicauca.proyectobase.entidades.archivoPDF;
+import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import co.unicauca.proyectobase.utilidades.Utilidades;
-import com.openkm.sdk4j.OKMWebservices;
-import com.openkm.sdk4j.OKMWebservicesFactory;
-import com.openkm.sdk4j.bean.QueryParams;
-import com.openkm.sdk4j.bean.QueryResult;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,6 +62,16 @@ public class PracticaDocenteController implements Serializable {
     private CargarVistaEstudiante cve;
     private CargarVistaCoordinador cvc;
     private String variableFiltrado;
+    private String nombrePD;
+
+    public String getNombrePD() {
+        
+        return nombrePD;
+    }
+
+    public void setNombrePD(String nombrePD) {
+        this.nombrePD = nombrePD;
+    }
 
     public String getVariableFiltrado() {
         return variableFiltrado;
@@ -245,7 +247,7 @@ public class PracticaDocenteController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
     
-     public void limpiarCampos(String nombreUsuario) {        
+    public void limpiarCampos(String nombreUsuario) {        
         this.inicializarVariables();
         Estudiante est = ejbFacade.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
@@ -337,21 +339,19 @@ public class PracticaDocenteController implements Serializable {
                     String estampaTiempo = "" + datehourFormat.format(date);
                     String[] fecha = estampaTiempo.split(" ");
                     Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
-                    redirigirAlistar(est.getEstUsuario());                                                                
+                    redirigirAlistar();                                                                
                 }catch(EJBException ex)
                 {
-                    System.out.println("Error: No se pudo registrar la publicacion");
-                    redirigirAlistar(est.getEstUsuario());  
+                    System.out.println("Error: No se pudo registrar la publicacion. error: " + ex.getMessage());
+                    redirigirAlistar();  
                 }
             }                                  
         }         
     }    
      
-     public void redirigirAlistar(String nombreUsuario) 
-    {
-        //limpiarCampos();
-        System.out.println("si esta pasando por aqui");        
-        //cve.verPublicacion();
+     public void redirigirAlistar() 
+    {                
+        cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }
     public void redirigirPracticasEst() 
@@ -428,36 +428,33 @@ public class PracticaDocenteController implements Serializable {
     //</editor-fold>
      
      public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaPubPrac();
-       
-        
+        archivoPDF archivoPublic = actual.descargaPubPrac();                   
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
 
         } else {
+            
             String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
             InputStream fis = archivoPublic.getArchivo();
-            
-            
-            HttpServletResponse response
-                    = (HttpServletResponse) FacesContext.getCurrentInstance()
-                            .getExternalContext().getResponse();
-
-            response.setContentType("application/pdf");
-            // response.setHeader("Content-Disposition", "inline;filename=" + archivoPublic.getNombreArchivo() + ".pdf");
-            response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
+            String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+            //String rutaReporte = realPath + "resources\\pdf\\" + nombreReporte;
+            String rutaPrac = realPath + "resources\\pdf\\" + nombreArchivo[0] +".pdf";
+             System.out.println("path" + rutaPrac);
+            OutputStream out = new FileOutputStream(rutaPrac);
+            //String enviar= nombreArchivo[0]+".pdf";
+            nombrePD= nombreArchivo[0]+".pdf";
             byte[] buffer = new byte[8 * 1024];
             int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1) {
-                response.getOutputStream().write(buffer, 0, bytesRead);
-                
+               
+                out.write(buffer, 0 , bytesRead);
             }
             
             // response.getOutputStream().write(buf);
-            response.getOutputStream().flush();
-            response.getOutputStream().close();
-            FacesContext.getCurrentInstance().responseComplete();
-
+           
+            out.close();
+            
+            
         }
     }
      
@@ -466,6 +463,7 @@ public class PracticaDocenteController implements Serializable {
         cvc.listarPracticaDocenteVer();
         Utilidades.redireccionar(cvc.getRuta());
     }
-         
+     
+       
     
 }

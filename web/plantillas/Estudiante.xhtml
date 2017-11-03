@@ -19,34 +19,33 @@
     <h:body> 
         
         <header class="interno">
-            <div id="logoU"></div>
-            <div id="banderaHeader"></div>
-            
-            <div class="CuadroDeBotonesSesion">
-                <ui:insert name="CuadroDeBotonesSesion"> 
-                    <h:form style="width: auto" >
-                        <h:link id="opcionesusuario" style="text-decoration: none;color:#FFFFFF; ">
-                            #{userLoginView.username}                           
-                        </h:link>
-                        <p:menu  overlay="true"  trigger="opcionesusuario" my="right top" at="right bottom" >
-                            <p:menuitem value="Mi Perfil" action="#{verEstudianteController.redirigirVerMisDatos(userLoginView.username)}"
-                                        ajax="false"/>
-                            <p:separator/>
-                            <p:menuitem value="Cerrar Sesión" action="#{userLoginView.salir()}"/>
-                        </p:menu>
-                    </h:form>
-                </ui:insert>
-            </div>
-            
-        </header>
+		<div id="logoU"></div>
+		<div class="separador"></div>
+		<p id="desc">Sistema de Gestión Documental.</p>
+		<div class="logoSimca"></div>
+		<div id="banderaHeader"></div>
+		<div class="clear"></div>
+	</header>
+       
 
         <p:menubar style="margin-left: 20px; margin-right: 20px; margin-top: 7px; margin-bottom: 10px;">                           
             <f:facet name="options">                
-                <p:commandButton value="Cerrar Sesión" icon="ui-icon-extlink" actionListener="#{userLoginView.salir}" style="font-size: 15px;"/>                
+                 
+                <h:form style="width: auto" >
+                    <p:commandButton value="Cerrar Sesión" icon="ui-icon-power" actionListener="#{userLoginView.salir}" style="font-size: 16px;"/>
+                    <p:commandButton id="opcionesusuario2" icon="ui-icon-triangle-1-s" title="Opciones de usuario" />
+                    <p:menu  overlay="true"  trigger="opcionesusuario2" my="right top" at="right bottom" >                           
+                        <p:separator/>
+                        <p:menuitem value="Mi Perfil" action="#{verEstudianteController.redirigirVerMisDatos(userLoginView.username)}"/>
+                        <p:menuitem value="Cambiar Contraseña" action="#" />                                                
+                    </p:menu>
+                </h:form>
             </f:facet>
         </p:menubar>
 
         <div>
+            
+            
             <div id="menu_coordinador" style="float:left; margin-left: 20px; ">
                 <div class="ui-messages-info ">
                     <span class="ui-messages-info-detail"><b>Menú estudiante</b>    </span>
@@ -56,15 +55,19 @@
                 </ui:insert>
             </div>
 
-            <div id="contenido_coordinador" style=" width: 82%; float:left ; margin-left: 16px;">
+            <div id="contenido_coordinador" style=" width: 82%; float:left ; margin-left: 16px;">                                
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <div id="efectoCarga"></div>
+                </p:dialog>
                 <ui:insert name="content">Contenido documentos</ui:insert>                
             </div>
-            
+           
         </div>
         <footer class="interno">
-            <div id="banderaFooter"></div>                                        
-            <p id="pFooter" style="font-size: 15px; font-family: sans-serif" align="center">Facultad de Ingeniería Electrónica y Telecomunicaciones <br/>
-                <a id="a" href="http://www.unicauca.edu.co" style="color: blue">Universidad del Cauca</a>
+            <div id="banderaFooter"></div>                     
+            <p style="font-size: 15px; font-family: sans-serif" align="center">Facultad de Ingeniería Electrónica y Telecomunicaciones <br/>                
+                <a id="a" href="http://www.unicauca.edu.co" style="color: blue">Universidad del Cauca</a>                
             </p>
         </footer>
     </h:body>

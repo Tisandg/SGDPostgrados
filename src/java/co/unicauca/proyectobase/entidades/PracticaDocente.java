@@ -4,6 +4,14 @@ import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
 import com.openkm.sdk4j.bean.QueryParams;
 import com.openkm.sdk4j.bean.QueryResult;
+import com.openkm.sdk4j.exception.AccessDeniedException;
+import com.openkm.sdk4j.exception.DatabaseException;
+import com.openkm.sdk4j.exception.ParseException;
+import com.openkm.sdk4j.exception.PathNotFoundException;
+import com.openkm.sdk4j.exception.RepositoryException;
+import com.openkm.sdk4j.exception.UnknowException;
+import com.openkm.sdk4j.exception.WebserviceException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -178,7 +186,7 @@ public class PracticaDocente implements Serializable {
             Map<String, String> properties = new HashMap();
             /* Se comprueba el tipo de publicacion: revista congreso , un libro 
                 o un capitulo de un libro que se devolvera como resultado*/
-           
+            System.out.println("IMPRIMIENDO PUBLICACION: " + publicacion.toString());
                 properties.put("okp:practica.identPublicacion", "" + publicacion.getPubIdentificador());
                 properties.put("okp:practica.tipoPDFCargar", "" + tipoPDF);
 
@@ -187,9 +195,9 @@ public class PracticaDocente implements Serializable {
             // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
             QueryParams qParams = new QueryParams();
             qParams.setProperties(properties);
-            int posPub = 0;
-            for (QueryResult qr : ws.find(qParams)) {
-                if (posPub == 0) {
+            int posPub = 0;            
+            for (QueryResult qr : ws.find(qParams)) {                
+                if (posPub == 0) {                    
                     String auxDoc = qr.getDocument().getPath();
                     String[] arrayNombre = auxDoc.split("/");
                     int pos = arrayNombre.length;
@@ -198,14 +206,14 @@ public class PracticaDocente implements Serializable {
                     InputStream initialStream = ws.getContent(qr.getDocument().getPath());
                     archivo.setArchivo(initialStream);
                     archivo.setNombreArchivo(nombreDoc);
-                }
+                }                
                 posPub = posPub + 1;
-
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
+            System.out.println("error en descargaPubPrac de clase practicaDocente.java");
+            System.out.println("error: " + e.getMessage());
         }
-        System.out.println("datos"+ archivo.getArchivo());
+        System.out.println("DATOS: "+ archivo.getArchivo());
         return archivo;
     }
 

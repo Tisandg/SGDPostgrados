@@ -24,6 +24,18 @@
            
     <h:form id="form_registrar_prac" enctype="multipart/form-data">
                                 
+        <!--modal ajax status here
+        <p:ajaxStatus onstart="statusDialog.show();" oncomplete="statusDialog.hide();"/>  
+
+        <p:dialog modal="true" widgetVar="statusDialog" header="Loading"   
+                  draggable="false" closable="false">  
+            <p:graphicImage value="../../resources/img/carga2.gif" />  
+        </p:dialog>
+        modal ajax status end-->               
+
+        
+
+                
         <p:panel header="Datos practica docente">
         <p:dialog id="PracticaDocenteCreateDlg" widgetVar="PracticaDocenteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreatePracticaDocenteTitle}"></p:dialog>
         <div style = "float: right;">
@@ -48,7 +60,7 @@
                          pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es" >
                 <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
                 <f:validator validatorId="validadorFechaPublicacion" />
-                <p:ajax event="blur" update="msjValFechaPublicacion" />
+                <p:ajax event="change" update="msjValFechaPublicacion" />
             </p:calendar>
             <p:message for="event" id="msjValFechaPublicacion" />
             
@@ -62,7 +74,7 @@
                          pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es">
                 <p:ajax event="dateSelect" listener="#{practicaDocenteController.onDateSelect}"  />
                 <f:validator validatorId="validadorFechaPublicacion" />
-                <p:ajax event="blur" update="msjValFechaPublicacion2" />
+                <p:ajax event="change" update="msjValFechaPublicacion2" />
             </p:calendar>
             <p:message for="event2" id="msjValFechaPublicacion2" />
             
@@ -83,12 +95,12 @@
         
         <h:form>
             <h:panelGrid columns="2" cellspacing="10>">
-                <h:commandButton value="Registrar" action="#{practicaDocenteController.AgregarPracticaDocente()}" class="btn btn-primary"/> 
+            <h:commandButton value="Registrar" actionListener="#{practicaDocenteController.AgregarPracticaDocente()}" class="btn btn-primary"/> 
             <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del documento?')) {
                         return false;
                     }
                     ;
-                    return true;" action="#{publicacionController.redirigirAlistar(userLoginView.username)}" class="btn btn-primary" immediate="true"/>
+                    return true;" action="#{practicaDocenteController.redirigirAlistar()}" class="btn btn-primary" immediate="true"/>
             </h:panelGrid>
         </h:form>
     
