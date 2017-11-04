@@ -1,9 +1,11 @@
 package co.unicauca.proyectobase.controladores;
 
 import co.unicauca.proyectobase.dao.CapituloLibroFacade;
+import co.unicauca.proyectobase.dao.CiudadFacade;
 import co.unicauca.proyectobase.dao.CongresoFacade;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.LibroFacade;
+import co.unicauca.proyectobase.dao.PaisFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.dao.RevistaFacade;
 import co.unicauca.proyectobase.entidades.Archivo;
@@ -13,6 +15,8 @@ import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.Revista;
 import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.CapituloLibro;
+import co.unicauca.proyectobase.entidades.Ciudad;
+import co.unicauca.proyectobase.entidades.Pais;
 //import static co.unicauca.proyectobase.entidades.GrupoTipoUsuario_.nombreUsuario;
 import co.unicauca.proyectobase.entidades.archivoPDF;
 import co.unicauca.proyectobase.utilidades.Autor;
@@ -32,6 +36,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
@@ -74,6 +79,12 @@ public class PublicacionController implements Serializable {
     @EJB
     private CapituloLibroFacade daoCapituloLibro;
     
+    @EJB
+    private CiudadFacade ejbCiudad;
+    
+    @EJB
+    private PaisFacade ejbPais;
+    
     private Publicacion actual;
     private List<Publicacion> listaPublicaciones;
     private UploadedFile publicacionPDF;
@@ -94,6 +105,12 @@ public class PublicacionController implements Serializable {
     
     private CargarVistaEstudiante cve;
     private CargarVistaCoordinador cvc;
+    
+    private List<Ciudad> listaCiudades;
+    private List<Pais> listaPaises;
+    
+    private int idPais;
+    private int idCiudad;
     
     ArrayList<Publicacion> rev;
     ArrayList<Publicacion> lib;
@@ -229,6 +246,7 @@ public class PublicacionController implements Serializable {
     public PublicacionController() {
         cve = new CargarVistaEstudiante();
         cvc = new CargarVistaCoordinador();
+        this.listaPaises = new ArrayList<>();
     }
 
     public Publicacion getActual() {
@@ -477,7 +495,7 @@ public class PublicacionController implements Serializable {
     }
 
     /* Metodos Principales  */
-    public void agregar() throws IOException {
+    public void agregar(String tipoPub) throws IOException {
         System.out.println("Registrando documentacion");
         /* formatoValido -> se utiliza para verificar que el usario
            suba unicamente archivos en formato pdf*/
@@ -525,6 +543,8 @@ public class PublicacionController implements Serializable {
                     
                     int numPubRevis = daoPublicacion.getnumFilasPubRev();
                     actual.setPubIdentificador(numPubRevis);
+                    
+                    actual.setPubTipoPublicacion(tipoPub);//Cambio
 
                     //<editor-fold defaultstate="collapsed" desc="adicion de campos dependiendo tipo de publicacion">                   
                     /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  capitulo de un libro se crea el objeto respectivo*/
@@ -553,6 +573,7 @@ public class PublicacionController implements Serializable {
                         actual.getLibro().setPubIdentificador(numPubRevis);
                         actual.getLibro().setPublicacion(actual);
                         actual.getLibro().setLibIsbn(pubIsbn);
+                        actual.getLibro().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
                         actual.setRevista(null);
                         actual.setCongreso(null);
                         actual.setCapituloLibro(null);
@@ -725,6 +746,15 @@ public class PublicacionController implements Serializable {
     }
 
     /*redireccionamiento para boton cancelar*/
+    public void redirigirAlistar(String nombreUsuario) 
+    {
+        limpiarCampos();//Cambio
+        System.out.println("si esta pasando por aqui");
+        
+        cve.verPublicaciones();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+    
     public void redirigirPublicacionesEst() 
     {        
         cve.verPublicaciones();
@@ -769,6 +799,13 @@ public class PublicacionController implements Serializable {
     public void redirigirARegistrar(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
         cve.registrarPublicacion();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+    
+    public void redirigirALibro(String nombreUsuario) //Cambio
+    {
+        limpiarCampos(nombreUsuario);
+        cve.registrarLibro();
         Utilidades.redireccionar(cve.getRuta());
     }
 
@@ -1241,5 +1278,50 @@ public class PublicacionController implements Serializable {
     
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="País y Ciudad">
     
+    @PostConstruct
+    public void init()
+    {
+        this.listaPaises = this.ejbPais.findAll();
+        this.listaCiudades = new ArrayList<>();
+    }
+
+    public List<Ciudad> getListaCiudades() {
+        return listaCiudades;
+    }
+
+    public void setListaCiudades(List<Ciudad> listaCiudades) {
+        this.listaCiudades = listaCiudades;
+    }
+
+    public List<Pais> getListaPaises() {
+        return listaPaises;
+    }
+
+    public void setListaPaises(List<Pais> listaPaises) {
+        this.listaPaises = listaPaises;
+    }
+
+    public int getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(int idPais) {
+        this.idPais = idPais;
+    }
+
+    public int getIdCiudad() {
+        return idCiudad;
+    }
+
+    public void setIdCiudad(int idCiudad) {
+        this.idCiudad = idCiudad;
+    }
+    
+    public void actualizarCiudades()
+    {
+        this.listaCiudades = this.ejbCiudad.getCiudadPorPais(idPais);
+    }
+    //</editor-fold>
 }

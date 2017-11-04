@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -32,6 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Libro.findByLibTituloLibro", query = "SELECT l FROM Libro l WHERE l.libTituloLibro = :libTituloLibro")})
 public class Libro implements Serializable 
 {
+
+    @JoinColumn(name = "ciudad_id", referencedColumnName = "ciud_id")
+    @ManyToOne
+    private Ciudad ciudadId;
 
     
     private static final long serialVersionUID = 1L;
@@ -133,4 +138,12 @@ public class Libro implements Serializable
     public void setEditorial(String editorial) {
         this.editorial = editorial.toUpperCase();
     }    
+
+    public Ciudad getCiudadId() {
+        return ciudadId;
+    }
+
+    public void setCiudadId(Ciudad ciudadId) {
+        this.ciudadId = ciudadId;
+    }
 }

@@ -52,6 +52,10 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Estudiante implements Serializable {
 
+    @Size(max = 40)
+    @Column(name = "est_contrasena")
+    private String estContrasena;
+
     /*@Size(max = 40)
     @Column(name = "est_contrasena")
     private String estContrasena;*/
@@ -283,5 +287,13 @@ public class Estudiante implements Serializable {
     public void setEstContrasena(String estContrasena) {
         this.estContrasena = estContrasena;
     }*/
+
+    public String getEstContrasena() {
+        return estContrasena;
+    }
+
+    public void setEstContrasena(String estContrasena) {
+        this.estContrasena = estContrasena;
+    }
     
 }
