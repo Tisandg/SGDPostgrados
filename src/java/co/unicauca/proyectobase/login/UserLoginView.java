@@ -99,7 +99,6 @@ public class UserLoginView implements Serializable {
                 }
             }else{
                 System.out.println("Ya se ha iniciado sesion");
-                Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
             }
         }
         

@@ -33,12 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Libro implements Serializable 
 {
 
-    @Size(max = 100)
-    @Column(name = "pais")
-    private String pais;
-    @Size(max = 100)
-    @Column(name = "ciudad")
-    private String ciudad;
+    
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -137,22 +132,5 @@ public class Libro implements Serializable
 
     public void setEditorial(String editorial) {
         this.editorial = editorial.toUpperCase();
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
-    
+    }    
 }

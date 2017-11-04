@@ -3,6 +3,7 @@ package co.unicauca.proyectobase.controladores;
 import co.unicauca.proyectobase.entidades.Usuario;
 import co.unicauca.proyectobase.controladores.util.JsfUtil;
 import co.unicauca.proyectobase.controladores.util.PaginationHelper;
+import co.unicauca.proyectobase.dao.Contrasena;
 import co.unicauca.proyectobase.dao.UsuarioFacade;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 
@@ -28,7 +29,7 @@ import javax.faces.model.SelectItem;
 public class UsuarioController implements Serializable {
 
     private Usuario current;
-    private contrasenaView contrasenas = new contrasenaView();
+    private Contrasena contrasenas = new Contrasena();
     private boolean editarContrasena;
     
     private DataModel items = null;
@@ -39,7 +40,7 @@ public class UsuarioController implements Serializable {
 
     public UsuarioController() {
         this.editarContrasena = false;
-        this.contrasenas = new contrasenaView();
+        this.contrasenas = new Contrasena();
     }
 
     public Usuario getCurrent() {
@@ -53,22 +54,6 @@ public class UsuarioController implements Serializable {
         this.current = current;
     }
 
-    public boolean isEditarContrasena() {
-        return editarContrasena;
-    }
-
-    public void setEditarContrasena(boolean editarContrasena) {
-        this.editarContrasena = editarContrasena;
-    }
-    
-    public contrasenaView getContrasenas() {
-        return contrasenas;
-    }
-
-    public void setContrasenas(contrasenaView contrasenas) {
-        this.contrasenas = contrasenas;
-    }
-    
     public void editarContrasena(){
         
         if(this.editarContrasena = false){
@@ -309,6 +294,23 @@ public class UsuarioController implements Serializable {
             }
         }
 
+    }
+    
+    /**** Gets and Sets *****/
+    public boolean isEditarContrasena() {
+        return editarContrasena;
+    }
+
+    public void setEditarContrasena(boolean editarContrasena) {
+        this.editarContrasena = editarContrasena;
+    }
+    
+    public Contrasena getContrasenas() {
+        return contrasenas;
+    }
+
+    public void setContrasenas(Contrasena contrasenas) {
+        this.contrasenas = contrasenas;
     }
 
 }

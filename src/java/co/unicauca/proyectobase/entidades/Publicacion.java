@@ -686,6 +686,7 @@ public class Publicacion implements Serializable {
                             name.setValue(pubIsbn);
                         }
                         //adiciones
+                        /*
                         if (fElement.getName().equals("okp:libro.pais")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.libro.getPais());
@@ -693,7 +694,7 @@ public class Publicacion implements Serializable {
                         if (fElement.getName().equals("okp:libro.ciudad")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.libro.getCiudad());
-                        }
+                        }*/
                         //no deberia tener
                         if (fElement.getName().equals("okp:libro.ISSN")) {
                             Input name = (Input) fElement;

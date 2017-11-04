@@ -1,15 +1,20 @@
-package co.unicauca.proyectobase.controladores;
-import javax.faces.bean.ManagedBean;
+package co.unicauca.proyectobase.dao;
 
 /**
  * @author Santiago Garcia
  */
  
-public class contrasenaView {
+public class Contrasena {
     
     private String contrasenaActual;
     private String nuevaContrasena;
     private String nuevaContrasenaR;
+    
+    public Contrasena(){
+        this.contrasenaActual = "";
+        this.nuevaContrasena = "";
+        this.nuevaContrasenaR = "";
+    }
 
     public String getContrasenaActual() {
         return contrasenaActual;
@@ -33,7 +38,5 @@ public class contrasenaView {
 
     public void setNuevaContrasenaR(String nuevaContrasenaR) {
         this.nuevaContrasenaR = nuevaContrasenaR;
-    }
-    
-    
+    }    
 }

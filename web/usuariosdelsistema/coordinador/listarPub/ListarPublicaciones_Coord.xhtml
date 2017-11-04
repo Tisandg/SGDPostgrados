@@ -22,26 +22,6 @@
                     <p:separator />
                     
                     <br/>
-                    
-                    <h:form>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-                    </h:form>
-                    
-                    <h:form>
-                        <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
-                        <p:inputText id="textoFiltrado" value="#{publicacionController.variableFiltrado}" placeholder="Ingrese el nombre del autor, tipo de documento o nombre documento" size="58">
-                            <p:ajax update=":tablaPublicaciones" event="keyup"/>
-                        </p:inputText>
-                        
-                        <br/>
-                        <br/>
-                    </h:form>
-                    
-                    <p:separator />
-
-                <br/>
 
                 <h:form>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

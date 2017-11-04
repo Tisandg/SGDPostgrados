@@ -143,7 +143,7 @@ public class ReportesJasperController implements Serializable {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/doctorado",
-                    "doctorado", "doctorado");
+                    "Doctorado", "Doc2017_I");
             //las credenciales que esta en los manuales para la base de datos son:
             //      "Doctorado", "Doc2017_I"
             return con;
@@ -155,12 +155,10 @@ public class ReportesJasperController implements Serializable {
 
     public void getReportePdf() {
         getReporte(TIPO_DOC_PDF);
-
     }
 
     public void getReporteExcel() {
         getReporte(TIPO_DOC_EXCEL);
-
     }
 
     private void getReporte(String tipoDoc) {

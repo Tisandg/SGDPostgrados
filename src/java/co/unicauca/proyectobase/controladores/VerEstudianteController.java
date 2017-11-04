@@ -82,6 +82,12 @@ public class VerEstudianteController implements Serializable {
         cve.verDatosPersonales();
         Utilidades.redireccionar(cve.getRuta());
     }
+    
+    public void irEditarContrasena(String nombreUsuario) {
+        fijarEstudiante(nombreUsuario);
+        cve.irEditarContrasena();
+        Utilidades.redireccionar(cve.getRuta());
+    }
 
  
 
