@@ -692,16 +692,6 @@ public class Publicacion implements Serializable {
                             Input name = (Input) fElement;
                             name.setValue(pubIsbn);
                         }
-                        //no deberia tener
-                        if (fElement.getName().equals("okp:libro.ISSN")) {
-                            Input name = (Input) fElement;
-                            name.setValue(pubIssn);
-                        }
-                        //no deberia tener
-                        if (fElement.getName().equals("okp:libro.DOI")) {
-                            Input name = (Input) fElement;
-                            name.setValue(pubDoi);
-                        }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro", fElements);
                 }
