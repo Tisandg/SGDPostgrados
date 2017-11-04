@@ -11,6 +11,7 @@
     <input label="DOI"   type="text"  name="okp:libro.DOI"/>
     <input label="ISBN"  type="text"  name="okp:libro.ISBN"/>  
     <input label="ISSN"  type="text"  name="okp:libro.ISSN"/>
-    <input label="Pais"  type="text"  name="okp:libro.pais"/>  
-    <input label="Ciudad"  type="text"  name="okp:libro.ciudad"/>
+    <input label="Editorial"   type="text" name="okp:libro.editorialLibro"/>
+    <input label="Pais"   type="text" name="okp:libro.paisLibro"/>
+    <input label="Ciudad"   type="text" name="okp:libro.ciudadLibro"/>
 </property-group>
