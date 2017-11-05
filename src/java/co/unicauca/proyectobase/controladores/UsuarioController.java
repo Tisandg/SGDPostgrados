@@ -14,14 +14,15 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+ 
 
 @Named("usuarioController")
 @ManagedBean
@@ -29,7 +30,7 @@ import javax.faces.model.SelectItem;
 public class UsuarioController implements Serializable {
 
     private Usuario current;
-    private Contrasena contrasenas = new Contrasena();
+    private Contrasena contrasenas;
     private boolean editarContrasena;
     
     private DataModel items = null;
@@ -64,8 +65,15 @@ public class UsuarioController implements Serializable {
         System.out.println("Cambiando editar contrasena: "+this.editarContrasena);
     }
     
-    public boolean cambiarContrasena(){
+    /**
+     * funcion para cambiar la contraseña de un estudiante. Recibe la referencia
+     * del estudiante al que se le va a modificar la contraseña
+     * @param actual
+     * @return 
+     */
+    public boolean cambiarContrasena(Usuario actual){
         
+        this.current = actual;
         System.out.println("Cambiando contraseña...");
         boolean respuesta = false;
         /*Comprobar que la contraseña actual digitada coincida con la que 
@@ -75,7 +83,7 @@ public class UsuarioController implements Serializable {
         System.out.println("Contraseña actual guardada "+ current.getContrasena());
         if(contrasenaActual.equals(current.getContrasena())){
             /*Contraseñas coinciden*/
-            System.out.println("Contraseñas actuales son contraseñas");
+            System.out.println("Contraseñas actuales son iguales");
             String nuevaContrasena = Utilidades.sha256(this.contrasenas.getNuevaContrasena());
             try{
                 this.current.setContrasena(nuevaContrasena);
@@ -83,14 +91,18 @@ public class UsuarioController implements Serializable {
                 ejbFacade.flush();
                 respuesta = true;
                 System.out.println("Contrasena modificada");
+                
                 FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Exito", "Contraseña ha sido cambiada"));
+                context.addMessage(null, new FacesMessage("Informacion", "Su contraseña ha sido cambiada satisfactoriamente"));
             }catch(EJBException e){
-                System.out.println("Error al editar contraseña");
+                FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Informacion", "No se ha podido modificar la contraseña. Consulte al administrador"));
             }
             
         }else{
-            System.out.println("Contrasena no modificada");
+            System.out.println("Contrasena actuales no coinciden");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Informacion", "La contraseña actual digitada no coincide con la registrada"));
         }
         
         return respuesta;

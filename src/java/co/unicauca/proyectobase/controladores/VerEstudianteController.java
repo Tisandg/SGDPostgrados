@@ -122,12 +122,12 @@ public class VerEstudianteController implements Serializable {
         this.auxEstudiante = auxEstudiante;
     }
 
-    public Usuario getAuxUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setAuxUsuario(Usuario auxUsuario) {
-        this.usuario = auxUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public contrasenaView getContrasenas() {

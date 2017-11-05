@@ -52,9 +52,6 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Estudiante implements Serializable {
 
-    /*@Size(max = 40)
-    @Column(name = "est_contrasena")
-    private String estContrasena;*/
 
     @OneToMany(mappedBy = "pubEstIdentificador")
     private List<Publicacion> documentoList;
@@ -276,12 +273,4 @@ public class Estudiante implements Serializable {
         this.documentoList = documentoList;
     }
 
-    /*public String getEstContrasena() {
-        return estContrasena;
-    }
-
-    public void setEstContrasena(String estContrasena) {
-        this.estContrasena = estContrasena;
-    }*/
-    
 }

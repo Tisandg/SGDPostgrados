@@ -3,8 +3,6 @@ package co.unicauca.proyectobase.entidades;
 import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
-import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,7 +42,6 @@ import com.itextpdf.text.pdf.PdfImportedPage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfReader;
 import com.openkm.sdk4j.bean.QueryParams;
@@ -95,7 +92,7 @@ import org.primefaces.model.UploadedFile;
     @NamedQuery(name = "Publicacion.findByPubFechaPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubFechaPublicacion = :pubFechaPublicacion"),
     @NamedQuery(name = "Publicacion.findByPubNumActa", query = "SELECT p FROM Publicacion p WHERE p.pubNumActa = :pubNumActa"),
     @NamedQuery(name = "Publicacion.findByPubVisado", query = "SELECT p FROM Publicacion p WHERE p.pubVisado = :pubVisado"),
-    
+    @NamedQuery(name = "Publicacion.findByOnlyPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubTipoPublicacion IN (\"revista\",\"libro\",\"capitulo_libro\",\"congreso\")"),
     //consutas nuevas
     @NamedQuery(name = "Publicacion.findAllByYear", query = "SELECT p FROM Publicacion p "
             + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio ORDER BY  p.pubTipoPublicacion DESC"),
@@ -681,30 +678,20 @@ public class Publicacion implements Serializable {
                             Input name = (Input) fElement;
                             name.setValue(this.libro.getEditorial().toUpperCase());
                         }
+                        if(fElement.getName().equals("okp:libro.ciudadLibro"))//Cambio
+                        {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.libro.getCiudadId().getCiudNombre());
+                        }
+                        if(fElement.getName().equals("okp:libro.paisLibro"))//Cambio
+                        {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.libro.getCiudadId().getPaisId().getPaisNombre());
+                        }
                         if (fElement.getName().equals("okp:libro.ISBN")) {
                             Input name = (Input) fElement;
                             name.setValue(pubIsbn);
                         }
-                        //adiciones
-                        /*
-                        if (fElement.getName().equals("okp:libro.pais")) {
-                            Input name = (Input) fElement;
-                            name.setValue("" + this.libro.getPais());
-                        }
-                        if (fElement.getName().equals("okp:libro.ciudad")) {
-                            Input name = (Input) fElement;
-                            name.setValue("" + this.libro.getCiudad());
-                        }*/
-                        //no deberia tener
-                        if (fElement.getName().equals("okp:libro.ISSN")) {
-                            Input name = (Input) fElement;
-                            name.setValue(pubIssn);
-                        }
-                        //no deberia tener
-                        if (fElement.getName().equals("okp:libro.DOI")) {
-                            Input name = (Input) fElement;
-                            name.setValue(pubDoi);
-                        }                                                
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro", fElements);
                 }
@@ -1138,6 +1125,10 @@ public class Publicacion implements Serializable {
         return archivo;
     }
 
+    /**
+     * Metodo para obtener el titulo de la publicacion segun tu su tipo
+     * @return nombrePublicacion
+     */
     public String obtenerNombrePub() {
         String nombrePub = "";
 

@@ -3,6 +3,7 @@ package co.unicauca.proyectobase.dao;
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
@@ -268,6 +269,13 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         return findPub;
 
     }
+      public List<Publicacion> ListadoSoloPublicacion() {
+        
+        javax.persistence.Query query = em.createNamedQuery("Publicacion.findByOnlyPublicacion");
+        List<Publicacion> findPub = query.getResultList();
+        return findPub;
+
+    }      
               
     public List<Publicacion> ListadoPublicacionEstFilt(int estIdentificador, String variableFiltrado) {
 

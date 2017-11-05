@@ -30,7 +30,6 @@ public class ValidarCodigoEstudianteNoExistente implements Validator {
                 throw new ValidatorException(msg);
             }
         }
-
     }
 
 }
