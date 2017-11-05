@@ -543,6 +543,16 @@ public class Publicacion implements Serializable {
                             Input name = (Input) fElement;
                             name.setValue("" + pubIssn);
                         }
+                        /* Ciudad y País */
+                        if (fElement.getName().equals("okp:congreso.ciudadCongreso")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.congreso.getCiudadId().getCiudNombre());
+                        }
+                        
+                        if (fElement.getName().equals("okp:congreso.paisCongreso")) {
+                            Input name = (Input) fElement;
+                            name.setValue("" + this.congreso.getCiudadId().getPaisId().getPaisNombre());
+                        }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:congreso", fElements);
 

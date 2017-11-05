@@ -1,0 +1,18 @@
+<property-group label="congreso" name="okg:congreso">
+    <input label="Identificador Publicacion" type="text" name="okp:congreso.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:congreso.identArchivo"/>
+    <input label="TipoPDF_Cargar" type="text" name="okp:congreso.tipoPDFCargar"/>   
+    <input label="Estampa Tiempo" type="text" name="okp:congreso.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:congreso.nombreAutor"/>
+    <input label="Autores Secundarios" type="text" name="okp:congreso.autoresSecundarios" />
+    <input label="Fecha Publicacion"   type="text" name="okp:congreso.fechaPublicacion"/>
+    <input label="Tipo Publicacion"  type="text"  name="okp:congreso.tipoPublicacion"/>   
+    <input label="Titulo Ponencia"   type="text" name="okp:congreso.tituloPonencia" /> 
+    <input label="Nombre Evento" type="text" name="okp:congreso.nombreEvento" />
+    <input label="Tipo Congreso" type="text" name="okp:congreso.tipoCongreso" />
+    <input label="DOI"   type="text" name="okp:congreso.DOI"/>
+    <input label="ISBN"  type="text"  name="okp:congreso.ISBN"/>  
+    <input label="ISSN"  type="text"  name="okp:congreso.ISSN"/>
+    <input label="Pais"   type="text" name="okp:congreso.paisCongreso"/>
+    <input label="Ciudad"   type="text" name="okp:congreso.ciudadCongreso"/>
+</property-group>

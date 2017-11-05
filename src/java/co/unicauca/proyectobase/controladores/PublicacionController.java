@@ -495,7 +495,7 @@ public class PublicacionController implements Serializable {
     }
 
     /* Metodos Principales  */
-    public void agregar(String tipoPub) throws IOException {
+    public void agregar() throws IOException {
         System.out.println("Registrando documentacion");
         /* formatoValido -> se utiliza para verificar que el usario
            suba unicamente archivos en formato pdf*/
@@ -543,8 +543,6 @@ public class PublicacionController implements Serializable {
                     
                     int numPubRevis = daoPublicacion.getnumFilasPubRev();
                     actual.setPubIdentificador(numPubRevis);
-                    
-                    actual.setPubTipoPublicacion(tipoPub);//Cambio
 
                     //<editor-fold defaultstate="collapsed" desc="adicion de campos dependiendo tipo de publicacion">                   
                     /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  capitulo de un libro se crea el objeto respectivo*/
@@ -563,6 +561,7 @@ public class PublicacionController implements Serializable {
                         actual.getCongreso().setPublicacion(actual);
                         actual.getCongreso().setCongIssn(pubIssn);
                         actual.getCongreso().setCongDoi(pubDoi);
+                        actual.getCongreso().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
                         actual.setRevista(null);
                         actual.setCapituloLibro(null);
                         actual.setLibro(null);
