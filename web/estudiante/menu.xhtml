@@ -33,10 +33,13 @@
                                     action="#{publicacionController.redirigirARegistrar(userLoginView.username)}" ajax="false"/>
 
                     </p:submenu>
-                    <p:submenu label = "Practicas">
+                    <p:submenu label = "Práctica docente">
                         <p:menuitem value="Lista de practicas"                                     
                                     icon="ui-icon-document-b" 
                                     action="#{practicaDocenteController.redirigirPracticasEst()}" ajax="false"/>
+                        <p:menuitem value="Registrar práctica"
+                                    icon="ui-icon-document-b" 
+                                    action="#{practicaDocenteController.redirigirARegistrarPractica(userLoginView.username)}" ajax="false"/>
                         
                       
 

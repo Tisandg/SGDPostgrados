@@ -241,7 +241,7 @@ public class PracticaDocenteController implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="codigo nuevo">
         
     /*redireccion para volver a registrar */
-    public void redirigirARegistrar(String nombreUsuario) {
+    public void redirigirARegistrarPractica(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
         cve.registrarPractica();
         Utilidades.redireccionar(cve.getRuta());

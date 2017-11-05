@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -33,6 +34,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Congreso.findByCongNombreEvento", query = "SELECT c FROM Congreso c WHERE c.congNombreEvento = :congNombreEvento")
     , @NamedQuery(name = "Congreso.findByCongTipoCongreso", query = "SELECT c FROM Congreso c WHERE c.congTipoCongreso = :congTipoCongreso")})
 public class Congreso implements Serializable {
+
+    @JoinColumn(name = "ciudad_id", referencedColumnName = "ciud_id")
+    @ManyToOne
+    private Ciudad ciudadId;
 
     @Basic(optional = false)    
     @Size(min = 1, max = 30)
@@ -161,6 +166,14 @@ public class Congreso implements Serializable {
 
     public void setCongIssn(String congIssn) {
         this.congIssn = congIssn;
+    }
+
+    public Ciudad getCiudadId() {
+        return ciudadId;
+    }
+
+    public void setCiudadId(Ciudad ciudadId) {
+        this.ciudadId = ciudadId;
     }
     
 }
