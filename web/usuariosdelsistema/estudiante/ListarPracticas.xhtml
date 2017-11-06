@@ -14,7 +14,7 @@
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
-                    <b>Lista de practicas</b>
+                    <b>Lista de prácticas</b>
                 </span>
                 <div style = "float: right;">
                     <p:outputLabel style="font-weight:bold; " value="Número de creditos aprobados: "/>                        
@@ -36,7 +36,7 @@
             
             <p:dataTable  id="tablaPublicaciones" var="prac"  value="#{practicaDocenteController.listadoDesdeEst()}" rows="10"
                             paginator="true"
-                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="15,30,50" emptyMessage="No tiene publicaciones registradas o no se encuentra ninguno con el criterio de busqueda."
                             style="text-align: left;"
                             >
@@ -44,10 +44,10 @@
                 <p:column headerText="Fecha Inicio">
                         <h:outputText value="#{prac.fechaIn}"/>
                     </p:column>
-                    <p:column headerText="Fecha Terminacion">
+                    <p:column headerText="Fecha Terminación">
                         <h:outputText value="#{prac.fechaTer}"/>
                     </p:column>
-                    <p:column headerText="Lugar de practica"  >
+                    <p:column headerText="Lugar de práctica"  >
                         <h:outputText value="#{prac.lugarPractica}"/>
                     </p:column>         
                 

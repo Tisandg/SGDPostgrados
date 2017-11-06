@@ -630,7 +630,8 @@ public class PublicacionController implements Serializable {
                     Date date = new Date();
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String estampaTiempo = "" + datehourFormat.format(date);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
+                    //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
                     
                 } catch (EJBException ex) {
                     mensajeRegistroFallido();
@@ -799,6 +800,14 @@ public class PublicacionController implements Serializable {
     public void redirigirARegistrar(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
         cve.registrarPublicacion();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+    
+    
+    public void redirigirAGeneral(String nombreUsuario) {
+        limpiarCampos(nombreUsuario);
+        //cve.registrarPublicacion(); se incluyo un nuevo método que redirige a la plantilla General.
+        cve.registrarPublicacion2(); 
         Utilidades.redireccionar(cve.getRuta());
     }
     
