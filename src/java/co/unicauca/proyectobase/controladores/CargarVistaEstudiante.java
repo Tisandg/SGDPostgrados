@@ -1,6 +1,5 @@
 package co.unicauca.proyectobase.controladores;
 
-import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;

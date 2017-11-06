@@ -18,25 +18,28 @@ public class ValidadorContrasenaEstudiante implements Validator{
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        System.out.println("Validando contransena");
         String contrasena = String.valueOf(String.valueOf(value));
         if (contrasena == null || contrasena.equals("")) {
-            String message = "la contraseña no puede ir vacia";
+            String message = "La contraseña no puede ir vacia";
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
             throw new ValidatorException(msg);
         }else{
-            if(contrasena.length() <8){
-                String message = "la contraseña debe tener minimo 8 caracteres";
+            if(contrasena.length() <8 ){
+                String message = "La contraseña debe tener minimo 8 caracteres";
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
                 throw new ValidatorException(msg);
             }
             if(!validarCaracteres(contrasena)){
-                
+                String message = "Caracteres invalidos para contraseña";
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
+                throw new ValidatorException(msg);
             }
         }
     }
     
     public boolean validarCaracteres(String contrasena){
-        Pattern p = Pattern.compile("^[A-Za-z0-9.#@$]");
+        Pattern p = Pattern.compile("[A-Za-z0-9.,!#=)(/&%$+@+-_]");
         Matcher m = p.matcher(contrasena);
         return m.find();
     }

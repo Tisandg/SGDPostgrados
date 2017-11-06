@@ -74,39 +74,42 @@ public class UsuarioController implements Serializable {
     public boolean cambiarContrasena(Usuario actual){
         
         this.current = actual;
-        System.out.println("Cambiando contraseña...");
         boolean respuesta = false;
-        /*Comprobar que la contraseña actual digitada coincida con la que 
-          esta guardada*/
-        System.out.println("Contraseña actual ingresada: "+this.contrasenas.getContrasenaActual());
-        String contrasenaActual = Utilidades.sha256(this.contrasenas.getContrasenaActual());
-        System.out.println("Contraseña actual guardada "+ current.getContrasena());
-        if(contrasenaActual.equals(current.getContrasena())){
-            /*Contraseñas coinciden*/
-            System.out.println("Contraseñas actuales son iguales");
-            String nuevaContrasena = Utilidades.sha256(this.contrasenas.getNuevaContrasena());
-            try{
-                this.current.setContrasena(nuevaContrasena);
-                ejbFacade.edit(current);
-                ejbFacade.flush();
-                respuesta = true;
-                System.out.println("Contrasena modificada");
-                
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Informacion", "Su contraseña ha sido cambiada satisfactoriamente"));
-            }catch(EJBException e){
-                FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Informacion", "No se ha podido modificar la contraseña. Consulte al administrador"));
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(this.contrasenas.getNuevaContrasena().equals(this.contrasenas.getNuevaContrasenaR())){
+            System.out.println("Cambiando contraseña...");
+            /*Comprobar que la contraseña actual digitada coincida con la que 
+              esta guardada*/
+            System.out.println("Contraseña actual ingresada: "+this.contrasenas.getContrasenaActual());
+            String contrasenaActual = Utilidades.sha256(this.contrasenas.getContrasenaActual());
+            System.out.println("Contraseña actual guardada "+ current.getContrasena());
+            if(contrasenaActual.equals(current.getContrasena())){
+                /*Contraseñas coinciden*/
+                System.out.println("Contraseñas actuales son iguales");
+                String nuevaContrasena = Utilidades.sha256(this.contrasenas.getNuevaContrasena());
+                try{
+                    this.current.setContrasena(nuevaContrasena);
+                    ejbFacade.edit(current);
+                    ejbFacade.flush();
+                    respuesta = true;
+                    System.out.println("Contrasena modificada");
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Su contraseña ha sido cambiada satisfactoriamente","detail"));
+                }catch(EJBException e){
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha podido modificar la contraseña. Consulte al administrador","detail"));
+                }
+
+            }else{
+                System.out.println("Contrasena actuales no coinciden");
+                context.addMessage(null, new FacesMessage("Error", "La contraseña actual digitada no coincide con la registrada"));
             }
-            
         }else{
-            System.out.println("Contrasena actuales no coinciden");
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Informacion", "La contraseña actual digitada no coincide con la registrada"));
+            System.out.println("Contrasenas nuevas no coinciden");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Las contraseñas nuevas no coinciden.","detail"));
         }
         
         return respuesta;
     }
+    
     
     public Usuario getSelected() {
         if (current == null) {
