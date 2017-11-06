@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ciudad.findByCiudNombre", query = "SELECT c FROM Ciudad c WHERE c.ciudNombre = :ciudNombre")})
 public class Ciudad implements Serializable {
 
+    @OneToMany(mappedBy = "ciudadId")
+    private List<Congreso> congresoList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -114,6 +117,15 @@ public class Ciudad implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Ciudad[ ciudId=" + ciudId + " ]";
+    }
+
+    @XmlTransient
+    public List<Congreso> getCongresoList() {
+        return congresoList;
+    }
+
+    public void setCongresoList(List<Congreso> congresoList) {
+        this.congresoList = congresoList;
     }
     
 }

@@ -2,7 +2,7 @@ package co.unicauca.proyectobase.controladores;
 
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 @Named(value = "cargarVistaEstudianteController")
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class CargarVistaEstudiante implements Serializable
 {
     private String ruta;
