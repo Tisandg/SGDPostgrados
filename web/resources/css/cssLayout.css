@@ -224,11 +224,10 @@
   }
   
 #efectoCarga{
-  background: url(../img/carga4.gif) no-repeat;
+  background: url(../images/carga4.gif) no-repeat;
   width: 126px;
   height: 126px;
   float: left;
-  margin-right: 10px;
   opacity: 1;
 }
 
