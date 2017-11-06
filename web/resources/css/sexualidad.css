@@ -1,0 +1,22 @@
+#menu_coordinador{
+    background-color:#999;
+    width:200px;
+    height:90%;
+    float:left;
+}
+#contenido_coordinador{
+        height:90%;
+        background-color:#363;
+        width:700px;
+        float:left;
+}
+#wrapper_sexualidad {
+    width:900px;
+    height:100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.iconovm{
+   background-image: url(../img/save.svg) !important;
+}

@@ -1,0 +1,60 @@
+/* 
+    Created on : 24/04/2016, 10:32:08 AM
+    Author     : Ricardo
+*/
+body {
+   background: url(../img/body-bkg.png) repeat-x scroll 0% 0% #C8CDD6;
+   padding-left: 10%;
+   padding-right: 10%;
+   line-height: 1;
+   font-size: 12px;
+   font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+}
+
+#header {
+   position: relative;
+   background: url(../img/fondo_cabecera.jpg) no-repeat;
+   background-size: cover;
+   background-position: center;
+   margin-top: 0px;
+   color: white;
+   height: 250px
+}
+
+#header .con_escudo_titulo {
+    position: relative;
+    top: 40px;
+    padding-left: 80px;
+}
+
+#header .con_escudo_titulo .borde-redondo {
+    position: absolute;
+    width: 125px;
+    height: 125px;
+    border-radius: 60px;
+    background: linear-gradient(to bottom,rgb(9,33,103)0%,rgb(23,52,134)51%,rgb(9,33,103)100%); /*rgba(0,0,100,0.6); /*#22419A*/
+}
+
+#header .con_escudo_titulo .bkg{
+   background: linear-gradient(to bottom,rgb(203,0,0)0%,rgb(119,0,0)100%);
+   float: left;
+   height: 190px;
+   width: 125px;
+   padding-left: 1%;
+   padding-right: 1%;
+   padding-top: 2%;
+}
+
+#header .con_escudo_titulo .bkg .logo {
+    position: relative;
+    z-index: 1;
+    float: left;
+    margin-top: 8px;
+    margin-left: 13px;
+}
+#header .con_escudo_titulo .bkg .logo a {
+    width: 110px;
+    height: 110px;
+    display: block;
+    background: url(../img/logo-unicauca.png) no-repeat;
+}

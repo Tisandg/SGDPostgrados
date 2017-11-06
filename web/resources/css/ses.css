@@ -1,13 +1,57 @@
+.login-formulario{
+    width:350px;
+  padding:40px 30px;
+  background:rgba(235,235,205,0.7);
+  border-radius:4px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  margin:50px auto;
+
+}
 
 body {
-    background: url(../img/body-bkg.png) repeat-x scroll 0% 0% #C8CDD6;
-
+    /*background: url(../img/body-bkg.png) repeat-x scroll 0% 0% #C8CDD6;*/
+    background: url(../img/background.png)#18307e  no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     line-height: 1;
     font-size: 12px;
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
     width: 98.5%;
+    height: auto !important;
+}
+#logo-unicauca{
+  
+    position: fixed;
+    z-index: -1;
+    background: url(../img/logo-unicauca2.png) no-repeat;
+    height: 120px;
+    left: 30px;
+    top: 10px;
+    width: 251px;
+}
+#antorcha{
+    position: fixed;
+    position: fixed;
+    z-index: -1;
+    background: url(../img/antorcha.png) no-repeat;
+    height: 592px;
+    right: 15%;
+    top: 0;
+    width: 251px;
 }
 
+#bandera{
+background: url(../img/bandera.png) no-repeat;
+    width: 345px;
+    height: 130px;
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    bottom: 0
+}
 #header{
     height: 170px;
     background-color: rgb(9,33,103);
@@ -155,7 +199,7 @@ body {
 
 }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-    font-size: 12.5px;
+    font-size: 13px;
 }
 
 
@@ -164,7 +208,77 @@ body {
     border:0;
 }
 
-.iconoEliminar
+.panelgrid , .panelgrid tr , .panelgrid td
 {
-    background:#339cdf url(../img/editar.svg) repeat-x;
+    border-style: none !important
+
+
 }
+
+.ui-confirm-dialog{
+    top: 30% !important;
+    left: 40% !important;
+}
+
+form {
+   width:350px;
+  padding:40px 30px;
+      background: url(../img/back-login.png) no-repeat; 
+  border-radius:4px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  margin:50px auto;
+}
+
+form input, textarea, .uneditable-input {
+    width: 130px;
+}
+
+form header {
+    padding: 35px 15px;
+    color: black;
+    font-size: 1.2em;
+    font-weight: bold;
+   
+    text-align: center;
+
+}
+form label {
+    margin-left: 20px;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 15px;
+
+}
+
+form button {
+    margin-top: 35px;
+    margin-bottom: 30px;
+    font-size: 17px !important;
+    font-weight: 400;
+    border-radius: 5px;
+    
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+form button:hover {
+    background: #ff5252;
+}
+form .help {
+    margin-left: 60px;
+    font-size: 0.9em;
+    color: #777;
+    font-family: cursive;
+}
+
+
+
+.userClass{
+    background: url(../img/ico-usuario.png) no-repeat !important;
+    
+    
+
+}
+
+
+    

@@ -231,7 +231,7 @@ h1 {
     font-size: 8px;
 }
 #bandera{
-background: url(../images/bandera.png) no-repeat;
+background: url(../img/bandera.png) no-repeat;
     width: 345px;
     height: 130px;
     position: fixed;
@@ -243,7 +243,7 @@ background: url(../images/bandera.png) no-repeat;
     position: fixed;
     position: fixed;
     z-index: -1;
-    background: url("../images/antorcha.png") no-repeat;
+    background: url(../img/antorcha.png) no-repeat;
     height: 592px;
     right: 15%;
     top: 0;
