@@ -10,7 +10,7 @@
         <title>Listar Publicaciones</title>
     </h:head>
     <!-- IMPLEMENTATION -->
-    <ui:composition template="../../plantillas/Estudiante.xhtml">
+    <ui:composition template="../../plantillas/General.xhtml">
         <ui:define name="content"> 
             <div class="ui-messages-info ">
                 <span class="ui-messages-info-detail">
@@ -36,7 +36,7 @@
             
             <p:dataTable  id="tablaPublicaciones" var="pub"  value="#{publicacionController.listadoPublicaciones(userLoginView.username)}" rows="10"
                             paginator="true"
-                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="15,30,50" emptyMessage="No tiene publicaciones registradas o no se encuentra ninguno con el criterio de busqueda."
                             style="text-align: left;"
                             >

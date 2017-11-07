@@ -247,6 +247,7 @@ public class PracticaDocenteController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
     
+    
     public void limpiarCampos(String nombreUsuario) {        
         this.inicializarVariables();
         Estudiante est = ejbFacade.obtenerEstudiante(nombreUsuario);
@@ -338,7 +339,8 @@ public class PracticaDocenteController implements Serializable {
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String estampaTiempo = "" + datehourFormat.format(date);
                     String[] fecha = estampaTiempo.split(" ");
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
+                    //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     redirigirAlistar();                                                                
                 }catch(EJBException ex)
                 {

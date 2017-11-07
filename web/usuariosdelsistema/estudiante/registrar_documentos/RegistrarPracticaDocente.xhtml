@@ -12,15 +12,13 @@
         <title>Registrar practica docente</title>
     </h:head>
     
-    <ui:composition template="../../../plantillas/Estudiante.xhtml">
+    <ui:composition template="../../../plantillas/General.xhtml">
         <ui:define name="content">
             
              <div class="ui-messages-info ">
-                 <span class="ui-messages-info-detail">
-                    <p:commandButton actionListener="#{publicacionController.redirigirARegistrar(userLoginView.username)}" value="publicación"/>&nbsp;
-                    <p:commandButton actionListener="#{publicacionController.redirigirALibro(userLoginView.username)}" value="Libro"/>&nbsp;
-                    <p:commandButton actionListener="#{practicaDocenteController.redirigirARegistrar(userLoginView.username)}" value="Practica docente"/>
-                 </span>
+                <span class="ui-messages-info-detail">
+                    <b>Registrar práctica docente</b>
+                </span>
              </div> 
            
     <h:form id="form_registrar_prac" enctype="multipart/form-data">
@@ -37,7 +35,7 @@
         
 
                 
-        <p:panel header="Datos practica docente">
+        <p:panel header="Datos práctica docente">
         <p:dialog id="PracticaDocenteCreateDlg" widgetVar="PracticaDocenteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreatePracticaDocenteTitle}"></p:dialog>
         <div style = "float: right;">
             <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
