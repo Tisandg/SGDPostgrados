@@ -598,7 +598,7 @@ public class DocumentoController implements Serializable {
                         CollArchivo.add(arcTablaC);
                     }
                     actual.setArchivoCollection(CollArchivo);
-                    actual.agregarMetadatos(documentoPDF, TablaContenidoPDF, cartaAprobacionPDF, getPubDoi(), getPubIsbn(), getPubIssn());
+                    actual.agregarMetadatos(documentoPDF, TablaContenidoPDF, cartaAprobacionPDF);
 
                     actual.setPubEstado("Activo");
                     /* Asigna espera como estado del visado la publicacion */

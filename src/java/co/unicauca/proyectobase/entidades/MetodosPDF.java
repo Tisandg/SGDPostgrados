@@ -141,20 +141,9 @@ public class MetodosPDF {
         return hash; 
     } 
 
-    public String getHash(byte[] contenido/*String cadena, int tipoAlgoritmo*/){ 
-//        byte[] digest = null; 
-//        byte[] buffer = cadena.getBytes(); 
-//        try { 
-//            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
-//            messageDigest.reset(); 
-//            messageDigest.update(buffer); 
-//            digest = messageDigest.digest(); 
-//        } catch (NoSuchAlgorithmException ex) { 
-//            System.out.println("Error creando Hash"); 
-//        } 
-//        return toHexadecimal(digest); 
+    public String getHash(byte[] contenido){ 
+
         byte[] digest = null; 
-         
         try { 
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
             messageDigest.reset(); 
@@ -166,6 +155,14 @@ public class MetodosPDF {
         return toHexadecimal(digest); 
     }
     
+    /***
+     * Funcion para crea una firma que sera utilizada para guardar los 
+     * archivos en openkm. Toma el codigo del estudiante y agrega una cadena
+     * de caracteres aleatoria. Cada publicacion creada se guarda en una carpeta
+     * en el openkm que tiene como nombre esta firma.
+     * @param codigoEstudiante
+     * @return 
+     */
     public String codigoFirma(String codigoEstudiante) {
         String cadenaAleatoria = "";
         long milis = new java.util.GregorianCalendar().getTimeInMillis();
