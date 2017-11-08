@@ -15,20 +15,10 @@
             
             <div class="ui-messages-info ">
                <span class="ui-messages-info-detail">
-                   <b>Registrar documentos</b>
+                   <p:commandButton actionListener="#{publicacionController.redirigirALibro(userLoginView.username)}" value="Practica docente"/>&nbsp;
+                    <p:commandButton actionListener="#{publicacionController.redirigirARegistrar(userLoginView.username)}" value="Publicación" />&nbsp;                                 
                </span>
-            </div> 
-                        
-            <h:form id="form_registrar"  enctype="multipart/form-data">
-                <p:panel header="Tipo de documentos">
-                    <p:commandButton actionListener="#{publicacionController.redirigirALibro(userLoginView.username)}" value="Libro"/>&nbsp;
-                    <p:commandButton actionListener="#{publicacionController.redirigirARegistrar(userLoginView.username)}" value="Publicación" />&nbsp;
-                                 
-                </p:panel>
-            </h:form>
-        <br/>
-            
-           
+            </div>
         </ui:define>
     </ui:composition>
     
