@@ -28,7 +28,7 @@ public class ValidadorDOI implements Validator {
         if(doi.length() != 0) 
         {
             if(!validarFormato(doi)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El DOI debe tener el siguiente formato numerico: 10.xxxx/xxxx");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El DOI debe tener el siguiente formato numerico: 10.1234/1234");
                 throw new ValidatorException(msg);
             }
             else {
@@ -43,7 +43,7 @@ public class ValidadorDOI implements Validator {
                     }
 
                     if(!validarPrefijo(doi)) {
-                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del DOI no cumple con el formato numerico: 10.xxxx");
+                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del DOI no cumple con el formato numerico: 10.1234");
                         throw new ValidatorException(msg);
                     }
                 }

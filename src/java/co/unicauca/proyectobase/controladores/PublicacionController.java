@@ -100,8 +100,10 @@ public class PublicacionController implements Serializable {
     private String numActa;
     private String creditos;
     private String variableFiltrado;
+    private String tipoPublicacion;
     
     private String motivoRechazo;
+    private String uploadedFileName;
     
     private CargarVistaEstudiante cve;
     private CargarVistaCoordinador cvc;
@@ -117,6 +119,14 @@ public class PublicacionController implements Serializable {
     String username = "okmAdmin";
     String password = "admin";*/
 
+    public String getTipoPublicacion() {
+        return tipoPublicacion;
+    }
+
+    public void setTipoPublicacion(String tipoPublicacion) {
+        this.tipoPublicacion = tipoPublicacion;
+    }
+    
     public String getMotivoRechazo() {
         return motivoRechazo;
     }
@@ -253,8 +263,7 @@ public class PublicacionController implements Serializable {
 
     public String index() {
         return INICIO;
-    }
-    
+    }    
     
     //<editor-fold defaultstate="collapsed" desc="listado de publicaciones">   
     public List<Publicacion> listado() {
@@ -281,7 +290,7 @@ public class PublicacionController implements Serializable {
         }
     }
     
-     public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
+    public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
         Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
         int idEstudiante = est.getEstIdentificador();
@@ -315,10 +324,7 @@ public class PublicacionController implements Serializable {
             }
         }
         return listado;
-    }
-    
-    
-    
+    }            
 
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -374,7 +380,6 @@ public class PublicacionController implements Serializable {
         archivoPDF archivoPublic = actual.descargaPubTC();
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
-
         } else {
             String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
             InputStream fis = archivoPublic.getArchivo();
@@ -489,7 +494,10 @@ public class PublicacionController implements Serializable {
 
     }
 
-    /* Metodos Principales  */
+    /**
+     * agregar una publicacion a la base de datos y openkm
+     * @throws IOException 
+     */
     public void agregar() throws IOException {
         System.out.println("Registrando documentacion");
         /* formatoValido -> se utiliza para verificar que el usario
@@ -537,21 +545,19 @@ public class PublicacionController implements Serializable {
                     String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
                     
                     int pub_identificador = daoPublicacion.getnumFilasPubRev();
-                    actual.setPubIdentificador(pub_identificador);
+                    actual.setPubIdentificador(pub_identificador);                    
 
                     //<editor-fold defaultstate="collapsed" desc="adicion de campos dependiendo tipo de publicacion">                   
                     /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  capitulo de un libro se crea el objeto respectivo*/
-                    if (actual.getPubTipoPublicacion().equals("revista")) {
+                    if (getTipoPublicacion().equals("revista")) {
                         actual.getRevista().setPubIdentificador(pub_identificador);
                         actual.getRevista().setPublicacion(actual);
                         actual.getRevista().setRevDoi(actual.getRevista().getRevDoi());
                         actual.setCongreso(null);
                         actual.setCapituloLibro(null);
                         actual.setLibro(null);
-
                     }
-                    if (actual.getPubTipoPublicacion().equals("congreso")) {
-
+                    if (getTipoPublicacion().equals("congreso")) {
                         actual.getCongreso().setPubIdentificador(pub_identificador);
                         actual.getCongreso().setPublicacion(actual);
                         actual.getCongreso().setCongIssn(actual.getCongreso().getCongIssn());
@@ -561,9 +567,7 @@ public class PublicacionController implements Serializable {
                         actual.setCapituloLibro(null);
                         actual.setLibro(null);
                     }
-
-                    if (actual.getPubTipoPublicacion().equals("libro")) {
-                        /* SI no es una revista, el objeto a adicionar es un congreso*/
+                    if (getTipoPublicacion().equals("libro")) {                        
                         actual.getLibro().setPubIdentificador(pub_identificador);
                         actual.getLibro().setPublicacion(actual);
                         actual.getLibro().setLibIsbn(actual.getLibro().getLibIsbn());
@@ -572,9 +576,7 @@ public class PublicacionController implements Serializable {
                         actual.setCongreso(null);
                         actual.setCapituloLibro(null);
                     }
-
-                    if (actual.getPubTipoPublicacion().equals("capitulo_libro")) {
-                        /* SI no es una revista, el objeto a adicionar es un congreso*/
+                    if (getTipoPublicacion().equals("capitulo libro")) {                        
                         actual.getCapituloLibro().setPubIdentificador(pub_identificador);
                         actual.getCapituloLibro().setPublicacion(actual);
                         actual.getCapituloLibro().setCaplibIsbn(actual.getCapituloLibro().getCaplibIsbn());
@@ -582,6 +584,9 @@ public class PublicacionController implements Serializable {
                         actual.setCongreso(null);
                         actual.setLibro(null);
                     }
+                    actual.setPubTipoPublicacion(getTipoPublicacion());
+                    actual.setIdTipoDocumento(daoPublicacion.obtenerIdTipoDocumento(getTipoPublicacion()));
+                    
                     //</editor-fold>
 
                     ArrayList<Archivo> CollArchivo = new ArrayList<>();
@@ -676,7 +681,10 @@ public class PublicacionController implements Serializable {
         redirigirPublicacionesEst();
     }
 
-    public void limpiarCampos() {
+    /**
+     * vuelve a inicializar todos los objetos de la clase pubicacion
+     */
+    public void limpiarCampos() {        
         actual = new Publicacion();
         Revista revi = new Revista();
         Congreso cong = new Congreso();
@@ -687,10 +695,14 @@ public class PublicacionController implements Serializable {
         actual.setCongreso(cong);
         actual.setLibro(libr);
         actual.setCapituloLibro(caplib);
+        tipoPublicacion = "";
     }
 
+    /**
+     * vuelve a inicializar todos los objetos de la clase pubicacion
+     * @param nombreUsuario nombre de usuario con el cual se desea reiniciar las variables
+     */
     public void limpiarCampos(String nombreUsuario) {
-
         actual = new Publicacion();
         Revista revi = new Revista();
         Congreso cong = new Congreso();
@@ -702,10 +714,10 @@ public class PublicacionController implements Serializable {
         actual.setCapituloLibro(caplib);
         Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
+        tipoPublicacion = "";
     }
 
     public void fijarEstudiante(String nombreUsuario) {
-
         Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
     }
@@ -717,8 +729,7 @@ public class PublicacionController implements Serializable {
 
     public String guardarEdicion() {
         daoPublicacion.edit(actual);
-        mensajeEditar();
-        //redirigirPublicacionesEst(getAuxEstudiante().getEstUsuario());
+        mensajeEditar();        
         redirigirPublicacionesEst();
         return INICIO;
     }
@@ -741,13 +752,13 @@ public class PublicacionController implements Serializable {
         cve.editarDocumentacion();
         Utilidades.redireccionar(cve.getRuta());
     }
-
-    /*redireccionamiento para boton cancelar*/
-    public void redirigirAlistar(String nombreUsuario) 
+    
+    /**
+     * redireccionamiento a listar publicacion     
+     */
+    public void redirigirAlistarPublicionesEst() 
     {
-        limpiarCampos();//Cambio
-        System.out.println("si esta pasando por aqui");
-        
+        limpiarCampos();//Cambio               
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }
@@ -792,7 +803,10 @@ public class PublicacionController implements Serializable {
         Utilidades.redireccionar(cvc.getRuta());
     }
 
-    /*redireccion para volver a registrar */
+    /**
+     * redireccion para volver a registrar
+     * @param nombreUsuario 
+     */    
     public void redirigirARegistrar(String nombreUsuario) {
         limpiarCampos(nombreUsuario);
         cve.registrarPublicacion();
@@ -800,10 +814,9 @@ public class PublicacionController implements Serializable {
     }
     
     
-    public void redirigirAGeneral(String nombreUsuario) {
-        limpiarCampos(nombreUsuario);
-        //cve.registrarPublicacion(); se incluyo un nuevo método que redirige a la plantilla General.
-        cve.registrarPublicacion2(); 
+    public void redirigirRegistrarPracticaDocente(String nombreUsuario) {
+        limpiarCampos(nombreUsuario);        
+        cve.registrarPractica();        
         Utilidades.redireccionar(cve.getRuta());
     }
     
@@ -888,39 +901,21 @@ public class PublicacionController implements Serializable {
 
     public boolean renderizarRevista() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("revista");
-//        boolean ret = false;
-//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("revista")) {
-//            ret = true;
-//        }
-//        return ret;
-
     }
 
     public boolean renderizarCongreso() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("congreso");
-//        boolean ret = false;
-//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("congreso")) {
-//            ret = true;
-//        }
-//        return ret;
-
     }
 
     public boolean renderizarLibro() {
         return actual.getPubTipoPublicacion().equalsIgnoreCase("libro");
-//        boolean ret = false;
-//        if (actual.getPubTipoPublicacion().equalsIgnoreCase("libro")) {
-//            ret = true;
-//        }
-//        return ret;
     }
 
     public boolean renderizarCapLibro() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro");
+        return actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo libro");
     }
 
     public void asignarCreditos() {
-
         /* Obtiene la fecha correspondiente al moemento en el que se 
             realiza el visado de la publicacion */
         Date date = new Date();
@@ -941,13 +936,10 @@ public class PublicacionController implements Serializable {
     }
 
     public void visarPublicacion() {
-
         int auxCreditos = Integer.parseInt(creditos);
         int acta = Integer.parseInt(numActa);
         if (actual.getPubVisado().equalsIgnoreCase("aceptada")) {
-
-            int creditos_actuales = actual.getPubEstIdentificador().getEstCreditos();
-            
+            int creditos_actuales = actual.getPubEstIdentificador().getEstCreditos();           
             //hay que agregar logica de creditos aqui
             int creditos_nuevos = creditos_actuales + getCreditosByTipoPub("tiopPub") ;
             creditos_nuevos = creditos_nuevos + auxCreditos;
@@ -984,11 +976,8 @@ public class PublicacionController implements Serializable {
                 daoPublicacion.flush();
                 mensajeVisar();
                 redirigirAlistarRevisadas();
-
             }
-
         }
-
     }
     
     /**
@@ -1010,11 +999,8 @@ public class PublicacionController implements Serializable {
         daoPublicacion.flush();
         Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Revisión de publicación", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" +"La publicación de nombre " + actual.obtenerNombrePub() + " ha sido revisada y se determino que no se aprueba, el motivo es el siguiente: " + "\n" + motivoRechazo);
         mensajeRechazar();
-        redirigirAlistarRevisadas();
-       
-    }
-
-    private String uploadedFileName;
+        redirigirAlistarRevisadas();       
+    }   
 
     public String getUploadedFileName() {
         return uploadedFileName;
@@ -1029,11 +1015,8 @@ public class PublicacionController implements Serializable {
         uploadedFileName = event.getFile().getFileName();
     }
 
-    public void validateFile(FacesContext ctx,
-            UIComponent comp,
-            Object value) {
+    public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
         List<FacesMessage> msgs = new ArrayList<>();
-
         UploadedFile file = (UploadedFile) value;
         if (file.getSize() > 1024) {
             msgs.add(new FacesMessage("file too big"));
@@ -1042,7 +1025,6 @@ public class PublicacionController implements Serializable {
             msgs.add(new FacesMessage("not a text file"));
             FacesContext.getCurrentInstance().addMessage("valTContenido", new FacesMessage(FacesMessage.SEVERITY_ERROR, " not a text file", ""));
         }
-
     }
 
     public void cambiarEstado(int id) {
@@ -1053,12 +1035,12 @@ public class PublicacionController implements Serializable {
             daoPublicacion.flush();
             mensajeDeshabilitar();
         } catch (EJBException e) {
-
+            System.out.println("error cambiando el estado");
+            System.out.println("error. " + e.getMessage());
         }
     }
 
     public void mensajeDeshabilitar() {
-
         addMessage("Ha deshabilitado satisfactoriamente la publicacion indicada.", "");
     }
 
@@ -1070,7 +1052,9 @@ public class PublicacionController implements Serializable {
             daoPublicacion.flush();
             mensajeConfirmacionHabilitacion();
         } catch (EJBException e) {
-
+            System.out.println("error habilitando edicion.");
+            System.out.println("error." + e.getMessage());
+                    
         }
     }
 
@@ -1130,12 +1114,26 @@ public class PublicacionController implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="adicionar autores secundarios dinamicamente">    
     List<Autor> listaAutores = new ArrayList<>();    
+    
+    /**
+     * obtiene la lista de autores secudarios que se han ingresado
+     * @return lista de autores secundarios ingresados
+     */
     public List<Autor> getListaAutores() {
         return listaAutores;
     }
+    
+    /**
+     * fija una lista de autores a la lista listaAutores de la clase publicacion
+     * @param listaAutores lista de autores que se desea fijar
+     */
     public void setListaAutores(List<Autor> listaAutores) {
         this.listaAutores = listaAutores;
     }
+    
+    /**
+     * agrega un autor secundario a la lista de autores secundarios
+     */
     public void agregarAutorSecundario(){
         System.out.print("adicionando autor");
         if(!nombreAutor.equals("")){
@@ -1152,38 +1150,52 @@ public class PublicacionController implements Serializable {
         }
         nombreAutor = "";
     }
-    public void eliminarAutorSecundario(String nombre){        
-        System.out.print("eliminar autor: " + nombre);        
+    
+    /**
+     * elimina un autor secundario de la lista de autores secundarios
+     * @param nombre nombre del autor a eliminar
+     */
+    public void eliminarAutorSecundario(String nombre){                
         for (int i = 0; i < listaAutores.size(); i++) {
             if(listaAutores.get(i).getNombre().equals(nombre)){
                 listaAutores.remove(i);
                 break;
             }
-        }
-        System.out.println("  tamaño: " + listaAutores.size());        
-        mostrarLista();
+        }                
     }        
-    public void mostrarLista(){
-        System.out.println("mostrando lista....");
-        for (Autor lis : listaAutores) {
-            System.out.print(lis.getNombre() + "     ");
-        }
-    }
-     
+         
     private String nombreAutor = "";
+    /**
+     * obtener nombre de autor almacenado en la variable nomreAutor
+     * @return contenido de variable nombreAutor
+     */
     public String getNombreAutor() {
         return nombreAutor;
     }
+    
+    /**
+     * fijar el contienido de la variable nombreAutor en la variable local 
+     * nombreAutor
+     * @param nombreAutor nombre que se desea fijar
+     */
     public void setNombreAutor(String nombreAutor) {
         this.nombreAutor = nombreAutor;
     }
     
+    /**
+     * almacena el texto digitado, en la variable nombreAutor
+     * @param evt evento ajax
+     */
     public void recibirTextoAutor(AjaxBehaviorEvent evt){
         String texto = "" + ((UIOutput)evt.getSource()).getValue();
-        this.nombreAutor = texto;
-        System.out.println("digito autor " + texto);
+        this.nombreAutor = texto;        
     }   
     
+    /**
+     * saca los elemntos de la lista e autores secundarios, les da formato
+     * camelType, concatena los nombres de cada autor e ingresa la cadena
+     * en la variable autores secundarios de la entidad publicacion
+     */
     private void fijarAutoresSecundarios() {
         String autores = "";
         for (Autor autor : listaAutores) {
@@ -1207,6 +1219,11 @@ public class PublicacionController implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="adicionar comentario por publicacion no aprobada">
     private String valorTexto = "";
+    
+    /**
+     * almacena el texto digitado, en la variable valorTexto
+     * @param evt evento ajax
+     */
     public void recibirTexto(AjaxBehaviorEvent evt){
         String texto = "" + ((UIOutput)evt.getSource()).getValue();
         this.valorTexto = texto;
@@ -1249,9 +1266,7 @@ public class PublicacionController implements Serializable {
     public CapituloLibro buscarIsbnCapituloLibro(String issn){
         return daoCapituloLibro.findByIsbnLibro(issn);
     }            
-    //</editor-fold>
-    
-//</editor-fold>
+    //</editor-fold>   
 
     //<editor-fold defaultstate="collapsed" desc="País y Ciudad">
     
