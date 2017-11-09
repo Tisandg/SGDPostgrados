@@ -62,7 +62,6 @@ public class UsuarioController implements Serializable {
         }else{
             this.editarContrasena = false;
         }
-        System.out.println("Cambiando editar contrasena: "+this.editarContrasena);
     }
     
     /**
@@ -80,9 +79,9 @@ public class UsuarioController implements Serializable {
             System.out.println("Cambiando contraseña...");
             /*Comprobar que la contraseña actual digitada coincida con la que 
               esta guardada*/
-            System.out.println("Contraseña actual ingresada: "+this.contrasenas.getContrasenaActual());
             String contrasenaActual = Utilidades.sha256(this.contrasenas.getContrasenaActual());
-            System.out.println("Contraseña actual guardada "+ current.getContrasena());
+            //System.out.println("Contraseña actual ingresada: "+contrasenaActual);
+            //System.out.println("Contraseña actual guardada "+ current.getContrasena());
             if(contrasenaActual.equals(current.getContrasena())){
                 /*Contraseñas coinciden*/
                 System.out.println("Contraseñas actuales son iguales");
@@ -104,7 +103,7 @@ public class UsuarioController implements Serializable {
             }
         }else{
             System.out.println("Contrasenas nuevas no coinciden");
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Las contraseñas nuevas no coinciden.","detail"));
+            context.addMessage(null, new FacesMessage("Las contraseñas nuevas no coinciden."));
         }
         
         return respuesta;

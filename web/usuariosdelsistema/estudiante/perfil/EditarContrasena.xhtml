@@ -18,7 +18,7 @@
                 </span>
             </div>                                                            
             
-            <h:form>
+            
                 <p:panel header="Editar contraseña">
 
                     <p:outputLabel value="#{bundleUsuarios.DescripcionVistaCambioContrasena}"/>
@@ -36,36 +36,42 @@
                     </h:panelGrid>
                     <br></br>
                     
-                    <h:panelGrid columns="3" cellpadding="2">
-                        <p:outputLabel value="#{bundleUsuarios.CurrentPassword}" style="font-weight: bold;">:</p:outputLabel>
-                        <p:password id="msgActual" value="#{usuarioController.contrasenas.contrasenaActual}" required="true" requiredMessage="Este campo es obligatorio">
-                            <f:validator validatorId="validarContrasena" />
-                            <p:ajax event="blur" update="out1" /> 
-                        </p:password>
-                        <p:message for="msgActual" id="out1"/>
+                    <h:form>
+                        <p:panel id="panelClaves" >
+                            <h:panelGrid  columns="3"  cellpadding="5">
 
-                        <p:outputLabel value="#{bundleUsuarios.NewPassword}" style="font-weight: bold;">:</p:outputLabel>
-                        <p:password id="msgNuevo" value="#{usuarioController.contrasenas.nuevaContrasena}">
-                            <f:validator validatorId="validarContrasena" />
-                            <p:ajax event="blur" update="out2" /> 
-                        </p:password>
-                        <p:message for="msgNuevo" id="out2" />
-                        
-                        <p:outputLabel value="#{bundleUsuarios.ConfirmNewPassword}" style="font-weight: bold;">:</p:outputLabel>
-                        <p:password id="msgNuevoR" value="#{usuarioController.contrasenas.nuevaContrasenaR}">
-                            <f:validator  validatorId="validarContrasena" />
-                            <p:ajax event="blur"  update="out3" /> 
-                        </p:password>
-                        <p:message for="msgNuevoR" id="out3"/> 
-                        
-                        <p:commandButton value="Cambiar contrasena" actionListener="#{usuarioController.cambiarContrasena(verEstudianteController.usuario)}"/>  
-                        <p:commandButton  value="Cancelar" actionListener="#{publicacionController.redirigirPublicacionesEst()}" /> 
-                    </h:panelGrid>
+                                <p:outputLabel value="#{bundleUsuarios.CurrentPassword}" style="font-weight: bold;">:</p:outputLabel>
+                                <p:password id="msgActual" value="#{usuarioController.contrasenas.contrasenaActual}">
+                                    <f:validator validatorId="validarContrasena" />
+                                    <p:ajax update="out1" event="blur" />
+                                </p:password>
+                                <p:message for="msgActual" id="out1"/>
+
+                                <p:outputLabel value="#{bundleUsuarios.NewPassword}" style="font-weight: bold;">:</p:outputLabel>
+                                <p:password id="msgNuevo" value="#{usuarioController.contrasenas.nuevaContrasena}">
+                                    <f:validator validatorId="validarContrasena" />
+                                    <p:ajax update="out2" event="blur" />
+                                </p:password>
+                                <p:message for="msgNuevo" id="out2" />
+
+                                <p:outputLabel value="#{bundleUsuarios.ConfirmNewPassword}" style="font-weight: bold;">:</p:outputLabel>
+                                <p:password id="msgNuevoR" value="#{usuarioController.contrasenas.nuevaContrasenaR}">
+                                    <f:validator  validatorId="validarContrasena" />
+                                    <p:ajax update="out3" event="blur" />
+                                </p:password>
+                                <p:message for="msgNuevoR" id="out3"/>
+
+                            </h:panelGrid>
+                            <p:commandButton value="Cambiar contrasena" update="panelClaves" action="#{usuarioController.cambiarContrasena(verEstudianteController.usuario)}"/>  
+                            <p:commandButton  value="Cancelar" action="#{publicacionController.redirigirPublicacionesEst()}"/> 
+                        </p:panel>
+                    </h:form>
+
                     <br></br>
                     
 
                 </p:panel>
-            </h:form> 
+            
         </ui:define>              
     </ui:composition>
 </html>

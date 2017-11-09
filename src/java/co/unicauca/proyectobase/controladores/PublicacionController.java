@@ -754,6 +754,7 @@ public class PublicacionController implements Serializable {
     
     public void redirigirPublicacionesEst() 
     {        
+        System.out.println("Redirigiendo a publicaciones");
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }

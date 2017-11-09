@@ -18,11 +18,11 @@ public class ValidadorContrasenaEstudiante implements Validator{
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        System.out.println("Validando contransena");
+        System.out.println("Validando contraseña");
         String contrasena = String.valueOf(String.valueOf(value));
         if (contrasena == null || contrasena.equals("")) {
             String message = "La contraseña no puede ir vacia";
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message,message);
             throw new ValidatorException(msg);
         }else{
             if(contrasena.length() <8 ){
