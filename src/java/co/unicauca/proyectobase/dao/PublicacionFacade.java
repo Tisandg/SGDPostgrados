@@ -2,6 +2,7 @@ package co.unicauca.proyectobase.dao;
 
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
+import co.unicauca.proyectobase.entidades.TipoDocumento;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import javax.ejb.Stateless;
@@ -358,7 +359,17 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
     
-    
+    public TipoDocumento obtenerIdTipoDocumento(String tipoDoc){
+        javax.persistence.Query query = getEntityManager().createNamedQuery("Publicacion.findIdTipoDocumento");
+        query.setParameter("tipoDoc", tipoDoc);
+        try {            
+            return (TipoDocumento)query.getResultList().get(0);
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+            System.out.println(e);
+            return null;
+        }
+    }
     
     
 

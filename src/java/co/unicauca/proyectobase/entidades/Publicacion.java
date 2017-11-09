@@ -130,7 +130,9 @@ import org.primefaces.model.UploadedFile;
             query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador = :identificacion"
     ),
     //@NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn"),
-    @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id")
+    @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id"),
+    
+    @NamedQuery(name = "Publicacion.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like :tipoDoc")
 
 })
 public class Publicacion implements Serializable {

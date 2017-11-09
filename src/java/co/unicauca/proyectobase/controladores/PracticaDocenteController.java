@@ -341,27 +341,34 @@ public class PracticaDocenteController implements Serializable {
                     String[] fecha = estampaTiempo.split(" ");
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
-                    redirigirAlistar();                                                                
+                    redirigirAlistarPublicacionesEst();                                                                
                 }catch(EJBException ex)
                 {
                     System.out.println("Error: No se pudo registrar la publicacion. error: " + ex.getMessage());
-                    redirigirAlistar();  
+                    redirigirAlistarPublicacionesEst();  
                 }
             }                                  
         }         
     }    
      
-     public void redirigirAlistar() 
+    /**
+     * redirigir a listar publicaciones
+     */
+    public void redirigirAlistarPublicacionesEst() 
     {                
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }
-    public void redirigirPracticasEst() 
-    {
-        System.out.println("Listando practicas desde estudiante");
+    
+    /**
+     * rediriguir a listar practica docente 
+     */
+    public void redirigirListarPracticasEst() 
+    {        
         cve.verPracticas();
         Utilidades.redireccionar(cve.getRuta());
     }
+    
     public void mensajeconfirmarRegistro() {
         System.out.println("Registrada con exito");
     }
@@ -369,6 +376,7 @@ public class PracticaDocenteController implements Serializable {
     public void limpiarcampos()
     {
         actual= new PracticaDocente();
+        prepareCreate();
     }
 
     /**

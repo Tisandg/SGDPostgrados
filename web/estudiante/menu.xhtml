@@ -16,35 +16,16 @@
 
         <ui:composition >
             <h:form>
-                <p:menu id="menu_sexualidad">
-                    <p:submenu label = "Estudiante" >
-                        <p:menuitem value="Datos personales"                                      
-                                    icon=" ui-icon-bookmark" 
-                                    action="#{verEstudianteController.redirigirVerMisDatos(userLoginView.username)}" ajax="false"
-                                    />
-                    </p:submenu>
+                <p:menu class="ui-panel-titlebar ui-helper-clearfix ui-corner-all">                    
                     <p:submenu label = "Documentos">
-                        <p:menuitem value="Lista de documentos"                                     
+                        <p:menuitem value="Lista de documentos"
                                     icon="ui-icon-document-b" 
                                     action="#{publicacionController.redirigirPublicacionesEst()}" ajax="false"/>
                         
                         <p:menuitem value="Registrar documento"                                     
                                     icon="ui-icon-document-b" 
-                                    action="#{publicacionController.redirigirAGeneral(userLoginView.username)}" ajax="false"/>
-
-                    </p:submenu>
-                    <p:submenu label = "Práctica docente">
-                        <p:menuitem value="Lista de prácticas"                                     
-                                    icon="ui-icon-document-b" 
-                                    action="#{practicaDocenteController.redirigirPracticasEst()}" ajax="false"/>
-                        <p:menuitem value="Registrar práctica"
-                                    icon="ui-icon-document-b" 
-                                    action="#{practicaDocenteController.redirigirARegistrarPractica(userLoginView.username)}" ajax="false"/>
-                        
-                      
-
-                    </p:submenu>
-       
+                                    action="#{publicacionController.redirigirARegistrar(userLoginView.username)}" ajax="false"/>
+                    </p:submenu>                    
                 </p:menu>
             </h:form>  
         </ui:composition>

@@ -224,7 +224,7 @@
   }
   
 #efectoCarga{
-  background: url(../img/carga4.gif) no-repeat;
+  background: url(../images/carga4.gif) no-repeat;
   width: 126px;
   height: 126px;
   float: left;
@@ -431,3 +431,6 @@ footer p {
     color: #FFFFFF;
 }
 
+.tab{
+    padding: 3px !important;
+}

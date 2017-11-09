@@ -75,8 +75,16 @@ public class VerEstudianteController implements Serializable {
         return nombreAut;
     }
 
-  
+    public boolean cargarEstudiante(String user){
+        try{
+            fijarEstudiante(user);            
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
  
+    
     public void redirigirVerMisDatos(String nombreUsuario) {
         fijarEstudiante(nombreUsuario);
         cve.verDatosPersonales();
