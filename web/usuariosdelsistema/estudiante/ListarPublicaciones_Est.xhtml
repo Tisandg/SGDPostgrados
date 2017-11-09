@@ -53,7 +53,7 @@
                 <p:column headerText="Acciones"   >
                     <h:form style="font-size: 10px;">
                         <p:commandButton actionListener="#{publicacionController.verPublicacionEst(pub)}" value="Ver" class="btn btn-success btn_listaEstudiantes"  icon="fa fa-fw fa-eye" style="font-size: 13px;"/>
-                        <p:commandButton disabled="#{pub.pubVisado != 'espera'}" actionListener="#{publicacionController.editarDocumentacion(pub.pubIdentificador)}" value="Editar" icon="fa fa-fw fa-edit" style="font-size: 13px;"/>
+                        <p:commandButton disabled="#{pub.pubVisado != 'espera'}" actionListener="#{publicacionController.irAEditar(pub)}" value="Editar" icon="fa fa-fw fa-edit" style="font-size: 13px;"/>
                         <p:commandButton disabled="#{pub.pubVisado != 'espera'}" onclick="PF('dlg2').show();"  value="Eliminar" class="btn btn-success btn_listaEstudiantes" icon="fa fa-fw fa-remove" style="font-size: 13px;"/>
                         
                         <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" height="100">

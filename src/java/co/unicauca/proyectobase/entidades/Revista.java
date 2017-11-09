@@ -31,32 +31,36 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class Revista implements Serializable {
 
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
-    @Column(name = "rev_doi")
-    private String revDoi;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "rev_nombre_revista")
     private String revNombreRevista;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "rev_titulo_articulo")
     private String revTituloArticulo;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "rev_categoria")
     private String revCategoria;
+    
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "rev_doi")
+    private String revDoi;
+    
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE property-groups PUBLIC "-//OpenKM//DTD Property Groups 2.0//EN"
+                                 "http://www.openkm.com/dtd/property-groups-2.0.dtd">
+<property-groups>
+  <property-group label="Consulting" name="okg:consulting">
+    <input label="Name" type="text" name="okp:consulting.name"/>
+    <input label="Date" type="date" name="okp:consulting.date" />
+    <checkbox label="Important" name="okp:consulting.important"/>
+    <textarea label="Comment" name="okp:consulting.comment"/>
+  </property-group>
+  
+  <property-group label="Technology" name="okg:technology">
+    <select label="Type" name="okp:technology.type" type="multiple">
+      <option label="Alfa" value="t1"/>
+      <option label="Beta" value="t2" />
+      <option label="Omega" value="t3" />
+    </select>
+    <select label="Language" name="okp:technology.language" type="simple">
+      <option label="Java" value="java"/>
+      <option label="Python" value="python"/>
+      <option label="PHP" value="php" />
+    </select>
+    <input label="Comment" name="okp:technology.comment"/>
+    <textarea label="Description" name="okp:technology.description"/>
+    <input label="Link" type="link" name="okp:technology.link"/>
+  </property-group>
+    
+    <property-group label="revista" name="okg:revista">
+    <input label="Identificador Publicacion" type="text" name="okp:revista.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:revista.identArchivo"/>
+    <input label="TipoPDF_Cargar" type="text" name="okp:revista.tipoPDFCargar"/>        
+    <input label="Estampa Tiempo" type="text" name="okp:revista.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:revista.nombreAutor"/>
+    <input label="Autores Secundarios" type="text" name="okp:revista.autoresSecundarios"/>
+    <input label="Fecha Publicacion" type="text" name="okp:revista.fechaPublicacion"/>
+    <input label="Tipo Publicacion"  type="text"  name="okp:revista.tipoPublicacion"/>   
+    <input label="Titulo Articulo"  type="text" name="okp:revista.tituloArticulo"/>
+    <input label="Nombre Revista" type="text" name="okp:revista.nombreRevista" />
+    <input label="Categoria" type="text" name="okp:revista.categoria"/>    
+    <input label="DOI"  type="text" name="okp:revista.DOI"/>
+</property-group>
+
+
+<property-group label="congreso" name="okg:congreso">
+    <input label="Identificador Publicacion" type="text" name="okp:congreso.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:congreso.identArchivo"/>
+    <input label="TipoPDF_Cargar" type="text" name="okp:congreso.tipoPDFCargar"/>   
+    <input label="Estampa Tiempo" type="text" name="okp:congreso.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:congreso.nombreAutor"/>
+    <input label="Autores Secundarios" type="text" name="okp:congreso.autoresSecundarios" />
+    <input label="Fecha Publicacion"   type="text" name="okp:congreso.fechaPublicacion"/>
+    <input label="Tipo Publicacion"  type="text"  name="okp:congreso.tipoPublicacion"/>   
+    <input label="Titulo Ponencia"   type="text" name="okp:congreso.tituloPonencia" /> 
+    <input label="Nombre Evento" type="text" name="okp:congreso.nombreEvento" />
+    <input label="Tipo Congreso" type="text" name="okp:congreso.tipoCongreso" />
+    <input label="DOI"   type="text" name="okp:congreso.DOI"/> 
+    <input label="ISSN"  type="text"  name="okp:congreso.ISSN"/>
+    <input label="Pais"   type="text" name="okp:congreso.paisCongreso"/>
+    <input label="Ciudad"   type="text" name="okp:congreso.ciudadCongreso"/>
+</property-group>
+
+
+<property-group label="libro" name="okg:libro">
+    <input label="Identificador Publicacion" type="text" name="okp:libro.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:libro.identArchivo"/>
+    <input label="TipoPDF_Cargar" type="text" name="okp:libro.tipoPDFCargar"/>   
+    <input label="Estampa Tiempo" type="text" name="okp:libro.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:libro.nombreAutor"/>
+    <input label="Autores Secundarios" type="text" name="okp:libro.autoresSecundarios" />
+    <input label="Fecha Publicacion"   type="text" name="okp:libro.fechaPublicacion"/>
+    <input label="Tipo Publicacion"  type="text"  name="okp:libro.tipoPublicacion"/>   
+    <input label="Titulo Libro"   type="text" name="okp:libro.tituloLibro"/> 
+    <input label="ISBN"  type="text"  name="okp:libro.ISBN"/>  
+    <input label="Editorial"   type="text" name="okp:libro.editorialLibro"/>
+    <input label="Pais"   type="text" name="okp:libro.paisLibro"/>
+    <input label="Ciudad"   type="text" name="okp:libro.ciudadLibro"/>
+</property-group>
+
+
+
+<property-group label="capLibro" name="okg:capLibro">
+    <input label="Identificador Publicacion" type="text" name="okp:capLibro.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:capLibro.identArchivo"/>
+    <input label="TipoPDF_Cargar" type="text" name="okp:capLibro.tipoPDFCargar"/>  
+    <input label="Estampa Tiempo" type="text" name="okp:capLibro.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:capLibro.nombreAutor"/>
+    <input label="Autores Secundarios" type="text" name="okp:capLibro.autoresSecundarios" />
+    <input label="Fecha Publicacion"   type="text" name="okp:capLibro.fechaPublicacion"/>
+    <input label="Tipo Publicacion"  type="text"  name="okp:capLibro.tipoPublicacion"/>   
+    <input label="Titulo Libro"   type="text" name="okp:capLibro.tituloLibro"/>
+    <input label="Titulo Capitulo"   type="text" name="okp:capLibro.tituloCapitulo"/>
+    <input label="ISBN"  type="text"  name="okp:capLibro.ISBN"/>  
+</property-group>
+    
+<property-group label="practica" name="okg:practica">
+    <input label="Identificador Publicacion" type="text" name="okp:practica.identPublicacion"/>
+    <input label="Identificador Archivo" type="text" name="okp:practica.identArchivo"/>
+    <input label="TipoPDF_Cargar" type="text" name="okp:practica.tipoPDFCargar"/>  
+    <input label="Estampa Tiempo" type="text" name="okp:practica.estampaTiempo"/>
+    <input label="Nombre Autor" type="text" name="okp:practica.nombreAutor"/>
+</property-group>
+    
+</property-groups>

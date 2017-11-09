@@ -112,11 +112,6 @@ public class PublicacionController implements Serializable {
     private int idPais;
     private int idCiudad;
     
-    ArrayList<Publicacion> rev;
-    ArrayList<Publicacion> lib;
-    ArrayList<Publicacion> con;
-    ArrayList<Publicacion> cap;
-    
     /*Datos para conectar al openKm*/
     /*String host = "http://localhost:8083/OpenKM";
     String username = "okmAdmin";
@@ -503,7 +498,7 @@ public class PublicacionController implements Serializable {
         String tituloMensaje = "";
         String mensaje = "";
         
-            if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
+        if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
             tituloMensaje = "valPublicacion";
             mensaje = "Debe subir la publicación o la evidencia de la publicación en formato PDF";
             formatoValido = false;
@@ -541,15 +536,15 @@ public class PublicacionController implements Serializable {
                     actual.setPubEstIdentificador(est);
                     String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
                     
-                    int numPubRevis = daoPublicacion.getnumFilasPubRev();
-                    actual.setPubIdentificador(numPubRevis);
+                    int pub_identificador = daoPublicacion.getnumFilasPubRev();
+                    actual.setPubIdentificador(pub_identificador);
 
                     //<editor-fold defaultstate="collapsed" desc="adicion de campos dependiendo tipo de publicacion">                   
                     /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  capitulo de un libro se crea el objeto respectivo*/
                     if (actual.getPubTipoPublicacion().equals("revista")) {
-                        actual.getRevista().setPubIdentificador(numPubRevis);
+                        actual.getRevista().setPubIdentificador(pub_identificador);
                         actual.getRevista().setPublicacion(actual);
-                        actual.getRevista().setRevDoi(pubDoi);
+                        actual.getRevista().setRevDoi(actual.getRevista().getRevDoi());
                         actual.setCongreso(null);
                         actual.setCapituloLibro(null);
                         actual.setLibro(null);
@@ -557,10 +552,10 @@ public class PublicacionController implements Serializable {
                     }
                     if (actual.getPubTipoPublicacion().equals("congreso")) {
 
-                        actual.getCongreso().setPubIdentificador(numPubRevis);
+                        actual.getCongreso().setPubIdentificador(pub_identificador);
                         actual.getCongreso().setPublicacion(actual);
-                        actual.getCongreso().setCongIssn(pubIssn);
-                        actual.getCongreso().setCongDoi(pubDoi);
+                        actual.getCongreso().setCongIssn(actual.getCongreso().getCongIssn());
+                        actual.getCongreso().setCongDoi(actual.getCongreso().getCongDoi());
                         actual.getCongreso().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
                         actual.setRevista(null);
                         actual.setCapituloLibro(null);
@@ -569,9 +564,9 @@ public class PublicacionController implements Serializable {
 
                     if (actual.getPubTipoPublicacion().equals("libro")) {
                         /* SI no es una revista, el objeto a adicionar es un congreso*/
-                        actual.getLibro().setPubIdentificador(numPubRevis);
+                        actual.getLibro().setPubIdentificador(pub_identificador);
                         actual.getLibro().setPublicacion(actual);
-                        actual.getLibro().setLibIsbn(pubIsbn);
+                        actual.getLibro().setLibIsbn(actual.getLibro().getLibIsbn());
                         actual.getLibro().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
                         actual.setRevista(null);
                         actual.setCongreso(null);
@@ -580,9 +575,9 @@ public class PublicacionController implements Serializable {
 
                     if (actual.getPubTipoPublicacion().equals("capitulo_libro")) {
                         /* SI no es una revista, el objeto a adicionar es un congreso*/
-                        actual.getCapituloLibro().setPubIdentificador(numPubRevis);
+                        actual.getCapituloLibro().setPubIdentificador(pub_identificador);
                         actual.getCapituloLibro().setPublicacion(actual);
-                        actual.getCapituloLibro().setCaplibIsbn(pubIsbn);
+                        actual.getCapituloLibro().setCaplibIsbn(actual.getCapituloLibro().getCaplibIsbn());
                         actual.setRevista(null);
                         actual.setCongreso(null);
                         actual.setLibro(null);
@@ -621,8 +616,9 @@ public class PublicacionController implements Serializable {
                     fijarAutoresSecundarios();
                     
                     /*Aqui se suben los archivos al OpenKm*/
-                    actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF, getPubDoi(), getPubIsbn(), getPubIssn());
+                    actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF);
                     
+                    /*Crear registro en la bd*/
                     daoPublicacion.create(actual);
                     daoPublicacion.flush();
                     mensajeconfirmarRegistro();
@@ -1257,36 +1253,6 @@ public class PublicacionController implements Serializable {
         return daoCapituloLibro.findByIsbnLibro(issn);
     }            
     //</editor-fold>
-    
-    
-    //<editor-fold defaultstate="collapsed" desc="cambios en registar publicacion">
-    private String pubDoi;
-    private String pubIsbn;
-    private String pubIssn;
-    
-    public String getPubDoi() {
-        return pubDoi;
-    }
-
-    public void setPubDoi(String pubDoi) {
-        this.pubDoi = pubDoi;
-    }
-
-    public String getPubIsbn() {
-        return pubIsbn;
-    }
-
-    public void setPubIsbn(String pubIsbn) {
-        this.pubIsbn = pubIsbn;
-    }
-
-    public String getPubIssn() {
-        return pubIssn;
-    }
-
-    public void setPubIssn(String pubIssn) {
-        this.pubIssn = pubIssn;
-    }
     
 //</editor-fold>
 

@@ -38,7 +38,7 @@ public class CargarVistaEstudiante implements Serializable
     }
     
     public void editarDocumentacion(){
-        this.ruta = "/ProyectoII/faces/componentes/gestionPublicaciones/EditarPublicacion.xhtml";
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/EditarPublicacion_Est.xhtml";
     }
     
     public void registrarPublicacion()

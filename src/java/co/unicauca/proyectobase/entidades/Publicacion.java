@@ -218,7 +218,7 @@ public class Publicacion implements Serializable {
     
 
     @SuppressWarnings("empty-statement")
-    public void agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF ,  String pubDoi,String pubIsbn, String pubIssn) throws IOException {
+    public void agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF) throws IOException {
 
         /*Nombre de los archivos que se almacenaran en el repositorio*/
         MetodosPDF mpdf = new MetodosPDF();
@@ -246,10 +246,9 @@ public class Publicacion implements Serializable {
         /*Obtiene la ruta de la ubicacion del servidor donde se almacenaran 
           temporalmente los archivos ,para luego subirlos al Gestgor Documental OpenKm  */
         String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(os.getSeparator());        
-        //   String destCartaAprob = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
+        
         String destCartaAprob = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombreCartaAprob + ".pdf";
-        String destArticulo = realPath + "WEB-INF"+ os.getSeparator() + "temp" + os.getSeparator() + nombrePublicacion + ".pdf";
-        //  String destTablaC = realPath + "WEB-INF\\temp\\Tabla de Contenido.pdf";
+        String destNombrePub = realPath + "WEB-INF"+ os.getSeparator() + "temp" + os.getSeparator() + nombrePublicacion + ".pdf";
         String destTablaC = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombreTablaC + ".pdf";
 
 
@@ -264,30 +263,24 @@ public class Publicacion implements Serializable {
 
         /*  Metodo para almacenar los metadatos de la Carte de Aprobacion , Articulo y Tabla de Contenido 
             para almacenarlo en formato PDFA */
-        ArrayList<tipoPDF_cargar> subidaArchivos = new ArrayList<>();
+        ArrayList<tipoPDF_cargar> archivoParaSubir = new ArrayList<>();
 
-        /* tipoPDF_cargar cartaAprobacion = new tipoPDF_cargar();
-        cartaAprobacion.setNombreArchivo(nombreCartaAprob);
-        cartaAprobacion.setRutaArchivo(destCartaAprob);
-        cartaAprobacion.setTipoPDF("cartaAprobacion");
-        cartaAprobacion.setArchivoIS(cartaAprobacionPDF.getInputstream());
-        subidaArchivos.add(cartaAprobacion); */
         if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
             tipoPDF_cargar cartaAprobacion = new tipoPDF_cargar();
             cartaAprobacion.setNombreArchivo(nombreCartaAprob);
             cartaAprobacion.setRutaArchivo(destCartaAprob);
             cartaAprobacion.setTipoPDF("cartaAprobacion");
             cartaAprobacion.setArchivoIS(cartaAprobacionPDF.getInputstream());
-            subidaArchivos.add(cartaAprobacion);;
+            archivoParaSubir.add(cartaAprobacion);;
         }
 
         if (!ArticuloPDF.getFileName().equalsIgnoreCase("")) {
             tipoPDF_cargar articulo = new tipoPDF_cargar();
             articulo.setNombreArchivo(nombrePublicacion);
-            articulo.setRutaArchivo(destArticulo);
+            articulo.setRutaArchivo(destNombrePub);
             articulo.setTipoPDF("tipoPublicacion");
             articulo.setArchivoIS(ArticuloPDF.getInputstream());
-            subidaArchivos.add(articulo);
+            archivoParaSubir.add(articulo);
         }
         if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("")) {
             tipoPDF_cargar tablaContenido = new tipoPDF_cargar();
@@ -295,17 +288,19 @@ public class Publicacion implements Serializable {
             tablaContenido.setRutaArchivo(destTablaC);
             tablaContenido.setTipoPDF("tablaContenido");
             tablaContenido.setArchivoIS(TablaContenidoPDF.getInputstream());
-            subidaArchivos.add(tablaContenido);
+            archivoParaSubir.add(tablaContenido);
         }
 
-        CrearPDFA_Metadata(subidaArchivos, estampaTiempo, pubDoi, pubIsbn, pubIssn);
+        /*Creamos los pdf con los metadatos*/
+        CrearPDFA_Metadata(archivoParaSubir);
 
-        String hash = mpdf.obtenerHash(destArticulo);
+        /*Obtenemos una llave hash para nuesta publicacion*/
+        String hash = mpdf.obtenerHash(destNombrePub);
 
-        /*  Metodo para almacenar en el Gestor Documental(OPENKM), carta de aprobacion,
-            el articulo en formato PDFA y la Tabla de Contenido del Articulo (formato PDFA) */
-        //   SubirOpenKM(rutasArchivos, nombreArchivos, estampaTiempo, codigoFirma, hash);
-        SubirOpenKM(subidaArchivos, estampaTiempo, codigoFirma, hash, pubDoi, pubIsbn, pubIssn);        
+        /* Metodo para almacenar en el Gestor Documental(OPENKM), carta de aprobacion,
+           el articulo en formato y la Tabla de Contenido del Articulo, todos en formato
+           PDFA*/
+        SubirOpenKM(archivoParaSubir, codigoFirma, hash);        
         
     }
     
@@ -342,7 +337,15 @@ public class Publicacion implements Serializable {
         
     }
 
-    public void SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash, String pubDoi,String pubIsbn, String pubIssn) throws IOException {
+    /***
+     * Metodo para subir los archivos al gestor de documentos(OpenKm). Se crea 
+     * la carpeta en el gestor, se crean los documentos y se fijan los metadatos
+     * @param subidaArchivos
+     * @param codigoFirma
+     * @param hash
+     * @throws IOException 
+     */
+    public void SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String codigoFirma, String hash) throws IOException {
         String host = "http://localhost:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";
@@ -390,16 +393,16 @@ public class Publicacion implements Serializable {
             for (int i = 0; i < subidaArchivos.size(); i++) {
 
                 Archivo arch = (Archivo) archivoCollection.toArray()[i];
+                InputStream is = new FileInputStream("" + subidaArchivos.get(i).getRutaArchivo());
+                com.openkm.sdk4j.bean.Document doc = new com.openkm.sdk4j.bean.Document();
+                doc.setPath(rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf");
+                ws.createDocument(doc, is);
+                IOUtils.closeQuietly(is);
+                
                 /* Se Comprubea si los  Metadatos en OpenKm que se van  a llenar son para 
                  una revista, un congreso , un libro o un capitulo de un libro*/
                 if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
-
-                    InputStream is = new FileInputStream("" + subidaArchivos.get(i).getRutaArchivo());
-                    com.openkm.sdk4j.bean.Document doc = new com.openkm.sdk4j.bean.Document();
-                    doc.setPath(rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf");
-                    ws.createDocument(doc, is);
-
-                    IOUtils.closeQuietly(is);
+                    
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:revista");
                     for (FormElement fElement : fElements) {
                         if (fElement.getName().equals("okp:revista.identPublicacion")) {
@@ -418,7 +421,7 @@ public class Publicacion implements Serializable {
 
                         if (fElement.getName().equals("okp:revista.estampaTiempo")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + estampaTiempo);
+                            name.setValue("" + this.pubFechaRegistro);
                         }
                         if (fElement.getName().equals("okp:revista.nombreAutor")) {
                             Input name = (Input) fElement;
@@ -429,7 +432,6 @@ public class Publicacion implements Serializable {
                             name.setValue("" + this.pubAutoresSecundarios);
                         }
                         
-
                         SimpleDateFormat formateador = new SimpleDateFormat("MM-yyyy");
                         String FechaPublicacion = formateador.format(this.pubFechaPublicacion);
 
@@ -455,29 +457,15 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:revista.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + pubDoi);
+                            name.setValue("" + this.revista.getRevDoi());
                         }
-                        if (fElement.getName().equals("okp:revista.ISBN")) {
-                            Input name = (Input) fElement;
-                            name.setValue("" + pubIsbn);
-                        }
-                        if (fElement.getName().equals("okp:revista.ISSN")) {
-                            Input name = (Input) fElement;
-                            name.setValue("" + pubIssn);
-                        }
+
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:revista", fElements);
-
                 }
 
                 if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
 
-                    InputStream is = new FileInputStream("" + subidaArchivos.get(i).getRutaArchivo());
-                    com.openkm.sdk4j.bean.Document doc = new com.openkm.sdk4j.bean.Document();
-
-                    doc.setPath(rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf");
-                    ws.createDocument(doc, is);
-                    IOUtils.closeQuietly(is);
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:congreso");
 
                     for (FormElement fElement : fElements) {
@@ -497,7 +485,7 @@ public class Publicacion implements Serializable {
 
                         if (fElement.getName().equals("okp:congreso.estampaTiempo")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + estampaTiempo);
+                            name.setValue("" + this.pubFechaRegistro);
                         }
                         if (fElement.getName().equals("okp:congreso.nombreAutor")) {
                             Input name = (Input) fElement;
@@ -533,15 +521,11 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:congreso.DOI")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + pubDoi);
-                        }
-                        if (fElement.getName().equals("okp:congreso.ISBN")) {
-                            Input name = (Input) fElement;
-                            name.setValue("" + pubIsbn);
+                            name.setValue("" + this.congreso.getCongDoi());
                         }
                         if (fElement.getName().equals("okp:congreso.ISSN")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + pubIssn);
+                            name.setValue("" + this.congreso.getCongIssn());
                         }
                         /* Ciudad y País */
                         if (fElement.getName().equals("okp:congreso.ciudadCongreso")) {
@@ -560,12 +544,6 @@ public class Publicacion implements Serializable {
 
                 if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
 
-                    InputStream is = new FileInputStream("" + subidaArchivos.get(i).getRutaArchivo());
-                    com.openkm.sdk4j.bean.Document doc = new com.openkm.sdk4j.bean.Document();
-
-                    doc.setPath(rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf");
-                    ws.createDocument(doc, is);
-                    IOUtils.closeQuietly(is);
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:capLibro");
 
                     for (FormElement fElement : fElements) {
@@ -584,7 +562,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:capLibro.estampaTiempo")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + estampaTiempo);
+                            name.setValue("" + this.pubFechaRegistro);
                         }
                         if (fElement.getName().equals("okp:capLibro.nombreAutor")) {
                             Input name = (Input) fElement;
@@ -614,17 +592,9 @@ public class Publicacion implements Serializable {
                             Input name = (Input) fElement;
                             name.setValue("" + this.capituloLibro.getCaplibTituloCapitulo());
                         }
-                        if (fElement.getName().equals("okp:capLibro.DOI")) {
-                            Input name = (Input) fElement;
-                            name.setValue(pubDoi);
-                        }
                         if (fElement.getName().equals("okp:capLibro.ISBN")) {
                             Input name = (Input) fElement;
-                            name.setValue(pubIsbn);
-                        }
-                        if (fElement.getName().equals("okp:capLibro.ISSN")) {
-                            Input name = (Input) fElement;
-                            name.setValue(pubIssn);
+                            name.setValue(this.capituloLibro.getCaplibIsbn());
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:capLibro", fElements);
@@ -633,11 +603,6 @@ public class Publicacion implements Serializable {
 
                 if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
 
-                    InputStream is = new FileInputStream("" + subidaArchivos.get(i).getRutaArchivo());
-                    com.openkm.sdk4j.bean.Document doc = new com.openkm.sdk4j.bean.Document();
-
-                    doc.setPath(rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf");
-                    ws.createDocument(doc, is);
                     IOUtils.closeQuietly(is);
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro");
 
@@ -658,7 +623,7 @@ public class Publicacion implements Serializable {
 
                         if (fElement.getName().equals("okp:libro.estampaTiempo")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + estampaTiempo);
+                            name.setValue("" + this.pubFechaRegistro);
                         }
                         if (fElement.getName().equals("okp:libro.nombreAutor")) {
                             Input name = (Input) fElement;
@@ -700,7 +665,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:libro.ISBN")) {
                             Input name = (Input) fElement;
-                            name.setValue(pubIsbn);
+                            name.setValue(this.libro.getLibIsbn());
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro", fElements);
@@ -712,10 +677,17 @@ public class Publicacion implements Serializable {
         } catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
             System.out.println("error en subirOpenKM clase publicacion.java");
         }
-
     }
 
-    private void CrearPDFA_Metadata(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String pubDoi,String pubIsbn, String pubIssn) {
+    /**
+     * Crea los archivos pdf con los metadatos que son subidos al gestor openKm.
+     * @param subidaArchivos
+     * @param estampaTiempo
+     * @param pubDoi
+     * @param pubIsbn
+     * @param pubIssn 
+     */
+    private void CrearPDFA_Metadata(ArrayList<tipoPDF_cargar> subidaArchivos) {
 
         for (int s = 0; s < subidaArchivos.size(); s++) {
 
@@ -735,52 +707,44 @@ public class Publicacion implements Serializable {
                 document.addHeader("Identificador Publicacion", "" + this.pubIdentificador);
                 document.addHeader("Identificador Archivo", "" + arch.getArcIdentificador());
                 document.addHeader("tipoPDF_cargar", "" + subidaArchivos.get(s).getTipoPDF());
-                document.addHeader("Estampa Tiempo", "" + estampaTiempo);
+                document.addHeader("Estampa Tiempo", "" + this.pubFechaRegistro);
                 document.addAuthor("" + this.pubEstIdentificador.getEstNombre());
                 document.addCreator("" + this.pubEstIdentificador.getEstNombre());
                 try{
-                document.addHeader("Autores_Secundarios", this.pubAutoresSecundarios);
+                    document.addHeader("Autores_Secundarios", this.pubAutoresSecundarios);
                 }catch(Exception e){
-                    int o = 0;
+                    System.out.println("Error agregando autores secundarios a metadatos"+ e.getMessage());
                 }
                 document.addHeader("Fecha_Publicacion", FechaPublicacion);
                 document.addHeader("Tipo_Publicacion", this.pubTipoPublicacion);
+                
                 /* Se Comprubea si los metadatos a llenar son para una revista
                     un congreso , un libro o un capitulo de un libro*/
                 if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
                     document.addTitle("" + this.revista.getRevTituloArticulo());
                     document.addHeader("Nombre_Revista", this.revista.getRevNombreRevista());
                     document.addHeader("Categoria", this.revista.getRevCategoria());
-
+                    document.addHeader("DOI", this.revista.getRevDoi());
                 }
                 if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
                     document.addTitle("" + this.congreso.getCongTituloPonencia());
                     document.addHeader("Nombre_Evento", this.congreso.getCongNombreEvento());
                     document.addHeader("Tipo_Congreso", this.congreso.getCongTipoCongreso());
-
+                    document.addHeader("DOI", this.congreso.getCongDoi());
+                    document.addHeader("ISSN",this.congreso.getCongIssn());
                 }
                 if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
                     document.addTitle("" + this.libro.getLibTituloLibro());
                     document.addHeader("Titulo_Libro", this.libro.getLibTituloLibro());
+                    document.addHeader("ISBN",this.libro.getLibIsbn());
                 }
                 if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
                     document.addTitle("" + this.capituloLibro.getCaplibTituloLibro());
                     document.addHeader("Titulo_Libro", this.capituloLibro.getCaplibTituloLibro());
                     document.addHeader("Titulo_Capitulo", this.capituloLibro.getCaplibTituloCapitulo());
+                    document.addHeader("ISBN",this.capituloLibro.getCaplibIsbn());
                 }
-
-                if (pubDoi == null) {
-                    pubDoi = "";
-                }
-                if (pubIsbn == null) {
-                    pubIsbn = "";
-                }
-                if (pubIssn == null) {
-                    pubIssn = "";
-                }
-                document.addHeader("DOI", pubDoi);
-                document.addHeader("ISBN",pubIsbn);
-                document.addHeader("ISSN",pubIssn);
+                
                 document.addCreationDate();
 
                 writer.setTagged();
@@ -1141,7 +1105,6 @@ public class Publicacion implements Serializable {
      */
     public String obtenerNombrePub() {
         String nombrePub = "";
-
         if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
             nombrePub = this.getRevista().getRevTituloArticulo();
         }
