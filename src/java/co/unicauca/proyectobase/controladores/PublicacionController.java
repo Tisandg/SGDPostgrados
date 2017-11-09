@@ -1081,31 +1081,34 @@ public class PublicacionController implements Serializable {
             String correo = actual.getPubEstIdentificador().getEstCorreo();
             
             if(visado.equalsIgnoreCase("Aprobado")){
-                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado " 
+                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante." 
                         + actual.getPubEstIdentificador().getEstNombre() + " "
                         + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\nLe informamos que su publicación con nombre " 
-                        + actual.obtenerNombrePub() + " fue aprobada !ENHORABUENA¡."
-                        + "\nNúmero de creditos: " + actual.getPubEstIdentificador().getEstCreditos());
+                        + "\n\n Se acaba de APROBAR la publicación " 
+                        + actual.obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\nNúmero de creditos: " + actual.getPubEstIdentificador().getEstCreditos()
+                        + "\n\n"+ "Servicio notificación DCE.");
             }
             if(visado.equalsIgnoreCase("No Aprobado")){
-                String mensaje =  "Apreciado "
+                String mensaje = "Estimado estudiante." 
                         + actual.getPubEstIdentificador().getEstNombre() + " " 
                         + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\nLe informamos que su publicación con nombre "
-                        + actual.obtenerNombrePub() + " no fue aprobada, lo sentimos.";
+                        + "\n\n Se acaba de RECHAZAR la publicación " 
+                        + actual.obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\n\n"+ "Servicio notificación DCE.";
                 if(!valorTexto.equals("")){
-                    mensaje = mensaje + "\n\nObservaciones: " + valorTexto;
+                    mensaje = mensaje + "\n\n Observaciones: " + valorTexto;
                     valorTexto = "";
                 }                        
-                Utilidades.enviarCorreo(correo,"Revisión de publicación", mensaje);                
+                Utilidades.enviarCorreo(correo,"Notificación revisión de documentos DCE", mensaje);                
             }
             if(visado.equalsIgnoreCase("espera")){
-                Utilidades.enviarCorreo(correo, "Revisión de publicación", "Apreciado "
+                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante." 
                         + actual.getPubEstIdentificador().getEstNombre()+" "
                         + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\nLe informamos que su publicación con nombre "
-                        + actual.obtenerNombrePub() + " está en espera.");
+                        + "\n\n Se acaba de PONER EN ESPERA la publicación " 
+                        + actual.obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\n\n"+ "Servicio notificación DCE.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
         }        
