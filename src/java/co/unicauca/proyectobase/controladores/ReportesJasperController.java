@@ -67,8 +67,8 @@ public class ReportesJasperController implements Serializable {
     String[][] plantillasReportes;
 
     public ReportesJasperController() {
-        tipoReporte = TIPO_REPORTE_GLOBAL;
-        tiempo = RANGO_TIEMPO_TODO;
+        tipoReporte = "";
+        tiempo = "";
         codEstudiante = "";
         plantillasReportes = new String[][]{
             {"/reporteDocumentacionGlobalTodo.jasper", "/reporteDocumentacionGlobalAnio.jasper", "/reporteDocumentacionGlobalSemestre.jasper"},
