@@ -23,8 +23,9 @@ public class CargarVistaEstudiante implements Serializable
     }
 
     public CargarVistaEstudiante() 
-    {
-        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/ListarPublicaciones_Est.xhtml";
+    {        
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/VerEstudiante_Est.xhtml";
+        //this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/ListarPublicaciones_Est.xhtml";
     }
     
     public void verDatosPersonales()
@@ -59,13 +60,19 @@ public class CargarVistaEstudiante implements Serializable
         this.ruta =  "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPracticaDocente.xhtml";
     }
     
+    /**
+     * listar publicaciones en el estudiante
+     */
     public void verPublicaciones()
     {
-        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/ListarPublicaciones_Est.xhtml";
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPublicaciones_Est.xhtml";
     }
     
-     public void verPracticas(){
-        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/ListarPracticas.xhtml";
+    /**
+     * listar practicas en el estudiante
+     */
+    public void verPracticas(){
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPracticas.xhtml";
     }
 
      public void irEditarContrasena(){

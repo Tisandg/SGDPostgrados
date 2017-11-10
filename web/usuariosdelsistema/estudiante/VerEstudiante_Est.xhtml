@@ -11,15 +11,14 @@
     <ui:composition template="../../plantillas/Estudiante.xhtml">
         <ui:define name="content">
             
-            <div class="ui-messages-info ">
+            <div class="ui-messages-info ui-corner-all">
                 <span class="ui-messages-info-detail">
                     <b>Datos personales</b>
                 </span>
             </div>                                                            
 
             <h:form id="form_registrar">
-                <p:panel header="Datos personales">
-
+                <p:panel rendered="#{verEstudianteController.cargarEstudiante(userLoginView.username)}">                    
                     <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
                         <p:outputLabel value="Nombres:" for="valNombre" styleClass="addEspacio" style="font-weight:bold;"/>
                         <h:outputText class="form-control" id="valNombre" value="#{verEstudianteController.auxEstudiante.estNombre}" styleClass="addEspacio form-control" style="color: #3366ff"/>
@@ -49,7 +48,7 @@
                         <h:outputText class="form-control"  id="valCreditos" value="#{verEstudianteController.credi}" styleClass="addEspacio form-control" style="color: #3366ff"/>
                         
                         <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué indica el número de creditos?</h:outputLink>
-                        <p:tooltip id="toolTipGrow" for="ayuda" value="Indica el número total de creditos obtenidos mediante las publicaciones aprobadas."
+                        <p:tooltip id="toolTipGrow" for="ayuda" value="Indica el número total de creditos obtenidos mediante los documentos que han sido aprobados."
                                    showEffect="clip" hideEffect="blind" />
                         
                     </h:panelGrid>
@@ -57,11 +56,14 @@
 
             </h:form>
             <br/>
+            <!--
             <h:form>
-                <p:commandButton value="Cambiar contrasena" actionListener="#{usuarioController.cambiarContrasena()}"/>  
-                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirPublicacionesEst(userLoginView.username)}" />
+                <p:commandButton value="Cambiar contrasena" actionListener="#//{usuarioController.cambiarContrasena()}"/>  
+                <p:commandButton  value="Volver" actionListener="#//{publicacionController.redirigirPublicacionesEst(userLoginView.username)}" />
             </h:form> 
+            
             <br/><br/>  
+            -->
         </ui:define>              
     </ui:composition>
 </html>

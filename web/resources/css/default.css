@@ -6,7 +6,7 @@
 
 /* Icon */
 .ui-button-text-icon-left .ui-icon {
-  display: none;
+  /*display: none;*/
 }
 
 .ui-fileupload-buttonbar {
@@ -275,3 +275,4 @@ thead {
     font-weight: bold;
     font-size: 15px;   
 }
+
