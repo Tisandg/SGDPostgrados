@@ -43,7 +43,32 @@ public class UsuarioController implements Serializable {
         this.editarContrasena = false;
         this.contrasenas = new Contrasena();
     }
+    
+    /**** Gets and Sets *****/
+    public boolean isEditarContrasena() {
+        return editarContrasena;
+    }
 
+    public void setEditarContrasena(boolean editarContrasena) {
+        this.editarContrasena = editarContrasena;
+    }
+    
+    public Contrasena getContrasenas() {
+        return contrasenas;
+    }
+
+    public void setContrasenas(Contrasena contrasenas) {
+        this.contrasenas = contrasenas;
+    }
+    
+    public Usuario getUsuario(java.lang.Integer id) {
+        return ejbFacade.find(id);
+    }
+    
+    private UsuarioFacade getFacade() {
+        return ejbFacade;
+    }
+    
     public Usuario getCurrent() {
         if(current == null){
             current= new Usuario();
@@ -54,19 +79,42 @@ public class UsuarioController implements Serializable {
     public void setCurrent(Usuario current) {
         this.current = current;
     }
-
-    public void editarContrasena(){
-        
-        if(this.editarContrasena = false){
-            this.editarContrasena = true;
-        }else{
+    
+    /** Metodos principales **/
+    
+    /***
+     * Metodo para validar los campos de la vista editar contraseña.
+     * Se verifican que las nuevas contraseñas coincidan y que la contraseña
+     * actual coincida con la registrada. Si los datos son validos se 
+     * establecera la variable editarContrasena como true para permitir 
+     * el cambio de la contrasena.
+     * @param actual 
+     */
+    public void validarCampos(Usuario actual){
+        this.editarContrasena = true;
+        this.current = actual;
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(!this.contrasenas.getNuevaContrasena().equals(this.contrasenas.getNuevaContrasenaR())){
             this.editarContrasena = false;
+            System.out.println("Contrasenas nuevas no coinciden");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Contraseñas nuevas no coinciden.","Verifique los valores ingresados"));
+            Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/perfil/EditarContrasena.xhtml");
+        }else{
+            String contrasenaActual = Utilidades.sha256(this.contrasenas.getContrasenaActual());
+             if(!contrasenaActual.equals(current.getContrasena())){
+                 this.editarContrasena = false;
+                System.out.println("Contrasena actuales no coinciden");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Contraseña actual no coincide con la registrada.","Verifique la contraseña"));
+                Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/perfil/EditarContrasena.xhtml");
+             }
         }
+        //return respuesta;
     }
     
     /**
-     * funcion para cambiar la contraseña de un estudiante. Recibe la referencia
-     * del estudiante al que se le va a modificar la contraseña
+     * funcion para cambiar la contraseña de un estudiante. Si los campos son 
+     * validos se procede a cambiar la contraseña por la nueva digitada por 
+     * el estudiante.
      * @param actual
      * @return 
      */
@@ -75,37 +123,22 @@ public class UsuarioController implements Serializable {
         this.current = actual;
         boolean respuesta = false;
         FacesContext context = FacesContext.getCurrentInstance();
-        if(this.contrasenas.getNuevaContrasena().equals(this.contrasenas.getNuevaContrasenaR())){
+        if(this.editarContrasena){
             System.out.println("Cambiando contraseña...");
-            /*Comprobar que la contraseña actual digitada coincida con la que 
-              esta guardada*/
-            String contrasenaActual = Utilidades.sha256(this.contrasenas.getContrasenaActual());
-            //System.out.println("Contraseña actual ingresada: "+contrasenaActual);
-            //System.out.println("Contraseña actual guardada "+ current.getContrasena());
-            if(contrasenaActual.equals(current.getContrasena())){
-                /*Contraseñas coinciden*/
-                System.out.println("Contraseñas actuales son iguales");
-                String nuevaContrasena = Utilidades.sha256(this.contrasenas.getNuevaContrasena());
-                try{
-                    this.current.setContrasena(nuevaContrasena);
-                    ejbFacade.edit(current);
-                    ejbFacade.flush();
-                    respuesta = true;
-                    System.out.println("Contrasena modificada");
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Su contraseña ha sido cambiada satisfactoriamente","detail"));
-                }catch(EJBException e){
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha podido modificar la contraseña. Consulte al administrador","detail"));
-                }
-
-            }else{
-                System.out.println("Contrasena actuales no coinciden");
-                context.addMessage(null, new FacesMessage("Error", "La contraseña actual digitada no coincide con la registrada"));
+            String nuevaContrasena = Utilidades.sha256(this.contrasenas.getNuevaContrasena());
+            try{
+                this.current.setContrasena(nuevaContrasena);
+                ejbFacade.edit(current);
+                ejbFacade.flush();
+                respuesta = true;
+                System.out.println("Contrasena modificada");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Su contraseña ha sido cambiada satisfactoriamente",""));
+                Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/perfil/EditarContrasena.xhtml");
+            }catch(EJBException e){
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha podido modificar la contraseña. Consulte al administrador","detail"));
+                Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/perfil/EditarContrasena.xhtml");
             }
-        }else{
-            System.out.println("Contrasenas nuevas no coinciden");
-            context.addMessage(null, new FacesMessage("Las contraseñas nuevas no coinciden."));
         }
-        
         return respuesta;
     }
     
@@ -116,10 +149,6 @@ public class UsuarioController implements Serializable {
             selectedItemIndex = -1;
         }
         return current;
-    }
-
-    private UsuarioFacade getFacade() {
-        return ejbFacade;
     }
 
     public PaginationHelper getPagination() {
@@ -266,9 +295,7 @@ public class UsuarioController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Usuario getUsuario(java.lang.Integer id) {
-        return ejbFacade.find(id);
-    }
+    
 
     @FacesConverter(forClass = Usuario.class)
     public static class UsuarioControllerConverter implements Converter {
@@ -309,22 +336,4 @@ public class UsuarioController implements Serializable {
         }
 
     }
-    
-    /**** Gets and Sets *****/
-    public boolean isEditarContrasena() {
-        return editarContrasena;
-    }
-
-    public void setEditarContrasena(boolean editarContrasena) {
-        this.editarContrasena = editarContrasena;
-    }
-    
-    public Contrasena getContrasenas() {
-        return contrasenas;
-    }
-
-    public void setContrasenas(Contrasena contrasenas) {
-        this.contrasenas = contrasenas;
-    }
-
 }

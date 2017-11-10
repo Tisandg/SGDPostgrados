@@ -37,7 +37,9 @@
                     <br></br>
                     
                     <h:form>
+                        
                         <p:panel id="panelClaves" >
+                            <p:messages id="messages" showDetail="true"  autoUpdate="true" closable="true"/>
                             <h:panelGrid  columns="3"  cellpadding="5">
 
                                 <p:outputLabel value="#{bundleUsuarios.CurrentPassword}" style="font-weight: bold;">:</p:outputLabel>
@@ -62,7 +64,7 @@
                                 <p:message for="msgNuevoR" id="out3"/>
 
                             </h:panelGrid>
-                            <p:commandButton value="Cambiar contrasena" update="panelClaves" action="#{usuarioController.cambiarContrasena(verEstudianteController.usuario)}"/>  
+                            <p:commandButton value="Cambiar contrasena" actionListener="#{usuarioController.validarCampos(verEstudianteController.usuario)}" action="#{usuarioController.cambiarContrasena(verEstudianteController.usuario)}"/>  
                             <p:commandButton  value="Cancelar" action="#{publicacionController.redirigirPublicacionesEst()}"/> 
                         </p:panel>
                     </h:form>
