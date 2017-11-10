@@ -247,13 +247,7 @@ public class Estudiante implements Serializable {
     @Override
     public String toString() 
     {
-        return "Estudiante{" + "estIdentificador=" + estIdentificador + ", estCodigo=" + 
-                estCodigo + ", estNombre=" + estNombre + ", estApellido=" + estApellido + 
-                ", estCorreo=" + estCorreo + ", estCohorte=" + estCohorte + ", estTutor=" + 
-                estTutor + ", estSemestre=" + estSemestre + ", estEstado=" + estEstado + 
-                ", estUsuario=" + estUsuario + //", estContrasena=" + estContrasena + 
-                ", estCreditos=" + estCreditos + ", doctoradoList=" + doctoradoList + 
-                ", publicacionList=" + publicacionList + '}'; 
+        return ""+estCodigo; 
     }
 
     public Usuario getUsuarioId() {

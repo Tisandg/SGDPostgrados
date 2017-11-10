@@ -67,8 +67,8 @@ public class ReportesJasperController implements Serializable {
     String[][] plantillasReportes;
 
     public ReportesJasperController() {
-        tipoReporte = TIPO_REPORTE_GLOBAL;
-        tiempo = RANGO_TIEMPO_TODO;
+        tipoReporte = "";
+        tiempo = "";
         codEstudiante = "";
         plantillasReportes = new String[][]{
             {"/reporteDocumentacionGlobalTodo.jasper", "/reporteDocumentacionGlobalAnio.jasper", "/reporteDocumentacionGlobalSemestre.jasper"},
@@ -122,15 +122,15 @@ public class ReportesJasperController implements Serializable {
 
     //</editor-fold> 
     public boolean pedirAnio() {
-        return tiempo.equals(RANGO_TIEMPO_ANIO) || tiempo.equals(RANGO_TIEMPO_SEMESTRE);
+        return tiempo != null && (tiempo.equals(RANGO_TIEMPO_ANIO) || tiempo.equals(RANGO_TIEMPO_SEMESTRE));
     }
 
     public boolean pedirCodEstudiante() {
-        return tipoReporte.equals(TIPO_REPORTE_ESTUDIANTE);
+        return tipoReporte != null && tipoReporte.equals(TIPO_REPORTE_ESTUDIANTE);
     }
 
     public boolean pedirSemestre() {
-        return tiempo.equals(RANGO_TIEMPO_SEMESTRE);
+        return tiempo != null && tiempo.equals(RANGO_TIEMPO_SEMESTRE);
     }
 
     public int[] getListaAnios() {
@@ -246,7 +246,7 @@ public class ReportesJasperController implements Serializable {
             out.write(arrayOutputStream.toByteArray());
             out.flush();
             out.close();
-            
+
         } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
         } catch (IOException ex) {
