@@ -536,7 +536,7 @@ public class DocumentoController implements Serializable {
 
                     /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  
                capitulo de un libro se crea el objeto respectivo*/
-                    if (actual.getPubTipoPublicacion().equals("revista")) {
+                    if (actual.getIdTipoDocumento().getIdentificador() == 4) {
                         actual.getRevista().setPubIdentificador(numPubRevis);
                         actual.getRevista().setPublicacion(actual);
                         actual.setCongreso(null);
@@ -544,7 +544,7 @@ public class DocumentoController implements Serializable {
                         actual.setLibro(null);
 
                     }
-                    if (actual.getPubTipoPublicacion().equals("congreso")) {
+                    if (actual.getIdTipoDocumento().getIdentificador() == 3) {
 
                         actual.getCongreso().setPubIdentificador(numPubRevis);
                         actual.getCongreso().setPublicacion(actual);
@@ -553,7 +553,7 @@ public class DocumentoController implements Serializable {
                         actual.setLibro(null);
                     }
 
-                    if (actual.getPubTipoPublicacion().equals("libro")) {
+                    if (actual.getIdTipoDocumento().getIdentificador() == 1) {
                         /* SI no es una revista, el objeto a adicionar es un congreso*/
                         actual.getLibro().setPubIdentificador(numPubRevis);
                         actual.getLibro().setPublicacion(actual);
@@ -562,7 +562,7 @@ public class DocumentoController implements Serializable {
                         actual.setCapituloLibro(null);
                     }
 
-                    if (actual.getPubTipoPublicacion().equals("capitulo_libro")) {
+                    if (actual.getIdTipoDocumento().getIdentificador() == 2) {
                         /* SI no es una revista, el objeto a adicionar es un congreso*/
                         actual.getCapituloLibro().setPubIdentificador(numPubRevis);
                         actual.getCapituloLibro().setPublicacion(actual);
@@ -612,7 +612,7 @@ public class DocumentoController implements Serializable {
                     Date date = new Date();
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String estampaTiempo = "" + datehourFormat.format(date);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getIdTipoDocumento().getNombre()+ " en la siguiente fecha y hora: " + estampaTiempo);
                     limpiarCampos();
                     redirigirAlistar(est.getEstUsuario());
                     // redirigirAlistar(est.getEstUsuario());
@@ -835,19 +835,19 @@ public class DocumentoController implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="renderizar tipos documento">    
     public boolean renderizarRevista() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("revista");
+        return actual.getIdTipoDocumento().getIdentificador() == 4;
     }
 
     public boolean renderizarCongreso() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("congreso");
+        return actual.getIdTipoDocumento().getIdentificador() == 3;
     }
 
     public boolean renderizarLibro() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("libro");
+        return actual.getIdTipoDocumento().getIdentificador() == 1;
     }
 
     public boolean renderizarCapLibro() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo_libro");
+        return actual.getIdTipoDocumento().getIdentificador() == 2;
     }
     //</editor-fold>
 

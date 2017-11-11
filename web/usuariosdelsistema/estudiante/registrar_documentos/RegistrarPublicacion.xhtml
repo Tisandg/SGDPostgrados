@@ -32,12 +32,11 @@
                     <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" style="color: #3366ff"></h:outputText>
                     <p:outputLabel value="" styleClass="addEspacio"/>
 
-
                     <p:outputLabel value="Autores secundarios:" styleClass="addEspacio"/>
                     <p:inputText value="#{publicacionController.nombreAutor}" id="autor" placeholder="Ingrese nombre autor aquí" size="43">
                         <f:validator validatorId="validadorAutoresSecundarios" />
                         <p:ajax event="blur" update="msjValAutores" /> 
-                     </p:inputText>
+                    </p:inputText>
                     <p:commandButton id="agregarAutor" icon="ui-icon-plus">
                         <p:ajax event="click" listener="#{publicacionController.agregarAutorSecundario()}" update="autor, tablaAutores"/>
                     </p:commandButton>
@@ -59,18 +58,13 @@
                             </p:commandButton>
                         </p:column>                                                            
                     </p:dataTable>                                                          
-                    <!--
-                    <p:outputLabel value="Autores Secundarios:" for="valASecundarios" styleClass="addEspacio"/>
-                    <p:inputText class="form-control" id="valASecundarios"  value="#//{publicacionController.actual.pubAutoresSecundarios}" styleClass="addEspacio form-control">
-                        <f:validator validatorId="validadorAutoresSecundarios" />
-                        <p:ajax event="blur" update="msjValAutores" /> 
-                    </p:inputText>
-                    <p:message for="valASecundarios" id="msjValAutores" />-->
+                    <p:outputLabel value="" />
 
                     <h:panelGroup>
                         <p:outputLabel value="Fecha publicación:" styleClass="addEspacio"/>
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                     </h:panelGroup>
+                    
                     <p:calendar  id="event" value="#{publicacionController.actual.pubFechaPublicacion}" maxdate="#{currentDay}" size="43" 
                                  pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es">
                         <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
@@ -159,10 +153,10 @@
 
                             <h:outputLabel value=""/>
                             <h:panelGroup>
-                            <h:outputLabel value="Artículo PDF:" styleClass="addEspacio"/>
-                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
-                        </h:panelGroup>
-                        <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>    
+                                <h:outputLabel value="Artículo PDF:" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
+                            </h:panelGroup>
+                            <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>    
                         </h:panelGrid>
 
                     </p:panel>
@@ -240,45 +234,45 @@
                             <p:outputLabel value=""></p:outputLabel>
 
                             <h:panelGroup>
-                        <p:outputLabel value="País:" styleClass="addEspacio"/>
-                        <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
-                    </h:panelGroup>
-                    <p:selectOneMenu filter="true"
-                                     id="paisC"
-                                     value="#{publicacionController.idPais}" style="width: 100% !important">
-                        <f:selectItem itemLabel="Seleccione..." itemValue="0"/>
-                        <f:selectItems value="#{publicacionController.listaPaises}"
-                                       var="paisItem"
-                                       itemValue="#{paisItem.paisId}"
-                                       itemLabel="#{paisItem.paisNombre}"/>
-                        <p:ajax listener="#{publicacionController.actualizarCiudades()}" update="ciudadC" />
-                    </p:selectOneMenu>
-                    <h:outputText value=""/>
-                    <h:outputText value=""/>
-                    <h:outputText value=""/>
-
-                    <h:panelGroup>
-                        <p:outputLabel value="Ciudad:" styleClass="addEspacio"/>
-                        <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
-                    </h:panelGroup>
-                    <p:selectOneMenu filter="true"
-                                     id="ciudadC"
-                                     value="#{publicacionController.idCiudad}" style="width: 100% !important">
-                        <f:selectItem itemLabel="Seleccione..." itemValue="0"/>
-                        <f:selectItems value="#{publicacionController.listaCiudades}"
-                                       var="ciudadItem"
-                                       itemValue="#{ciudadItem.ciudId}"
-                                       itemLabel="#{ciudadItem.ciudNombre}"/>
-                    </p:selectOneMenu>
-                    <h:outputText value=""/>
-                    <h:outputText value=""/>
-                    <h:outputText value=""/>
+                                <p:outputLabel value="País:" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
+                            </h:panelGroup>
+                            <p:selectOneMenu filter="true"
+                                             id="paisC"
+                                             value="#{publicacionController.idPais}" style="width: 100% !important">
+                                <f:selectItem itemLabel="Seleccione..." itemValue="0"/>
+                                <f:selectItems value="#{publicacionController.listaPaises}"
+                                               var="paisItem"
+                                               itemValue="#{paisItem.paisId}"
+                                               itemLabel="#{paisItem.paisNombre}"/>
+                                <p:ajax listener="#{publicacionController.actualizarCiudades()}" update="ciudadC" />
+                            </p:selectOneMenu>
+                            <h:outputText value=""/>
+                            <h:outputText value=""/>
+                            <h:outputText value=""/>
 
                             <h:panelGroup>
-                            <p:outputLabel value="Congreso PDF:" styleClass="addEspacio"/>
-                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                        </h:panelGroup>                                                            
-                            <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                                <p:outputLabel value="Ciudad:" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
+                            </h:panelGroup>
+                            <p:selectOneMenu filter="true"
+                                             id="ciudadC"
+                                             value="#{publicacionController.idCiudad}" style="width: 100% !important">
+                                <f:selectItem itemLabel="Seleccione..." itemValue="0"/>
+                                <f:selectItems value="#{publicacionController.listaCiudades}"
+                                               var="ciudadItem"
+                                               itemValue="#{ciudadItem.ciudId}"
+                                               itemLabel="#{ciudadItem.ciudNombre}"/>
+                            </p:selectOneMenu>
+                            <h:outputText value=""/>
+                            <h:outputText value=""/>
+                            <h:outputText value=""/>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="Congreso PDF:" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                            </h:panelGroup>                                                            
+                                <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                         </h:panelGrid>                                                        
 
                     </p:panel>
@@ -418,11 +412,11 @@
                             <p:outputLabel value=""></p:outputLabel>
                             <p:outputLabel value=""></p:outputLabel>
 
-                        <h:panelGroup>
-                            <p:outputLabel value="Capítulo libro PDF:"/>
-                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
-                        </h:panelGroup>
-                        <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <h:panelGroup>
+                                <p:outputLabel value="Capítulo libro PDF:"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
+                            </h:panelGroup>
+                            <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                         </h:panelGrid>
                         <br/>
 
@@ -470,3 +464,4 @@
     </ui:define>
     </ui:composition>
 </html>  
+

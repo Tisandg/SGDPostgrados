@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.validadores;
 
 import co.unicauca.proyectobase.controladores.PublicacionController;
@@ -51,10 +46,11 @@ public class ValidadorNombreArticulo implements Validator {
             }
                 
         }
+        /*
         if(isRegistradoTituloArticulo(nombre, context)){
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del articulo ya esta registrado. Por favor revise el dato ingresado.");
             throw new ValidatorException(msg);
-        }
+        }*/
             
     }
     

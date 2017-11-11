@@ -50,7 +50,7 @@ public class PracticaDocenteController implements Serializable {
     @EJB
     private PracticaDocenteFacade ejbFacade;
     @EJB
-    private PublicacionFacade dao;
+    private PublicacionFacade daoPublicacion;
     @EJB
     private EstudianteFacade daoEst;
     
@@ -296,11 +296,11 @@ public class PracticaDocenteController implements Serializable {
                     pub.setPubEstIdentificador(est);
                     String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
                     //gijar el identificador consultando la cantidad de filas
-                    int numPubRevis = dao.getnumFilasPubRev();
+                    int numPubRevis = daoPublicacion.getnumFilasPubRev();
                     pub.setPubIdentificador(numPubRevis);
                     
                     ArrayList<Archivo> CollArchivo = new ArrayList<>();
-                    int numArchivos = dao.getIdArchivo();
+                    int numArchivos = daoPublicacion.getIdArchivo();
 
                     Archivo pd = new Archivo();
                     pd.setArcPubIdentificador(pub);
@@ -325,14 +325,13 @@ public class PracticaDocenteController implements Serializable {
                     
                     pub.setPubEstado("Activo");                    
                     pub.setPubVisado("espera");
-                    pub.setPubTipoPublicacion("Practica docente");
                     pub.setIdTipoDocumento(ejbFacade.findTipoDocumento());
                     pub.setPubFechaPublicacion(new Date());
                     actual.setPubIdentificador(pub.getPubIdentificador());
                     
                     //almacenar el objeto en la base de datos
-                    dao.create(pub);
-                    dao.flush();                    
+                    daoPublicacion.create(pub);
+                    daoPublicacion.flush();                    
                     ejbFacade.create(this.actual);
                     mensajeconfirmarRegistro();
                     Date date = new Date();                    
@@ -340,7 +339,7 @@ public class PracticaDocenteController implements Serializable {
                     String estampaTiempo = "" + datehourFormat.format(date);
                     String[] fecha = estampaTiempo.split(" ");
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + pub.getIdTipoDocumento().getNombre()+ ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     redirigirAlistarPublicacionesEst();                                                                
                 }catch(EJBException ex)
                 {

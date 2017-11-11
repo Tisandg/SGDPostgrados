@@ -584,7 +584,6 @@ public class PublicacionController implements Serializable {
                         actual.setCongreso(null);
                         actual.setLibro(null);
                     }
-                    actual.setPubTipoPublicacion(getTipoPublicacion());
                     actual.setIdTipoDocumento(daoPublicacion.obtenerIdTipoDocumento(getTipoPublicacion()));
                     
                     //</editor-fold>
@@ -632,7 +631,7 @@ public class PublicacionController implements Serializable {
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String estampaTiempo = "" + datehourFormat.format(date);
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
+                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una publicación del tipo " + actual.getIdTipoDocumento().getNombre()+ " en la siguiente fecha y hora: " + estampaTiempo);
                     
                 } catch (EJBException ex) {
                     mensajeRegistroFallido();
@@ -750,6 +749,7 @@ public class PublicacionController implements Serializable {
     public void irAEditar(Publicacion pub) {
         actual = pub;
         cve.editarDocumentacion();
+        extraerAutoresSecundarios();
         Utilidades.redireccionar(cve.getRuta());
     }
     
@@ -900,20 +900,21 @@ public class PublicacionController implements Serializable {
         requestContext.update("filemessage");
     }
 
+    /**Metodo repetido con documento Controller*/
     public boolean renderizarRevista() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("revista");
+        return actual.getIdTipoDocumento().getIdentificador() == 4;
     }
 
     public boolean renderizarCongreso() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("congreso");
+        return actual.getIdTipoDocumento().getIdentificador() == 3;
     }
 
     public boolean renderizarLibro() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("libro");
+        return actual.getIdTipoDocumento().getIdentificador() == 1;
     }
 
     public boolean renderizarCapLibro() {
-        return actual.getPubTipoPublicacion().equalsIgnoreCase("capitulo libro");
+        return actual.getIdTipoDocumento().getIdentificador() == 2;
     }
 
     public void asignarCreditos() {
@@ -1218,6 +1219,18 @@ public class PublicacionController implements Serializable {
             autores = autores.substring(0, autores.length() - 2);
         }        
         actual.setPubAutoresSecundarios(autores);
+    }
+    
+    private void extraerAutoresSecundarios(){
+        listaAutores = new ArrayList<>();
+        String cadenaAutores = actual.getPubAutoresSecundarios();
+        if(!cadenaAutores.isEmpty()){
+            String[] autores = cadenaAutores.split(",");
+            for(String nombreAutor : autores){
+                listaAutores.add(new Autor(nombreAutor));
+            }
+        }
+        
     }
     //</editor-fold>
     

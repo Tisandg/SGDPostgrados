@@ -20,18 +20,6 @@
                 <ui:include src="TabListar.xhtml"></ui:include>
             </ui:insert>
             
-            <!--
-            <div class="ui-messages-info ">
-                <span class="ui-messages-info-detail">
-                    <b>Lista de documentos</b>
-                </span>
-                <div style = "float: right;">
-                    <p:outputLabel style="font-weight:bold; " value="Número de creditos aprobados: "/>                        
-                    <p:outputLabel style="font-size: 16px; color: red;"  value="#{userLoginView.creditos}&nbsp;"/>
-                </div>
-            </div>
-            
-            <p:separator/>-->
             <p:panel header="Lista de publicaciones">
                 <br/>            
                 <h:form>
@@ -51,7 +39,7 @@
                                 >
 
                     <p:column headerText="Tipo documento"  >
-                        <h:outputText value="#{pub.pubTipoPublicacion}"></h:outputText>
+                        <h:outputText value="#{pub.idTipoDocumento.nombre}"></h:outputText>
                     </p:column>
                     <p:column headerText="Nombre documento"  >
                         <h:outputText value="#{pub.obtenerNombrePub()}"></h:outputText>

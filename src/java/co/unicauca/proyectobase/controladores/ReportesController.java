@@ -205,7 +205,7 @@ public class ReportesController implements Serializable {
                             table.addCell("No asignados");
                         }
                         j++;
-                    }while(j<tamPublicaciones && listaPublicaciones.get(j).getPubTipoPublicacion().equals(nombreTipo));
+                    }while(j<tamPublicaciones && listaPublicaciones.get(j).getIdTipoDocumento().getNombre().equals(nombreTipo));
                 }
                 documento.add(table);
                 documento.close();
@@ -317,7 +317,7 @@ public class ReportesController implements Serializable {
                     encabezadoTipoPub.setColspan(9);
                     table.addCell(encabezadoTipoPub);
 
-                    while(j<tamListaPublicaciones && listaPublicaciones.get(j).getPubTipoPublicacion().equals(nombreTipo)){
+                    while(j<tamListaPublicaciones && listaPublicaciones.get(j).getIdTipoDocumento().getNombre().equals(nombreTipo)){
                         tipoCategoria = "Sin categoria";
                         table.addCell(listaPublicaciones.get(j).getPubEstIdentificador().getEstNombre());
                         table.addCell(listaPublicaciones.get(j).obtenerNombrePub());

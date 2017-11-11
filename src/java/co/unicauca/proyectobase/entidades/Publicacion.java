@@ -88,50 +88,47 @@ import org.primefaces.model.UploadedFile;
     @NamedQuery(name = "Publicacion.findByPubFechaRegistro", query = "SELECT p FROM Publicacion p WHERE p.pubFechaRegistro = :pubFechaRegistro"),
     @NamedQuery(name = "Publicacion.findByPubEstado", query = "SELECT p FROM Publicacion p WHERE p.pubEstado = :pubEstado"),
     @NamedQuery(name = "Publicacion.findByPubAutoresSecundarios", query = "SELECT p FROM Publicacion p WHERE p.pubAutoresSecundarios = :pubAutoresSecundarios"),
-    @NamedQuery(name = "Publicacion.findByPubTipoPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubTipoPublicacion = :pubTipoPublicacion"),
     @NamedQuery(name = "Publicacion.findByPubFechaPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubFechaPublicacion = :pubFechaPublicacion"),
     @NamedQuery(name = "Publicacion.findByPubNumActa", query = "SELECT p FROM Publicacion p WHERE p.pubNumActa = :pubNumActa"),
     @NamedQuery(name = "Publicacion.findByPubVisado", query = "SELECT p FROM Publicacion p WHERE p.pubVisado = :pubVisado"),
-    @NamedQuery(name = "Publicacion.findByOnlyPublicacion", query = "SELECT p FROM Publicacion p WHERE p.pubTipoPublicacion IN (\"revista\",\"libro\",\"capitulo_libro\",\"congreso\")"),
+    @NamedQuery(name = "Publicacion.findByOnlyPublicacion", query = "SELECT p FROM Publicacion p WHERE p.idTipoDocumento.identificador IN (1,2,3,4)"),
     //consutas nuevas
     @NamedQuery(name = "Publicacion.findAllByYear", query = "SELECT p FROM Publicacion p "
-            + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio ORDER BY  p.pubTipoPublicacion DESC"),
+            + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio ORDER BY  p.idTipoDocumento.nombre DESC"),
     
     @NamedQuery(name = "Publicacion.findAllBySemester", query = "SELECT p FROM Publicacion p "
             + "WHERE FUNC('YEAR',p.pubFechaRegistro) = :anio AND FUNC('MONTH',p.pubFechaRegistro) Between :inicio AND :fin "
-            + "ORDER BY  p.pubTipoPublicacion DESC"),
+            + "ORDER BY  p.idTipoDocumento.nombre DESC"),
     
     @NamedQuery(name = "Publicacion.StudentPublications_Year", query = "SELECT p FROM Publicacion p "
             + "WHERE p.pubEstIdentificador.estIdentificador = :identificador AND FUNC('YEAR',p.pubFechaRegistro) = :anio "
-            + "ORDER BY  p.pubTipoPublicacion DESC"),
+            + "ORDER BY  p.idTipoDocumento.nombre DESC"),
     
     @NamedQuery(name = "Publicacion.StudentPublications_Semester", query = "SELECT p FROM Publicacion p "
             + "WHERE p.pubEstIdentificador.estIdentificador = :identificador AND FUNC('YEAR',p.pubFechaRegistro) = :anio "
-            + "AND FUNC('MONTH',p.pubFechaRegistro) Between :inicio AND :fin ORDER BY  p.pubTipoPublicacion DESC"),
+            + "AND FUNC('MONTH',p.pubFechaRegistro) Between :inicio AND :fin ORDER BY  p.idTipoDocumento.nombre DESC"),
 
-    @NamedQuery(name = "Publicacion.findAllEst", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllRev", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllCong", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllLib", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro")
-    , @NamedQuery(name = "Publicacion.findAllCapLib", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro")
+    @NamedQuery(name = "Publicacion.findAllEst", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllRev", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllCong", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllLib", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro")
+    , @NamedQuery(name = "Publicacion.findAllCapLib", query = "SELECT p FROM Publicacion p WHERE  p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro")
 
-    , @NamedQuery(name = "Publicacion.findAllByRev", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro)")
-    , @NamedQuery(name = "Publicacion.findAllByCong", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro)")
-    , @NamedQuery(name = "Publicacion.findAllByLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro)")
-    , @NamedQuery(name = "Publicacion.findAllByCapLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro )"),
+    , @NamedQuery(name = "Publicacion.findAllByRev", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro)")
+    , @NamedQuery(name = "Publicacion.findAllByCong", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.congreso.congTituloPonencia LIKE :variableFiltro)")
+    , @NamedQuery(name = "Publicacion.findAllByLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.libro.libTituloLibro LIKE :variableFiltro)")
+    , @NamedQuery(name = "Publicacion.findAllByCapLib", query = "SELECT p FROM Publicacion p WHERE  (p.pubEstIdentificador.estIdentificador =:identificacion) AND (p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo LIKE :variableFiltro )"),
 
     @NamedQuery(name = "Publicacion.findAllFiltPubEst", query = "SELECT p FROM Publicacion p WHERE  "
             + "(p.pubEstIdentificador.estIdentificador =:identificacion) AND "
-            + "(p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.pubTipoPublicacion "
+            + "(p.pubEstIdentificador.estNombre LIKE :variableFiltro OR p.idTipoDocumento.nombre "
             + "LIKE :variableFiltro OR p.revista.revTituloArticulo LIKE :variableFiltro OR p.capituloLibro.caplibTituloCapitulo "
             + "LIKE :variableFiltro)"),
     @NamedQuery(
             name = "findAllPub_Est",
             query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador = :identificacion"
     ),
-    //@NamedQuery(name = "Publicacion.findByPubIssn", query = "SELECT p FROM Publicacion p WHERE p.pubIssn = :pubIssn"),
     @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id"),
-    
     @NamedQuery(name = "Publicacion.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like :tipoDoc")
 
 })
@@ -171,11 +168,7 @@ public class Publicacion implements Serializable {
     @Size(max = 300)
     @Column(name = "pub_autores_secundarios")
     private String pubAutoresSecundarios;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 22)
-    @Column(name = "pub_tipo_publicacion")
-    private String pubTipoPublicacion;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_fecha_publicacion")
@@ -211,9 +204,9 @@ public class Publicacion implements Serializable {
         this.pubAutoresSecundarios = "";
     }
 
-    public Publicacion(Integer pubIdentificador, String pubTipoPublicacion, Date pubFechaPublicacion) {
+    public Publicacion(Integer pubIdentificador, Date pubFechaPublicacion) {
         this.pubIdentificador = pubIdentificador;
-        this.pubTipoPublicacion = pubTipoPublicacion;
+        //this.pubTipoPublicacion = pubTipoPublicacion;
         this.pubFechaPublicacion = pubFechaPublicacion;
         this.pubAutoresSecundarios = "";
     }
@@ -232,18 +225,8 @@ public class Publicacion implements Serializable {
         String nombrePublicacion = "";
         String nombreTablaC = "Tabla de Contenido-" + codigoFirma;
 
-        if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
-            nombrePublicacion = this.revista.getRevTituloArticulo();
-        }
-        if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
-            nombrePublicacion = this.congreso.getCongTituloPonencia();
-        }
-        if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
-            nombrePublicacion = this.libro.getLibTituloLibro();
-        }
-        if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
-            nombrePublicacion = this.capituloLibro.getCaplibTituloCapitulo();
-        }      
+        nombrePublicacion = obtenerNombrePub();
+            
         PropiedadesOS os = new PropiedadesOS();
         /*Obtiene la ruta de la ubicacion del servidor donde se almacenaran 
           temporalmente los archivos ,para luego subirlos al Gestgor Documental OpenKm  */
@@ -403,7 +386,7 @@ public class Publicacion implements Serializable {
                 
                 /* Se Comprubea si los  Metadatos en OpenKm que se van  a llenar son para 
                  una revista, un congreso , un libro o un capitulo de un libro*/
-                if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
+                if (this.idTipoDocumento.getIdentificador() == 4) {
                     
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:revista");
                     for (FormElement fElement : fElements) {
@@ -443,7 +426,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:revista.tipoPublicacion")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubTipoPublicacion);
+                            name.setValue("" + this.idTipoDocumento.getNombre());
                         }
                         if (fElement.getName().equals("okp:revista.tituloArticulo")) {
                             Input name = (Input) fElement;
@@ -466,7 +449,7 @@ public class Publicacion implements Serializable {
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:revista", fElements);
                 }
 
-                if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
+                if (this.idTipoDocumento.getIdentificador() == 3) {
 
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:congreso");
 
@@ -507,7 +490,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:congreso.tipoPublicacion")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubTipoPublicacion);
+                            name.setValue("" + this.idTipoDocumento.getNombre());
                         }
                         if (fElement.getName().equals("okp:congreso.tituloPonencia")) {
                             Input name = (Input) fElement;
@@ -544,7 +527,7 @@ public class Publicacion implements Serializable {
 
                 }
 
-                if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
+                if (this.idTipoDocumento.getIdentificador() == 2) {
 
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:capLibro");
 
@@ -584,7 +567,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:capLibro.tipoPublicacion")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubTipoPublicacion);
+                            name.setValue("" + this.idTipoDocumento.getNombre());
                         }
                         if (fElement.getName().equals("okp:capLibro.tituloLibro")) {
                             Input name = (Input) fElement;
@@ -603,7 +586,7 @@ public class Publicacion implements Serializable {
 
                 }
 
-                if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
+                if (this.idTipoDocumento.getIdentificador() == 1) {
 
                     IOUtils.closeQuietly(is);
                     List<FormElement> fElements = ws.getPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:libro");
@@ -645,7 +628,7 @@ public class Publicacion implements Serializable {
                         }
                         if (fElement.getName().equals("okp:libro.tipoPublicacion")) {
                             Input name = (Input) fElement;
-                            name.setValue("" + this.pubTipoPublicacion);
+                            name.setValue("" + this.idTipoDocumento.getNombre());
                         }
                         if (fElement.getName().equals("okp:libro.tituloLibro")) {
                             Input name = (Input) fElement;
@@ -677,7 +660,7 @@ public class Publicacion implements Serializable {
             }
 
         } catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
-            System.out.println("error en subirOpenKM clase publicacion.java");
+            System.out.println("error en subirOpenKM clase publicacion.java "+e.getMessage());
         }
     }
 
@@ -718,33 +701,35 @@ public class Publicacion implements Serializable {
                     System.out.println("Error agregando autores secundarios a metadatos"+ e.getMessage());
                 }
                 document.addHeader("Fecha_Publicacion", FechaPublicacion);
-                document.addHeader("Tipo_Publicacion", this.pubTipoPublicacion);
+                document.addHeader("Tipo_Publicacion", this.idTipoDocumento.getNombre());
                 
                 /* Se Comprubea si los metadatos a llenar son para una revista
                     un congreso , un libro o un capitulo de un libro*/
-                if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
+                if (this.idTipoDocumento.getIdentificador() == 4) {
                     document.addTitle("" + this.revista.getRevTituloArticulo());
                     document.addHeader("Nombre_Revista", this.revista.getRevNombreRevista());
                     document.addHeader("Categoria", this.revista.getRevCategoria());
                     document.addHeader("DOI", this.revista.getRevDoi());
                 }
-                if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
+                if (this.idTipoDocumento.getIdentificador() == 3) {
                     document.addTitle("" + this.congreso.getCongTituloPonencia());
                     document.addHeader("Nombre_Evento", this.congreso.getCongNombreEvento());
                     document.addHeader("Tipo_Congreso", this.congreso.getCongTipoCongreso());
                     document.addHeader("DOI", this.congreso.getCongDoi());
                     document.addHeader("ISSN",this.congreso.getCongIssn());
                 }
-                if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
-                    document.addTitle("" + this.libro.getLibTituloLibro());
-                    document.addHeader("Titulo_Libro", this.libro.getLibTituloLibro());
-                    document.addHeader("ISBN",this.libro.getLibIsbn());
-                }
-                if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
+                
+                if (this.idTipoDocumento.getIdentificador() == 2) {
                     document.addTitle("" + this.capituloLibro.getCaplibTituloLibro());
                     document.addHeader("Titulo_Libro", this.capituloLibro.getCaplibTituloLibro());
                     document.addHeader("Titulo_Capitulo", this.capituloLibro.getCaplibTituloCapitulo());
                     document.addHeader("ISBN",this.capituloLibro.getCaplibIsbn());
+                }
+                
+                if (this.idTipoDocumento.getIdentificador() == 1) {
+                    document.addTitle("" + this.libro.getLibTituloLibro());
+                    document.addHeader("Titulo_Libro", this.libro.getLibTituloLibro());
+                    document.addHeader("ISBN",this.libro.getLibIsbn());
                 }
                 
                 document.addCreationDate();
@@ -766,9 +751,9 @@ public class Publicacion implements Serializable {
                 System.err.println(de.getMessage());
             }
             document.close();
-
         }
     }
+    
     
     public boolean eliminarDocOpenkm() throws LockException{
         String host = "http://localhost:8083/OpenKM";
@@ -878,8 +863,7 @@ public class Publicacion implements Serializable {
         }catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
             System.out.println("error en metodo SubirOpenKMPD de publicacion.java. error: " + e.getMessage());
                     
-        }
-            
+        }  
     }
     
     /**
@@ -944,23 +928,24 @@ public class Publicacion implements Serializable {
             Map<String, String> properties = new HashMap();
             /* Se comprueba el tipo de publicacion: revista congreso , un libro 
                 o un capitulo de un libro que se devolvera como resultado*/
-            if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
+            if (this.idTipoDocumento.getIdentificador() == 4) {
                 properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:revista.tipoPDFCargar", "" + tipoPDF);
 
             }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
+            if (this.idTipoDocumento.getIdentificador() == 3) {
                 properties.put("okp:congreso.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:congreso.tipoPDFCargar", "" + tipoPDF);
-
             }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
-                properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
-            }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
+            
+            if (this.idTipoDocumento.getIdentificador() == 2) {
                 properties.put("okp:capLibro.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:capLibro.tipoPDFCargar", "" + tipoPDF);
+            }
+            
+            if (this.idTipoDocumento.getIdentificador() == 1) {
+                properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
+                properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
             }
             // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
             QueryParams qParams = new QueryParams();
@@ -1001,24 +986,25 @@ public class Publicacion implements Serializable {
             Map<String, String> properties = new HashMap();
             /* Se comprueba el tipo de publicacion: revista congreso , un libro 
                 o un capitulo de un libro que se devolvera como resultado*/
-            if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
+            if (this.idTipoDocumento.getIdentificador() == 4) {
                 properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:revista.tipoPDFCargar", "" + tipoPDF);
 
             }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
+            if (this.idTipoDocumento.getIdentificador() == 3) {
                 properties.put("okp:congreso.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:congreso.tipoPDFCargar", "" + tipoPDF);
 
             }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
-                properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
-            }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
+            if (this.idTipoDocumento.getIdentificador() == 2) {
                 properties.put("okp:capLibro.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:capLibro.tipoPDFCargar", "" + tipoPDF);
             }
+            if (this.idTipoDocumento.getIdentificador() == 1) {
+                properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
+                properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
+            }
+            
             // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
             QueryParams qParams = new QueryParams();
             qParams.setProperties(properties);
@@ -1059,21 +1045,20 @@ public class Publicacion implements Serializable {
             Map<String, String> properties = new HashMap();
             /* Se comprueba el tipo de publicacion: revista congreso , un libro 
                 o un capitulo de un libro que se devolvera como resultado*/
-            if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
+            if (this.idTipoDocumento.getIdentificador() == 4) {
                 properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:revista.tipoPDFCargar", "" + tipoPDF);
-
             }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
+            if (this.idTipoDocumento.getIdentificador() == 3) {
                 properties.put("okp:congreso.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:congreso.tipoPDFCargar", "" + tipoPDF);
 
             }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
+            if (this.idTipoDocumento.getIdentificador() == 1) {
                 properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
             }
-            if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
+            if (this.idTipoDocumento.getIdentificador() == 2) {
                 properties.put("okp:capLibro.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:capLibro.tipoPDFCargar", "" + tipoPDF);
             }
@@ -1107,19 +1092,18 @@ public class Publicacion implements Serializable {
      */
     public String obtenerNombrePub() {
         String nombrePub = "";
-        if (this.pubTipoPublicacion.equalsIgnoreCase("revista")) {
-            nombrePub = this.getRevista().getRevTituloArticulo();
-        }
-        if (this.pubTipoPublicacion.equalsIgnoreCase("congreso")) {
-            nombrePub = this.getCongreso().getCongTituloPonencia();
-        }
-        if (this.pubTipoPublicacion.equalsIgnoreCase("libro")) {
+        if (this.idTipoDocumento.getIdentificador() == 1) {
             nombrePub = this.getLibro().getLibTituloLibro();
         }
-        if (this.pubTipoPublicacion.equalsIgnoreCase("capitulo_libro")) {
+        if (this.idTipoDocumento.getIdentificador() == 2) {
             nombrePub = this.getCapituloLibro().getCaplibTituloCapitulo();
         }
-
+        if (this.idTipoDocumento.getIdentificador() == 3) {
+            nombrePub = this.getCongreso().getCongTituloPonencia();
+        }
+        if (this.idTipoDocumento.getIdentificador() == 4) {
+            nombrePub = this.getRevista().getRevTituloArticulo();
+        }
         return nombrePub;
     }
     
@@ -1178,14 +1162,6 @@ public class Publicacion implements Serializable {
 
     public void setPubAutoresSecundarios(String pubAutoresSecundarios) {
         this.pubAutoresSecundarios = pubAutoresSecundarios;
-    }
-
-    public String getPubTipoPublicacion() {
-        return pubTipoPublicacion;
-    }
-
-    public void setPubTipoPublicacion(String pubTipoPublicacion) {
-        this.pubTipoPublicacion = pubTipoPublicacion;
     }
 
     public Date getPubFechaPublicacion() {
