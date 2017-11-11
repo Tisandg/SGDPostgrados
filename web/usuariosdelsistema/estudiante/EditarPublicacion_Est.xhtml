@@ -54,15 +54,6 @@
                                 </p:column>                                                            
                             </p:dataTable>
                             <p:outputLabel value="" styleClass="addEspacio"/>
-                            
-                            <p:outputLabel value="Tipo publicación:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.pubTipoPublicacion}" style="color: #3366ff"/>                           
-                            <p:outputLabel value="" styleClass="addEspacio"/>
-                            
-                            <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valEstadoVis" value="#{publicacionController.actual.pubVisado}" style="color: #3366ff"/>
-                            <p:outputLabel value="" styleClass="addEspacio"/>
-                            <p:outputLabel value="" styleClass="addEspacio"/>
 
                         </h:panelGrid>
                         <br/>
@@ -73,7 +64,7 @@
                                     <p:outputLabel value="DOI:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                                 </h:panelGroup>                                
-                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.actual.revista.doi}" placeholder="Ej: 10.xxxx/xxxx" size="35">
+                                <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.actual.revista.revDoi}" placeholder="Ej: 10.xxxx/xxxx" size="35">
                                     <f:validator validatorId="validadorDOI" />
                                     <p:ajax event="blur" update="msjValDOIRev" />
                                 </p:inputText>

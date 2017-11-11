@@ -91,9 +91,7 @@ public class Estudiante implements Serializable {
     @Size(max = 20)
     @Column(name = "est_usuario")
     private String estUsuario;
-    /*@Size(max = 65)
-    @Column(name = "est_contrasena")
-    private String estContrasena;*/
+
     @Column(name = "est_creditos")
     private Integer estCreditos;
     
