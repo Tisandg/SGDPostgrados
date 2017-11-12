@@ -197,6 +197,10 @@ public class Publicacion implements Serializable {
     
     public Publicacion() {
         this.pubAutoresSecundarios = "";
+        this.libro = new Libro();
+        this.congreso = new Congreso();
+        this.capituloLibro = new CapituloLibro();
+        this.revista = new Revista();
     }
 
     public Publicacion(Integer pubIdentificador) {

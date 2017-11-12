@@ -82,6 +82,12 @@
 
                                     <h:outputLabel value="Tipo congreso:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" style="color: #3366ff"/>
+                                    
+                                    <h:outputLabel value="Ciudad: " style="font-weight:bold;"/>
+                                    <h:outputText class="form-control"  id="valCiudadCongreso" value="#{publicacionController.actual.congreso.ciudadId.ciudNombre}" style="color: #3366ff"/>
+                                    
+                                    <h:outputLabel value="Pais: " style="font-weight:bold;"/>
+                                    <h:outputText class="form-control"  id="valPaisCongreso" value="#{publicacionController.actual.congreso.ciudadId.paisId.paisNombre}" style="color: #3366ff"/>
                                 </h:panelGrid>            
 
                                 <h:panelGrid columns="2" cellpadding="10"  rendered="#{publicacionController.renderizarLibro() == true}">         
@@ -93,6 +99,12 @@
                                     
                                     <h:outputLabel value="Editorial:" style="font-weight:bold;"/>
                                     <h:outputText class="form-control" value="#{publicacionController.actual.libro.editorial}" style="color: #3366ff"/>
+                                    
+                                    <h:outputLabel value="Ciudad: " style="font-weight:bold;"/>
+                                    <h:outputText class="form-control"  id="valCiudadLibro" value="#{publicacionController.actual.libro.ciudadId.ciudNombre}" style="color: #3366ff"/>
+                                    
+                                    <h:outputLabel value="Pais: " style="font-weight:bold;"/>
+                                    <h:outputText class="form-control"  id="valPaisLibro" value="#{publicacionController.actual.libro.ciudadId.paisId.paisNombre}" style="color: #3366ff"/>
                                                                         
                                 </h:panelGrid>            
 

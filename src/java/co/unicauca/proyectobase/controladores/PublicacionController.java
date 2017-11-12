@@ -17,7 +17,6 @@ import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.CapituloLibro;
 import co.unicauca.proyectobase.entidades.Ciudad;
 import co.unicauca.proyectobase.entidades.Pais;
-//import static co.unicauca.proyectobase.entidades.GrupoTipoUsuario_.nombreUsuario;
 import co.unicauca.proyectobase.entidades.archivoPDF;
 import co.unicauca.proyectobase.utilidades.Autor;
 import co.unicauca.proyectobase.utilidades.Utilidades;
@@ -95,7 +94,7 @@ public class PublicacionController implements Serializable {
 
     private StreamedContent streamedContent;
     private InputStream stream;
-    private Estudiante auxEstudiante;
+    private Estudiante estudianteActual;
 
     private String numActa;
     private String creditos;
@@ -552,7 +551,6 @@ public class PublicacionController implements Serializable {
                     if (getTipoPublicacion().equals("revista")) {
                         actual.getRevista().setPubIdentificador(pub_identificador);
                         actual.getRevista().setPublicacion(actual);
-                        actual.getRevista().setRevDoi(actual.getRevista().getRevDoi());
                         actual.setCongreso(null);
                         actual.setCapituloLibro(null);
                         actual.setLibro(null);
@@ -560,8 +558,6 @@ public class PublicacionController implements Serializable {
                     if (getTipoPublicacion().equals("congreso")) {
                         actual.getCongreso().setPubIdentificador(pub_identificador);
                         actual.getCongreso().setPublicacion(actual);
-                        actual.getCongreso().setCongIssn(actual.getCongreso().getCongIssn());
-                        actual.getCongreso().setCongDoi(actual.getCongreso().getCongDoi());
                         actual.getCongreso().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
                         actual.setRevista(null);
                         actual.setCapituloLibro(null);
@@ -570,7 +566,6 @@ public class PublicacionController implements Serializable {
                     if (getTipoPublicacion().equals("libro")) {                        
                         actual.getLibro().setPubIdentificador(pub_identificador);
                         actual.getLibro().setPublicacion(actual);
-                        actual.getLibro().setLibIsbn(actual.getLibro().getLibIsbn());
                         actual.getLibro().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
                         actual.setRevista(null);
                         actual.setCongreso(null);
@@ -579,7 +574,6 @@ public class PublicacionController implements Serializable {
                     if (getTipoPublicacion().equals("capitulo libro")) {                        
                         actual.getCapituloLibro().setPubIdentificador(pub_identificador);
                         actual.getCapituloLibro().setPublicacion(actual);
-                        actual.getCapituloLibro().setCaplibIsbn(actual.getCapituloLibro().getCaplibIsbn());
                         actual.setRevista(null);
                         actual.setCongreso(null);
                         actual.setLibro(null);
@@ -639,7 +633,8 @@ public class PublicacionController implements Serializable {
                 }
                 limpiarCampos();
                 //redirigirPublicacionesEst(est.getEstUsuario());
-                redirigirPublicacionesEst();
+                //redirigirPublicacionesEst();
+                Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPublicaciones_Est.xhtml");
             }
         }else{
             FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR,mensaje, ""));
@@ -685,34 +680,19 @@ public class PublicacionController implements Serializable {
      */
     public void limpiarCampos() {        
         actual = new Publicacion();
-        Revista revi = new Revista();
-        Congreso cong = new Congreso();
-        Libro libr = new Libro();
-        CapituloLibro caplib = new CapituloLibro();
         listaAutores.clear();
-        actual.setRevista(revi);
-        actual.setCongreso(cong);
-        actual.setLibro(libr);
-        actual.setCapituloLibro(caplib);
         tipoPublicacion = "";
     }
 
     /**
-     * vuelve a inicializar todos los objetos de la clase pubicacion
-     * @param nombreUsuario nombre de usuario con el cual se desea reiniciar las variables
+     * Inicializar un nuevo objeto publicacion donde se van a guardar los datos
+     * @param nombreUsuario nombre de usuario con el cual se desea reiniciar 
+     * las variables
      */
     public void limpiarCampos(String nombreUsuario) {
         actual = new Publicacion();
-        Revista revi = new Revista();
-        Congreso cong = new Congreso();
-        Libro libr = new Libro();
-        CapituloLibro caplib = new CapituloLibro();
-        actual.setRevista(revi);
-        actual.setCongreso(cong);
-        actual.setLibro(libr);
-        actual.setCapituloLibro(caplib);
-        Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
-        setAuxEstudiante(est);
+        setAuxEstudiante(daoPublicacion.obtenerEstudiante(nombreUsuario));
+        listaAutores.clear();
         tipoPublicacion = "";
     }
 
@@ -726,11 +706,26 @@ public class PublicacionController implements Serializable {
         return est.getEstNombre() + " " + est.getEstApellido();        
     }
 
-    public String guardarEdicion() {
+    /***
+     * Metodo para guardar los cambios realizados en una publicacion. Una vez 
+     * guardados se redirecciona a la lista de publicaciones del estudiante.
+     */
+    public void guardarEdicion() {
+        System.out.println("Editando datos");
+        fijarAutoresSecundarios();
+        
+        if(actual.getIdTipoDocumento().getIdentificador() == 1){
+            actual.getLibro().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
+        }
+        if(actual.getIdTipoDocumento().getIdentificador() == 3){
+            actual.getCongreso().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
+            System.out.println("Tipo de evento "+actual.getCongreso().getCongTipoCongreso());
+        }
+        
         daoPublicacion.edit(actual);
+        System.out.println("Datos editados");
         mensajeEditar();        
         redirigirPublicacionesEst();
-        return INICIO;
     }
 
     //<editor-fold defaultstate="collapsed" desc="metodos para rediriguir">    
@@ -758,30 +753,29 @@ public class PublicacionController implements Serializable {
      */
     public void redirigirAlistarPublicionesEst() 
     {
-        limpiarCampos();//Cambio               
+        //limpiarCampos();//Cambio               
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }
     
     public void redirigirPublicacionesEst() 
     {        
-        System.out.println("Redirigiendo a publicaciones");
+        System.out.println("Redirigiendo a publicaciones del estudiante");
         cve.verPublicaciones();
         Utilidades.redireccionar(cve.getRuta());
     }
     
     public void redirigirAlistarCoord(String nombreUsuario) 
     {
-        limpiarCampos();
-        System.out.println("si esta pasando por aqui");
-        
+        //limpiarCampos();
+        System.out.println("Redirigiendo a coordinador");
         cvc.listarPublicaciones();
         Utilidades.redireccionar(cvc.getRuta());
     }
 
     public void redirigirAlistar() {
 
-        limpiarCampos();
+        //limpiarCampos();
         System.out.println("Listando documentacion desde coordinador");
         cvc.listarPublicaciones();
         Utilidades.redireccionar(cvc.getRuta());
@@ -876,11 +870,11 @@ public class PublicacionController implements Serializable {
     }
 
     public Estudiante getAuxEstudiante() {
-        return auxEstudiante;
+        return estudianteActual;
     }
 
     public void setAuxEstudiante(Estudiante auxEstudiante) {
-        this.auxEstudiante = auxEstudiante;
+        this.estudianteActual = auxEstudiante;
     }
 
     public String getVariableFiltrado() {
@@ -900,17 +894,31 @@ public class PublicacionController implements Serializable {
         requestContext.update("filemessage");
     }
 
-    /**Metodo repetido con documento Controller*/
+    /**Metodos repetido con documento Controller*/
     public boolean renderizarRevista() {
         return actual.getIdTipoDocumento().getIdentificador() == 4;
     }
 
     public boolean renderizarCongreso() {
-        return actual.getIdTipoDocumento().getIdentificador() == 3;
+        boolean respuesta = false;
+        if(actual.getIdTipoDocumento().getIdentificador() == 3){
+            idCiudad = actual.getCongreso().getCiudadId().getCiudId();
+            idPais = actual.getCongreso().getCiudadId().getPaisId().getPaisId();
+            actualizarCiudades();
+            respuesta = true;
+        }
+        return respuesta;
     }
 
     public boolean renderizarLibro() {
-        return actual.getIdTipoDocumento().getIdentificador() == 1;
+        boolean respuesta = false;
+        if(actual.getIdTipoDocumento().getIdentificador() == 1){
+            idCiudad = actual.getLibro().getCiudadId().getCiudId();
+            idPais = actual.getLibro().getCiudadId().getPaisId().getPaisId();
+            actualizarCiudades();
+            respuesta = true;
+        }
+        return respuesta;
     }
 
     public boolean renderizarCapLibro() {
@@ -1328,7 +1336,8 @@ public class PublicacionController implements Serializable {
     
     public void actualizarCiudades()
     {
-        this.listaCiudades = this.ejbCiudad.getCiudadPorPais(idPais);
+        System.out.println("Actualizando lista de ciudades");
+        this.listaCiudades = this.ejbCiudad.getCiudadPorPais(this.idPais);
     }
     //</editor-fold>
 }

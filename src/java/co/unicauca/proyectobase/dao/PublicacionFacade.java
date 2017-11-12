@@ -4,7 +4,6 @@ import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.TipoDocumento;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
@@ -132,22 +131,6 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
             System.out.println("Error " + e.getMessage());
         }
         return null;
-
-        /*
-        queryStr = " SELECT est_identificador FROM doctorado.estudiante WHERE est_usuario = " + comSimple + nombreUsuario + comSimple;
-        javax.persistence.Query query = getEntityManager().createNativeQuery(queryStr);
-        List results = query.getResultList();
-        int estIden = (int) results.get(0);
-
-        Estudiante est;
-        try {
-            est = em.find(Estudiante.class, estIden);
-            return est;
-        } catch (Exception e) {
-            System.out.println("Error " + e.getMessage());
-            System.out.println(e);
-            return null;
-        }*/
     }
     
     public int CountByMonthYear(String anio, String mes) {

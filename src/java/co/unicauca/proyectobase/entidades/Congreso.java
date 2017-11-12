@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.entidades;
 
 import java.io.Serializable;
@@ -35,43 +30,49 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Congreso.findByCongTipoCongreso", query = "SELECT c FROM Congreso c WHERE c.congTipoCongreso = :congTipoCongreso")})
 public class Congreso implements Serializable {
 
-    @JoinColumn(name = "ciudad_id", referencedColumnName = "ciud_id")
-    @ManyToOne
-    private Ciudad ciudadId;
-
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
-    @Column(name = "cong_doi")
-    private String congDoi;
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
-    @Column(name = "cong_issn")
-    private String congIssn;
-
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
+    
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "cong_doi")
+    private String congDoi;
+    
+    @Basic(optional = false)    
+    @Size(min = 1, max = 30)
+    @Column(name = "cong_issn")
+    private String congIssn;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "cong_titulo_ponencia")
     private String congTituloPonencia;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "cong_nombre_evento")
     private String congNombreEvento;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "cong_tipo_congreso")
     private String congTipoCongreso;
+    
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;
+    
+    @JoinColumn(name = "ciudad_id", referencedColumnName = "ciud_id")
+    @ManyToOne
+    private Ciudad ciudadId;
 
     public Congreso() {
     }

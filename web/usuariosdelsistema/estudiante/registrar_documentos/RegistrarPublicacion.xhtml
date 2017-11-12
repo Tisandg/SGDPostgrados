@@ -43,8 +43,7 @@
 
                     <p:outputLabel value="" styleClass="addEspacio"/>
                     <p:message for="autor" id="msjValAutores" />
-                    <p:outputLabel value="" styleClass="addEspacio"/>
-                    <p:outputLabel value="" styleClass="addEspacio"/>
+                    <p:outputLabel value="" styleClass="addEspacio"/><p:outputLabel value="" styleClass="addEspacio"/>
 
                     <p:dataTable id ="tablaAutores" value="#{publicacionController.listaAutores}" var="autor" 
                                  style="width:302px;" emptyMessage="" rendered="true">
@@ -118,9 +117,7 @@
                                 <p:ajax event="blur" update="msjValNombreArticulo" />
                             </p:inputText>
                             <p:message for="valNArticulo" id="msjValNombreArticulo" />
-                            <p:outputLabel value=""></p:outputLabel>
-                            <p:outputLabel value=""></p:outputLabel>
-
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
 
                             <h:panelGroup>
                                 <p:outputLabel value="Nombre revista:" styleClass="addEspacio"/>
@@ -131,8 +128,8 @@
                                 <p:ajax event="blur" update="msjValNombreRevista" />
                             </p:inputText>
                             <p:message for="valNRevista" id="msjValNombreRevista" />
-                            <p:outputLabel value=""></p:outputLabel>
-                            <p:outputLabel value=""></p:outputLabel>                                
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
+                            
 
                             <h:panelGroup>
                                 <p:outputLabel value="Categoría:" styleClass="addEspacio"/>
@@ -140,11 +137,11 @@
                             </h:panelGroup>                                
                             <p:selectOneMenu class="form-control"  id="valCategoria" value="#{publicacionController.actual.revista.revCategoria}"   
                                              required="true" requiredMessage="Debe seleccionar un campo de la lista" style="width: 100% !important">
-                                <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
-                                <f:selectItem itemLabel="A1" itemValue="A1"></f:selectItem>
-                                <f:selectItem itemLabel="A2" itemValue="A2"></f:selectItem>
-                                <f:selectItem itemLabel="B" itemValue="B"></f:selectItem>
-                                <f:selectItem itemLabel="C" itemValue="C"></f:selectItem>
+                                <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                <f:selectItem itemLabel="A1" itemValue="A1"/>
+                                <f:selectItem itemLabel="A2" itemValue="A2"/>
+                                <f:selectItem itemLabel="B" itemValue="B"/>
+                                <f:selectItem itemLabel="C" itemValue="C"/>
                                 <f:validator validatorId="ValidadorListaVacia" />            
                                 <f:ajax render="msjvalCategoriaRevista" />                                   
                             </p:selectOneMenu>
@@ -176,7 +173,7 @@
                             </p:inputMask>
                             <p:message for="valISSN" id="msjValISSN" /> 
                             <h:outputLink style="color: blue;" value="https://goo.gl/1hFMZ6">Conozca más sobre el ISSN</h:outputLink>                                
-                            <p:outputLabel value=""></p:outputLabel>
+                            <p:outputLabel value=""/>
 
 
                             <h:panelGroup>
@@ -201,9 +198,7 @@
                                 <p:ajax event="blur" update="msjvalNPonencia" />
                             </p:inputText>
                             <p:message for="valNPonencia" id="msjvalNPonencia" />
-                            <p:outputLabel value=""></p:outputLabel>
-                            <p:outputLabel value=""></p:outputLabel>
-
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
 
                             <h:panelGroup>
                                 <p:outputLabel value="Nombre evento:" styleClass="addEspacio"/>
@@ -214,8 +209,7 @@
                                 <p:ajax event="blur" update="msjvalNEvento" />
                             </p:inputText>
                             <p:message for="valNEvento" id="msjvalNEvento" />
-                            <p:outputLabel value=""></p:outputLabel>
-                            <p:outputLabel value=""></p:outputLabel>
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
 
                             <h:panelGroup>
                                 <p:outputLabel value="Tipo evento" styleClass="addEspacio"/>
@@ -223,16 +217,15 @@
                             </h:panelGroup>
                             <p:selectOneMenu class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" 
                                              styleClass="addEspacio form-control" required="true" requiredMessage="Debe seleccionar un campo de la lista" style="width: 100% !important">
-                                <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
-                                <f:selectItem itemLabel="Evento nacional" itemValue="nacional"></f:selectItem>
-                                <f:selectItem itemLabel="Evento internacional" itemValue="internacional"></f:selectItem>
+                                <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                <f:selectItem itemLabel="Evento nacional" itemValue="nacional"/>
+                                <f:selectItem itemLabel="Evento internacional" itemValue="internacional"/>
                                 <f:validator validatorId="ValidadorListaVacia" />
                                 <f:ajax render="msjvalTipoCongreso" />
                             </p:selectOneMenu>
                             <p:message for="valTipoCongreso" id="msjvalTipoCongreso" />
-                            <p:outputLabel value=""></p:outputLabel>
-                            <p:outputLabel value=""></p:outputLabel>
-
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
+                            
                             <h:panelGroup>
                                 <p:outputLabel value="País:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />

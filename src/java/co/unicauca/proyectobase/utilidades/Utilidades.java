@@ -28,7 +28,6 @@ public class Utilidades {
         } catch (IOException ex) {
             System.out.println("Errror al redireccionar. err: " + ex.getMessage());
             Logger.getLogger("Error al redireccionar a " + pagina);
-            
         }
     }
 
