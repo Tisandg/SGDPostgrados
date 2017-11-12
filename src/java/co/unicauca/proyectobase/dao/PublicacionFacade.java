@@ -270,7 +270,8 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         return findPub;
 
     }
-      public List<Publicacion> ListadoSoloPublicacion() {
+    
+    public List<Publicacion> ListadoSoloPublicacion() {
         
         javax.persistence.Query query = em.createNamedQuery("Publicacion.findByOnlyPublicacion");
         List<Publicacion> findPub = query.getResultList();
@@ -371,6 +372,15 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
     
-    
+    public int getCreditosTipoPubicacionPorID(int idPublicacion) {
+        String comSimple = "\'";
+        String queryStr;
+        queryStr = "SELECT tp.creditos FROM tipo_documento tp LEFT JOIN publicacion p ON tp.identificador = p.id_tipo_documento "
+                 + " WHERE tp.identificador ="+ idPublicacion;
+       
+        javax.persistence.Query query = getEntityManager().createNativeQuery(queryStr);
+        int result = (Integer)query.getSingleResult();
+        return result;
+    }
 
 }

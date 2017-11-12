@@ -917,17 +917,17 @@ public class PublicacionController implements Serializable {
         return actual.getIdTipoDocumento().getIdentificador() == 2;
     }
 
-    public void asignarCreditos() {
-        /* Obtiene la fecha correspondiente al moemento en el que se 
-            realiza el visado de la publicacion */
-        Date date = new Date();
+    /*public void asignarCreditos() {
+        // Obtiene la fecha correspondiente al moemento en el que se 
+            //realiza el visado de la publicacion
+       Date date = new Date();
 
         int auxCreditos = Integer.parseInt(creditos);        
         actual.setPubFechaVisado(date);
         daoPublicacion.edit(actual);
         daoPublicacion.flush();
         redirigirAlistar();
-    }
+    }*/
 
     public void mensajeVisar() {
         addMessage("Ha visado satisfactoriamente la publicacion", "");
@@ -936,7 +936,7 @@ public class PublicacionController implements Serializable {
     public void mensajeEditarCreditos() {
         addMessage("Ha editado satisfactoriamente los creditos de la publicacion", "");
     }
-
+/*
     public void visarPublicacion() {
         int auxCreditos = Integer.parseInt(creditos);
         int acta = Integer.parseInt(numActa);
@@ -953,8 +953,9 @@ public class PublicacionController implements Serializable {
             daoPublicacion.flush();
             mensajeEditarCreditos();
             redirigirAlistarRevisadas();
-        } /* Si no la publicacion no ha sido aceptada 
-             indica que esta en espera */ else {
+        } // Si no la publicacion no ha sido aceptada 
+            // indica que esta en espera  
+        else {
             if (actual.getPubEstIdentificador().getEstCreditos() == null) {
                 actual.getPubEstIdentificador().setEstCreditos(auxCreditos);                
                 actual.setPubNumActa(acta);
@@ -980,7 +981,7 @@ public class PublicacionController implements Serializable {
                 redirigirAlistarRevisadas();
             }
         }
-    }
+    }*/
     
     /**
      * obtiene la cantidad de creditos que se deben asignar dependiendo del tipo de publicacion
@@ -1072,9 +1073,23 @@ public class PublicacionController implements Serializable {
     public void setVisado(String visado) {
         this.visado = visado;
     }
+    /**
+     * Método que permite modificar los créditos de la publicación según el tipo de
+     * documento, y suma dichos créditos a los créditos actuales del estudiente.
+    */
+    private void cambiarCreditos()
+    {
+        int idTipoDocumento = actual.getIdTipoDocumento().getIdentificador();
+        int creditosPub = daoPublicacion.getCreditosTipoPubicacionPorID(idTipoDocumento);
+        int creditosEst = actual.getPubEstIdentificador().getEstCreditos();
+        actual.setPubCreditos(creditosPub);
+        actual.getPubEstIdentificador().setEstCreditos(creditosEst + creditosPub);
+        daoEst.edit(actual.getPubEstIdentificador());
+        daoPublicacion.edit(actual);
+    }
     
     /**
-     * cambia el estado de visado de una publicacion en la base de datos
+     * Método que permite cambia el estado de visado de una publicación en la base de datos.
      */    
     public void cambiarEstadoVisado(){
         if (!visado.equals("")){
@@ -1083,13 +1098,15 @@ public class PublicacionController implements Serializable {
             String correo = actual.getPubEstIdentificador().getEstCorreo();
             
             if(visado.equalsIgnoreCase("Aprobado")){
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante." 
+                cambiarCreditos();
+                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante, " 
                         + actual.getPubEstIdentificador().getEstNombre() + " "
                         + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de APROBAR la publicación " 
-                        + actual.obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\nNúmero de creditos: " + actual.getPubEstIdentificador().getEstCreditos()
-                        + "\n\n"+ "Servicio notificación DCE.");
+                        + "\n\nSe acaba de APROBAR la publicación " 
+                        + actual.obtenerNombrePub() + "."
+                        + "\nQue fue registrada previamente en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\nNúmero de creditos actuales: " + actual.getPubEstIdentificador().getEstCreditos()
+                        + "\n\n\n"+ "Servicio notificación DCE.");
             }
             if(visado.equalsIgnoreCase("No Aprobado")){
                 String mensaje = "Estimado estudiante." 
@@ -1113,7 +1130,8 @@ public class PublicacionController implements Serializable {
                         + "\n\n"+ "Servicio notificación DCE.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
-        }        
+        }    
+        
     }
     //</editor-fold>
     
