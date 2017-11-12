@@ -134,6 +134,10 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
+    @Size(max = 22)
+    @Column(name = "pub_tipo_publicacion")
+    private String pubTipoPublicacion;
+
     @Column(name = "pub_creditos")
     private Integer pubCreditos;
 
@@ -521,6 +525,20 @@ public class Publicacion implements Serializable {
                         if (fElement.getName().equals("okp:congreso.paisCongreso")) {
                             Input name = (Input) fElement;
                             name.setValue("" + this.congreso.getCiudadId().getPaisId().getPaisNombre());
+                        }
+                        
+                        SimpleDateFormat formateado = new SimpleDateFormat("MM-yyyy");
+                        String fIni = formateado.format(this.congreso.getFechaInicio());
+                        String fFin = formateado.format(this.congreso.getFechaFin());
+                        
+                        if (fElement.getName().equals("okp:congreso.fechaIniCongreso")) {
+                            Input name = (Input) fElement;
+                            name.setValue(""+fIni);
+                        }
+                        
+                        if (fElement.getName().equals("okp:congreso.fechaFinCongreso")) {
+                            Input name = (Input) fElement;
+                            name.setValue(""+fFin);
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:congreso", fElements);
@@ -1291,6 +1309,14 @@ public class Publicacion implements Serializable {
 
     public void setPubCreditos(Integer pubCreditos) {
         this.pubCreditos = pubCreditos;
+    }
+
+    public String getPubTipoPublicacion() {
+        return pubTipoPublicacion;
+    }
+
+    public void setPubTipoPublicacion(String pubTipoPublicacion) {
+        this.pubTipoPublicacion = pubTipoPublicacion;
     }
 
 }

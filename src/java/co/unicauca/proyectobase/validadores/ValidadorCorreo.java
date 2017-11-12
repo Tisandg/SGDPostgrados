@@ -13,9 +13,20 @@ import javax.faces.validator.ValidatorException;
 
     
 @FacesValidator(value="validadorCorreo")
-public class ValidadorCorreo implements Validator {
+public class ValidadorCorreo implements Validator 
+{
     @EJB
     private EstudianteFacade dao;
+    
+    private String expCorreo = "([_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}))";
+
+    public String getExpCorreo() {
+        return expCorreo;
+    }
+
+    public void setExpCorreo(String expCorreo) {
+        this.expCorreo = expCorreo;
+    }
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -32,17 +43,21 @@ public class ValidadorCorreo implements Validator {
             throw new ValidatorException(msg);  
         }
         
+        Pattern patron = Pattern.compile(expCorreo);
+        Matcher validar = patron.matcher(correo);
+        
+        if(!validar.find())
+        {
+            FacesMessage msg= new FacesMessage(FacesMessage.SEVERITY_ERROR, "","formato de Correo invalido.");
+            throw new ValidatorException(msg);
+        }
+        
+        /*
         if(validarFormato(correo)) {
             if(!siTieneArroba(correo)) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no tiene @");
                 throw new ValidatorException(msg);
             }
-//            else {
-//                if(!validarDominio(correo.split("@")[1])) {
-//                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe ser: gmail.com, unicuauca.edu.co o hotmail.com");
-//                    throw new ValidatorException(msg);
-//                }
-//            }
         }
         else {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El formato del correo es incorrecto");
@@ -68,9 +83,8 @@ public class ValidadorCorreo implements Validator {
         {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ya existe un estudiante con este correo.");
             throw new ValidatorException(msg); 
-        }
+        }*/
     }
-    
     
     //valida que el dominio del correo sea correcto
     public boolean validarDominio(String dominio) {
