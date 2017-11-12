@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.entidades;
 
 import java.io.Serializable;
@@ -51,7 +46,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estudiante.findNombreById", query = "SELECT e FROM Estudiante e WHERE e.estIdentificador = :id") 
 })
 public class Estudiante implements Serializable {
-
 
     @OneToMany(mappedBy = "pubEstIdentificador")
     private List<Publicacion> documentoList;
@@ -195,15 +189,7 @@ public class Estudiante implements Serializable {
     public void setEstUsuario(String estUsuario) {
         this.estUsuario = estUsuario;
     }
-
-    /*public String getEstContrasena() {
-        return estContrasena;
-    }
-
-    public void setEstContrasena(String estContrasena) {
-        this.estContrasena = estContrasena;
-    }*/
-
+    
     @XmlTransient
     public List<Doctorado> getDoctoradoList() {
         return doctoradoList;

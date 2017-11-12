@@ -522,7 +522,7 @@ public class PublicacionController implements Serializable {
         }
 
         if (formatoValido == true) {
-            /* puedeSubir  ->  se utiliza para comprobar que el usuario ha seleccionado 
+            /* PuedeSubir  ->  se utiliza para comprobar que el usuario ha seleccionado 
                 el PDF de la publicacion o en su defecto la carta de aprobacion*/
             boolean puedeSubir = false;
             if (publicacionPDF.getFileName().equalsIgnoreCase("")) {
@@ -590,7 +590,6 @@ public class PublicacionController implements Serializable {
                     archCartaAprob.setArcIdentificador(numArchivos);
                     archCartaAprob.setArctipoPDFcargar("cartaAprobacion");
                     CollArchivo.add(archCartaAprob);
-
                     
                     if (!publicacionPDF.getFileName().equalsIgnoreCase("")) {
                         Archivo archArt = new Archivo();
@@ -614,18 +613,25 @@ public class PublicacionController implements Serializable {
                     fijarAutoresSecundarios();
                     
                     /*Aqui se suben los archivos al OpenKm*/
-                    actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF);
-                    
-                    /*Crear registro en la bd*/
-                    daoPublicacion.create(actual);
-                    daoPublicacion.flush();
-                    mensajeconfirmarRegistro();
+                    if(actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF)){
+                        /*Crear registro en la bd*/
+                        daoPublicacion.create(actual);
+                        daoPublicacion.flush();
+                        mensajeconfirmarRegistro();
 
-                    Date date = new Date();
-                    DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    String estampaTiempo = "" + datehourFormat.format(date);
-                    //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una publicación del tipo " + actual.getIdTipoDocumento().getNombre()+ " en la siguiente fecha y hora: " + estampaTiempo);
+                        Date date = new Date();
+                        DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        String estampaTiempo = "" + datehourFormat.format(date);
+                        //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
+                        Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", 
+                                "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una publicación del tipo " 
+                                + actual.getIdTipoDocumento().getNombre()+ " en la siguiente fecha y hora: " + estampaTiempo);
+                    }else{
+                        /*No se han podido subir los archivos*/
+                        FacesContext.getCurrentInstance().addMessage("Error", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al subir archivos", ""));
+                        Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPublicacion.xhtml");
+                    }
+                    
                     
                 } catch (EJBException ex) {
                     mensajeRegistroFallido();
@@ -925,17 +931,17 @@ public class PublicacionController implements Serializable {
         return actual.getIdTipoDocumento().getIdentificador() == 2;
     }
 
-    public void asignarCreditos() {
-        /* Obtiene la fecha correspondiente al moemento en el que se 
-            realiza el visado de la publicacion */
-        Date date = new Date();
+    /*public void asignarCreditos() {
+        // Obtiene la fecha correspondiente al moemento en el que se 
+            //realiza el visado de la publicacion
+       Date date = new Date();
 
         int auxCreditos = Integer.parseInt(creditos);        
         actual.setPubFechaVisado(date);
         daoPublicacion.edit(actual);
         daoPublicacion.flush();
         redirigirAlistar();
-    }
+    }*/
 
     public void mensajeVisar() {
         addMessage("Ha visado satisfactoriamente la publicacion", "");
@@ -944,7 +950,7 @@ public class PublicacionController implements Serializable {
     public void mensajeEditarCreditos() {
         addMessage("Ha editado satisfactoriamente los creditos de la publicacion", "");
     }
-
+/*
     public void visarPublicacion() {
         int auxCreditos = Integer.parseInt(creditos);
         int acta = Integer.parseInt(numActa);
@@ -961,8 +967,9 @@ public class PublicacionController implements Serializable {
             daoPublicacion.flush();
             mensajeEditarCreditos();
             redirigirAlistarRevisadas();
-        } /* Si no la publicacion no ha sido aceptada 
-             indica que esta en espera */ else {
+        } // Si no la publicacion no ha sido aceptada 
+            // indica que esta en espera  
+        else {
             if (actual.getPubEstIdentificador().getEstCreditos() == null) {
                 actual.getPubEstIdentificador().setEstCreditos(auxCreditos);                
                 actual.setPubNumActa(acta);
@@ -988,7 +995,7 @@ public class PublicacionController implements Serializable {
                 redirigirAlistarRevisadas();
             }
         }
-    }
+    }*/
     
     /**
      * obtiene la cantidad de creditos que se deben asignar dependiendo del tipo de publicacion
@@ -1080,9 +1087,23 @@ public class PublicacionController implements Serializable {
     public void setVisado(String visado) {
         this.visado = visado;
     }
+    /**
+     * Método que permite modificar los créditos de la publicación según el tipo de
+     * documento, y suma dichos créditos a los créditos actuales del estudiente.
+    */
+    private void cambiarCreditos()
+    {
+        int idTipoDocumento = actual.getIdTipoDocumento().getIdentificador();
+        int creditosPub = daoPublicacion.getCreditosTipoPubicacionPorID(idTipoDocumento);
+        int creditosEst = actual.getPubEstIdentificador().getEstCreditos();
+        actual.setPubCreditos(creditosPub);
+        actual.getPubEstIdentificador().setEstCreditos(creditosEst + creditosPub);
+        daoEst.edit(actual.getPubEstIdentificador());
+        daoPublicacion.edit(actual);
+    }
     
     /**
-     * cambia el estado de visado de una publicacion en la base de datos
+     * Método que permite cambia el estado de visado de una publicación en la base de datos.
      */    
     public void cambiarEstadoVisado(){
         if (!visado.equals("")){
@@ -1091,13 +1112,15 @@ public class PublicacionController implements Serializable {
             String correo = actual.getPubEstIdentificador().getEstCorreo();
             
             if(visado.equalsIgnoreCase("Aprobado")){
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante." 
+                cambiarCreditos();
+                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante, " 
                         + actual.getPubEstIdentificador().getEstNombre() + " "
                         + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de APROBAR la publicación " 
-                        + actual.obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\nNúmero de creditos: " + actual.getPubEstIdentificador().getEstCreditos()
-                        + "\n\n"+ "Servicio notificación DCE.");
+                        + "\n\nSe acaba de APROBAR la publicación " 
+                        + actual.obtenerNombrePub() + "."
+                        + "\nQue fue registrada previamente en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\nNúmero de creditos actuales: " + actual.getPubEstIdentificador().getEstCreditos()
+                        + "\n\n\n"+ "Servicio notificación DCE.");
             }
             if(visado.equalsIgnoreCase("No Aprobado")){
                 String mensaje = "Estimado estudiante." 
@@ -1121,7 +1144,8 @@ public class PublicacionController implements Serializable {
                         + "\n\n"+ "Servicio notificación DCE.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
-        }        
+        }    
+        
     }
     //</editor-fold>
     

@@ -134,6 +134,10 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
+    @Size(max = 22)
+    @Column(name = "pub_tipo_publicacion")
+    private String pubTipoPublicacion;
+
     @Column(name = "pub_creditos")
     private Integer pubCreditos;
 
@@ -217,8 +221,9 @@ public class Publicacion implements Serializable {
     
 
     @SuppressWarnings("empty-statement")
-    public void agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF) throws IOException {
+    public boolean agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF) throws IOException {
 
+        boolean archivosSubidos = false;
         /*Nombre de los archivos que se almacenaran en el repositorio*/
         MetodosPDF mpdf = new MetodosPDF();
         String codigoEst = this.pubEstIdentificador.getEstCodigo();
@@ -289,8 +294,13 @@ public class Publicacion implements Serializable {
         /* Metodo para almacenar en el Gestor Documental(OPENKM), carta de aprobacion,
            el articulo en formato y la Tabla de Contenido del Articulo, todos en formato
            PDFA*/
-        SubirOpenKM(archivoParaSubir, codigoFirma, hash);        
-        
+        if(SubirOpenKM(archivoParaSubir, codigoFirma, hash)){
+            System.out.println("Los archivos se han subido a openKM");
+            archivosSubidos = true;
+        }else{
+            System.out.println("Error al subir los archivos a openKm");
+        }        
+        return archivosSubidos;
     }
     
     public void AgregarPracticaDocente(UploadedFile ArchivoPD) throws IOException
@@ -334,10 +344,11 @@ public class Publicacion implements Serializable {
      * @param hash
      * @throws IOException 
      */
-    public void SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String codigoFirma, String hash) throws IOException {
+    public boolean SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String codigoFirma, String hash) throws IOException {
         String host = "http://localhost:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";
+        boolean archivosSubidos = false;
         /* Inicia una instancia del Gestor Documental Openkm*/
         this.setPubHash(hash);
         OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
@@ -526,6 +537,20 @@ public class Publicacion implements Serializable {
                             Input name = (Input) fElement;
                             name.setValue("" + this.congreso.getCiudadId().getPaisId().getPaisNombre());
                         }
+                        
+                        SimpleDateFormat formateado = new SimpleDateFormat("MM-yyyy");
+                        String fIni = formateado.format(this.congreso.getFechaInicio());
+                        String fFin = formateado.format(this.congreso.getFechaFin());
+                        
+                        if (fElement.getName().equals("okp:congreso.fechaIniCongreso")) {
+                            Input name = (Input) fElement;
+                            name.setValue(""+fIni);
+                        }
+                        
+                        if (fElement.getName().equals("okp:congreso.fechaFinCongreso")) {
+                            Input name = (Input) fElement;
+                            name.setValue(""+fFin);
+                        }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:congreso", fElements);
 
@@ -662,10 +687,12 @@ public class Publicacion implements Serializable {
                 File fichero = new File(subidaArchivos.get(i).getRutaArchivo());
                 fichero.delete();
             }
+            archivosSubidos = true;
 
         } catch (AccessDeniedException | AutomationException | DatabaseException | ExtensionException | FileSizeExceededException | ItemExistsException | LockException | NoSuchGroupException | NoSuchPropertyException | ParseException | PathNotFoundException | RepositoryException | UnknowException | UnsupportedMimeTypeException | UserQuotaExceededException | VirusDetectedException | WebserviceException | IOException e) {
             System.out.println("error en subirOpenKM clase publicacion.java "+e.getMessage());
         }
+        return archivosSubidos;
     }
 
     /**
@@ -1295,6 +1322,14 @@ public class Publicacion implements Serializable {
 
     public void setPubCreditos(Integer pubCreditos) {
         this.pubCreditos = pubCreditos;
+    }
+
+    public String getPubTipoPublicacion() {
+        return pubTipoPublicacion;
+    }
+
+    public void setPubTipoPublicacion(String pubTipoPublicacion) {
+        this.pubTipoPublicacion = pubTipoPublicacion;
     }
 
 }

@@ -80,7 +80,7 @@
                                      required="true" requiredMessage="Debe seleccionar un campo de la lista" style="width: 100% !important">
                         <f:selectItem itemLabel="Seleccionar" itemValue="seleccionar"></f:selectItem>
                         <f:selectItem itemLabel="Revista" itemValue="revista"></f:selectItem>
-                        <f:selectItem itemLabel="Congreso" itemValue="congreso"></f:selectItem>
+                        <f:selectItem itemLabel="Evento" itemValue="congreso"></f:selectItem>
                         <f:selectItem itemLabel="Libro" itemValue="libro"></f:selectItem>
                         <f:selectItem itemLabel="Capítulo libro" itemValue="capitulo libro"></f:selectItem>
                         <f:validator validatorId="ValidadorListaVacia" />                                                                                                                
@@ -163,6 +163,33 @@
                 <h:panelGroup  rendered="#{publicacionController.tipoPublicacion == 'congreso'}">
                     <p:panel header="Datos evento">
                         <h:panelGrid columns="5" cellpadding="5">
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="Fecha inicio" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                            </h:panelGroup>
+                            <p:calendar  id="fechaIni" value="#{publicacionController.actual.congreso.fechaInicio}" maxdate="#{currentDay}" size="35" 
+                                         pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es" >
+                                <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
+                                <f:validator validatorId="validadorFechaPublicacion" />
+                                <p:ajax event="change" update="msjValFechaPublicacionIni" />
+                            </p:calendar>
+                            <p:message for="event" id="msjValFechaPublicacionIni" />
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="Fecha final" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                            </h:panelGroup>
+                            <p:calendar  id="fechaFin" value="#{publicacionController.actual.congreso.fechaFin}" maxdate="#{currentDay}" size="35" 
+                                         pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es" >
+                                <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
+                                <f:validator validatorId="validadorFechaPublicacion" />
+                                <p:ajax event="change" update="msjValFechaPublicacionFin" />
+                            </p:calendar>
+                            <p:message for="event" id="msjValFechaPublicacionFin" />
+                            <p:outputLabel value=""/><p:outputLabel value=""/>
+                            
                             <h:panelGroup>
                                 <h:outputLabel value="ISSN:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
@@ -217,9 +244,10 @@
                             </h:panelGroup>
                             <p:selectOneMenu class="form-control"  id="valTipoCongreso" value="#{publicacionController.actual.congreso.congTipoCongreso}" 
                                              styleClass="addEspacio form-control" required="true" requiredMessage="Debe seleccionar un campo de la lista" style="width: 100% !important">
-                                <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                <f:selectItem itemLabel="Evento nacional" itemValue="nacional"/>
-                                <f:selectItem itemLabel="Evento internacional" itemValue="internacional"/>
+                                <f:selectItem itemLabel="Seleccionar" itemValue=""></f:selectItem>
+                                <f:selectItem itemLabel="Congreso" itemValue="congreso"></f:selectItem>
+                                <f:selectItem itemLabel="Seminario" itemValue="seminario"></f:selectItem>
+                                <f:selectItem itemLabel="Simposio" itemValue="simposio"></f:selectItem>
                                 <f:validator validatorId="ValidadorListaVacia" />
                                 <f:ajax render="msjvalTipoCongreso" />
                             </p:selectOneMenu>

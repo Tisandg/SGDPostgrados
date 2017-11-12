@@ -53,13 +53,13 @@
                             <p:commandButton disabled="#{pub.pubVisado != 'espera'}" actionListener="#{publicacionController.irAEditar(pub)}" value="Editar" icon="fa fa-fw fa-edit" style="font-size: 13px;"/>
                             <p:commandButton disabled="#{pub.pubVisado != 'espera'}" onclick="PF('dlg2').show();"  value="Eliminar" class="btn btn-success btn_listaEstudiantes" icon="fa fa-fw fa-remove" style="font-size: 13px;"/>
 
-                            <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" height="100">
+                            <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false">
                                 <h:form style="font-size: 10px;">
                                     <br/>
-                                    <h:outputText value="Esta seguro que desea eliminar esta documentacion?" />
+                                    <h:outputText value="¿Esta seguro que eliminar esta publicacion?" />
                                     <br/><br/>
                                     <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                                    <p:commandButton actionListener="#{publicacionController.eliminarDocumentacion(pub)}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                    <p:commandButton action="#{publicacionController.eliminarDocumentacion(pub)}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
                                 </h:form>
                             </p:dialog>
 
