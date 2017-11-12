@@ -24,7 +24,6 @@
     <textarea label="Description" name="okp:technology.description"/>
     <input label="Link" type="link" name="okp:technology.link"/>
   </property-group>
-    
     <property-group label="revista" name="okg:revista">
     <input label="Identificador Publicacion" type="text" name="okp:revista.identPublicacion"/>
     <input label="Identificador Archivo" type="text" name="okp:revista.identArchivo"/>
@@ -38,6 +37,8 @@
     <input label="Nombre Revista" type="text" name="okp:revista.nombreRevista" />
     <input label="Categoria" type="text" name="okp:revista.categoria"/>    
     <input label="DOI"  type="text" name="okp:revista.DOI"/>
+    <input label="ISBN"  type="text"  name="okp:revista.ISBN"/>  
+    <input label="ISSN"  type="text"  name="okp:revista.ISSN"/>
 </property-group>
 
 
@@ -53,10 +54,13 @@
     <input label="Titulo Ponencia"   type="text" name="okp:congreso.tituloPonencia" /> 
     <input label="Nombre Evento" type="text" name="okp:congreso.nombreEvento" />
     <input label="Tipo Congreso" type="text" name="okp:congreso.tipoCongreso" />
-    <input label="DOI"   type="text" name="okp:congreso.DOI"/> 
+    <input label="DOI"   type="text" name="okp:congreso.DOI"/>
+    <input label="ISBN"  type="text"  name="okp:congreso.ISBN"/>  
     <input label="ISSN"  type="text"  name="okp:congreso.ISSN"/>
     <input label="Pais"   type="text" name="okp:congreso.paisCongreso"/>
     <input label="Ciudad"   type="text" name="okp:congreso.ciudadCongreso"/>
+    <input label="Fecha_Inicio"   type="text" name="okp:congreso.fechaIniCongreso"/>
+    <input label="Fecha_Fin"   type="text" name="okp:congreso.fechaFinCongreso"/>
 </property-group>
 
 
@@ -70,18 +74,18 @@
     <input label="Fecha Publicacion"   type="text" name="okp:libro.fechaPublicacion"/>
     <input label="Tipo Publicacion"  type="text"  name="okp:libro.tipoPublicacion"/>   
     <input label="Titulo Libro"   type="text" name="okp:libro.tituloLibro"/> 
+    <input label="DOI"   type="text"  name="okp:libro.DOI"/>
     <input label="ISBN"  type="text"  name="okp:libro.ISBN"/>  
+    <input label="ISSN"  type="text"  name="okp:libro.ISSN"/>
     <input label="Editorial"   type="text" name="okp:libro.editorialLibro"/>
     <input label="Pais"   type="text" name="okp:libro.paisLibro"/>
     <input label="Ciudad"   type="text" name="okp:libro.ciudadLibro"/>
 </property-group>
 
-
-
 <property-group label="capLibro" name="okg:capLibro">
     <input label="Identificador Publicacion" type="text" name="okp:capLibro.identPublicacion"/>
     <input label="Identificador Archivo" type="text" name="okp:capLibro.identArchivo"/>
-    <input label="TipoPDF_Cargar" type="text" name="okp:capLibro.tipoPDFCargar"/>  
+     <input label="TipoPDF_Cargar" type="text" name="okp:capLibro.tipoPDFCargar"/>  
     <input label="Estampa Tiempo" type="text" name="okp:capLibro.estampaTiempo"/>
     <input label="Nombre Autor" type="text" name="okp:capLibro.nombreAutor"/>
     <input label="Autores Secundarios" type="text" name="okp:capLibro.autoresSecundarios" />
@@ -89,15 +93,18 @@
     <input label="Tipo Publicacion"  type="text"  name="okp:capLibro.tipoPublicacion"/>   
     <input label="Titulo Libro"   type="text" name="okp:capLibro.tituloLibro"/>
     <input label="Titulo Capitulo"   type="text" name="okp:capLibro.tituloCapitulo"/>
+    <input label="DOI"   type="text"  name="okp:capLibro.DOI"/>
     <input label="ISBN"  type="text"  name="okp:capLibro.ISBN"/>  
+    <input label="ISSN"  type="text"  name="okp:capLibro.ISSN"/>
 </property-group>
-    
+
 <property-group label="practica" name="okg:practica">
     <input label="Identificador Publicacion" type="text" name="okp:practica.identPublicacion"/>
     <input label="Identificador Archivo" type="text" name="okp:practica.identArchivo"/>
-    <input label="TipoPDF_Cargar" type="text" name="okp:practica.tipoPDFCargar"/>  
+     <input label="TipoPDF_Cargar" type="text" name="okp:practica.tipoPDFCargar"/>  
     <input label="Estampa Tiempo" type="text" name="okp:practica.estampaTiempo"/>
     <input label="Nombre Autor" type="text" name="okp:practica.nombreAutor"/>
 </property-group>
     
 </property-groups>
+
