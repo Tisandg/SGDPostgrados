@@ -8,11 +8,11 @@
 	<style name="Column header" forecolor="#666666" fontName="Serif" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Serif" fontSize="12"/>
 	<style name="Heading 4" fontSize="12" isBold="true" isItalic="true"/>
-	<parameter name="anio" class="java.lang.String">
-		<defaultValueExpression><![CDATA["2017"]]></defaultValueExpression>
+	<parameter name="anio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2017]]></defaultValueExpression>
 	</parameter>
-	<parameter name="semestre" class="java.lang.String">
-		<defaultValueExpression><![CDATA['2']]></defaultValueExpression>
+	<parameter name="semestre" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT

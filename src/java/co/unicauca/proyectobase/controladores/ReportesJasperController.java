@@ -218,7 +218,7 @@ public class ReportesJasperController implements Serializable {
 //            response.addHeader("Content-disposition", "attachment; filename=report.pdf");
             response.addHeader("Content-disposition", "inline; filename=report.pdf");
             ServletOutputStream servletOutputStream = response.getOutputStream();
-            
+
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
         } catch (JRException | IOException ex) {
@@ -240,7 +240,7 @@ public class ReportesJasperController implements Serializable {
             exporterXLS.setExporterOutput(sreo);
             SimpleExporterInput sei = new SimpleExporterInput(jasperPrint);
             exporterXLS.setExporterInput(sei);
-            AbstractXlsReportConfiguration  xrc = new SimpleXlsReportConfiguration();
+            AbstractXlsReportConfiguration xrc = new SimpleXlsReportConfiguration();
 
             xrc.setOnePagePerSheet(true);
             xrc.setDetectCellType(true);
@@ -248,7 +248,7 @@ public class ReportesJasperController implements Serializable {
             xrc.setRemoveEmptySpaceBetweenColumns(true);
             xrc.setRemoveEmptySpaceBetweenRows(true);
             exporterXLS.setConfiguration(xrc);
-            
+
             exporterXLS.exportReport();
 
 //            response.setHeader("Content-disposition", "attachment; filename=reporte.xls");
