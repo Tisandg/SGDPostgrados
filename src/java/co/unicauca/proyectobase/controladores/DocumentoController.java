@@ -13,7 +13,6 @@ import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.Revista;
 import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.CapituloLibro;
-//import static co.unicauca.proyectobase.entidades.GrupoTipoUsuario_.nombreUsuario;
 import co.unicauca.proyectobase.entidades.archivoPDF;
 import co.unicauca.proyectobase.utilidades.Autor;
 import co.unicauca.proyectobase.utilidades.Utilidades;
@@ -113,7 +112,8 @@ public class DocumentoController implements Serializable {
   
     public void visPdfPub() throws IOException {
 
-        archivoPDF archivoPublic = actual.descargaPublicacion();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
         InputStream fis = archivoPublic.getArchivo();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] buffer = new byte[0xFFFF];
@@ -311,7 +311,8 @@ public class DocumentoController implements Serializable {
     }
     
     public void pdfCartaAprob() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaCartaAprobac();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(2);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Para esta publicacion el Usuario no ha cargado un PDF de la carta de aprobacion  ", ""));
 
@@ -340,7 +341,8 @@ public class DocumentoController implements Serializable {
     }
 
     public void pdfPub() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaPublicacion();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
 
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF para esta publicacion", ""));
@@ -373,37 +375,52 @@ public class DocumentoController implements Serializable {
     }
 
     public void pdfPubTC() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaPubTC();
-        if (archivoPublic.getNombreArchivo().equals("")) {
-            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
+        archivoPDF archivoPublic = new archivoPDF();
+        boolean descargado = false;
+        try{
+            /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+            archivoPublic = actual.descargarDocumento(3);
+            descargado = true;
+            if (archivoPublic.getNombreArchivo().equals("")) {
+                System.out.println("Tabla de contenido no existe");
+                FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
+                verPublicacionEst(actual);
+            } else {
+                System.out.println("Cargando tabla de contenido");
+                String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
+                InputStream fis = archivoPublic.getArchivo();
 
-        } else {
-            String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
-            InputStream fis = archivoPublic.getArchivo();
+                HttpServletResponse response
+                        = (HttpServletResponse) FacesContext.getCurrentInstance()
+                                .getExternalContext().getResponse();
 
-            HttpServletResponse response
-                    = (HttpServletResponse) FacesContext.getCurrentInstance()
-                            .getExternalContext().getResponse();
+                response.setContentType("application/pdf");
+                // response.setHeader("Content-Disposition", "inline;filename=" + archivoPublic.getNombreArchivo() + ".pdf");
+                response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
+                byte[] buffer = new byte[8 * 1024];
+                int bytesRead;
+                while ((bytesRead = fis.read(buffer)) != -1) {
+                    response.getOutputStream().write(buffer, 0, bytesRead);
+                }
 
-            response.setContentType("application/pdf");
-            // response.setHeader("Content-Disposition", "inline;filename=" + archivoPublic.getNombreArchivo() + ".pdf");
-            response.setHeader("Content-Disposition", "inline;filename=" + nombreArchivo[0] + ".pdf");
-            byte[] buffer = new byte[8 * 1024];
-            int bytesRead;
-            while ((bytesRead = fis.read(buffer)) != -1) {
-                response.getOutputStream().write(buffer, 0, bytesRead);
+                // response.getOutputStream().write(buf);
+                response.getOutputStream().flush();
+                response.getOutputStream().close();
+                FacesContext.getCurrentInstance().responseComplete();
+
             }
-
-            // response.getOutputStream().write(buf);
-            response.getOutputStream().flush();
-            response.getOutputStream().close();
-            FacesContext.getCurrentInstance().responseComplete();
-
+        }catch(Exception e){
+            System.out.println("Documento Controller: "+e.getMessage());
+            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
+            //verPublicacionEst(actual);
+            
         }
+        
     }
 
     public void descargarCartaAprobac() throws FileNotFoundException, IOException {
-        archivoPDF archivoPublic = actual.descargaCartaAprobac();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(2);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Para esta publicacion el Usuario no ha cargado un PDF de la carta de aprobacion  ", ""));
 
@@ -432,7 +449,8 @@ public class DocumentoController implements Serializable {
     }
 
     public void descargarPublicacion() throws FileNotFoundException, IOException {
-        archivoPDF archivoPublic = actual.descargaPublicacion();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF para esta publicacion", ""));
 
@@ -461,7 +479,8 @@ public class DocumentoController implements Serializable {
     }
 
     public void descargarPubTC() throws FileNotFoundException, IOException {
-        archivoPDF archivoPubTC = actual.descargaPubTC();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPubTC = actual.descargarDocumento(3);
         if (archivoPubTC.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
 

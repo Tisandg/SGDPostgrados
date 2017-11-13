@@ -113,11 +113,6 @@ public class PublicacionController implements Serializable {
     private int idPais;
     private int idCiudad;
     
-    /*Datos para conectar al openKm*/
-    /*String host = "http://localhost:8083/OpenKM";
-    String username = "okmAdmin";
-    String password = "admin";*/
-
     public String getTipoPublicacion() {
         return tipoPublicacion;
     }
@@ -139,8 +134,8 @@ public class PublicacionController implements Serializable {
     } 
   
     public void visPdfPub() throws IOException {
-
-        archivoPDF archivoPublic = actual.descargaPublicacion();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
         InputStream fis = archivoPublic.getArchivo();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] buffer = new byte[0xFFFF];
@@ -332,7 +327,8 @@ public class PublicacionController implements Serializable {
     }
     
     public void pdfCartaAprob() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaCartaAprobac();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(2);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Para esta publicacion el Usuario no ha cargado un PDF de la carta de aprobacion  ", ""));
         } else {
@@ -355,7 +351,9 @@ public class PublicacionController implements Serializable {
     }
 
     public void pdfPub() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaPublicacion();
+        
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF para esta publicacion", ""));
         } else {
@@ -376,8 +374,10 @@ public class PublicacionController implements Serializable {
     }
 
     public void pdfPubTC() throws FileNotFoundException, IOException, IOException, IOException {
-        archivoPDF archivoPublic = actual.descargaPubTC();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(3);
         if (archivoPublic.getNombreArchivo().equals("")) {
+            System.out.println("Error al obtener tabla de contenido de controlador de publicaciones");
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
         } else {
             String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
@@ -405,7 +405,8 @@ public class PublicacionController implements Serializable {
     }
 
     public void descargarCartaAprobac() throws FileNotFoundException, IOException {
-        archivoPDF archivoPublic = actual.descargaCartaAprobac();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(2);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Para esta publicacion el Usuario no ha cargado un PDF de la carta de aprobacion  ", ""));
 
@@ -434,7 +435,8 @@ public class PublicacionController implements Serializable {
     }
 
     public void descargarPublicacion() throws FileNotFoundException, IOException {
-        archivoPDF archivoPublic = actual.descargaPublicacion();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF para esta publicacion", ""));
 
@@ -463,7 +465,8 @@ public class PublicacionController implements Serializable {
     }
 
     public void descargarPubTC() throws FileNotFoundException, IOException {
-        archivoPDF archivoPubTC = actual.descargaPubTC();
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPubTC = actual.descargarDocumento(3);
         if (archivoPubTC.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
 
@@ -632,8 +635,7 @@ public class PublicacionController implements Serializable {
                         Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarPublicacion.xhtml");
                     }
                     
-                    
-                } catch (EJBException ex) {
+                }catch (EJBException ex) {
                     mensajeRegistroFallido();
                     Logger.getLogger(PublicacionController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -751,6 +753,25 @@ public class PublicacionController implements Serializable {
         actual = pub;
         cve.editarDocumentacion();
         extraerAutoresSecundarios();
+        if(actual.getIdTipoDocumento().getIdentificador() == 4){
+            
+        }
+        if(actual.getIdTipoDocumento().getIdentificador() == 3){
+            idPais = actual.getCongreso().getCiudadId().getPaisId().getPaisId();
+            idCiudad = actual.getCongreso().getCiudadId().getCiudId();
+            actualizarCiudades();
+        }
+        if(actual.getIdTipoDocumento().getIdentificador() == 2){
+            
+        }
+        if(actual.getIdTipoDocumento().getIdentificador() == 1){
+            idPais = actual.getLibro().getCiudadId().getPaisId().getPaisId();
+            idCiudad = actual.getLibro().getCiudadId().getCiudId();
+            actualizarCiudades();
+        }
+        /*Cargamos los archivos pdf que han registrado*/
+        
+        
         Utilidades.redireccionar(cve.getRuta());
     }
     
@@ -858,7 +879,7 @@ public class PublicacionController implements Serializable {
     }
 
     public void mensajeconfirmarRegistro() {
-        addMessage("Publicacion Registrada con exito ", "");
+        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "La publicacion se ha registrado exitosamente", ""));
     }
 
     public void mensajeRegistroFallido() {
@@ -906,25 +927,11 @@ public class PublicacionController implements Serializable {
     }
 
     public boolean renderizarCongreso() {
-        boolean respuesta = false;
-        if(actual.getIdTipoDocumento().getIdentificador() == 3){
-            idCiudad = actual.getCongreso().getCiudadId().getCiudId();
-            idPais = actual.getCongreso().getCiudadId().getPaisId().getPaisId();
-            actualizarCiudades();
-            respuesta = true;
-        }
-        return respuesta;
+        return actual.getIdTipoDocumento().getIdentificador() == 3;
     }
 
     public boolean renderizarLibro() {
-        boolean respuesta = false;
-        if(actual.getIdTipoDocumento().getIdentificador() == 1){
-            idCiudad = actual.getLibro().getCiudadId().getCiudId();
-            idPais = actual.getLibro().getCiudadId().getPaisId().getPaisId();
-            actualizarCiudades();
-            respuesta = true;
-        }
-        return respuesta;
+        return actual.getIdTipoDocumento().getIdentificador() == 1;
     }
 
     public boolean renderizarCapLibro() {
@@ -1360,7 +1367,7 @@ public class PublicacionController implements Serializable {
     
     public void actualizarCiudades()
     {
-        System.out.println("Actualizando lista de ciudades");
+        System.out.println("lista de ciudades de "+idPais);
         this.listaCiudades = this.ejbCiudad.getCiudadPorPais(this.idPais);
     }
     //</editor-fold>

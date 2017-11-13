@@ -1,5 +1,6 @@
 package co.unicauca.proyectobase.entidades;
 
+import co.unicauca.proyectobase.controladores.OpenKMController;
 import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import java.io.Serializable;
 import java.util.Collection;
@@ -134,8 +135,6 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
-    @Column(name = "tipo_documento")
-    private Integer tipoDocumento;
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_creditos", nullable = false)
@@ -199,8 +198,7 @@ public class Publicacion implements Serializable {
     @JoinColumn(name = "pub_est_identificador", referencedColumnName = "est_identificador")
     @ManyToOne
     private Estudiante pubEstIdentificador;
-           
-    
+
     public Publicacion() {
         this.pubAutoresSecundarios = "";
         this.libro = new Libro();
@@ -347,13 +345,13 @@ public class Publicacion implements Serializable {
      * @throws IOException 
      */
     public boolean SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String codigoFirma, String hash) throws IOException {
-        String host = "http://localhost:8083/OpenKM";
+        /*String host = "http://localhost:8083/OpenKM";
         String username = "okmAdmin";
-        String password = "admin";
+        String password = "admin";*/
         boolean archivosSubidos = false;
         /* Inicia una instancia del Gestor Documental Openkm*/
         this.setPubHash(hash);
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
         try {
             boolean crearFolder;
             String rutaFolderCrear;
@@ -787,17 +785,22 @@ public class Publicacion implements Serializable {
         }
     }
     
-    
+    /***
+     * Elimina los documentos subidos al gestor de documentos OpenKM.
+     * Se obtiene una instancia de openKm con la cual buscamos la carpeta donde
+     * estan almacenados los documentos. Si se encuentra se eliminar toda la 
+     * carpeta de lo contrario se lanza un mensaje por consola notificando que
+     * ocurrio un error al eliminar la documentacion.
+     * @return
+     * @throws LockException 
+     */
     public boolean eliminarDocOpenkm() throws LockException{
-        String host = "http://localhost:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";
         boolean eliminado = false;
         boolean existe = false;
         String rutaFolder="/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario() + "/" + this.pubDiropkm;
         Folder folder = new Folder();
         folder.setPath(rutaFolder);
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
         try {
             /* Se valida si el forder a eliminar existe o no*/
             ws.isValidFolder(rutaFolder);
@@ -815,10 +818,8 @@ public class Publicacion implements Serializable {
     
     public void SubirOpenKMPD(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash)
     {        
-        String host = "http://localhost:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
         try{
             boolean crearFolder;
             String rutaFolderCrear;
@@ -945,74 +946,37 @@ public class Publicacion implements Serializable {
         }
         
     }
-
-    public archivoPDF descargaCartaAprobac() {
-        archivoPDF archivo = new archivoPDF();
-        String tipoPDF = "cartaAprobacion";
-
-        String host = "http://localhost:8083/OpenKM";
-        //String host = "http://wmyserver.sytes.net:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
-
-        try {
-
-            Map<String, String> properties = new HashMap();
-            /* Se comprueba el tipo de publicacion: revista congreso , un libro 
-                o un capitulo de un libro que se devolvera como resultado*/
-            if (this.idTipoDocumento.getIdentificador() == 4) {
-                properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:revista.tipoPDFCargar", "" + tipoPDF);
-
-            }
-            if (this.idTipoDocumento.getIdentificador() == 3) {
-                properties.put("okp:congreso.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:congreso.tipoPDFCargar", "" + tipoPDF);
-            }
-            
-            if (this.idTipoDocumento.getIdentificador() == 2) {
-                properties.put("okp:capLibro.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:capLibro.tipoPDFCargar", "" + tipoPDF);
-            }
-            
-            if (this.idTipoDocumento.getIdentificador() == 1) {
-                properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
-            }
-            // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
-            QueryParams qParams = new QueryParams();
-            qParams.setProperties(properties);
-            int posPub = 0;
-            for (QueryResult qr : ws.find(qParams)) {
-                if (posPub == 0) {
-                    String auxDoc = qr.getDocument().getPath();
-                    String[] arrayNombre = auxDoc.split("/");
-                    int pos = arrayNombre.length;
-                    String nombreDoc = arrayNombre[pos - 1];
-                    System.out.println("nombreDocPUB: " + nombreDoc);
-                    InputStream initialStream = ws.getContent(qr.getDocument().getPath());
-                    archivo.setArchivo(initialStream);
-                    archivo.setNombreArchivo(nombreDoc);
-                }
-                posPub = posPub + 1;
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return archivo;
+    
+    /***
+     * Metodo que retorna el nombre del tipo de documento a buscar en openKM
+     * segun un identificador
+     * @param tipo
+     * @return nombreTipoDocumento
+     */
+    private String nombreTipoDocumento(int tipo){
+        String nombre = "";
+        /*Documento de la publicacion*/
+        if(tipo == 1){  nombre="tipoPublicacion";   }
+        /*Evidencia de la publicacion*/
+        if(tipo == 2){  nombre="cartaAprobacion";   }
+        if(tipo == 3){  nombre="tablaContenido";   }
+        return nombre;
     }
-
-    public archivoPDF descargaPublicacion() {
+    
+    /***
+     * Descarga los documentos subidos a OpenKM para poder visualizarlos.
+     * Dependiendo del tipo de documento, se busca en en OpenKM si se encuentra
+     * el archivo. Si esta se retorna el archivo, de lo contrario se genera
+     * una excepcion notificando que ocurrio un error al encontrar el archivo
+     * @param tipo
+     * @return archivoPDF
+     */
+    public archivoPDF descargarDocumento(int tipo){
+        
+        String tipoPDF = nombreTipoDocumento(tipo);
         archivoPDF archivo = new archivoPDF();
-        String tipoPDF = "tipoPublicacion";
-
-        String host = "http://localhost:8083/OpenKM";
-        //String host = "http://wmyserver.sytes.net:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+        /*Obtenemos la instancia del openKM*/
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
 
         try {
 
@@ -1022,12 +986,10 @@ public class Publicacion implements Serializable {
             if (this.idTipoDocumento.getIdentificador() == 4) {
                 properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:revista.tipoPDFCargar", "" + tipoPDF);
-
             }
             if (this.idTipoDocumento.getIdentificador() == 3) {
                 properties.put("okp:congreso.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:congreso.tipoPDFCargar", "" + tipoPDF);
-
             }
             if (this.idTipoDocumento.getIdentificador() == 2) {
                 properties.put("okp:capLibro.identPublicacion", "" + this.pubIdentificador);
@@ -1038,7 +1000,6 @@ public class Publicacion implements Serializable {
                 properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
             }
             
-            // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
             QueryParams qParams = new QueryParams();
             qParams.setProperties(properties);
             int posPub = 0;
@@ -1057,64 +1018,7 @@ public class Publicacion implements Serializable {
 
             }
         } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
-            System.out.println("error en descargaPublicacion de clase publicacion.java");
-            System.out.println("error: " + e.getMessage());                    
-        }
-        return archivo;
-    }
-
-    public archivoPDF descargaPubTC() {
-        archivoPDF archivo = new archivoPDF();
-        String tipoPDF = "tablaContenido";
-
-        String host = "http://localhost:8083/OpenKM";
-         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
-
-        try {
-
-            Map<String, String> properties = new HashMap();
-            /* Se comprueba el tipo de publicacion: revista congreso , un libro 
-                o un capitulo de un libro que se devolvera como resultado*/
-            if (this.idTipoDocumento.getIdentificador() == 4) {
-                properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:revista.tipoPDFCargar", "" + tipoPDF);
-            }
-            if (this.idTipoDocumento.getIdentificador() == 3) {
-                properties.put("okp:congreso.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:congreso.tipoPDFCargar", "" + tipoPDF);
-
-            }
-            if (this.idTipoDocumento.getIdentificador() == 1) {
-                properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:libro.tipoPDFCargar", "" + tipoPDF);
-            }
-            if (this.idTipoDocumento.getIdentificador() == 2) {
-                properties.put("okp:capLibro.identPublicacion", "" + this.pubIdentificador);
-                properties.put("okp:capLibro.tipoPDFCargar", "" + tipoPDF);
-            }
-            // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
-            QueryParams qParams = new QueryParams();
-            qParams.setProperties(properties);
-            int posPub = 0;
-            for (QueryResult qr : ws.find(qParams)) {
-                if (posPub == 0) {
-                    String auxDoc = qr.getDocument().getPath();
-                    String[] arrayNombre = auxDoc.split("/");
-                    int pos = arrayNombre.length;
-                    String nombreDoc = arrayNombre[pos - 1];
-                    System.out.println("nombreDocPUB: " + nombreDoc);
-                    InputStream initialStream = ws.getContent(qr.getDocument().getPath());
-                    archivo.setArchivo(initialStream);
-                    archivo.setNombreArchivo(nombreDoc);
-                }
-                posPub = posPub + 1;
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al descargar documento "+tipoPDF+". "+e.getMessage());
         }
         return archivo;
     }
@@ -1332,14 +1236,6 @@ public class Publicacion implements Serializable {
 
     public void setPubCreditos(Integer pubCreditos) {
         this.pubCreditos = pubCreditos;
-    }
-
-    public Integer getTipoDocumento() {
-        return tipoDocumento;
-    }
-
-    public void setTipoDocumento(Integer tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
     }
 
     public void setPubCreditos(int pubCreditos) {

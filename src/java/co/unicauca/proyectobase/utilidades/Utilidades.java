@@ -36,7 +36,6 @@ public class Utilidades {
         String de = "posgradoselectunic@gmail.com";
         String clave = "posgrados22";
         String para = destinatario;
-
         
         boolean resultado = false;
 
