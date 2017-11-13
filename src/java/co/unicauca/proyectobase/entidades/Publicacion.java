@@ -134,8 +134,6 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
-    @Column(name = "tipo_documento")
-    private Integer tipoDocumento;
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_creditos", nullable = false)
@@ -1068,7 +1066,6 @@ public class Publicacion implements Serializable {
         String tipoPDF = "tablaContenido";
 
         String host = "http://localhost:8083/OpenKM";
-         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
         String username = "okmAdmin";
         String password = "admin";
         OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
@@ -1085,7 +1082,6 @@ public class Publicacion implements Serializable {
             if (this.idTipoDocumento.getIdentificador() == 3) {
                 properties.put("okp:congreso.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:congreso.tipoPDFCargar", "" + tipoPDF);
-
             }
             if (this.idTipoDocumento.getIdentificador() == 1) {
                 properties.put("okp:libro.identPublicacion", "" + this.pubIdentificador);
@@ -1095,12 +1091,14 @@ public class Publicacion implements Serializable {
                 properties.put("okp:capLibro.identPublicacion", "" + this.pubIdentificador);
                 properties.put("okp:capLibro.tipoPDFCargar", "" + tipoPDF);
             }
+            System.out.println("Paso por aqui en descargarPubTC");
             // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
             QueryParams qParams = new QueryParams();
             qParams.setProperties(properties);
             int posPub = 0;
             for (QueryResult qr : ws.find(qParams)) {
                 if (posPub == 0) {
+                    System.out.println("Encontro datos");
                     String auxDoc = qr.getDocument().getPath();
                     String[] arrayNombre = auxDoc.split("/");
                     int pos = arrayNombre.length;
@@ -1111,9 +1109,9 @@ public class Publicacion implements Serializable {
                     archivo.setNombreArchivo(nombreDoc);
                 }
                 posPub = posPub + 1;
-
             }
         } catch (Exception e) {
+            System.out.println("descargar pub tc "+e.getMessage());
             e.printStackTrace();
         }
         return archivo;
@@ -1332,14 +1330,6 @@ public class Publicacion implements Serializable {
 
     public void setPubCreditos(Integer pubCreditos) {
         this.pubCreditos = pubCreditos;
-    }
-
-    public Integer getTipoDocumento() {
-        return tipoDocumento;
-    }
-
-    public void setTipoDocumento(Integer tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
     }
 
     public void setPubCreditos(int pubCreditos) {

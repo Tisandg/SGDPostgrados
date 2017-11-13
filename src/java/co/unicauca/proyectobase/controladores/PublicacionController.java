@@ -378,6 +378,7 @@ public class PublicacionController implements Serializable {
     public void pdfPubTC() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaPubTC();
         if (archivoPublic.getNombreArchivo().equals("")) {
+            System.out.println("Error al obtener tabla de contenido de controlador de publicaciones");
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
         } else {
             String[] nombreArchivo = archivoPublic.getNombreArchivo().split("\\.");
@@ -751,6 +752,22 @@ public class PublicacionController implements Serializable {
         actual = pub;
         cve.editarDocumentacion();
         extraerAutoresSecundarios();
+        if(actual.getIdTipoDocumento().getIdentificador() == 4){
+            
+        }
+        if(actual.getIdTipoDocumento().getIdentificador() == 3){
+            idPais = actual.getCongreso().getCiudadId().getPaisId().getPaisId();
+            idCiudad = actual.getCongreso().getCiudadId().getCiudId();
+            actualizarCiudades();
+        }
+        if(actual.getIdTipoDocumento().getIdentificador() == 2){
+            
+        }
+        if(actual.getIdTipoDocumento().getIdentificador() == 1){
+            idPais = actual.getLibro().getCiudadId().getPaisId().getPaisId();
+            idCiudad = actual.getLibro().getCiudadId().getCiudId();
+            actualizarCiudades();
+        }
         Utilidades.redireccionar(cve.getRuta());
     }
     
@@ -906,25 +923,11 @@ public class PublicacionController implements Serializable {
     }
 
     public boolean renderizarCongreso() {
-        boolean respuesta = false;
-        if(actual.getIdTipoDocumento().getIdentificador() == 3){
-            idCiudad = actual.getCongreso().getCiudadId().getCiudId();
-            idPais = actual.getCongreso().getCiudadId().getPaisId().getPaisId();
-            actualizarCiudades();
-            respuesta = true;
-        }
-        return respuesta;
+        return actual.getIdTipoDocumento().getIdentificador() == 3;
     }
 
     public boolean renderizarLibro() {
-        boolean respuesta = false;
-        if(actual.getIdTipoDocumento().getIdentificador() == 1){
-            idCiudad = actual.getLibro().getCiudadId().getCiudId();
-            idPais = actual.getLibro().getCiudadId().getPaisId().getPaisId();
-            actualizarCiudades();
-            respuesta = true;
-        }
-        return respuesta;
+        return actual.getIdTipoDocumento().getIdentificador() == 1;
     }
 
     public boolean renderizarCapLibro() {
@@ -1360,7 +1363,7 @@ public class PublicacionController implements Serializable {
     
     public void actualizarCiudades()
     {
-        System.out.println("Actualizando lista de ciudades");
+        System.out.println("lista de ciudades de "+idPais);
         this.listaCiudades = this.ejbCiudad.getCiudadPorPais(this.idPais);
     }
     //</editor-fold>
