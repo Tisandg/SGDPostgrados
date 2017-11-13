@@ -376,15 +376,24 @@
                                 
                             </h:panelGrid>            
 
-                            <h:panelGrid columns="2" cellpadding="10" id="panelRegistrar"  >
-                                <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
-                                <h:commandButton style="margin-right: 100px ;" value="Ver " action="#{publicacionController.pdfCartaAprob()}" class="btn btn-success" onclick="this.form.target = '_blank'"/>
+                            <h:panelGrid columns="3" cellpadding="5" id="panelRegistrar"  >
+                                
+                                    <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
+                                    <p:fileUpload value="#{publicacionController.cartaAprobacionPDF}" mode="simple" label="Subir archivo" dragDropSupport="false"
+                                            update="messagesEvidencia" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" />
 
-                                <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
-                                <h:commandButton style="margin-right: 100px;"  value="Ver"   action="#{publicacionController.pdfPub()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
-
-                                <p:outputLabel value="Tabla de contenido:" style="font-weight:bold;"/>
-                                <h:commandButton style="margin-right:  100px; font-size: 13px; " value="Ver "  action="#{publicacionController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />                                                
+                                     <p:growl id="messagesEvidencia" showDetail="true" />
+                                
+                                    <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
+                                    <p:fileUpload value="#{publicacionController.publicacionPDF}" mode="simple" label="Subir archivo" uploadLabel="" cancelLabel="" dragDropSupport="false"
+                                            update="messagesPublicacion" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" />
+                                     <p:growl id="messagesPublicacion" showDetail="true" />
+                                
+                                    <p:outputLabel value="Tabla de contenido:" style="font-weight:bold;"/>
+                                    <p:fileUpload value="#{publicacionController.tablaContenidoPDF}" mode="simple" label="Subir archivo" dragDropSupport="false"
+                                            update="messagesTabla" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" />
+                                     <p:growl id="messagesTabla" showDetail="true" />
+                                
                             </h:panelGrid>
                             
                             <h:form style="font-size: 10px;">
