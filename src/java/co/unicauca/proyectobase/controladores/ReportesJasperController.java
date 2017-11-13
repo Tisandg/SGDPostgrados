@@ -23,14 +23,16 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.AbstractXlsReportConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 /**
  * @author debian
@@ -213,8 +215,10 @@ public class ReportesJasperController implements Serializable {
     public void pdf() {
         try {
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            response.addHeader("Content-disposition", "attachment; filename=report.pdf");
+//            response.addHeader("Content-disposition", "attachment; filename=report.pdf");
+            response.addHeader("Content-disposition", "inline; filename=report.pdf");
             ServletOutputStream servletOutputStream = response.getOutputStream();
+            
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
         } catch (JRException | IOException ex) {
@@ -232,15 +236,23 @@ public class ReportesJasperController implements Serializable {
             ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
             JRXlsExporter exporterXLS = new JRXlsExporter();
 
-            exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
-            exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, arrayOutputStream);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-            exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+            SimpleOutputStreamExporterOutput sreo = new SimpleOutputStreamExporterOutput(arrayOutputStream);
+            exporterXLS.setExporterOutput(sreo);
+            SimpleExporterInput sei = new SimpleExporterInput(jasperPrint);
+            exporterXLS.setExporterInput(sei);
+            AbstractXlsReportConfiguration  xrc = new SimpleXlsReportConfiguration();
+
+            xrc.setOnePagePerSheet(true);
+            xrc.setDetectCellType(true);
+            xrc.setWhitePageBackground(true);
+            xrc.setRemoveEmptySpaceBetweenColumns(true);
+            xrc.setRemoveEmptySpaceBetweenRows(true);
+            exporterXLS.setConfiguration(xrc);
+            
             exporterXLS.exportReport();
 
-            response.setHeader("Content-disposition", "attachment; filename=reporte.xls");
+//            response.setHeader("Content-disposition", "attachment; filename=reporte.xls");
+            response.setHeader("Content-disposition", "inline; filename=reporte.xls");
             response.setContentType("application/vnd.ms-excel");
             response.setContentLength(arrayOutputStream.toByteArray().length);
             out.write(arrayOutputStream.toByteArray());

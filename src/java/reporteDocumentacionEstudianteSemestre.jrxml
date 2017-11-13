@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c2aeef0-cc31-4143-969d-2554d0ac9f4d">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="600" pageHeight="800" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c2aeef0-cc31-4143-969d-2554d0ac9f4d">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -8,14 +8,14 @@
 	<style name="Column header" forecolor="#666666" fontName="Serif" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Serif" fontSize="12"/>
 	<style name="Heading 4" fontSize="12" isBold="true" isItalic="true"/>
-	<parameter name="anio" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[2017]]></defaultValueExpression>
+	<parameter name="anio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2017"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="semestre" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="codEst" class="java.lang.String">
-		<defaultValueExpression><![CDATA["70_1234567891"]]></defaultValueExpression>
-	</parameter>
-	<parameter name="semestre" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["70_1234567890"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -24,7 +24,12 @@
      publicacion.`pub_creditos` AS publicacion_pub_creditos,
      estudiante.`est_codigo` AS estudiante_est_codigo,
      estudiante.`est_identificador` AS est_identificador,
-     tipo_documento.`nombre` AS tipo_documento_nombre
+     tipo_documento.`nombre` AS tipo_documento_nombre,
+     usuario.`apellidos` AS usuario_apellidos,
+     publicacion.`pub_diropkm` AS publicacion_pub_diropkm,
+     publicacion.`pub_estado` AS publicacion_pub_estado,
+     publicacion.`pub_tipo_publicacion` AS publicacion_pub_tipo_publicacion,
+     publicacion.`pub_visado` AS publicacion_pub_visado
 FROM
      `estudiante` estudiante INNER JOIN `publicacion` publicacion ON estudiante.`est_identificador` = publicacion.`pub_est_identificador`
      INNER JOIN `usuario` usuario ON estudiante.`usuario_id` = usuario.`id`
@@ -34,7 +39,7 @@ WHERE
  AND estudiante.`est_codigo` = $P{codEst}
  AND MONTH(publicacion.`pub_fecha_registro`) BETWEEN 6*($P{semestre}-1)+1 AND 6*($P{semestre})
 ORDER BY
-     tipo_documento_nombre ASC]]>
+     publicacion_pub_visado ASC]]>
 	</queryString>
 	<field name="usuario_nombres" class="java.lang.String"/>
 	<field name="publicacion_pub_fecha_registro" class="java.sql.Date"/>
@@ -44,109 +49,97 @@ ORDER BY
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="tipo_documento_nombre" class="java.lang.String"/>
+	<field name="usuario_apellidos" class="java.lang.String"/>
+	<field name="publicacion_pub_diropkm" class="java.lang.String"/>
+	<field name="publicacion_pub_estado" class="java.lang.String"/>
+	<field name="publicacion_pub_tipo_publicacion" class="java.lang.String"/>
+	<field name="publicacion_pub_visado" class="java.lang.String"/>
 	<variable name="tipo_documento_nombre_1" class="java.lang.Integer" resetType="Column" calculation="Count">
 		<variableExpression><![CDATA[$F{tipo_documento_nombre}]]></variableExpression>
 	</variable>
-	<variable name="publicacion_pub_creditos_2" class="java.lang.Integer" resetType="Group" resetGroup="grupo_id_estudiante" calculation="Sum">
-		<variableExpression><![CDATA[$F{publicacion_pub_creditos}]]></variableExpression>
-	</variable>
-	<variable name="publicacion_pub_fecha_registro_1" class="java.lang.Integer" resetType="Group" resetGroup="grupo_id_estudiante" calculation="Count">
+	<variable name="varAux" class="java.lang.String"/>
+	<variable name="publicacion_pub_fecha_registro_2" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$F{publicacion_pub_fecha_registro}]]></variableExpression>
 	</variable>
-	<group name="grupo_tipo_documentacion">
-		<groupExpression><![CDATA[$F{tipo_documento_nombre}]]></groupExpression>
+	<variable name="publicacion_pub_fecha_registro_1" class="java.lang.Integer" resetType="Group" resetGroup="pub_visado_group" calculation="Count">
+		<variableExpression><![CDATA[$F{publicacion_pub_fecha_registro}]]></variableExpression>
+	</variable>
+	<group name="pub_visado_group">
+		<groupExpression><![CDATA[$F{publicacion_pub_visado}]]></groupExpression>
 		<groupHeader>
-			<band height="37">
+			<band height="50">
 				<textField>
-					<reportElement mode="Opaque" x="0" y="0" width="555" height="34" forecolor="#3333FF" backcolor="#CCCCCC" uuid="d8fd65e3-8dfc-4bca-a73b-15e825dbc81d"/>
+					<reportElement mode="Opaque" x="0" y="0" width="560" height="50" forecolor="#3333FF" backcolor="#CCCCCC" uuid="dfc8d2f6-9663-44af-b753-95de6f774307"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="18" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{tipo_documento_nombre}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[( $F{publicacion_pub_visado}.equals( "espera" ) ? "en espera" :  $F{publicacion_pub_visado} )]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
-	</group>
-	<group name="grupo_id_estudiante">
-		<groupExpression><![CDATA[]]></groupExpression>
-		<groupHeader>
+		<groupFooter>
 			<band height="24">
+				<staticText>
+					<reportElement mode="Transparent" x="0" y="0" width="188" height="24" backcolor="#FFFFFF" uuid="0a128139-fb83-4555-adc6-39b1a3837b0f"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font size="12" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<text><![CDATA[subtotal publicaciones:]]></text>
+				</staticText>
 				<textField>
-					<reportElement x="0" y="0" width="195" height="20" uuid="cb246c68-a6cc-48e4-8216-2c8571eca2ea"/>
-					<textElement>
-						<paragraph leftIndent="5"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{usuario_nombres}]]></textFieldExpression>
-				</textField>
-				<textField evaluationTime="Group" evaluationGroup="grupo_id_estudiante">
-					<reportElement x="402" y="0" width="153" height="20" uuid="ace35ce4-4464-4c87-bde9-aded413bffad"/>
-					<textElement>
-						<paragraph leftIndent="5"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{publicacion_pub_creditos_2}]]></textFieldExpression>
-				</textField>
-				<textField evaluationTime="Group" evaluationGroup="grupo_id_estudiante">
-					<reportElement x="197" y="0" width="205" height="20" uuid="8adadf68-463f-414a-86b1-c371b8a7f650"/>
-					<textElement>
-						<paragraph leftIndent="5"/>
+					<reportElement x="188" y="0" width="251" height="24" uuid="a9348a5b-43e4-4172-9ef9-35013f0fed49"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{publicacion_pub_fecha_registro_1}]]></textFieldExpression>
 				</textField>
 			</band>
-		</groupHeader>
+		</groupFooter>
 	</group>
 	<title>
-		<band height="102" splitType="Stretch">
+		<band height="91" splitType="Stretch">
 			<frame>
-				<reportElement style="Heading 4" mode="Opaque" x="0" y="0" width="555" height="102" backcolor="#006699" uuid="5e917349-198d-4344-a191-7f732be062c2"/>
+				<reportElement style="Heading 4" mode="Opaque" x="0" y="0" width="560" height="91" backcolor="#006699" uuid="5e917349-198d-4344-a191-7f732be062c2"/>
 				<staticText>
-					<reportElement x="20" y="20" width="440" height="43" forecolor="#FFFFFF" uuid="66790422-029d-4d8e-bb67-60855dbcd720"/>
+					<reportElement x="0" y="0" width="439" height="46" forecolor="#FFFFFF" uuid="66790422-029d-4d8e-bb67-60855dbcd720"/>
+					<box topPadding="10" leftPadding="10"/>
 					<textElement>
 						<font size="28" isBold="true"/>
 					</textElement>
 					<text><![CDATA[REPORTE ESTUDIANTE]]></text>
 				</staticText>
-				<staticText>
-					<reportElement x="21" y="76" width="54" height="20" forecolor="#FFFFFF" uuid="4d4d3690-10c8-4df7-bf34-979d0ce6ebb6"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Codigo: ]]></text>
-				</staticText>
 				<textField>
-					<reportElement x="75" y="76" width="100" height="20" forecolor="#FFFFFF" uuid="4ee5fa79-1591-4a81-a370-1f2bcd553963"/>
-					<textElement>
+					<reportElement x="0" y="46" width="188" height="20" forecolor="#FFFFFF" uuid="87258f5f-1459-462b-9b34-78b326e25bd5"/>
+					<textElement verticalAlignment="Middle">
 						<font size="12"/>
+						<paragraph leftIndent="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{codEst}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Año: "+$P{anio}]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement x="349" y="76" width="67" height="20" forecolor="#FFFFFF" uuid="5383e38f-39ca-463a-8c18-5b30b5380eff"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Semestre: ]]></text>
-				</staticText>
 				<textField>
-					<reportElement x="416" y="76" width="97" height="20" forecolor="#FFFFFF" uuid="416bb942-2074-477d-af5e-099388dd40f3"/>
-					<textElement>
+					<reportElement x="188" y="46" width="251" height="20" forecolor="#FFFFFF" uuid="5138921a-6a17-45a6-bae6-284761dd031b"/>
+					<textElement verticalAlignment="Middle">
 						<font size="12"/>
+						<paragraph leftIndent="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{semestre}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Semestre: "+$P{semestre}]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement x="196" y="76" width="33" height="20" forecolor="#FFFFFF" uuid="3a360cf9-233a-4a4f-8bce-2be277ceacfb"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Año:]]></text>
-				</staticText>
 				<textField>
-					<reportElement x="232" y="76" width="100" height="20" forecolor="#FFFFFF" uuid="245cd86b-bb5b-4d10-a61a-715811b1d035"/>
-					<textElement>
+					<reportElement x="0" y="68" width="188" height="20" forecolor="#FFFFFF" uuid="28206fee-781b-4f8a-a430-9e484d5579a4"/>
+					<textElement verticalAlignment="Middle">
 						<font size="12"/>
+						<paragraph leftIndent="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Código: "+$P{codEst}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="188" y="68" width="251" height="20" forecolor="#FFFFFF" uuid="c066e7fa-7cdd-4248-98cd-d161ef02fa76"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12"/>
+						<paragraph leftIndent="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Nombre: "+$F{usuario_nombres} +" "+ $F{usuario_apellidos}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -154,62 +147,72 @@ ORDER BY
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="403" y="0" width="152" height="20" backcolor="#CCCCFF" uuid="9bc57958-1107-435d-82df-ee8676fd0233"/>
+				<reportElement mode="Opaque" x="439" y="0" width="121" height="20" backcolor="#FFFFFF" uuid="9bc57958-1107-435d-82df-ee8676fd0233"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<text><![CDATA[Total creditos]]></text>
+				<text><![CDATA[créditos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="197" y="0" width="206" height="20" backcolor="#CCCCFF" uuid="0a128139-fb83-4555-adc6-39b1a3837b0f"/>
+				<reportElement mode="Opaque" x="0" y="0" width="188" height="20" backcolor="#FFFFFF" uuid="4fc51dfb-602a-4e26-8030-05a04e4c14e7"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<text><![CDATA[Total documentos]]></text>
+				<text><![CDATA[Publicacion]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="197" height="20" backcolor="#CCCCFF" uuid="4fc51dfb-602a-4e26-8030-05a04e4c14e7"/>
+				<reportElement mode="Opaque" x="188" y="0" width="251" height="20" backcolor="#FFFFFF" uuid="d90733ad-514f-4d64-a384-f0e2100c1741"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<text><![CDATA[Estudiante]]></text>
+				<text><![CDATA[Estado]]></text>
 			</staticText>
-			<line>
-				<reportElement x="195" y="0" width="1" height="20" uuid="d23456bf-ab9a-40ee-8815-5a0dbd2327fe"/>
-			</line>
-			<line>
-				<reportElement x="402" y="0" width="1" height="20" uuid="47621e11-8561-4b47-b7d8-afc57c249ee0"/>
-			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band splitType="Stretch">
-			<line>
-				<reportElement x="0" y="-4" width="553" height="1" uuid="d8b49adb-7681-46da-a097-c4c5b5ece828"/>
-			</line>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="188" height="25" uuid="cb246c68-a6cc-48e4-8216-2c8571eca2ea"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_documento_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="0" width="121" height="25" uuid="3c4646ea-4f83-4335-af64-c416aa8715d6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{publicacion_pub_creditos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="188" y="0" width="251" height="25" uuid="7d80217b-5bfa-40d0-b08b-3edd6e3d0f01"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{publicacion_pub_estado}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="026456f5-2504-4569-9933-256ab504b898"/>
+				<reportElement style="Column header" x="439" y="0" width="74" height="20" uuid="026456f5-2504-4569-9933-256ab504b898"/>
 				<textElement textAlignment="Right">
 					<font size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="74a6355b-c021-4a5d-9cf2-4f0ca6e9cb3d"/>
+				<reportElement style="Column header" x="513" y="0" width="47" height="20" uuid="74a6355b-c021-4a5d-9cf2-4f0ca6e9cb3d"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
+				<reportElement style="Column header" x="0" y="0" width="188" height="20" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
@@ -217,4 +220,23 @@ ORDER BY
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="50">
+			<textField evaluationTime="Report">
+				<reportElement mode="Transparent" x="188" y="0" width="251" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font size="12" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{publicacion_pub_fecha_registro_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Detail" mode="Opaque" x="0" y="0" width="188" height="20" forecolor="#FFFFFF" backcolor="#006699" uuid="4cffe5ee-99a4-4375-b6fb-a2110294a3c6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL PUBLICACIONES:]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>
