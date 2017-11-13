@@ -134,12 +134,12 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
-    @Size(max = 22)
-    @Column(name = "pub_tipo_publicacion")
-    private String pubTipoPublicacion;
-
-    @Column(name = "pub_creditos")
-    private Integer pubCreditos;
+    @Column(name = "tipo_documento")
+    private Integer tipoDocumento;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "pub_creditos", nullable = false)
+    private int pubCreditos;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "publicacion")
     private PracticaDocente practicaDocente;
@@ -172,7 +172,9 @@ public class Publicacion implements Serializable {
     @Size(max = 300)
     @Column(name = "pub_autores_secundarios")
     private String pubAutoresSecundarios;
-    
+    @Size(min = 1, max = 22)
+    @Column(name = "pub_tipo_publicacion")
+    private String pubTipoPublicacion;
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_fecha_publicacion")
@@ -1195,6 +1197,14 @@ public class Publicacion implements Serializable {
         this.pubAutoresSecundarios = pubAutoresSecundarios;
     }
 
+    public String getPubTipoPublicacion() {
+        return pubTipoPublicacion;
+    }
+
+    public void setPubTipoPublicacion(String pubTipoPublicacion) {
+        this.pubTipoPublicacion = pubTipoPublicacion;
+    }
+
     public Date getPubFechaPublicacion() {
         return pubFechaPublicacion;
     }
@@ -1324,12 +1334,16 @@ public class Publicacion implements Serializable {
         this.pubCreditos = pubCreditos;
     }
 
-    public String getPubTipoPublicacion() {
-        return pubTipoPublicacion;
+    public Integer getTipoDocumento() {
+        return tipoDocumento;
     }
 
-    public void setPubTipoPublicacion(String pubTipoPublicacion) {
-        this.pubTipoPublicacion = pubTipoPublicacion;
+    public void setTipoDocumento(Integer tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
     }
+
+    public void setPubCreditos(int pubCreditos) {
+        this.pubCreditos = pubCreditos;
+}
 
 }
