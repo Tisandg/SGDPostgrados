@@ -100,7 +100,7 @@
                             <p:commandLink type="submit" 
                                            title="descargar reporte en formato pdf" 
                                            action="#{reportesJasperController.getReportePdf()}" 
-                                           ajax="false">
+                                           ajax="false" target="_blank">
                                 <h:graphicImage title="descargar reporte en formato pdf" name="images/pdf-icon.png" />
                             </p:commandLink>
                             <p:commandLink  action="#{reportesJasperController.getReporteExcel()}"  ajax="false">
