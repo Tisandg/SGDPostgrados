@@ -355,11 +355,11 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
     
-    public int getCreditosTipoPubicacionPorID(int idPublicacion) {
+    public int getCreditosTipoPubicacionPorID(int idTipoPublicacion) {
         String comSimple = "\'";
         String queryStr;
-        queryStr = "SELECT tp.creditos FROM tipo_documento tp LEFT JOIN publicacion p ON tp.identificador = p.id_tipo_documento "
-                 + " WHERE tp.identificador ="+ idPublicacion;
+        queryStr = "SELECT creditos FROM tipo_documento "
+                 + " WHERE identificador ="+ idTipoPublicacion;
        
         javax.persistence.Query query = getEntityManager().createNativeQuery(queryStr);
         int result = (Integer)query.getSingleResult();

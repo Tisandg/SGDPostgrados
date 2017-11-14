@@ -638,8 +638,9 @@ public class PublicacionController implements Serializable {
                 }
                 limpiarCampos();
                 //redirigirPublicacionesEst(est.getEstUsuario());
-                //redirigirPublicacionesEst();
-                Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPublicaciones_Est.xhtml");
+                //redirigirPublicacionesEst(actual);
+                redirigirAlistarPublicionesEst();
+                //Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPublicaciones_Est.xhtml");
             }
         }
     }
