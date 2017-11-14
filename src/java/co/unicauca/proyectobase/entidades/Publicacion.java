@@ -220,6 +220,14 @@ public class Publicacion implements Serializable {
     }
     
 
+    /***
+     * Funcion para crear los documentos pdf con los metadatos
+     * @param ArticuloPDF
+     * @param TablaContenidoPDF
+     * @param cartaAprobacionPDF
+     * @return
+     * @throws IOException 
+     */
     @SuppressWarnings("empty-statement")
     public boolean agregarMetadatos(UploadedFile ArticuloPDF, UploadedFile TablaContenidoPDF, UploadedFile cartaAprobacionPDF) throws IOException {
 
@@ -252,7 +260,6 @@ public class Publicacion implements Serializable {
         Date date = new Date();
         DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String estampaTiempo = "" + datehourFormat.format(date);
-
         this.setPubFechaRegistro(date);
 
         /*  Metodo para almacenar los metadatos de la Carte de Aprobacion , Articulo y Tabla de Contenido 
@@ -260,28 +267,19 @@ public class Publicacion implements Serializable {
         ArrayList<tipoPDF_cargar> archivoParaSubir = new ArrayList<>();
 
         if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
-            tipoPDF_cargar cartaAprobacion = new tipoPDF_cargar();
-            cartaAprobacion.setNombreArchivo(nombreCartaAprob);
-            cartaAprobacion.setRutaArchivo(destCartaAprob);
-            cartaAprobacion.setTipoPDF("cartaAprobacion");
-            cartaAprobacion.setArchivoIS(cartaAprobacionPDF.getInputstream());
+            tipoPDF_cargar cartaAprobacion = new tipoPDF_cargar(nombreCartaAprob,destCartaAprob,
+                    "cartaAprobacion",cartaAprobacionPDF.getInputstream());
             archivoParaSubir.add(cartaAprobacion);;
         }
 
         if (!ArticuloPDF.getFileName().equalsIgnoreCase("")) {
-            tipoPDF_cargar articulo = new tipoPDF_cargar();
-            articulo.setNombreArchivo(nombrePublicacion);
-            articulo.setRutaArchivo(destNombrePub);
-            articulo.setTipoPDF("tipoPublicacion");
-            articulo.setArchivoIS(ArticuloPDF.getInputstream());
+            tipoPDF_cargar articulo = new tipoPDF_cargar(nombrePublicacion,destNombrePub,
+                    "tipoPublicacion",ArticuloPDF.getInputstream());
             archivoParaSubir.add(articulo);
         }
         if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("")) {
-            tipoPDF_cargar tablaContenido = new tipoPDF_cargar();
-            tablaContenido.setNombreArchivo(nombreTablaC);
-            tablaContenido.setRutaArchivo(destTablaC);
-            tablaContenido.setTipoPDF("tablaContenido");
-            tablaContenido.setArchivoIS(TablaContenidoPDF.getInputstream());
+            tipoPDF_cargar tablaContenido = new tipoPDF_cargar(nombreTablaC,destTablaC,
+                    "tablaContenido",TablaContenidoPDF.getInputstream());
             archivoParaSubir.add(tablaContenido);
         }
 
@@ -345,9 +343,7 @@ public class Publicacion implements Serializable {
      * @throws IOException 
      */
     public boolean SubirOpenKM(ArrayList<tipoPDF_cargar> subidaArchivos, String codigoFirma, String hash) throws IOException {
-        /*String host = "http://localhost:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";*/
+
         boolean archivosSubidos = false;
         /* Inicia una instancia del Gestor Documental Openkm*/
         this.setPubHash(hash);
@@ -553,7 +549,6 @@ public class Publicacion implements Serializable {
                         }
                     }
                     ws.setPropertyGroupProperties("" + rutaFolderCrear + "/" + subidaArchivos.get(i).getNombreArchivo() + ".pdf", "okg:congreso", fElements);
-
                 }
 
                 if (this.idTipoDocumento.getIdentificador() == 2) {

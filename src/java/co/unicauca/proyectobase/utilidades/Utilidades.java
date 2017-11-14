@@ -30,13 +30,40 @@ public class Utilidades {
             Logger.getLogger("Error al redireccionar a " + pagina);
         }
     }
+    
+    /***
+     * Metodo que envia las notificaciones de correo electronico al estudiante
+     * que registro la publicacion y al coordinador del doctorado. Para el envio
+     * utiliza la funcion enviarCorreo despues de que se crea el mensaje a enviar
+     * @param destino
+     * @param autor
+     * @param tipoPublicacion
+     * @param tiempo 
+     */
+    public static void correoRegistroPublicaciones(String destino, String autor, String tipoPublicacion, String tiempo){
+        String asunto = "Notificación registro de publicación DCE";
+        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de regitrar una publicación del tipo " 
+                                + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
+        String mensajeEstudiante = "Estimado" + autor + ".\n" + "Se acaba de regitrar una publicación del tipo " 
+                                + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
+        //Correo para el estudiante
+        enviarCorreo(destino,asunto, mensajeEstudiante);
+        //Correo para el coordinador
+        enviarCorreo("posgradoselectunic@gmail.com",asunto, mensajeCoordinador);
+    }
 
+    /***
+     * Funcion utilizada para enviar la notificaion al correo del destinatario,
+     * con su respectivo asunto y mensaje.
+     * @param destinatario
+     * @param asunto
+     * @param mensaje
+     * @return true si se envio el mensaje
+     */
     public static boolean enviarCorreo(String destinatario, String asunto, String mensaje) 
     {
         String de = "posgradoselectunic@gmail.com";
         String clave = "posgrados22";
-        String para = destinatario;
-        
         boolean resultado = false;
 
         try {
@@ -57,7 +84,7 @@ public class Utilidades {
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(de));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject(asunto);
             message.setText(mensaje);
             Transport.send(message);
@@ -66,7 +93,7 @@ public class Utilidades {
         }
         catch(Exception e)
         {
-            System.out.println("========== ERROR AL ENVIAR CORREO ============ " + e.getMessage());
+            System.out.println("========== ERROR AL ENVIAR CORREO ============ \n" + e.getMessage());
         }
         
         return resultado;

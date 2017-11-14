@@ -48,6 +48,12 @@ public class Archivo implements Serializable {
         this.arcIdentificador = arcIdentificador;
     }
 
+    public Archivo(Publicacion pub, int idArchivo, String tipoPDF) {
+        this.arcPubIdentificador = pub;
+        this.arcIdentificador = idArchivo;
+        this.arctipoPDFcargar = tipoPDF;
+    }
+
     public Integer getArcIdentificador() {
         return arcIdentificador;
     }
