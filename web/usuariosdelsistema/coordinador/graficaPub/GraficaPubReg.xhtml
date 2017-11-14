@@ -22,44 +22,36 @@
 
                 <!--<h:form id="form" target="_blank">-->
                 <h:form id="form">
+                    <p:growl id="msgs" showDetail="false" />
+                    <p:messages id="msgSeleccion" globalOnly="true" />
                     <h:panelGrid  columns="1" cellspacing="5" id="tipoReporte">
                         <h:panelGrid  columns="5" cellspacing="5">
 
                             <p:outputLabel value="Tipo de reporte" style="font-weight:bold;" />
                             <p:selectOneMenu id="valTipoReporte" 
                                              value="#{reportesJasperController.tipoReporte}"
-                                             tabindex="0"
-                                             required="true" 
+                                             required="true"
                                              requiredMessage="Debe seleccionar un campo de la lista"
                                              >
-                                <f:selectItem  itemLabel="Seleccione una opcion" itemValue=""/>
+                                <f:selectItem  itemLabel="Seleccione una opcion" itemValue="" />
                                 <f:selectItems value="#{reportesJasperController.listaTiposReporte()}"/>
                                 <f:ajax render="tipoReporte"/>
-                                <p:ajax  update="msgLastname"/>
                             </p:selectOneMenu>
 
-
-                            <!--                            <p:inputText id="codigoEstudianteF" 
-                                                                     required="{reportesJasperController.pedirCodEstudiante()}"
-                                                                     value="{reportesJasperController.codEstudiante}"
-                                                                     placeholder="Ingrese el codigo de estudiante"  
-                                                                     rendered="{reportesJasperController.pedirCodEstudiante()}"/>  -->
-
-                            <!--completeMethod="{autoCompleteView.completeTheme}"
-                                            requiredMessage="Ingrese el codigo de estudiante."-->
-                            <!--converter="themeConverter"-->
-                                            <!--required="#{reportesJasperController.pedirCodEstudiante()}"-->
-                            <p:autoComplete id="firstname" 
+                            <p:autoComplete id="codEstudian" 
                                             requiredMessage="Ingrese el codigo de estudiante."
                                             required="#{reportesJasperController.pedirCodEstudiante()}"
                                             rendered="#{reportesJasperController.pedirCodEstudiante()}"
                                             value="#{reportesJasperController.codEstudiante}" 
                                             completeMethod="#{estudianteController.listadoQuery}"
-                                            var="est" 
+                                            var="est"
                                             itemLabel="#{est}" 
-                                            itemValue="#{est.estCodigo}" 
+                                            itemValue="#{est.estCodigo}"
                                             forceSelection="true"
                                             maxResults="10"
+                                            dropdown="true"
+                                            style="width: 200px; padding-right: 20px"
+                                            placeholder="Ingrese codigo"
                                             >
                                 <p:column>
                                     <h:outputText value="#{est.estNombre} #{est.estApellido}" />
@@ -69,12 +61,13 @@
                                 </p:column>
                                 <p:ajax update="msgLastname" event="blur" />
                             </p:autoComplete>
-                            <p:messages id="msgLastname" for="firstname" />
+                            <p:messages id="msgLastname" for="codEstudian" />
                         </h:panelGrid> 
                         <h:panelGrid  columns="4" cellspacing="5" id="rangoTiempo">
                             <p:outputLabel value="Rango de tiempo" style="font-weight:bold;" />
                             <p:selectOneMenu id="valTipoTiempo" 
                                              required="true" 
+                                             requiredMessage="Debe seleccionar un campo de la lista"
                                              value="#{reportesJasperController.tiempo}" 
                                              >
                                 <f:selectItem itemLabel="Seleccione una opcion" itemValue="" />
@@ -83,18 +76,24 @@
                             </p:selectOneMenu>
                             <p:selectOneMenu id="selectanio" 
                                              value="#{reportesJasperController.anio}" 
+                                             requiredMessage="Debe seleccionar un campo de la lista"
+                                             required="#{reportesJasperController.pedirAnio()}" 
                                              rendered="#{reportesJasperController.pedirAnio()}">
 
                                 <f:selectItem itemLabel="Seleccione una opcion" itemValue="Seleccionar" noSelectionOption="true"/>
                                 <f:selectItems value="#{reportesJasperController.getListaAnios()}" /> 
-                            </p:selectOneMenu>
-                            <p:selectOneMenu value="#{reportesJasperController.semestre}"
-                                             rendered="#{reportesJasperController.pedirSemestre()}">
+                            </p:selectOneMenu>                                  
+                            <p:selectOneMenu id="selectSemestre" 
+                                             value="#{reportesJasperController.semestre}"
+                                             rendered="#{reportesJasperController.pedirSemestre()}"
+                                             required="#{reportesJasperController.pedirSemestre()}"
+                                             requiredMessage="Debe seleccionar un campo de la lista"
+                                             >
                                 <f:selectItem itemLabel="Seleccione una opcion" itemValue="Seleccionar" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="1" itemValue="1" />                        
                                 <f:selectItem itemLabel="2" itemValue="2" />  
                             </p:selectOneMenu>
-                        </h:panelGrid> 
+                        </h:panelGrid>
 
                         <h:panelGrid  columns="3" cellspacing="5">
                             <p:commandLink type="submit" 
@@ -108,26 +107,7 @@
                             </p:commandLink>
                         </h:panelGrid> 
 
-                        <!--<p:commandButton  action="{reportesController.generarReporte()}" value="Generar Reporte"/>-->
-                        <!--<a  target="_blank"  style="font-weight:bold;" href="../../resources/pdf/reporte.pdf"  >Descargar PDF </a>-->
-                        <!--<h:outputText value=""/>-->
-
-
-                        <!--<p:inputText id="anioConSemestreFuera" value="{reportesController.anios}" placeholder="Ingrese el año aquí"/>
-                        <p:inputText id="semestreIngresadoFuera" value="{reportesController.semestre}" placeholder="Ingrese el semestre aqui"/>
-                        <p:inputText id="codigoEstudianteF" value="{reportesController.codigoEstudiante}" placeholder="Ingrese el codigo aqui"/>-->
-
-
-<!--<p:inputText id="anioConSemestreFuera" value="#{reportesController.anios}" placeholder="Ingrese el año aquí"/>
-<p:inputText id="semestreIngresadoFuera" value="#{reportesController.semestre}" placeholder="Ingrese el semestre aqui"/>
-<p:inputText id="codigoEstudianteF" value="#{reportesController.codigoEstudiante}" placeholder="Ingrese el codigo aqui"/>-->
-
-
-<!--<p:inputText id="codigoEstudiante" value="#{reportesController.codigoEstudiante}" placeholder="Ingrese el codigo" rendered="#{reportesController.tipoReporte == 'porEstudiante'}"/>    -->                                        
-<!--<p:inputText id="semestreIngresado" value="#{reportesController.semestre}" placeholder="Ingrese el semestre" rendered="#{reportesController.tipoTiempo == 'semestre'}"/>-->
                     </h:panelGrid> 
-
-
 
                 </h:form>
                 <br/>
