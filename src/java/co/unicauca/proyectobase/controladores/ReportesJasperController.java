@@ -203,17 +203,19 @@ public class ReportesJasperController implements Serializable {
                 case RANGO_TIEMPO_ANIO:
                     columna = 1;
                     reportParameters.put("anio", anio);
+                    System.out.println("anio: " + anio + " tipoDoc:" + tipoDoc);
                     break;
                 case RANGO_TIEMPO_SEMESTRE:
                     columna = 2;
                     reportParameters.put("anio", anio);
                     reportParameters.put("semestre", semestre);
+                    System.out.println("anio: " + anio + " tipoDoc:" + tipoDoc);
+                    System.out.println("semestre: " + semestre);
                     break;
             }
             URL url = this.getClass().getResource(plantillasReportes[fila][columna]);
             JasperReport report = (JasperReport) JRLoader.loadObject(url);
             jasperPrint = JasperFillManager.fillReport(report, reportParameters, conn);
-            System.out.println("anio: " + anio + " tipoDoc:" + tipoDoc);
 
             switch (tipoDoc) {
                 case TIPO_DOC_PDF:
@@ -266,7 +268,7 @@ public class ReportesJasperController implements Serializable {
             SimpleExporterInput sei = new SimpleExporterInput(jasperPrint);
             exporterXLS.setExporterInput(sei);
             AbstractXlsReportConfiguration xrc = new SimpleXlsReportConfiguration();
-            
+
             // parametros para la exportacion a xls
             xrc.setOnePagePerSheet(true);
             xrc.setDetectCellType(true);
@@ -274,10 +276,10 @@ public class ReportesJasperController implements Serializable {
             xrc.setRemoveEmptySpaceBetweenColumns(true);
             xrc.setRemoveEmptySpaceBetweenRows(true);
             exporterXLS.setConfiguration(xrc);
-            
+
             //exportacio a xls
             exporterXLS.exportReport();
-            
+
             // modo de descarga de archivo
             response.setHeader("Content-disposition", "attachment; filename=reporte.xls");
 //            response.setHeader("Content-disposition", "inline; filename=reporte.xls");
