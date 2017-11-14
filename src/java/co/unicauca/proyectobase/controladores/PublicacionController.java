@@ -18,6 +18,7 @@ import co.unicauca.proyectobase.entidades.CapituloLibro;
 import co.unicauca.proyectobase.entidades.Ciudad;
 import co.unicauca.proyectobase.entidades.Pais;
 import co.unicauca.proyectobase.entidades.archivoPDF;
+import co.unicauca.proyectobase.entidades.tipoPDF_cargar;
 import co.unicauca.proyectobase.utilidades.Autor;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import com.openkm.sdk4j.exception.LockException;
@@ -343,7 +344,6 @@ public class PublicacionController implements Serializable {
             while ((bytesRead = fis.read(buffer)) != -1) {
                 response.getOutputStream().write(buffer, 0, bytesRead);
             }
-            // response.getOutputStream().write(buf);
             response.getOutputStream().flush();
             response.getOutputStream().close();
             FacesContext.getCurrentInstance().responseComplete();
@@ -395,7 +395,6 @@ public class PublicacionController implements Serializable {
             while ((bytesRead = fis.read(buffer)) != -1) {
                 response.getOutputStream().write(buffer, 0, bytesRead);
             }
-
             // response.getOutputStream().write(buf);
             response.getOutputStream().flush();
             response.getOutputStream().close();
@@ -496,60 +495,65 @@ public class PublicacionController implements Serializable {
 
     }
 
-    /**
-     * agregar una publicacion a la base de datos y openkm
-     * @throws IOException 
+    /***
+     * Funcion para comprobar que los archivos de la publicados sean cargados 
+     * y que esten en formato pdf
+     * @return true si son validos los archivos
      */
-    public void agregar() throws IOException {
-        System.out.println("Registrando documentacion");
-        /* formatoValido -> se utiliza para verificar que el usario
-           suba unicamente archivos en formato pdf*/
-        boolean formatoValido = true;
+    public boolean comprobarArchivosPDF(){
+        boolean validos = true;
         String tituloMensaje = "";
         String mensaje = "";
-        
         if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
             tituloMensaje = "valPublicacion";
-            mensaje = "Debe subir la publicación o la evidencia de la publicación en formato PDF";
-            formatoValido = false;
+            mensaje = "Debe subir la publicación en formato PDF";
+            validos = false;
         }
         if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(TablaContenidoPDF.getContentType())) {
             tituloMensaje = "valTContenido";
             mensaje = "Debe subir la Tabla de Contenido en formato PDF";
-            formatoValido = false;
+            validos = false;
         }
         if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
             tituloMensaje = "cartaAprobacion";
             mensaje = "Debe subir la carta de aprobación en formato PDF";
-            formatoValido = false;
+            validos = false;
         }
+        if(validos == false){
+            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR,mensaje, ""));
+        }
+        return validos;
+    }
+    /**
+     * Metodo para registrar la publicacion en la base de datos y subir los 
+     * documentos al gestor de documentos openKM
+     * @throws IOException 
+     */
+    public void registrarPublicacion() throws IOException {
+        /* formatoValido -> se utiliza para verificar que el usario
+           suba unicamente archivos en formato pdf*/
+        boolean formatoValido = comprobarArchivosPDF();
 
-        if (formatoValido == true) {
+        if (formatoValido) {
             /* PuedeSubir  ->  se utiliza para comprobar que el usuario ha seleccionado 
                 el PDF de la publicacion o en su defecto la carta de aprobacion*/
             boolean puedeSubir = false;
-            if (publicacionPDF.getFileName().equalsIgnoreCase("")) {
-                if (cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
-                    FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicación", ""));
-                } else {
-                    puedeSubir = true;
-                }
-            } else {
+            if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
                 puedeSubir = true;
+            } else {
+                FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicacion", ""));
             }
 
             if (puedeSubir) {                
                 System.out.println("Agregando documentacion");
                 Estudiante est = getAuxEstudiante();
-                try {
-
-                    actual.setPubEstIdentificador(est);
-                    String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
-                    
-                    int pub_identificador = daoPublicacion.getnumFilasPubRev();
-                    actual.setPubIdentificador(pub_identificador);                    
-
-                    //<editor-fold defaultstate="collapsed" desc="adicion de campos dependiendo tipo de publicacion">                   
+                actual.setPubEstIdentificador(est);
+                String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
+                //obtener el identificador de la publicacion
+                int pub_identificador = daoPublicacion.getnumFilasPubRev();
+                actual.setPubIdentificador(pub_identificador);
+                
+                //<editor-fold defaultstate="collapsed" desc="adicion de campos dependiendo tipo de publicacion">                   
                     /* Dependiendo de si se adiciona una revista, un congreso,un libro o un  capitulo de un libro se crea el objeto respectivo*/
                     if (getTipoPublicacion().equals("revista")) {
                         actual.getRevista().setPubIdentificador(pub_identificador);
@@ -584,37 +588,30 @@ public class PublicacionController implements Serializable {
                     actual.setIdTipoDocumento(daoPublicacion.obtenerIdTipoDocumento(getTipoPublicacion()));
                     
                     //</editor-fold>
+                  
+                ArrayList<Archivo> CollArchivo = new ArrayList<>();
+                int numArchivos = daoPublicacion.getIdArchivo();
 
-                    ArrayList<Archivo> CollArchivo = new ArrayList<>();
-                    int numArchivos = daoPublicacion.getIdArchivo();
+                Archivo archCartaAprob = new Archivo(actual, numArchivos, "cartaAprobacion");
+                CollArchivo.add(archCartaAprob);
 
-                    Archivo archCartaAprob = new Archivo();
-                    archCartaAprob.setArcPubIdentificador(actual);
-                    archCartaAprob.setArcIdentificador(numArchivos);
-                    archCartaAprob.setArctipoPDFcargar("cartaAprobacion");
-                    CollArchivo.add(archCartaAprob);
+                if (!publicacionPDF.getFileName().equalsIgnoreCase("")) {
+                    numArchivos++;
+                    Archivo archArt = new Archivo(actual, numArchivos, "tipoPublicacion");
+                    CollArchivo.add(archArt);
+                }
+                if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("")) {
+                    numArchivos++;
+                    Archivo arcTablaC = new Archivo(actual,numArchivos, "tablaContenido");
+                    CollArchivo.add(arcTablaC);
+                }
+                actual.setArchivoCollection(CollArchivo);
+                actual.setPubEstado("Activo");                    
+                actual.setPubVisado("espera");                    
+                fijarAutoresSecundarios();
                     
-                    if (!publicacionPDF.getFileName().equalsIgnoreCase("")) {
-                        Archivo archArt = new Archivo();
-                        numArchivos = numArchivos + 1;
-                        archArt.setArcPubIdentificador(actual);
-                        archArt.setArcIdentificador(numArchivos);
-                        archArt.setArctipoPDFcargar("tipoPublicacion");
-                        CollArchivo.add(archArt);
-                    }
-                    if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("")) {
-                        Archivo arcTablaC = new Archivo();
-                        numArchivos = numArchivos + 1;
-                        arcTablaC.setArcPubIdentificador(actual);
-                        arcTablaC.setArcIdentificador(numArchivos);
-                        arcTablaC.setArctipoPDFcargar("tablaContenido");
-                        CollArchivo.add(arcTablaC);
-                    }
-                    actual.setArchivoCollection(CollArchivo);
-                    actual.setPubEstado("Activo");                    
-                    actual.setPubVisado("espera");                    
-                    fijarAutoresSecundarios();
-                    
+                try {
+
                     /*Aqui se suben los archivos al OpenKm*/
                     if(actual.agregarMetadatos(publicacionPDF, TablaContenidoPDF, cartaAprobacionPDF)){
                         /*Crear registro en la bd*/
@@ -625,10 +622,10 @@ public class PublicacionController implements Serializable {
                         Date date = new Date();
                         DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         String estampaTiempo = "" + datehourFormat.format(date);
-                        //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje Sistema Doctorados - Registro Publicación", "Estudiante " + nombreAut + " ha regitrado una publicación del tipo " + actual.getPubTipoPublicacion() + " en la siguiente fecha y hora: " + estampaTiempo);
-                        Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", 
-                                "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una publicación del tipo " 
-                                + actual.getIdTipoDocumento().getNombre()+ " en la siguiente fecha y hora: " + estampaTiempo);
+                        /*Se envian los correos de confirmacion*/
+                        Utilidades.correoRegistroPublicaciones(estudianteActual.getEstCorreo(), nombreAut, 
+                                actual.getIdTipoDocumento().getNombre(), estampaTiempo);
+                        
                     }else{
                         /*No se han podido subir los archivos*/
                         FacesContext.getCurrentInstance().addMessage("Error", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al subir archivos", ""));
@@ -641,13 +638,11 @@ public class PublicacionController implements Serializable {
                 }
                 limpiarCampos();
                 //redirigirPublicacionesEst(est.getEstUsuario());
-                //redirigirPublicacionesEst();
-                Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPublicaciones_Est.xhtml");
+                //redirigirPublicacionesEst(actual);
+                redirigirAlistarPublicionesEst();
+                //Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPublicaciones_Est.xhtml");
             }
-        }else{
-            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR,mensaje, ""));
         }
-
     }
     
     /***
@@ -684,11 +679,13 @@ public class PublicacionController implements Serializable {
     }
 
     /**
-     * vuelve a inicializar todos los objetos de la clase pubicacion
+     * Limpiar y/o inicializa los campos del formulario
      */
     public void limpiarCampos() {        
         actual = new Publicacion();
         listaAutores.clear();
+        idPais = 0;
+        listaCiudades.clear();
         tipoPublicacion = "";
     }
 
@@ -770,7 +767,15 @@ public class PublicacionController implements Serializable {
             actualizarCiudades();
         }
         /*Cargamos los archivos pdf que han registrado*/
-        
+        archivoPDF publicacion = actual.descargarDocumento(1);
+        archivoPDF evidencia = actual.descargarDocumento(2);
+        archivoPDF tabla =  actual.descargarDocumento(3);
+        if(publicacion !=null){
+            publicacion.setNombreArchivo(publicacion.getNombreArchivo());
+            
+        }
+        if(evidencia !=null){}
+        if(tabla !=null){}
         
         Utilidades.redireccionar(cve.getRuta());
     }

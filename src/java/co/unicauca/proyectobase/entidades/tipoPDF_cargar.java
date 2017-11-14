@@ -1,13 +1,14 @@
- 
 package co.unicauca.proyectobase.entidades;
 
+import java.io.IOException;
 import java.io.InputStream;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
  * @author DELL7
  */
-public class tipoPDF_cargar {
+public class tipoPDF_cargar{
 
     private String nombreArchivo;
     private String rutaArchivo;
@@ -15,7 +16,7 @@ public class tipoPDF_cargar {
     private InputStream archivoIS;
 
     public tipoPDF_cargar() {
-    }
+    }  
 
     public tipoPDF_cargar(String nombreArchivo, String rutaArchivo, String tipoPDF, InputStream archivoIS) {
         this.nombreArchivo = nombreArchivo;

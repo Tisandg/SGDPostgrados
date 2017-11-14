@@ -1,7 +1,6 @@
 package co.unicauca.proyectobase.validadores;
 
 import co.unicauca.proyectobase.controladores.EstudianteController;
-import co.unicauca.proyectobase.controladores.PublicacionController;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;

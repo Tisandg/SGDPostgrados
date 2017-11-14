@@ -45,8 +45,6 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class PracticaDocenteController implements Serializable {
 
-    
-
     @EJB
     private PracticaDocenteFacade ejbFacade;
     @EJB
@@ -65,7 +63,6 @@ public class PracticaDocenteController implements Serializable {
     private String nombrePD;
 
     public String getNombrePD() {
-        
         return nombrePD;
     }
 
@@ -81,11 +78,9 @@ public class PracticaDocenteController implements Serializable {
         this.variableFiltrado = variableFiltrado;
     }
     
-
     public PracticaDocenteController() {       
         cve = new CargarVistaEstudiante();
         cvc= new CargarVistaCoordinador();
-    
     }  
     
     public Estudiante getAuxEstudiante() {

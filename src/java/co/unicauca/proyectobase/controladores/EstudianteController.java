@@ -194,7 +194,7 @@ public class EstudianteController implements Serializable {
             //agregar id de usuario a estudiante
             System.out.println("id de ususario: "+ uc.getCurrent().toString());     
             actual.setUsuarioId(user);
-
+            actual.setEstCreditos(0);
             getFacade().create(actual);
             getFacade().flush();
             mensajeconfirmarRegistro();
