@@ -22,8 +22,7 @@
 
                 <!--<h:form id="form" target="_blank">-->
                 <h:form id="form">
-                    <p:growl id="msgs" showDetail="false" />
-                    <p:messages id="msgSeleccion" globalOnly="true" />
+                    <p:growl id="msgs" showDetail="false"/>
                     <h:panelGrid  columns="1" cellspacing="5" id="tipoReporte">
                         <h:panelGrid  columns="5" cellspacing="5">
 
@@ -76,11 +75,12 @@
                             </p:selectOneMenu>
                             <p:selectOneMenu id="selectanio" 
                                              value="#{reportesJasperController.anio}" 
+                                             rendered="#{reportesJasperController.pedirAnio()}"
+                                             required="true" 
                                              requiredMessage="Debe seleccionar un campo de la lista"
-                                             required="#{reportesJasperController.pedirAnio()}" 
-                                             rendered="#{reportesJasperController.pedirAnio()}">
+                                             >
 
-                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="Seleccionar" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{reportesJasperController.getListaAnios()}" /> 
                             </p:selectOneMenu>                                  
                             <p:selectOneMenu id="selectSemestre" 
@@ -89,7 +89,7 @@
                                              required="#{reportesJasperController.pedirSemestre()}"
                                              requiredMessage="Debe seleccionar un campo de la lista"
                                              >
-                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="Seleccionar" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="1" itemValue="1" />                        
                                 <f:selectItem itemLabel="2" itemValue="2" />  
                             </p:selectOneMenu>
