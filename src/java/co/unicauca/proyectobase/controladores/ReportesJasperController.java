@@ -35,8 +35,8 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 /**
- * @author debian
- *
+ * @author debian Permite crear reportes basados en la libreria jasperreport
+ * para los formatos pdf y xls
  */
 @Named(value = "reportesJasperController")
 @ManagedBean
@@ -141,6 +141,12 @@ public class ReportesJasperController implements Serializable {
 
     JasperPrint jasperPrint;
 
+    /**
+     * permite ontener una connecion a la base de datos doctorado en mysql
+     *
+     * @return
+     * @throws SQLException
+     */
     Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -155,14 +161,27 @@ public class ReportesJasperController implements Serializable {
         }
     }
 
+    /**
+     * Genera un reporte de tipo pdf
+     */
     public void getReportePdf() {
         getReporte(TIPO_DOC_PDF);
     }
 
+    /**
+     * Genera un reporte de tipo xls
+     */
     public void getReporteExcel() {
         getReporte(TIPO_DOC_EXCEL);
     }
 
+    /**
+     * A partir del paramtro tipoDoc mas los atributos globales genera un
+     * reporte de tipo pdf o xls
+     *
+     * @param tipoDoc pude ser ReportesJasperController.TIPO_DOC_PDF o
+     * ReportesJasperController.TIPO_DOC_EXCEL
+     */
     private void getReporte(String tipoDoc) {
         try (Connection conn = getConnection()) {
             int fila = 0, columna = 0;
@@ -212,13 +231,17 @@ public class ReportesJasperController implements Serializable {
         }
     }
 
+    /**
+     * Genera un reporte jaspert en formato pdf y envia este al navegador web
+     */
     public void pdf() {
         try {
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
 //            response.addHeader("Content-disposition", "attachment; filename=report.pdf");
+            //tipo del archivo de descarga
             response.addHeader("Content-disposition", "inline; filename=report.pdf");
             ServletOutputStream servletOutputStream = response.getOutputStream();
-            
+            //exportar archivo al formato pdf
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
         } catch (JRException | IOException ex) {
@@ -226,8 +249,10 @@ public class ReportesJasperController implements Serializable {
         }
 
     }
-    //exporta a xls
 
+    /**
+     * Genera un reporte jaspert en formato xls y envia este al navegador web
+     */
     private void exportXls() {
         try {
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
@@ -240,8 +265,9 @@ public class ReportesJasperController implements Serializable {
             exporterXLS.setExporterOutput(sreo);
             SimpleExporterInput sei = new SimpleExporterInput(jasperPrint);
             exporterXLS.setExporterInput(sei);
-            AbstractXlsReportConfiguration  xrc = new SimpleXlsReportConfiguration();
-
+            AbstractXlsReportConfiguration xrc = new SimpleXlsReportConfiguration();
+            
+            // parametros para la exportacion a xls
             xrc.setOnePagePerSheet(true);
             xrc.setDetectCellType(true);
             xrc.setWhitePageBackground(true);
@@ -249,12 +275,16 @@ public class ReportesJasperController implements Serializable {
             xrc.setRemoveEmptySpaceBetweenRows(true);
             exporterXLS.setConfiguration(xrc);
             
+            //exportacio a xls
             exporterXLS.exportReport();
-
-//            response.setHeader("Content-disposition", "attachment; filename=reporte.xls");
-            response.setHeader("Content-disposition", "inline; filename=reporte.xls");
+            
+            // modo de descarga de archivo
+            response.setHeader("Content-disposition", "attachment; filename=reporte.xls");
+//            response.setHeader("Content-disposition", "inline; filename=reporte.xls");
+            // tipo de del archivo a descargas
             response.setContentType("application/vnd.ms-excel");
             response.setContentLength(arrayOutputStream.toByteArray().length);
+            // enviar el archivo al navegador
             out.write(arrayOutputStream.toByteArray());
             out.flush();
             out.close();
