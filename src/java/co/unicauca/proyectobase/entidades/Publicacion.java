@@ -1110,7 +1110,7 @@ public class Publicacion implements Serializable {
     
     public String ObtenerFecha()
     {
-        String fecha= pubFechaPublicacion.toLocaleString();
+        String fecha= pubFechaRegistro.toLocaleString();
         String solof[] = fecha.split(" ");
         return solof[0];
     }
