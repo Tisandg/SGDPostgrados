@@ -87,7 +87,7 @@
     </security-role>
     <security-role>
         <description>Usuario Coordinador
-</description>
+        </description>
         <role-name>Coordinador</role-name>
     </security-role>
 </web-app>

@@ -29,11 +29,10 @@
                             <p:outputLabel value="Tipo de reporte" style="font-weight:bold;" />
                             <p:selectOneMenu id="valTipoReporte" 
                                              value="#{reportesJasperController.tipoReporte}"
-                                             required="true"
-                                             requiredMessage="Debe seleccionar un campo de la lista"
                                              >
-                                <f:selectItem  itemLabel="Seleccione una opcion" itemValue="" />
+                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="" />
                                 <f:selectItems value="#{reportesJasperController.listaTiposReporte()}"/>
+                                <f:validator validatorId="validadorSeleccionOpcion"/>
                                 <f:ajax render="tipoReporte"/>
                             </p:selectOneMenu>
 
@@ -52,6 +51,8 @@
                                             style="width: 200px; padding-right: 20px"
                                             placeholder="Ingrese codigo"
                                             >
+
+
                                 <p:column>
                                     <h:outputText value="#{est.estNombre} #{est.estApellido}" />
                                 </p:column>
@@ -140,8 +141,6 @@
                 <p:commandButton  style="font-size: 13px; float:center;" value="Volver" actionListener="#{publicacionController.redirigirAlistar()}" class="btn btn-primary"/>                       
             </h:form>
             <br/><br/>
-
-
         </ui:define>
     </ui:composition>
 </html>
