@@ -23,7 +23,7 @@
                 </span>
                 <div style = "float: right;">
                     <p:outputLabel style="font-weight:bold; " value="Número de creditos aprobados: "/>                        
-                    <p:outputLabel style="font-size: 16px; color: red;"  value="#{userLoginView.creditos}&nbsp;"/>
+                    <p:outputLabel style="font-size: 16px; color: red;"  value="#//{userLoginView.creditos}&nbsp;"/>
                 </div>
             </div>
             
@@ -39,22 +39,37 @@
             <br/>
             <p:separator />
             
-            <p:dataTable  id="tablaPublicaciones" var="prac"  value="#{practicaDocenteController.listadoDesdeEst()}" rows="10"
+            <p:dataTable  id="tablaPublicaciones" var="prac"  value="#{practicaDocenteController.listadoDesdeEst()}" rows="15"
                             paginator="true"
                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="15,30,50" emptyMessage="No tiene publicaciones registradas o no se encuentra ninguno con el criterio de busqueda."
                             style="text-align: left;"
                             >
 
-                <p:column headerText="Fecha Inicio">
-                    <h:outputText value="#{prac.fechaIn}"/>
+                <p:column headerText="Horas">
+                    <h:outputText value="#{prac.numeroHoras}"/>
                 </p:column>
-                <p:column headerText="Fecha Terminación">
-                    <h:outputText value="#{prac.fechaTer}"/>
+                <p:column headerText="Actividad">
+                    <h:outputText value="#{prac.idActividad.nombreActividad}"/>
                 </p:column>
-                <p:column headerText="Lugar de práctica"  >
-                    <h:outputText value="#{prac.lugarPractica}"/>
-                </p:column>                         
+                <p:column headerText="Acciones"   >
+                    <h:form style="font-size: 10px;">                        
+                        <p:commandButton actionListener="#{practicaDocenteController.verPracticaDocenteEst(prac)}" value="Ver" class="btn btn_listaEstudiantes"  icon="fa fa-fw fa-eye" style="font-size: 13px;"/>
+                        <p:commandButton disabled="true" actionListener="true" value="Editar" icon="fa fa-fw fa-edit" style="font-size: 13px;"/>
+                        <p:commandButton disabled="true" onclick="PF('dlg2').show();"  value="Eliminar" class="btn btn-success btn_listaEstudiantes" icon="fa fa-fw fa-remove" style="font-size: 13px;"/>
+
+                        <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" height="100">
+                            <h:form style="font-size: 10px;">
+                                <br/>
+                                <h:outputText value="Esta seguro que desea eliminar esta documentacion?" />
+                                <br/><br/>
+                                <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                <p:commandButton actionListener="#{publicacionController.eliminarDocumentacion(pub)}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                            </h:form>
+                        </p:dialog>
+
+                   </h:form>
+                </p:column>                        
             </p:dataTable>
             
             </p:panel>

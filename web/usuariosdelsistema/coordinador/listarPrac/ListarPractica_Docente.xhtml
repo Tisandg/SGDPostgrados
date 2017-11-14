@@ -45,15 +45,7 @@
                         <h:outputText value="#{practicaDocenteController.formatoNombreUsuario(prac.publicacion.pubEstIdentificador)}"/>
                     </p:column>
                     
-                    <p:column headerText="Fecha Inicio">
-                        <h:outputText value="#{prac.fechaIn}"/>
-                    </p:column>
-                    <p:column headerText="Fecha Terminación">
-                        <h:outputText value="#{prac.fechaTer}"/>
-                    </p:column>
-                    <p:column headerText="Lugar de práctica"  >
-                        <h:outputText value="#{prac.lugarPractica}"/>
-                    </p:column>                  
+                    
                     <p:column headerText="Acción"   >
                         <h:form style="font-size: 10px;"> 
                             <p:commandButton actionListener="#{practicaDocenteController.verPractica(prac)}" value="Ver" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>

@@ -32,59 +32,73 @@
                 <h:outputText class="form-control" id="valNombreAutor"  value="#{publicacionController.getnombreAut()}" style="color: #3366ff"></h:outputText>            
                 <p:outputLabel value="" styleClass="addEspacio"/>
 
-                <p:outputLabel value="Lugar :" styleClass="addEspacio"/>
-                <p:inputText  id="valLugar"  value="#{practicaDocenteController.selected.lugarPractica}"  size="35"/>
-                <p:outputLabel value="" styleClass="addEspacio"/>
-
                 <h:panelGroup>
-                    <p:outputLabel value="Fecha inicio" styleClass="addEspacio"/>
+                <p:outputLabel value="Actividad " />
+                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                </h:panelGroup>
+                
+                <p:selectOneMenu id="actividad" value="#{practicaDocenteController.selected.idActividad}" 
+                                 required="true" requiredMessage="Debe seleccionar un campo de la lista" >
+                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                    <f:selectItems value="#{actividadPdController.itemsAvailableSelectOne}" />       
+                    <f:validator validatorId="ValidadorListaVacia" />
+                    <f:ajax render="@this form_registrar_prac" />
+                    <p:ajax listener="#{practicaDocenteController.renderizarHoras(actividadPdController.itemsAvailableSelectOne)}" /> 
+                </p:selectOneMenu>
+                <p:message for="actividad" id="msjvalTipoPublicacion" />
+                </h:panelGrid>
+                              
+                <h:panelGrid columns="3" cellpadding="5">
+                <h:panelGroup id="lugar" rendered="#{practicaDocenteController.renderizarOtrosVar}">
+                    <p:outputLabel value="Descripcion de actividad:"  />
+                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                </h:panelGroup>                
+                <p:inputText id="idLugar" size="35" value="#{practicaDocenteController.selected.otros}" 
+                             style="width: 100% !important" rendered="#{practicaDocenteController.renderizarOtrosVar}" 
+                             placeholder="Ingese la descripción de la actividad aquí">
+                    <f:validator validatorId="validadorCampoVacioPD" />
+                    <p:ajax event="blur" update="msjValLugarOtros" />
+                </p:inputText>                
+                <p:message for="idLugar" id="msjValLugarOtros" />
+                </h:panelGrid>
+                
+            
+            <h:panelGrid columns="3" cellpadding="5">                
+                <p:outputLabel value="" rendered="#{!practicaDocenteController.renderizarHorasVar}"/>
+                <h:panelGroup id="horas" rendered="#{practicaDocenteController.renderizarHorasVar}">                     
+                    <p:outputLabel value="Cantidad de horas:"  />
+                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* "/>
+                </h:panelGroup>                    
+                <p:inputMask id="idHoras" size="35" value="#{practicaDocenteController.selected.numeroHoras}"                
+                             style="width: 100% !important" rendered="#{practicaDocenteController.renderizarHorasVar}" mask="9?99" 
+                             converterMessage="Debe ingresar la cantidad de hdssoras."  >
+                    <f:validator validatorId="validadorHorasPD" />
+                    <p:ajax event="blur" update="msjValHoras" />
+                </p:inputMask>
+                <p:message for="idHoras" id="msjValHoras" />                  
+                <p:outputLabel value="" rendered="#{!practicaDocenteController.renderizarHorasVar}"/>
+                </h:panelGrid>
+                                
+            
+            <h:panelGrid columns="3" cellpadding="5">                
+                <h:panelGroup>
+                    <h:outputLabel value="Evidencia de actividad:" styleClass="addEspacio"/>
                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                 </h:panelGroup>
-                <p:calendar  id="event" value="#{practicaDocenteController.selected.fechaInicio}" maxdate="#{currentDay}" size="35" 
-                             pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es" >
-                    <p:ajax event="dateSelect" listener="#{publicacionController.onDateSelect}"  />
-                    <f:validator validatorId="validadorFechaPublicacion" />
-                    <p:ajax event="change" update="msjValFechaPublicacion" />
-                </p:calendar>
-                <p:message for="event" id="msjValFechaPublicacion" />
-
-
-
-                <h:panelGroup>
-                    <p:outputLabel value="Fecha fin" styleClass="addEspacio"/>
-                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                </h:panelGroup>
-                <p:calendar  id="event2" value="#{practicaDocenteController.selected.fechaTerminacion}" maxdate="#{currentDay}" size="35" 
-                             pattern="yyyy-MMM-dd" navigator="true" autocomplete="false" locale="es">
-                    <p:ajax event="dateSelect" listener="#{practicaDocenteController.onDateSelect}"  />
-                    <f:validator validatorId="validadorFechaPublicacion" />
-                    <p:ajax event="change" update="msjValFechaPublicacion2" />
-                </p:calendar>
-                <p:message for="event2" id="msjValFechaPublicacion2" />
-
-                <h:panelGroup>
-                    <h:outputLabel value="Tabla de contenido PDF:" styleClass="addEspacio"/>
-                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                </h:panelGroup>
-                <p:fileUpload id="tablaContenidoPDF"   value="#{practicaDocenteController.documento}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio"/>                        
-                <p:messages for="valTContenido"  id="msjvalTContenido" />
-                <h:outputText value=""/>
-
-
+                <p:fileUpload id="tablaContenidoPDF"   value="#{practicaDocenteController.documento}" required="true" mode="simple" 
+                              allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio"/>                                                        
+                <p:outputLabel value=""/>                
             </h:panelGrid>
-
-
-
-
+            <p:messages for="tablaContenidoPDF"  id="msjvalPractica" />
 
             <h:form>
                 <h:panelGrid columns="2" cellspacing="10>">
-                <h:commandButton value="Registrar" actionListener="#{practicaDocenteController.AgregarPracticaDocente()}" class=" ui-state-default ui-corner-all"/> 
+                <h:commandButton value="Registrar" actionListener="#{practicaDocenteController.AgregarPracticaDocente(userLoginView.username)}" class="botonVerPractica"/> 
                 <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del documento?')) {
                             return false;
                         }
                         ;
-                        return true;" action="#{practicaDocenteController.redirigirAlistar()}" class=" ui-state-default ui-corner-all ui-button-text-only" immediate="true"/>
+                        return true;" action="#{practicaDocenteController.redirigirInfoEstudiante()}" class="botonVerPractica" immediate="true"/>
                 </h:panelGrid>
             </h:form>
 

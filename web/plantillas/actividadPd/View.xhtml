@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ActividadPdViewDlg" widgetVar="ActividadPdViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleActividadPd.ViewActividadPdTitle}">
+            <h:form id="ActividadPdViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{actividadPdController.selected != null}">
+                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_idActividad}"/>
+                        <h:outputText value="#{actividadPdController.selected.idActividad}" title="#{bundleActividadPd.ViewActividadPdTitle_idActividad}"/>
+                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_nombreActividad}"/>
+                        <h:outputText value="#{actividadPdController.selected.nombreActividad}" title="#{bundleActividadPd.ViewActividadPdTitle_nombreActividad}"/>
+                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_horasAsignadas}"/>
+                        <h:outputText value="#{actividadPdController.selected.horasAsignadas}" title="#{bundleActividadPd.ViewActividadPdTitle_horasAsignadas}"/>
+                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_faseAjuste}"/>
+                        <h:outputText value="#{actividadPdController.selected.faseAjuste}" title="#{bundleActividadPd.ViewActividadPdTitle_faseAjuste}"/>
+                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_maximoHoras}"/>
+                        <h:outputText value="#{actividadPdController.selected.maximoHoras}" title="#{bundleActividadPd.ViewActividadPdTitle_maximoHoras}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundleActividadPd.Close}" onclick="ActividadPdViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
