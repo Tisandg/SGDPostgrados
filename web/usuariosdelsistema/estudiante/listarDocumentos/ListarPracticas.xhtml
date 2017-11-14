@@ -39,7 +39,7 @@
             <br/>
             <p:separator />
             
-            <p:dataTable  id="tablaPublicaciones" var="prac"  value="#{practicaDocenteController.listadoDesdeEst()}" rows="15"
+            <p:dataTable  id="tablaPublicaciones" var="prac"  value="#{practicaDocenteController.listadoDesdeEst(userLoginView.username)}" rows="15"
                             paginator="true"
                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="15,30,50" emptyMessage="No tiene publicaciones registradas o no se encuentra ninguno con el criterio de busqueda."
