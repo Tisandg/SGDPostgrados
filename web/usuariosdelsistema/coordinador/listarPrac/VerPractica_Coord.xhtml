@@ -26,6 +26,11 @@
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valNombAut"  value="#{practicaDocenteController.formatoNombreUsuario(practicaDocenteController.selected.publicacion.pubEstIdentificador)}"  style="color: #3366ff"/>
                            
+                            <p:outputLabel value="Nombre de la actividad:" style="font-weight:bold;" />
+                        <h:outputText class="form-control" id="valNombActividad"  value="#{practicaDocenteController.selected.idActividad.nombreActividad}" style="color: #3366ff"/>
+
+                        <p:outputLabel value="Cantidad de horas:" style="font-weight:bold;"/>
+                        <h:outputText class="form-control" id="valHoras"  value="#{practicaDocenteController.selected.numeroHoras}" style="color: #3366ff"/>
                             
                                                    
                         </h:panelGrid>
