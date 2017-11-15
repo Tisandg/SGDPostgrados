@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="600" pageHeight="800" columnWidth="540" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="8c2aeef0-cc31-4143-969d-2554d0ac9f4d">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
-	<property name="ireport.x" value="68"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Serif" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Serif" fontSize="18"/>
@@ -139,11 +139,11 @@ ORDER BY
 			<elementGroup>
 				<image>
 					<reportElement x="328" y="0" width="80" height="96" uuid="7c9098c1-4345-4d32-b0d4-be743e910f66"/>
-					<imageExpression><![CDATA["../../web/resources/images/logo8.png"]]></imageExpression>
+					<imageExpression><![CDATA["../../resources/images/logo8.png"]]></imageExpression>
 				</image>
 				<image>
 					<reportElement x="165" y="0" width="81" height="96" uuid="3ce9cc46-c6c9-4a5e-838e-975d18212cbf"/>
-					<imageExpression><![CDATA["../../web/resources/images/unicauca.png"]]></imageExpression>
+					<imageExpression><![CDATA["../../resources/images/unicauca.png"]]></imageExpression>
 				</image>
 			</elementGroup>
 			<textField pattern="EEEEE dd MMMMM yyyy">

@@ -682,18 +682,18 @@ public class PracticaDocenteController implements Serializable {
                 Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante, "
                         + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
                         + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
-                        + "\n\nSe acaba de APROBAR la publicación "
-                        + actual.getPublicacion().obtenerNombrePub() + "."
-                        + "\nQue fue registrada previamente en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\n\nSe acaba de APROBAR el documento '"
+                        + actual.getIdActividad().getNombreActividad()
+                        + "' que fue registrado previamente en el sistema de Doctorado en Ciencias de la Electrónica."
                         + "\nNúmero de creditos actuales: " + actual.getPublicacion().getPubEstIdentificador().getEstCreditos()
                         + "\n\n\n" + "Servicio notificación DCE.");
             }
             if (visado.equalsIgnoreCase("No Aprobado")) {
-                String mensaje = "Estimado estudiante."
+                String mensaje = "Estimado estudiante, "
                         + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
                         + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de RECHAZAR la publicación "
-                        + actual.getPublicacion().obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\n\n Se acaba de RECHAZAR el documento '"
+                        + actual.getIdActividad().getNombreActividad() + "' que previamente fue registrado en el sistema de Doctorado en Ciencias de la Electrónica"
                         + "\n\n" + "Servicio notificación DCE.";
                     if (!valorTexto.equals("")) {
                         mensaje = mensaje + "\n\n Observaciones: " + valorTexto;
@@ -705,8 +705,8 @@ public class PracticaDocenteController implements Serializable {
                 Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante."
                         + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
                         + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de PONER EN ESPERA la publicación "
-                        + actual.getPublicacion().obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\n\n Se acaba de PONER EN ESPERA el documento "
+                        + actual.getPublicacion().obtenerNombrePub() + "que previamente fue registrado en el sistema de Doctorado en Ciencias de la Electrónica"
                         + "\n\n" + "Servicio notificación DCE.");
             }
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
