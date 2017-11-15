@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CapituloLibroEditDlg" widgetVar="CapituloLibroEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.EditCapituloLibroTitle}">
+            <h:form id="CapituloLibroEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{capituloLibroController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCapituloLibroLabel_pubIdentificador}" for="pubIdentificador" />
+                        <p:inputText id="pubIdentificador" value="#{capituloLibroController.selected.pubIdentificador}" title="#{bundlePracticaDocente.EditCapituloLibroTitle_pubIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.EditCapituloLibroRequiredMessage_pubIdentificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCapituloLibroLabel_caplibTituloLibro}" for="caplibTituloLibro" />
+                        <p:inputText id="caplibTituloLibro" value="#{capituloLibroController.selected.caplibTituloLibro}" title="#{bundlePracticaDocente.EditCapituloLibroTitle_caplibTituloLibro}" required="true" requiredMessage="#{bundlePracticaDocente.EditCapituloLibroRequiredMessage_caplibTituloLibro}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCapituloLibroLabel_caplibTituloCapitulo}" for="caplibTituloCapitulo" />
+                        <p:inputText id="caplibTituloCapitulo" value="#{capituloLibroController.selected.caplibTituloCapitulo}" title="#{bundlePracticaDocente.EditCapituloLibroTitle_caplibTituloCapitulo}" required="true" requiredMessage="#{bundlePracticaDocente.EditCapituloLibroRequiredMessage_caplibTituloCapitulo}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCapituloLibroLabel_publicacion}" for="publicacion" />
+                        <p:selectOneMenu id="publicacion" value="#{capituloLibroController.selected.publicacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditCapituloLibroRequiredMessage_publicacion}">
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{publicacionController.itemsAvailableSelectOne}"
+                                           var="publicacionItem"
+                                           itemValue="#{publicacionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCapituloLibroLabel_caplibIsbn}" for="caplibIsbn" />
+                        <p:inputText id="caplibIsbn" value="#{capituloLibroController.selected.caplibIsbn}" title="#{bundlePracticaDocente.EditCapituloLibroTitle_caplibIsbn}" required="true" requiredMessage="#{bundlePracticaDocente.EditCapituloLibroRequiredMessage_caplibIsbn}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{capituloLibroController.update}" value="#{bundlePracticaDocente.Save}" update="display,:CapituloLibroListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CapituloLibroEditDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="CapituloLibroEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

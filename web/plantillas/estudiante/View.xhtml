@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstudianteViewDlg" widgetVar="EstudianteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewEstudianteTitle}">
+            <h:form id="EstudianteViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{estudianteController.selected != null}">
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estCreditos}"/>
+                        <h:outputText value="#{estudianteController.selected.estCreditos}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estCreditos}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estIdentificador}"/>
+                        <h:outputText value="#{estudianteController.selected.estIdentificador}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estIdentificador}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estCodigo}"/>
+                        <h:outputText value="#{estudianteController.selected.estCodigo}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estCodigo}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estNombre}"/>
+                        <h:outputText value="#{estudianteController.selected.estNombre}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estNombre}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estApellido}"/>
+                        <h:outputText value="#{estudianteController.selected.estApellido}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estApellido}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estCorreo}"/>
+                        <h:outputText value="#{estudianteController.selected.estCorreo}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estCorreo}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estCohorte}"/>
+                        <h:outputText value="#{estudianteController.selected.estCohorte}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estCohorte}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estTutor}"/>
+                        <h:outputText value="#{estudianteController.selected.estTutor}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estTutor}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estSemestre}"/>
+                        <h:outputText value="#{estudianteController.selected.estSemestre}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estSemestre}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estEstado}"/>
+                        <h:outputText value="#{estudianteController.selected.estEstado}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estEstado}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estUsuario}"/>
+                        <h:outputText value="#{estudianteController.selected.estUsuario}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estUsuario}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_usuarioId}"/>
+                        <h:outputText value="#{estudianteController.selected.usuarioId}" title="#{bundlePracticaDocente.ViewEstudianteTitle_usuarioId}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewEstudianteLabel_estContrasena}"/>
+                        <h:outputText value="#{estudianteController.selected.estContrasena}" title="#{bundlePracticaDocente.ViewEstudianteTitle_estContrasena}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="EstudianteViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

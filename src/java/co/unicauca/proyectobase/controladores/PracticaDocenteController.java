@@ -11,19 +11,16 @@ import co.unicauca.proyectobase.entidades.Archivo;
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.archivoPDF;
-import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import co.unicauca.proyectobase.utilidades.Utilidades;
+import com.openkm.sdk4j.exception.LockException;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -153,7 +150,15 @@ public class PracticaDocenteController implements Serializable {
     }
 
     public void update() {
+        if(actual.getIdActividad().getIdActividad() != 18){
+            actual.setOtros(null);            
+        }
+        if(actual.getIdActividad().getHorasAsignadas() != null){
+            actual.setNumeroHoras(actual.getIdActividad().getHorasAsignadas());
+        }
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteUpdated"));
+        cve.verPracticas();
+        Utilidades.redireccionar(cve.getRuta());
     }
 
     public void destroy() {
@@ -402,6 +407,8 @@ public class PracticaDocenteController implements Serializable {
     public void redirigirRegistrarPracticaDocente(String nombreUsuario) {
         limpiarCampos(nombreUsuario);        
         cve.registrarPractica();        
+        renderizarHorasVar = false;
+        renderizarOtrosVar = false;
         Utilidades.redireccionar(cve.getRuta());
     }
     
@@ -476,7 +483,7 @@ public class PracticaDocenteController implements Serializable {
     
     //</editor-fold>
      
-     public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
+    public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaPubPrac();                   
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
@@ -500,14 +507,15 @@ public class PracticaDocenteController implements Serializable {
             response.getOutputStream().write(buffer);
             response.getOutputStream().flush();
             response.getOutputStream().close();
-            FacesContext.getCurrentInstance().responseComplete();
-
-            
-            
+            FacesContext.getCurrentInstance().responseComplete();                       
         }
     }
-     
-      public void verPractica(PracticaDocente prac) {
+    
+    /**
+     * ver practica docente por parte del coordinador
+     * @param prac practica docente que se desea visualizar
+     */
+    public void verPractica(PracticaDocente prac) {
         actual = prac;
         cvc.listarPracticaDocenteVer();        
         Utilidades.redireccionar(cvc.getRuta());
@@ -578,7 +586,73 @@ public class PracticaDocenteController implements Serializable {
         cve.verDatosPersonales();
         Utilidades.redireccionar(cve.getRuta());
     }
-        
-       
     
+    /**
+     * redireccionar a editar publicacion.
+     * primero se fija la practicaDcocente recibida por parametro,
+     * posteriormente se redirige a la vista correspondiente
+     * @param prac practica docente que se desea editar
+     */
+    public void irAEditar(PracticaDocente prac) {
+        setSelected(prac);                
+        //si la actividad seleccionada no posee horas y selecciono otras
+        if(prac.getIdActividad().getHorasAsignadas() == null && 
+                getSelected().getIdActividad().getIdActividad() == 18){            
+            renderizarHorasVar = true;
+            renderizarOtrosVar = true;                        
+        }
+        //si la actividad seleccionada no posee horas y selecciono un item dierente a otras
+        if(prac.getIdActividad().getHorasAsignadas() == null &&
+                getSelected().getIdActividad().getIdActividad() != 18){
+            renderizarOtrosVar = false;
+            renderizarHorasVar = true;                        
+        }
+        if(prac.getIdActividad().getHorasAsignadas() != null){
+            renderizarHorasVar = false;        
+            renderizarOtrosVar = false;
+        }   
+        cve.IrEditarPracticaDocente();       
+        Utilidades.redireccionar(cve.getRuta());
+    }
+    
+    /***
+     * Metodo para eliminar una documentacion que se halla registrado.
+     * Con la practica docente que recibo se verifica que no halla sido visada por
+     * el coordinador. Si no ha sido visada, se pasa a borrar la informacion 
+     * registrada de esta documentacion en openkm y en la base de datos
+     * @param prac objeto de practica docente que se desea eliminar          
+     */
+    public void eliminarDocumentacion(PracticaDocente prac){
+        actual = prac;
+        /*Comprobamos que no halla sido visada*/
+        if (actual.getPublicacion().getPubVisado().equalsIgnoreCase("aprobado") ||
+                actual.getPublicacion().getPubVisado().equalsIgnoreCase("no aprobado") ) {
+            /*No se puede eliminar la publicacion*/
+            System.out.println("No se puede eliminar. La documentación ya ha sido revisada");
+            addMessage("La publicación no se puede eliminar por que ha sido aceptada por el coordinador", "");
+        }else{
+            try {                
+                actual.eliminarDocOpenkm();
+                PublicacionController con = new PublicacionController();
+                con.eliminarDocumentacion(actual.getPublicacion());
+                this.destroy();
+                System.out.println("Documentacion eliminada");
+            } catch (LockException ex) {                
+                System.out.println("error eliminando la publicacion desde practica docente");
+                addMessage("La publicación no se ha podido eliminar", "");
+                Logger.getLogger(PracticaDocenteController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        redirigirListarPracticasEst();
+    }
+    
+    /**
+     * Adiciona un mensaje a la vista correspondiente
+     * @param summary tiitulo del mensaje
+     * @param detail contenido del mensaje
+     */
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 }

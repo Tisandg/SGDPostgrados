@@ -248,6 +248,12 @@ public class PublicacionController implements Serializable {
         cvc = new CargarVistaCoordinador();
         this.listaPaises = new ArrayList<>();
     }
+    public PublicacionController(Publicacion pub) {
+        actual = pub;
+        cve = new CargarVistaEstudiante();
+        cvc = new CargarVistaCoordinador();
+        this.listaPaises = new ArrayList<>();
+    }
 
     public Publicacion getActual() {
         if (actual == null) {
@@ -676,6 +682,17 @@ public class PublicacionController implements Serializable {
             }
         }
         redirigirPublicacionesEst();
+    }
+    
+    /**
+     * eliminar una publicacion desde otros controladores     
+     */
+    public void eliminarPublicacion(){    
+        System.out.println("====Pub: " + actual.getPubEstIdentificador().getEstNombre());
+        System.out.println("daoPub: " + daoPublicacion);
+        daoPublicacion = new PublicacionFacade();
+        daoPublicacion.remove(actual);
+        daoPublicacion.flush();        
     }
 
     /**

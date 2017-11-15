@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CapituloLibroViewDlg" widgetVar="CapituloLibroViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewCapituloLibroTitle}">
+            <h:form id="CapituloLibroViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{capituloLibroController.selected != null}">
+                        <h:outputText value="#{bundlePracticaDocente.ViewCapituloLibroLabel_pubIdentificador}"/>
+                        <h:outputText value="#{capituloLibroController.selected.pubIdentificador}" title="#{bundlePracticaDocente.ViewCapituloLibroTitle_pubIdentificador}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCapituloLibroLabel_caplibTituloLibro}"/>
+                        <h:outputText value="#{capituloLibroController.selected.caplibTituloLibro}" title="#{bundlePracticaDocente.ViewCapituloLibroTitle_caplibTituloLibro}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCapituloLibroLabel_caplibTituloCapitulo}"/>
+                        <h:outputText value="#{capituloLibroController.selected.caplibTituloCapitulo}" title="#{bundlePracticaDocente.ViewCapituloLibroTitle_caplibTituloCapitulo}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCapituloLibroLabel_publicacion}"/>
+                        <h:outputText value="#{capituloLibroController.selected.publicacion}" title="#{bundlePracticaDocente.ViewCapituloLibroTitle_publicacion}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCapituloLibroLabel_caplibIsbn}"/>
+                        <h:outputText value="#{capituloLibroController.selected.caplibIsbn}" title="#{bundlePracticaDocente.ViewCapituloLibroTitle_caplibIsbn}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="CapituloLibroViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

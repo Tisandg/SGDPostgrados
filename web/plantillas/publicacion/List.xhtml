@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="PublicacionListForm">
+                <p:panel header="#{bundlePracticaDocente.ListPublicacionTitle}">
+                    <p:dataTable id="datalist" value="#{publicacionController.items}" var="item"
+                                 selectionMode="single" selection="#{publicacionController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.pubIdentificador}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubIdentificador}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubIdentificador}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubHash}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubHash}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubDiropkm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubDiropkm}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubFechaVisado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubFechaVisado}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubFechaRegistro}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubFechaRegistro}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubEstado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubEstado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubAutoresSecundarios}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubAutoresSecundarios}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubTipoPublicacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubTipoPublicacion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubFechaPublicacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubFechaPublicacion}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubNumActa}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubNumActa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubVisado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubVisado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_congreso}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.congreso}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_revista}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.revista}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_capituloLibro}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capituloLibro}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_libro}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.libro}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubEstIdentificador}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubEstIdentificador}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_idTipoDocumento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idTipoDocumento}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_practicaDocente}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.practicaDocente}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListPublicacionTitle_pubCreditos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pubCreditos}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundlePracticaDocente.Create}" actionListener="#{publicacionController.prepareCreate}" update=":PublicacionCreateForm" oncomplete="PF('PublicacionCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundlePracticaDocente.View}" update=":PublicacionViewForm" oncomplete="PF('PublicacionViewDialog').show()" disabled="#{empty publicacionController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundlePracticaDocente.Edit}" update=":PublicacionEditForm" oncomplete="PF('PublicacionEditDialog').show()" disabled="#{empty publicacionController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundlePracticaDocente.Delete}" actionListener="#{publicacionController.destroy}" update=":growl,datalist" disabled="#{empty publicacionController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

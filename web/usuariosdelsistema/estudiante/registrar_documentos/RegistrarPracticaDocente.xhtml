@@ -20,11 +20,10 @@
         </ui:insert>
             
         <h:form id="form_registrar_prac" enctype="multipart/form-data">                                                           
-            <p:panel header="Registrar datos práctica docente">
-            <p:dialog id="PracticaDocenteCreateDlg" widgetVar="PracticaDocenteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreatePracticaDocenteTitle}"></p:dialog>
+            <p:panel header="Registrar datos práctica docente">            
             <div style = "float: right;">
-                <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>
                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>                
             </div>
 
             <h:panelGrid columns="3" cellpadding="5">

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PaisEditDlg" widgetVar="PaisEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.EditPaisTitle}">
+            <h:form id="PaisEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{paisController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPaisLabel_paisId}" for="paisId" />
+                        <p:inputText id="paisId" value="#{paisController.selected.paisId}" title="#{bundlePracticaDocente.EditPaisTitle_paisId}" required="true" requiredMessage="#{bundlePracticaDocente.EditPaisRequiredMessage_paisId}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPaisLabel_paisNombre}" for="paisNombre" />
+                        <p:inputText id="paisNombre" value="#{paisController.selected.paisNombre}" title="#{bundlePracticaDocente.EditPaisTitle_paisNombre}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{paisController.update}" value="#{bundlePracticaDocente.Save}" update="display,:PaisListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PaisEditDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="PaisEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

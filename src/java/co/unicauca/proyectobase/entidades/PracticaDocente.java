@@ -1,13 +1,24 @@
 package co.unicauca.proyectobase.entidades;
 
+import co.unicauca.proyectobase.controladores.OpenKMController;
 import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
+import com.openkm.sdk4j.bean.Folder;
 import com.openkm.sdk4j.bean.QueryParams;
 import com.openkm.sdk4j.bean.QueryResult;
+import com.openkm.sdk4j.exception.AccessDeniedException;
+import com.openkm.sdk4j.exception.DatabaseException;
+import com.openkm.sdk4j.exception.LockException;
+import com.openkm.sdk4j.exception.PathNotFoundException;
+import com.openkm.sdk4j.exception.RepositoryException;
+import com.openkm.sdk4j.exception.UnknowException;
+import com.openkm.sdk4j.exception.WebserviceException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -177,5 +188,35 @@ public class PracticaDocente implements Serializable {
         }
         System.out.println("DATOS: "+ archivo.getArchivo());
         return archivo;
+    }
+    
+    /***
+     * Elimina los documentos subidos al gestor de documentos OpenKM.
+     * Se obtiene una instancia de openKm con la cual buscamos la carpeta donde
+     * estan almacenados los documentos. Si se encuentra se eliminar toda la 
+     * carpeta de lo contrario se lanza un mensaje por consola notificando que
+     * ocurrio un error al eliminar la documentacion.
+     * @return True si se elimino el documento de openKM, False de lo contrario 
+     */
+    public boolean eliminarDocOpenkm(){        
+        String rutaFolder="/okm:root/Doctorado_Electronica/" + this.publicacion.getPubEstIdentificador().getEstUsuario() + "/" + this.publicacion.getPubDiropkm();
+        Folder folder = new Folder();
+        folder.setPath(rutaFolder);
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        try {
+            /* Se valida si el forder a eliminar existe o no*/
+            boolean valido = ws.isValidFolder(rutaFolder);            
+            if(valido){
+                ws.deleteFolder(rutaFolder);                
+            }else{
+                return false;
+            }
+        } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
+            System.out.println("Error al eliminar documento: "+e.getMessage());
+        } catch (LockException ex) {        
+            Logger.getLogger(PracticaDocente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("exception lockException. err: " + ex.getMessage());
+        }
+        return true;
     }
 }

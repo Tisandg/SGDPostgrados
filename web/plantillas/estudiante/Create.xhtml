@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstudianteCreateDlg" widgetVar="EstudianteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreateEstudianteTitle}">
+            <h:form id="EstudianteCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{estudianteController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estCreditos}" for="estCreditos" />
+                        <p:inputText id="estCreditos" value="#{estudianteController.selected.estCreditos}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estCreditos}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estIdentificador}" for="estIdentificador" />
+                        <p:inputText id="estIdentificador" value="#{estudianteController.selected.estIdentificador}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.CreateEstudianteRequiredMessage_estIdentificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estCodigo}" for="estCodigo" />
+                        <p:inputText id="estCodigo" value="#{estudianteController.selected.estCodigo}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estCodigo}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estNombre}" for="estNombre" />
+                        <p:inputText id="estNombre" value="#{estudianteController.selected.estNombre}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estNombre}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estApellido}" for="estApellido" />
+                        <p:inputText id="estApellido" value="#{estudianteController.selected.estApellido}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estApellido}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estCorreo}" for="estCorreo" />
+                        <p:inputText id="estCorreo" value="#{estudianteController.selected.estCorreo}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estCorreo}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estCohorte}" for="estCohorte" />
+                        <p:inputText id="estCohorte" value="#{estudianteController.selected.estCohorte}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estCohorte}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estTutor}" for="estTutor" />
+                        <p:inputText id="estTutor" value="#{estudianteController.selected.estTutor}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estTutor}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estSemestre}" for="estSemestre" />
+                        <p:inputText id="estSemestre" value="#{estudianteController.selected.estSemestre}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estSemestre}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estEstado}" for="estEstado" />
+                        <p:inputText id="estEstado" value="#{estudianteController.selected.estEstado}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estEstado}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estUsuario}" for="estUsuario" />
+                        <p:inputText id="estUsuario" value="#{estudianteController.selected.estUsuario}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estUsuario}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_usuarioId}" for="usuarioId" />
+                        <p:selectOneMenu id="usuarioId" value="#{estudianteController.selected.usuarioId}" required="true" requiredMessage="#{bundlePracticaDocente.EditEstudianteRequiredMessage_usuarioId}">
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="usuarioIdItem"
+                                           itemValue="#{usuarioIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateEstudianteLabel_estContrasena}" for="estContrasena" />
+                        <p:inputText id="estContrasena" value="#{estudianteController.selected.estContrasena}" title="#{bundlePracticaDocente.CreateEstudianteTitle_estContrasena}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estudianteController.create}" value="#{bundlePracticaDocente.Save}" update="display,:EstudianteListForm:datalist,:growl" oncomplete="handleSubmit(args,'EstudianteCreateDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="EstudianteCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

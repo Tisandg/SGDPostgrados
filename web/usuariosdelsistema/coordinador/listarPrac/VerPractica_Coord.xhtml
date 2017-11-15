@@ -21,30 +21,28 @@
             <h:form id="form_registrar">
                 <p:tab  title="Información publicación" titleStyleClass="title">             
                     <p:panel header="Datos generales">                                
-                        <h:panelGrid columns="2" cellspacing="5">
+                        <h:panelGrid columns="2" cellspacing="15">
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombAut"  value="#{practicaDocenteController.formatoNombreUsuario(practicaDocenteController.selected.publicacion.pubEstIdentificador)}"  style="color: #3366ff"/>
-                           
-                            
-                                                   
-                        </h:panelGrid>
+                            <h:outputText class="form-control" id="valNombAut"  value="#{practicaDocenteController.formatoNombreUsuario(practicaDocenteController.selected.publicacion.pubEstIdentificador)}"  style="color: #3366ff"/>                                                                                                                                                              
 
-                       
-                        <p:separator/>
+                            <p:outputLabel value="Nombre de la actividad:" style="font-weight:bold;" />
+                            <h:outputText class="form-control" id="valNombActividad"  value="#{practicaDocenteController.selected.idActividad.nombreActividad}" style="color: #3366ff"/>
 
-                            <h:panelGrid columns="2" cellpadding="5" id="panelRegistrar"  >                                                                                            
-                                <p:outputLabel value="Evidencia practica docente:" style="font-weight:bold;"/>
-                                <h:commandButton   class="botonVerPractica" value="Ver" action="#{practicaDocenteController.pdfPubPD()}" onclick="this.form.target = '_blank'" />
-
-                                
-                                
+                            <p:outputLabel value="Cantidad de horas:" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valHoras"  value="#{practicaDocenteController.selected.numeroHoras}" style="color: #3366ff"/>                           
+                                                                                                                                                                
                             </h:panelGrid>
+                            
+                            
+                            <p:separator/>
+                            <h:commandButton   class="botonVerPractica" value="Ver Evidencia" action="#{practicaDocenteController.pdfPubPD()}" onclick="this.form.target = '_blank'" />                    
+                            <br/><br/>
                         </p:panel>
                 </p:tab>
                 <br/>
                 
-                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistarCoord(usuariosSessionController.nombreUsuario)}"/>                       
+                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirPracticaDocente()}"/>                       
                 <br/><br/><br/>                       
             </h:form>
         </ui:define>

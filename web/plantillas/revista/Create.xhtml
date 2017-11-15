@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RevistaCreateDlg" widgetVar="RevistaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreateRevistaTitle}">
+            <h:form id="RevistaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{revistaController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateRevistaLabel_pubIdentificador}" for="pubIdentificador" />
+                        <p:inputText id="pubIdentificador" value="#{revistaController.selected.pubIdentificador}" title="#{bundlePracticaDocente.CreateRevistaTitle_pubIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.CreateRevistaRequiredMessage_pubIdentificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateRevistaLabel_revNombreRevista}" for="revNombreRevista" />
+                        <p:inputText id="revNombreRevista" value="#{revistaController.selected.revNombreRevista}" title="#{bundlePracticaDocente.CreateRevistaTitle_revNombreRevista}" required="true" requiredMessage="#{bundlePracticaDocente.CreateRevistaRequiredMessage_revNombreRevista}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateRevistaLabel_revTituloArticulo}" for="revTituloArticulo" />
+                        <p:inputText id="revTituloArticulo" value="#{revistaController.selected.revTituloArticulo}" title="#{bundlePracticaDocente.CreateRevistaTitle_revTituloArticulo}" required="true" requiredMessage="#{bundlePracticaDocente.CreateRevistaRequiredMessage_revTituloArticulo}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateRevistaLabel_revCategoria}" for="revCategoria" />
+                        <p:inputText id="revCategoria" value="#{revistaController.selected.revCategoria}" title="#{bundlePracticaDocente.CreateRevistaTitle_revCategoria}" required="true" requiredMessage="#{bundlePracticaDocente.CreateRevistaRequiredMessage_revCategoria}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateRevistaLabel_publicacion}" for="publicacion" />
+                        <p:selectOneMenu id="publicacion" value="#{revistaController.selected.publicacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditRevistaRequiredMessage_publicacion}">
+                            <f:selectItems value="#{publicacionController.itemsAvailableSelectOne}"
+                                           var="publicacionItem"
+                                           itemValue="#{publicacionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateRevistaLabel_revDoi}" for="revDoi" />
+                        <p:inputText id="revDoi" value="#{revistaController.selected.revDoi}" title="#{bundlePracticaDocente.CreateRevistaTitle_revDoi}" required="true" requiredMessage="#{bundlePracticaDocente.CreateRevistaRequiredMessage_revDoi}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{revistaController.create}" value="#{bundlePracticaDocente.Save}" update="display,:RevistaListForm:datalist,:growl" oncomplete="handleSubmit(args,'RevistaCreateDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="RevistaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

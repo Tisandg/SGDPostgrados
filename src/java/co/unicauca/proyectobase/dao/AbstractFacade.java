@@ -62,7 +62,7 @@ public abstract class AbstractFacade<T> {
         getEntityManager().merge(entity);
     }
 
-    public void remove(T entity) {
+    public void remove(T entity) {        
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 

@@ -29,7 +29,7 @@ CREATE TABLE `actividad_pd` (
   `fase_ajuste` float DEFAULT NULL,
   `maximoHoras` int(3) DEFAULT NULL,
   PRIMARY KEY (`id_actividad`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,25 @@ CREATE TABLE `actividad_pd` (
 
 LOCK TABLES `actividad_pd` WRITE;
 /*!40000 ALTER TABLE `actividad_pd` DISABLE KEYS */;
-INSERT INTO `actividad_pd` VALUES (19,'Diseño curricular de cursos teóricos/prácticos nuevos',NULL,1,72),(20,'Preparación de cursos teóricos/prácticos nuevos',NULL,2.5,NULL),(21,'Docencia curso pregrado',NULL,2.5,NULL),(22,'Docencia curso maestría',NULL,3.5,NULL),(23,'Curso corto (seminario actualización)',NULL,2.5,NULL),(24,'Monitorias cursos',36,1,NULL),(25,'Elaboración de material de apoyo',NULL,2.5,NULL),(26,'Dirección trabajo de grado en pregrado/Maestría',NULL,2,176),(27,'Asesoría de pasantía (*)',44,1,88),(28,'Jurado trabajo de grado de pregrado',20,1,80),(29,'Evaluación como jurado de pasantía (*)',20,1,80),(30,'Jurado trabajo de tesis de maestría',30,1,90),(31,'Evaluación de anteproyecto (Departamentos)',4,1,24),(32,'Evaluación de plan de trabajo para pasantía(*)',4,1,24),(33,'Evaluación productividad intelectual',8,1,48),(34,'Evaluación informe año sabático - Libros',30,1,30),(35,'Participación en el Comité de Programa',48,1,2),(36,'Otrás actividades de apoyo al departamento',NULL,1,30);
+insert into actividad_pd (nombre_actividad,horas_asignadas,fase_ajuste,maximoHoras) values
+("Diseño curricular de cursos teóricos/prácticos nuevos",null,1,72),
+("Preparación de cursos teóricos/prácticos nuevos",null,2.5,null),
+("Docencia curso pregrado",null,2.5,null),
+("Docencia curso maestría",null,3.5,null),
+("Curso corto (seminario actualización)",null,2.5,null),
+("Monitorias cursos",36,1,null),
+("Elaboración de material de apoyo",null,2.5,null),
+("Dirección trabajo de grado en pregrado/Maestría",null,2,176),
+("Asesoría de pasantía (*)",44,1,88),
+("Jurado trabajo de grado de pregrado",20,1,80),
+("Evaluación como jurado de pasantía (*)",20,1,80),
+("Jurado trabajo de tesis de maestría",30,1,90),
+("Evaluación de anteproyecto (Departamentos)",4,1,24),
+("Evaluación de plan de trabajo para pasantía(*)",4,1,24),
+("Evaluación productividad intelectual",8,1,48),
+("Evaluación informe año sabático - Libros",30,1,30),
+("Participación en el Comité de Programa",48,1,2),
+("Otrás actividades de apoyo al departamento",null,1,30);
 /*!40000 ALTER TABLE `actividad_pd` ENABLE KEYS */;
 UNLOCK TABLES;
 

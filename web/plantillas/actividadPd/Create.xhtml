@@ -8,23 +8,23 @@
 
     <ui:composition>
 
-        <p:dialog id="ActividadPdCreateDlg" widgetVar="ActividadPdCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleActividadPd.CreateActividadPdTitle}">
+        <p:dialog id="ActividadPdCreateDlg" widgetVar="ActividadPdCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreateActividadPdTitle}">
             <h:form id="ActividadPdCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{actividadPdController.selected != null}">
-                        <p:outputLabel value="#{bundleActividadPd.CreateActividadPdLabel_idActividad}" for="idActividad" />
-                        <p:inputText id="idActividad" value="#{actividadPdController.selected.idActividad}" title="#{bundleActividadPd.CreateActividadPdTitle_idActividad}" required="true" requiredMessage="#{bundleActividadPd.CreateActividadPdRequiredMessage_idActividad}"/>
-                        <p:outputLabel value="#{bundleActividadPd.CreateActividadPdLabel_nombreActividad}" for="nombreActividad" />
-                        <p:inputText id="nombreActividad" value="#{actividadPdController.selected.nombreActividad}" title="#{bundleActividadPd.CreateActividadPdTitle_nombreActividad}" required="true" requiredMessage="#{bundleActividadPd.CreateActividadPdRequiredMessage_nombreActividad}"/>
-                        <p:outputLabel value="#{bundleActividadPd.CreateActividadPdLabel_horasAsignadas}" for="horasAsignadas" />
-                        <p:inputText id="horasAsignadas" value="#{actividadPdController.selected.horasAsignadas}" title="#{bundleActividadPd.CreateActividadPdTitle_horasAsignadas}" />
-                        <p:outputLabel value="#{bundleActividadPd.CreateActividadPdLabel_faseAjuste}" for="faseAjuste" />
-                        <p:inputText id="faseAjuste" value="#{actividadPdController.selected.faseAjuste}" title="#{bundleActividadPd.CreateActividadPdTitle_faseAjuste}" />
-                        <p:outputLabel value="#{bundleActividadPd.CreateActividadPdLabel_maximoHoras}" for="maximoHoras" />
-                        <p:inputText id="maximoHoras" value="#{actividadPdController.selected.maximoHoras}" title="#{bundleActividadPd.CreateActividadPdTitle_maximoHoras}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateActividadPdLabel_idActividad}" for="idActividad" />
+                        <p:inputText id="idActividad" value="#{actividadPdController.selected.idActividad}" title="#{bundlePracticaDocente.CreateActividadPdTitle_idActividad}" required="true" requiredMessage="#{bundlePracticaDocente.CreateActividadPdRequiredMessage_idActividad}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateActividadPdLabel_nombreActividad}" for="nombreActividad" />
+                        <p:inputText id="nombreActividad" value="#{actividadPdController.selected.nombreActividad}" title="#{bundlePracticaDocente.CreateActividadPdTitle_nombreActividad}" required="true" requiredMessage="#{bundlePracticaDocente.CreateActividadPdRequiredMessage_nombreActividad}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateActividadPdLabel_horasAsignadas}" for="horasAsignadas" />
+                        <p:inputText id="horasAsignadas" value="#{actividadPdController.selected.horasAsignadas}" title="#{bundlePracticaDocente.CreateActividadPdTitle_horasAsignadas}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateActividadPdLabel_faseAjuste}" for="faseAjuste" />
+                        <p:inputText id="faseAjuste" value="#{actividadPdController.selected.faseAjuste}" title="#{bundlePracticaDocente.CreateActividadPdTitle_faseAjuste}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateActividadPdLabel_maximoHoras}" for="maximoHoras" />
+                        <p:inputText id="maximoHoras" value="#{actividadPdController.selected.maximoHoras}" title="#{bundlePracticaDocente.CreateActividadPdTitle_maximoHoras}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{actividadPdController.create}" value="#{bundleActividadPd.Save}" update="display,:ActividadPdListForm:datalist,:growl" oncomplete="handleSubmit(args,'ActividadPdCreateDialog');"/>
-                    <p:commandButton value="#{bundleActividadPd.Cancel}" onclick="ActividadPdCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{actividadPdController.create}" value="#{bundlePracticaDocente.Save}" update="display,:ActividadPdListForm:datalist,:growl" oncomplete="handleSubmit(args,'ActividadPdCreateDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="ActividadPdCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

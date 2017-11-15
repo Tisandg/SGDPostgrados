@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PublicacionViewDlg" widgetVar="PublicacionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewPublicacionTitle}">
+            <h:form id="PublicacionViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{publicacionController.selected != null}">
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubIdentificador}"/>
+                        <h:outputText value="#{publicacionController.selected.pubIdentificador}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubIdentificador}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubHash}"/>
+                        <h:outputText value="#{publicacionController.selected.pubHash}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubHash}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubDiropkm}"/>
+                        <h:outputText value="#{publicacionController.selected.pubDiropkm}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubDiropkm}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubFechaVisado}"/>
+                        <h:outputText value="#{publicacionController.selected.pubFechaVisado}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubFechaVisado}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubFechaRegistro}"/>
+                        <h:outputText value="#{publicacionController.selected.pubFechaRegistro}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubFechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubEstado}"/>
+                        <h:outputText value="#{publicacionController.selected.pubEstado}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubEstado}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubAutoresSecundarios}"/>
+                        <h:outputText value="#{publicacionController.selected.pubAutoresSecundarios}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubAutoresSecundarios}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubTipoPublicacion}"/>
+                        <h:outputText value="#{publicacionController.selected.pubTipoPublicacion}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubTipoPublicacion}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubFechaPublicacion}"/>
+                        <h:outputText value="#{publicacionController.selected.pubFechaPublicacion}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubFechaPublicacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubNumActa}"/>
+                        <h:outputText value="#{publicacionController.selected.pubNumActa}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubNumActa}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubVisado}"/>
+                        <h:outputText value="#{publicacionController.selected.pubVisado}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubVisado}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_congreso}"/>
+                        <h:outputText value="#{publicacionController.selected.congreso}" title="#{bundlePracticaDocente.ViewPublicacionTitle_congreso}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_revista}"/>
+                        <h:outputText value="#{publicacionController.selected.revista}" title="#{bundlePracticaDocente.ViewPublicacionTitle_revista}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_capituloLibro}"/>
+                        <h:outputText value="#{publicacionController.selected.capituloLibro}" title="#{bundlePracticaDocente.ViewPublicacionTitle_capituloLibro}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_libro}"/>
+                        <h:outputText value="#{publicacionController.selected.libro}" title="#{bundlePracticaDocente.ViewPublicacionTitle_libro}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubEstIdentificador}"/>
+                        <h:outputText value="#{publicacionController.selected.pubEstIdentificador}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubEstIdentificador}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_idTipoDocumento}"/>
+                        <h:outputText value="#{publicacionController.selected.idTipoDocumento}" title="#{bundlePracticaDocente.ViewPublicacionTitle_idTipoDocumento}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_practicaDocente}"/>
+                        <h:outputText value="#{publicacionController.selected.practicaDocente}" title="#{bundlePracticaDocente.ViewPublicacionTitle_practicaDocente}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPublicacionLabel_pubCreditos}"/>
+                        <h:outputText value="#{publicacionController.selected.pubCreditos}" title="#{bundlePracticaDocente.ViewPublicacionTitle_pubCreditos}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="PublicacionViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

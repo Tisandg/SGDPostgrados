@@ -8,22 +8,22 @@
 
     <ui:composition>
 
-        <p:dialog id="ActividadPdViewDlg" widgetVar="ActividadPdViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleActividadPd.ViewActividadPdTitle}">
+        <p:dialog id="ActividadPdViewDlg" widgetVar="ActividadPdViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewActividadPdTitle}">
             <h:form id="ActividadPdViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{actividadPdController.selected != null}">
-                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_idActividad}"/>
-                        <h:outputText value="#{actividadPdController.selected.idActividad}" title="#{bundleActividadPd.ViewActividadPdTitle_idActividad}"/>
-                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_nombreActividad}"/>
-                        <h:outputText value="#{actividadPdController.selected.nombreActividad}" title="#{bundleActividadPd.ViewActividadPdTitle_nombreActividad}"/>
-                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_horasAsignadas}"/>
-                        <h:outputText value="#{actividadPdController.selected.horasAsignadas}" title="#{bundleActividadPd.ViewActividadPdTitle_horasAsignadas}"/>
-                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_faseAjuste}"/>
-                        <h:outputText value="#{actividadPdController.selected.faseAjuste}" title="#{bundleActividadPd.ViewActividadPdTitle_faseAjuste}"/>
-                        <h:outputText value="#{bundleActividadPd.ViewActividadPdLabel_maximoHoras}"/>
-                        <h:outputText value="#{actividadPdController.selected.maximoHoras}" title="#{bundleActividadPd.ViewActividadPdTitle_maximoHoras}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_idActividad}"/>
+                        <h:outputText value="#{actividadPdController.selected.idActividad}" title="#{bundlePracticaDocente.ViewActividadPdTitle_idActividad}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_nombreActividad}"/>
+                        <h:outputText value="#{actividadPdController.selected.nombreActividad}" title="#{bundlePracticaDocente.ViewActividadPdTitle_nombreActividad}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_horasAsignadas}"/>
+                        <h:outputText value="#{actividadPdController.selected.horasAsignadas}" title="#{bundlePracticaDocente.ViewActividadPdTitle_horasAsignadas}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_faseAjuste}"/>
+                        <h:outputText value="#{actividadPdController.selected.faseAjuste}" title="#{bundlePracticaDocente.ViewActividadPdTitle_faseAjuste}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_maximoHoras}"/>
+                        <h:outputText value="#{actividadPdController.selected.maximoHoras}" title="#{bundlePracticaDocente.ViewActividadPdTitle_maximoHoras}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundleActividadPd.Close}" onclick="ActividadPdViewDialog.hide()"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="ActividadPdViewDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

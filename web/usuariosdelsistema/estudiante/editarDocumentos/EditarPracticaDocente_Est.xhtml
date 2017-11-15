@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Editar documentación</title>
+    </h:head>
+
+    <ui:composition template="../../../plantillas/Estudiante.xhtml">
+        <ui:define name="content"> 
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Editar informción de práctica docente</b>
+                </span>
+            </div>            
+            <h:form id="PracticaDocenteEditForm">
+                <p:panel >
+                    <div style = "float: right;">
+                        <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                        <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>                
+                    </div>
+                    <h:panelGrid columns="3" rendered="#{practicaDocenteController.selected != null}">                        
+                            
+                        <h:panelGroup>
+                            <p:outputLabel value="Actividad:" />
+                            <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                            </h:panelGroup>
+
+                            <p:selectOneMenu id="actividad" value="#{practicaDocenteController.selected.idActividad}" 
+                                             required="true" requiredMessage="Debe seleccionar un campo de la lista" >
+                                <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" />
+                                <f:selectItems value="#{actividadPdController.itemsAvailableSelectOne}" />       
+                                <f:validator validatorId="ValidadorListaVacia" />
+                                <f:ajax render="@this PracticaDocenteEditForm" />
+                                <p:ajax listener="#{practicaDocenteController.renderizarHoras(actividadPdController.itemsAvailableSelectOne)}" /> 
+                            </p:selectOneMenu>
+                            <p:message for="actividad" id="msjvalTipoPublicacion" />                             
+                            
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="3" cellpadding="5">                                                                                        
+                            <h:panelGroup id="lugar" rendered="#{practicaDocenteController.renderizarOtrosVar}">
+                                <p:outputLabel value="Descripcion de actividad:"  />
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
+                            </h:panelGroup>                
+                            <p:inputText id="idLugar" size="35" value="#{practicaDocenteController.selected.otros}" 
+                                         style="width: 100% !important" rendered="#{practicaDocenteController.renderizarOtrosVar}" 
+                                         placeholder="Ingese la descripción de la actividad aquí">
+                                <f:validator validatorId="validadorCampoVacioPD" />
+                                <p:ajax event="blur" update="msjValLugarOtros" />
+                            </p:inputText>                
+                            <p:message for="idLugar" id="msjValLugarOtros" />                                                                                                                
+                            </h:panelGrid>                                          
+                        
+                        <h:panelGrid columns="3" cellpadding="5">                
+                            <p:outputLabel value="" rendered="#{!practicaDocenteController.renderizarHorasVar}"/>
+                            <h:panelGroup id="horas" rendered="#{practicaDocenteController.renderizarHorasVar}">                     
+                                <p:outputLabel value="Cantidad de horas:"  />
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* "/>
+                            </h:panelGroup>                    
+                            <p:inputMask id="idHoras" size="35" value="#{practicaDocenteController.selected.numeroHoras}"                
+                                         style="width: 100% !important" rendered="#{practicaDocenteController.renderizarHorasVar}" mask="9?99" 
+                                         converterMessage="Debe ingresar la cantidad de horas."  >
+                                <f:validator validatorId="validadorHorasPD" />
+                                <p:ajax event="blur" update="msjValHoras" />
+                            </p:inputMask>
+                            <p:message for="idHoras" id="msjValHoras" />                  
+                            <p:outputLabel value="" rendered="#{!practicaDocenteController.renderizarHorasVar}"/>
+                            </h:panelGrid>
+
+                        <h:panelGrid columns="3" cellpadding="5">                
+                            <h:panelGroup>
+                                <h:outputLabel value="Evidencia de actividad:" styleClass="addEspacio"/>
+                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
+                            </h:panelGroup>
+                            <p:fileUpload id="tablaContenidoPDF"   value="#{practicaDocenteController.documento}" required="true" mode="simple" 
+                                          allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio"/>                                                        
+                            <p:outputLabel value=""/>                
+                        </h:panelGrid>
+                        <p:messages for="tablaContenidoPDF"  id="msjvalPractica" />                                                                                                                                        
+                    <p:commandButton actionListener="#{practicaDocenteController.update}" value="Guardar" oncomplete="handleSubmit(args, 'PracticaDocenteEditDialog');"/>
+                    <p:commandButton value="Cancelar" onclick="PracticaDocenteEditDialog.hide()"/>
+                </p:panel>
+            </h:form>
+            
+        </ui:define>
+    </ui:composition>
+    
+</html>
