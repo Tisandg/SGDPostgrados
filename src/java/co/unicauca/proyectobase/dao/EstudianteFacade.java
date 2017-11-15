@@ -103,16 +103,23 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         return 0;
     }
 
-    public String findNombre(String nombreUsuario) {
-        System.out.println("buscando nombre: " + nombreUsuario);
-        Query query = em.createNamedQuery("Estudiante.findNombreByUsuario");
-        query.setParameter("nombreUsuario", nombreUsuario);
+    /**
+     * Funcion que retorna la informacion de un estudiante. Con el parametro 
+     * recibido se busca en la base de datos. Si esta retorna un objeto estudiante.
+     * En caso contrario, retorna null.
+     * @param nombreUsuario
+     * @return 
+     */
+    public Estudiante findByUsername(String nombreUsuario) {
+        System.out.println("Buscando por nombre de usuario: " + nombreUsuario);
+        Query query = em.createNamedQuery("Estudiante.findByEstUsuario");
+        query.setParameter("estUsuario", nombreUsuario);
         List<Estudiante> resultList = query.getResultList();        
         if(!resultList.isEmpty()){    
             System.out.println("encontrado: " + resultList.get(0).toString());
-            return resultList.get(0).getEstNombre() + " "+ resultList.get(0).getEstApellido();
+            return resultList.get(0);
         }
-        return "";
+        return null;
     }
 
     public String findNombreById(Estudiante nombreUsuario) {        

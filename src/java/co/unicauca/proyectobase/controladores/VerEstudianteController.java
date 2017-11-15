@@ -26,7 +26,7 @@ public class VerEstudianteController implements Serializable {
     private UsuarioFacade daoUsuario;
  
     @EJB
-    private PublicacionFacade dao;
+    private PublicacionFacade daoPublicacion;
     private Estudiante auxEstudiante;
     private Usuario usuario;
     private contrasenaView contrasenas;
@@ -59,9 +59,15 @@ public class VerEstudianteController implements Serializable {
         this.credi = credi;
     } 
 
+    /**
+     * Metodo para buscar y fijar los datos de un determinado estudiante.
+     * Con el nombre de usuario recibido se busca en la base de datos y se
+     * recupera la informacion de ese usuario para guardarla en este controlador.
+     * @param nombreUsuario 
+     */
     public void fijarEstudiante(String nombreUsuario) {
         Usuario user = daoUsuario.findByUserName(nombreUsuario);
-        Estudiante est = dao.obtenerEstudiante(nombreUsuario);
+        Estudiante est = daoEst.findByUsername(nombreUsuario);
         setAuxEstudiante(est);
         this.usuario = user;
         this.contrasenas = new contrasenaView();
@@ -75,6 +81,13 @@ public class VerEstudianteController implements Serializable {
         return nombreAut;
     }
 
+    /**
+     * Carga los datos de un estudiante. Si se ha encontrado el estudiante
+     * y se han fijado los datos en este controlador se retorna true, de lo 
+     * contrario se retorna false
+     * @param user
+     * @return 
+     */
     public boolean cargarEstudiante(String user){
         try{
             fijarEstudiante(user);            

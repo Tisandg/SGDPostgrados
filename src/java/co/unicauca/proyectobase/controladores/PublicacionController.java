@@ -18,7 +18,6 @@ import co.unicauca.proyectobase.entidades.CapituloLibro;
 import co.unicauca.proyectobase.entidades.Ciudad;
 import co.unicauca.proyectobase.entidades.Pais;
 import co.unicauca.proyectobase.entidades.archivoPDF;
-import co.unicauca.proyectobase.entidades.tipoPDF_cargar;
 import co.unicauca.proyectobase.utilidades.Autor;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import com.openkm.sdk4j.exception.LockException;
@@ -40,8 +39,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
-/*import java.nio.charset.StandardCharsets;
-import java.util.Base64;*/
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -56,6 +53,11 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
+/**
+ * vistas que maneja este controlador
+ * 
+ * @author Santiago
+ */
 @Named(value = "publicacionController")
 @ManagedBean
 @SessionScoped
@@ -169,8 +171,14 @@ public class PublicacionController implements Serializable {
         this.numActa = numActa;
     }
 
-    public String obtenerNombreUsuario(String nombreUsuario){
-        return daoEst.findNombre(nombreUsuario);        
+    /**
+     * Funcion que retorna el nombre completo del autor de la publicacion 
+     * que se esta observando actualmente
+     * @param nombreUsuario
+     * @return nombreCompleto
+     */
+    public String getNombreCompleto(String nombreUsuario){
+        return actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido();        
     }
     
     /**
@@ -285,8 +293,18 @@ public class PublicacionController implements Serializable {
         }
     }
     
+    /**
+     * Funcion para buscar las publicaciones que ha registrado un estudiante.
+     * Con el nombre de usuario se busca en la base de datos las publicaciones
+     * que esten a registradas por ese estudiante. Las publicaciones encontradas
+     * se retornan en una lista.
+     * @param nombreUsuario
+     * @return 
+     */
     public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
-        Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
+        
+        //Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
+        Estudiante est = daoEst.findByUsername(nombreUsuario);
         setAuxEstudiante(est);
         int idEstudiante = est.getEstIdentificador();
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
@@ -319,8 +337,12 @@ public class PublicacionController implements Serializable {
             }
         }
         return listado;
-    }            
-
+    }  
+    
+    /**
+     * 
+     * @param event 
+     */
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
@@ -696,13 +718,13 @@ public class PublicacionController implements Serializable {
      */
     public void limpiarCampos(String nombreUsuario) {
         actual = new Publicacion();
-        setAuxEstudiante(daoPublicacion.obtenerEstudiante(nombreUsuario));
+        setAuxEstudiante(daoEst.findByUsername(nombreUsuario));
         listaAutores.clear();
         tipoPublicacion = "";
     }
 
     public void fijarEstudiante(String nombreUsuario) {
-        Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
+        Estudiante est = daoEst.findByUsername(nombreUsuario);
         setAuxEstudiante(est);
     }
 
@@ -740,6 +762,11 @@ public class PublicacionController implements Serializable {
         Utilidades.redireccionar(cvc.getRuta());
     }
 
+    /**
+     * Metodo para redirigir a la vista de una publicacion. Esta vista
+     * mostrara de forma mas detalla la informacion registrada de la publicacion
+     * @param pub 
+     */
     public void verPublicacionEst(Publicacion pub) {
         actual = pub;
         cve.verPublicacion();
@@ -790,6 +817,10 @@ public class PublicacionController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
     
+    /**
+     * Metodo para redirigir a la vista del listado de publicaciones del 
+     * estudiante.
+     */
     public void redirigirPublicacionesEst() 
     {        
         System.out.println("Redirigiendo a publicaciones del estudiante");

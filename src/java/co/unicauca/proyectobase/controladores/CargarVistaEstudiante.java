@@ -6,7 +6,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
- *
+ * Esta clase contiene las diferentes rutas del sistema. Las rutas seran 
+ * guardadas en el atributo "ruta".
  * @author sperez
  */
 
@@ -25,7 +26,6 @@ public class CargarVistaEstudiante implements Serializable
     public CargarVistaEstudiante() 
     {        
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/VerEstudiante_Est.xhtml";
-        //this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/ListarPublicaciones_Est.xhtml";
     }
     
     public void verDatosPersonales()

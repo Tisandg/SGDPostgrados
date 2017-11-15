@@ -15,8 +15,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Esta clase contiene los metodos utilizados para la la redireccion de las
+ * paginas del sistema y el envio de las notificacion por correo.
+ * @author Equipo 2017-II
+ */
 public class Utilidades {
 
+    /**
+     * Metodo utilizado para redireccionar a las distintas paginas del sistema.
+     * Recibe un String que contiene la url de la pagina a la cual se va a 
+     * redirigir.
+     * @param pagina 
+     */
     public static void redireccionar(String pagina) {
         System.out.println("EN REDIRECCIONAR A: " + pagina);
         FacesContext context = FacesContext.getCurrentInstance();
@@ -93,9 +104,8 @@ public class Utilidades {
         }
         catch(Exception e)
         {
-            System.out.println("========== ERROR AL ENVIAR CORREO ============ \n" + e.getMessage());
+            System.out.println("========== ERROR AL ENVIAR CORREO ============ \n"+ e.getMessage());
         }
-        
         return resultado;
     }
     

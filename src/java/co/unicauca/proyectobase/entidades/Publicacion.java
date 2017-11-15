@@ -1039,6 +1039,13 @@ public class Publicacion implements Serializable {
         return nombrePub;
     }
     
+    public String getNombreCompleto(String username){
+        System.out.println("Nombre a buscar "+username);
+        String nombreCompleto = pubEstIdentificador.getNombreCompleto();
+        //String nombreCompleto = e.getEstNombre()+" "+e.getEstApellido();
+        return nombreCompleto;
+    }
+    
 
     public Integer getPubIdentificador() {
         return pubIdentificador;
@@ -1108,6 +1115,10 @@ public class Publicacion implements Serializable {
         return pubFechaPublicacion;
     }
     
+    /**
+     * Funcion utilizada para obtener la fecha de registro de la publicacion
+     * @return fechaRegistro
+     */
     public String ObtenerFecha()
     {
         String fecha= pubFechaRegistro.toLocaleString();

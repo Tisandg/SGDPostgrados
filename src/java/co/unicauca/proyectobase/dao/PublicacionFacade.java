@@ -116,6 +116,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
 
+    /*
     public Estudiante obtenerEstudiante(String nombreUsuario) {
 
         Query consulta = getEntityManager().createNamedQuery("Estudiante.findByEstUsuario");
@@ -131,7 +132,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
             System.out.println("Error " + e.getMessage());
         }
         return null;
-    }
+    }*/
     
     public int CountByMonthYear(String anio, String mes) {
 

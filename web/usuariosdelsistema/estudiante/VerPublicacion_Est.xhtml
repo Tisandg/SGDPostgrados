@@ -24,7 +24,7 @@
                         <h:panelGrid columns="2" cellspacing="5">                                    
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.obtenerNombreUsuario(userLoginView.username)}" style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.getNombreCompleto(userLoginView.username)}" style="color: #3366ff"/>
                             
                             <p:separator/>
                             <br/>
