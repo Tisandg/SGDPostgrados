@@ -50,7 +50,7 @@ public class EstudianteController implements Serializable {
 
     public String getCredi() {
         credi = "" + actual.getEstCreditos();
-
+        (new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new java.util.Locale("es_ES"))).format(new java.util.Date());
         if (credi.equalsIgnoreCase("null")) {
             credi = "0";
         }
@@ -116,6 +116,9 @@ public class EstudianteController implements Serializable {
             cohorte = "";
         }
         return actual;
+    }
+    public String getCodigoEstudianteActual() {
+        return actual.getEstCodigo();
     }
 
     public String getVariableFiltrado() {

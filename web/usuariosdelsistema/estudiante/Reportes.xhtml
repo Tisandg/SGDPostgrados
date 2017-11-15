@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Reportes</title>
+    </h:head>
+    <ui:composition template="../../plantillas/Estudiante.xhtml">
+        <ui:define name="content"> 
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Reportes</b>
+                </span>
+            </div>
+            <p:panel>      
+
+                <!--<h:form id="form" target="_blank">-->
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="false"/>
+                    <h:panelGrid  columns="1" cellspacing="5" id="tipoReporte">
+                        <h:panelGrid  columns="1" cellspacing="5">
+                            #{reportesJasperController.setTipoReporte(reportesJasperController.getTIPO_REPORTE_ESTUDIANTE())}
+                            #{reportesJasperController.setCodEstudiante(verEstudianteController.auxEstudiante.estCodigo)}
+                            <p:outputLabel value="Codigo: #{verEstudianteController.auxEstudiante.estCodigo}" style="font-weight:bold;" />
+                            <!--<p:outputLabel value="Tipo de reporte: #{reportesJasperController.getTIPO_REPORTE_ESTUDIANTE()}" style="font-weight:bold;" />-->
+                            
+                        </h:panelGrid>
+                        
+                        <h:panelGrid  columns="4" cellspacing="5" id="rangoTiempo">
+                            <p:outputLabel value="Rango de tiempo" style="font-weight:bold;" />
+                            <p:selectOneMenu id="valTipoTiempo" 
+                                             required="true" 
+                                             requiredMessage="Debe seleccionar un campo de la lista"
+                                             value="#{reportesJasperController.tiempo}" 
+                                             >
+                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="" />
+                                <f:selectItems value="#{reportesJasperController.listaTiempo()}" />                                   
+                                <f:ajax render="rangoTiempo"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="selectanio" 
+                                             value="#{reportesJasperController.anio}" 
+                                             rendered="#{reportesJasperController.pedirAnio()}"
+                                             required="true" 
+                                             requiredMessage="Debe seleccionar un campo de la lista"
+                                             >
+
+                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{reportesJasperController.getListaAnios()}" /> 
+                            </p:selectOneMenu>                                  
+                            <p:selectOneMenu id="selectSemestre" 
+                                             value="#{reportesJasperController.semestre}"
+                                             rendered="#{reportesJasperController.pedirSemestre()}"
+                                             required="#{reportesJasperController.pedirSemestre()}"
+                                             requiredMessage="Debe seleccionar un campo de la lista"
+                                             >
+                                <f:selectItem itemLabel="Seleccione una opcion" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="1" itemValue="1" />                        
+                                <f:selectItem itemLabel="2" itemValue="2" />  
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+
+                        <h:panelGrid  columns="3" cellspacing="5">
+                            <p:commandLink type="submit" 
+                                           title="descargar reporte en formato pdf" 
+                                           action="#{reportesJasperController.getReportePdf()}" 
+                                           ajax="false" target="_blank">
+                                <h:graphicImage title="descargar reporte en formato pdf" name="images/pdf-icon.png" />
+                            </p:commandLink>
+                            <p:commandLink  action="#{reportesJasperController.getReporteExcel()}"  ajax="false">
+                                <h:graphicImage  title="descargar reporte en formato excel" name="images/excel-xls-icon.png" />
+                            </p:commandLink>
+                        </h:panelGrid> 
+
+                    </h:panelGrid> 
+
+                </h:form>
+                <br/>
+                <p:separator/>
+
+            </p:panel>
+            <br/><br/>
+        </ui:define>
+    </ui:composition>
+</html>
+

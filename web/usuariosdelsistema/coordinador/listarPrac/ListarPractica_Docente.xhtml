@@ -42,8 +42,13 @@
                                   rowsPerPageTemplate="15,30,50" emptyMessage="No se han registrado practicas o no se encuentra ninguna con el criterio de busqueda."
                                   style="text-align: left;">   
                     <p:column headerText="Nombre autor principal">
-                        <h:outputText value="#{practicaDocenteController.formatoNombreUsuario(prac.publicacion.pubEstIdentificador)}"/>
+                    <h:outputText value="#{practicaDocenteController.formatoNombreUsuario(prac.publicacion.pubEstIdentificador)}"/>
                     </p:column>
+               
+                <p:column headerText="Actividad">
+                    <h:outputText value="#{prac.idActividad.nombreActividad}"/>
+                </p:column>
+                    
                     
                     
                     <p:column headerText="Acción"   >

@@ -45,7 +45,10 @@ public class CargarVistaEstudiante implements Serializable
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/verDocumentos/verPracticaDocente_est.xhtml";
     }
-    
+    public void verReportes()
+    {
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/Reportes.xhtml";
+    }
     public void editarDocumentacion(){
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/EditarPublicacion_Est.xhtml";
     }
