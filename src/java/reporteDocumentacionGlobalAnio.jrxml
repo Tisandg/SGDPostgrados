@@ -103,27 +103,20 @@ ORDER BY
 		</groupHeader>
 	</group>
 	<title>
-		<band height="199" splitType="Stretch">
+		<band height="202" splitType="Stretch">
 			<textField evaluationTime="Report">
-				<reportElement mode="Transparent" x="0" y="176" width="301" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
+				<reportElement mode="Transparent" x="0" y="178" width="540" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Total publicaciones: "+$V{publicacion_pub_fecha_registro_2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="138" width="188" height="20" forecolor="#000000" uuid="87258f5f-1459-462b-9b34-78b326e25bd5"/>
+				<reportElement mode="Transparent" x="0" y="138" width="540" height="20" forecolor="#000000" uuid="87258f5f-1459-462b-9b34-78b326e25bd5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Año: "+$P{anio}]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" mode="Transparent" x="0" y="157" width="301" height="20" forecolor="#000000" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Reporte generado en: "+(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="111" width="540" height="20" uuid="7796eaca-cb12-43d0-87ad-bc797a7ead4a"/>
@@ -142,6 +135,13 @@ ORDER BY
 					<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/unicauca.png"]]></imageExpression>
 				</image>
 			</elementGroup>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" mode="Transparent" x="0" y="158" width="540" height="20" forecolor="#000000" uuid="44ed7353-a735-4e4f-8e09-d16e53d53dff"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado el: "+((new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("es_ES"))).format(new java.util.Date()))]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>

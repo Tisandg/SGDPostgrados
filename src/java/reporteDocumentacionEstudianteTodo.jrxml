@@ -90,9 +90,9 @@ ORDER BY
 		</groupFooter>
 	</group>
 	<title>
-		<band height="222" splitType="Stretch">
+		<band height="225" splitType="Stretch">
 			<textField>
-				<reportElement mode="Transparent" x="0" y="160" width="418" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="28206fee-781b-4f8a-a430-9e484d5579a4"/>
+				<reportElement mode="Transparent" x="0" y="161" width="540" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="28206fee-781b-4f8a-a430-9e484d5579a4"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="false"/>
 					<paragraph leftIndent="6"/>
@@ -100,7 +100,7 @@ ORDER BY
 				<textFieldExpression><![CDATA["Código: "+$P{codEst}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="141" width="418" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="c066e7fa-7cdd-4248-98cd-d161ef02fa76"/>
+				<reportElement mode="Transparent" x="0" y="141" width="540" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="c066e7fa-7cdd-4248-98cd-d161ef02fa76"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="false"/>
 					<paragraph leftIndent="6"/>
@@ -122,21 +122,21 @@ ORDER BY
 				<reportElement x="338" y="0" width="80" height="96" uuid="a0ee8a92-af04-43a3-bb44-e16af6f80227"/>
 				<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/logo8.png"]]></imageExpression>
 			</image>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" mode="Transparent" x="0" y="179" width="418" height="20" forecolor="#000000" uuid="dc87ad58-24e9-4c1f-a840-9b9b05c8bd70"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="false"/>
-					<paragraph leftIndent="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Reporte generado en: "+(new java.util.Date())]]></textFieldExpression>
-			</textField>
 			<textField evaluationTime="Report">
-				<reportElement mode="Transparent" x="0" y="198" width="418" height="20" uuid="e039b2c5-0f31-400c-b08d-1a406b6faa28"/>
+				<reportElement mode="Transparent" x="0" y="201" width="540" height="20" uuid="e039b2c5-0f31-400c-b08d-1a406b6faa28"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false" isStrikeThrough="false"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Total publicaciones: "+$V{publicacion_pub_fecha_registro_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" mode="Transparent" x="0" y="181" width="540" height="20" forecolor="#000000" uuid="89a17746-6756-40a8-95e4-aeaa291df74c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado el: "+((new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("es_ES"))).format(new java.util.Date()))]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -156,7 +156,7 @@ ORDER BY
 					<font size="11" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
-				<text><![CDATA[Publicacion]]></text>
+				<text><![CDATA[Publicación]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="188" y="0" width="230" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="d90733ad-514f-4d64-a384-f0e2100c1741"/>

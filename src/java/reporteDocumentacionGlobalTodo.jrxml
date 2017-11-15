@@ -101,18 +101,18 @@ ORDER BY
 	<title>
 		<band height="184" splitType="Stretch">
 			<textField evaluationTime="Report">
-				<reportElement mode="Transparent" x="0" y="159" width="301" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
+				<reportElement mode="Transparent" x="0" y="160" width="540" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Total publicaciones: "+$V{publicacion_pub_fecha_registro_2}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" mode="Transparent" x="0" y="140" width="301" height="20" forecolor="#000000" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
+				<reportElement style="Column header" mode="Transparent" x="0" y="140" width="540" height="20" forecolor="#000000" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Reporte generado en: "+(new java.util.Date())]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Reporte generado el: "+((new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("es_ES"))).format(new java.util.Date()))]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="111" width="540" height="20" uuid="7796eaca-cb12-43d0-87ad-bc797a7ead4a"/>
@@ -123,11 +123,11 @@ ORDER BY
 			</staticText>
 			<elementGroup>
 				<image>
-					<reportElement x="328" y="0" width="80" height="96" uuid="7c9098c1-4345-4d32-b0d4-be743e910f66"/>
+					<reportElement x="352" y="0" width="80" height="96" uuid="7c9098c1-4345-4d32-b0d4-be743e910f66"/>
 					<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/logo8.png"]]></imageExpression>
 				</image>
-				<image>
-					<reportElement x="165" y="0" width="81" height="96" uuid="3ce9cc46-c6c9-4a5e-838e-975d18212cbf"/>
+				<image scaleImage="FillFrame">
+					<reportElement x="147" y="0" width="81" height="96" uuid="3ce9cc46-c6c9-4a5e-838e-975d18212cbf"/>
 					<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/unicauca.png"]]></imageExpression>
 				</image>
 			</elementGroup>

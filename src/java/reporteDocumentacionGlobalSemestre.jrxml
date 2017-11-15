@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="600" pageHeight="800" columnWidth="540" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="8c2aeef0-cc31-4143-969d-2554d0ac9f4d">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="68"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Serif" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Serif" fontSize="18"/>
@@ -109,32 +109,25 @@ ORDER BY
 	<title>
 		<band height="223" splitType="Stretch">
 			<textField evaluationTime="Report">
-				<reportElement mode="Transparent" x="0" y="196" width="301" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
+				<reportElement mode="Transparent" x="0" y="199" width="540" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Total publicaciones: "+$V{publicacion_pub_fecha_registro_2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="139" width="188" height="20" forecolor="#000000" uuid="87258f5f-1459-462b-9b34-78b326e25bd5"/>
+				<reportElement mode="Transparent" x="0" y="139" width="540" height="20" forecolor="#000000" uuid="87258f5f-1459-462b-9b34-78b326e25bd5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Año: "+$P{anio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="158" width="188" height="20" forecolor="#000000" uuid="5138921a-6a17-45a6-bae6-284761dd031b"/>
+				<reportElement mode="Transparent" x="0" y="159" width="540" height="20" forecolor="#000000" uuid="5138921a-6a17-45a6-bae6-284761dd031b"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Semestre: "+$P{semestre}]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" mode="Transparent" x="0" y="177" width="301" height="20" forecolor="#000000" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Reporte generado en: "+(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="111" width="540" height="20" uuid="7796eaca-cb12-43d0-87ad-bc797a7ead4a"/>
@@ -153,6 +146,13 @@ ORDER BY
 					<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/unicauca.png"]]></imageExpression>
 				</image>
 			</elementGroup>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" mode="Transparent" x="0" y="179" width="540" height="20" forecolor="#000000" uuid="be3e7269-e921-43b9-9266-f900a0aeeafd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado el: "+((new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("es_ES"))).format(new java.util.Date()))]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
