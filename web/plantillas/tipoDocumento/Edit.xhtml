@@ -8,26 +8,30 @@
 
     <ui:composition>
 
-        <p:dialog id="TipoDocumentoEditDlg" widgetVar="TipoDocumentoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleTipoDocumento.EditTipoDocumentoTitle}">
+        <p:dialog id="TipoDocumentoEditDlg" widgetVar="TipoDocumentoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.EditTipoDocumentoTitle}">
             <h:form id="TipoDocumentoEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tipoDocumentoController.selected != null}">
-                        <p:outputLabel value="#{bundleTipoDocumento.EditTipoDocumentoLabel_identificador}" for="identificador" />
-                        <p:inputText id="identificador" value="#{tipoDocumentoController.selected.identificador}" title="#{bundleTipoDocumento.EditTipoDocumentoTitle_identificador}" required="true" requiredMessage="#{bundleTipoDocumento.EditTipoDocumentoRequiredMessage_identificador}"/>
-                        <p:outputLabel value="#{bundleTipoDocumento.EditTipoDocumentoLabel_nombre}" for="nombre" />
-                        <p:inputText id="nombre" value="#{tipoDocumentoController.selected.nombre}" title="#{bundleTipoDocumento.EditTipoDocumentoTitle_nombre}" required="true" requiredMessage="#{bundleTipoDocumento.EditTipoDocumentoRequiredMessage_nombre}"/>
-                        <p:outputLabel value="#{bundleTipoDocumento.EditTipoDocumentoLabel_creditos}" for="creditos" />
-                        <p:inputText id="creditos" value="#{tipoDocumentoController.selected.creditos}" title="#{bundleTipoDocumento.EditTipoDocumentoTitle_creditos}" required="true" requiredMessage="#{bundleTipoDocumento.EditTipoDocumentoRequiredMessage_creditos}"/>
-                        <p:outputLabel value="#{bundleTipoDocumento.EditTipoDocumentoLabel_correquisitos}" for="correquisitos" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditTipoDocumentoLabel_identificador}" for="identificador" />
+                        <p:inputText id="identificador" value="#{tipoDocumentoController.selected.identificador}" title="#{bundlePracticaDocente.EditTipoDocumentoTitle_identificador}" required="true" requiredMessage="#{bundlePracticaDocente.EditTipoDocumentoRequiredMessage_identificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditTipoDocumentoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoDocumentoController.selected.nombre}" title="#{bundlePracticaDocente.EditTipoDocumentoTitle_nombre}" required="true" requiredMessage="#{bundlePracticaDocente.EditTipoDocumentoRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditTipoDocumentoLabel_creditos}" for="creditos" />
+                        <p:inputText id="creditos" value="#{tipoDocumentoController.selected.creditos}" title="#{bundlePracticaDocente.EditTipoDocumentoTitle_creditos}" required="true" requiredMessage="#{bundlePracticaDocente.EditTipoDocumentoRequiredMessage_creditos}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditTipoDocumentoLabel_maxCreditos}" for="maxCreditos" />
+                        <p:inputText id="maxCreditos" value="#{tipoDocumentoController.selected.maxCreditos}" title="#{bundlePracticaDocente.EditTipoDocumentoTitle_maxCreditos}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditTipoDocumentoLabel_minCreditos}" for="minCreditos" />
+                        <p:inputText id="minCreditos" value="#{tipoDocumentoController.selected.minCreditos}" title="#{bundlePracticaDocente.EditTipoDocumentoTitle_minCreditos}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditTipoDocumentoLabel_correquisitos}" for="correquisitos" />
                         <p:selectOneMenu id="correquisitos" value="#{tipoDocumentoController.selected.correquisitos}" >
-                            <f:selectItem itemLabel="#{bundleTipoDocumento.SelectOneMessage}"/>
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
                             <f:selectItems value="#{tipoDocumentoController.itemsAvailableSelectOne}"
                                            var="correquisitosItem"
                                            itemValue="#{correquisitosItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tipoDocumentoController.update}" value="#{bundleTipoDocumento.Save}" update="display,:TipoDocumentoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TipoDocumentoEditDialog');"/>
-                    <p:commandButton value="#{bundleTipoDocumento.Cancel}" onclick="TipoDocumentoEditDialog.hide()"/>
+                    <p:commandButton actionListener="#{tipoDocumentoController.update}" value="#{bundlePracticaDocente.Save}" update="display,:TipoDocumentoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TipoDocumentoEditDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="TipoDocumentoEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

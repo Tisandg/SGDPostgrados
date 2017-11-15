@@ -166,7 +166,8 @@ h1 {
 .botonVerPractica{
     border: 1px solid #c5dbec !important;
     background: #dfeffc !important;
-    width: 40px !important;
+    width: auto !important;
+    float: left;
     height: 30px !important;
     margin: 0 auto 10px !important;
     display: block !important;

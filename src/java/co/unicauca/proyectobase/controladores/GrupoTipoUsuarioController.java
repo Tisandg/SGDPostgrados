@@ -85,15 +85,18 @@ public class GrupoTipoUsuarioController implements Serializable {
         return "Create";
     }
 
+    /**
+     * Funcion que crea un registro en la base de datos en la tabla grupo_tipo_usuario
+     * con los datos guardado en el objeto current.
+     * @return "Create" si se creo el registro, de lo contrario null
+     */
     public String create() {
         try {
             current.getGrupoTipoUsuarioPK().setIdTipo(current.getTipoUsuario().getId());
             current.getGrupoTipoUsuarioPK().setIdUsuario(current.getUsuario().getId());
             getFacade().create(current);
-            //JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleUsuarios").getString("GrupoTipoUsuarioCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            //JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleUsuarios").getString("PersistenceErrorOccured"));
             return null;
         }
     }

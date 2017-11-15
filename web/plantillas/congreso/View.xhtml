@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CongresoViewDlg" widgetVar="CongresoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewCongresoTitle}">
+            <h:form id="CongresoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{congresoController.selected != null}">
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_pubIdentificador}"/>
+                        <h:outputText value="#{congresoController.selected.pubIdentificador}" title="#{bundlePracticaDocente.ViewCongresoTitle_pubIdentificador}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_congTituloPonencia}"/>
+                        <h:outputText value="#{congresoController.selected.congTituloPonencia}" title="#{bundlePracticaDocente.ViewCongresoTitle_congTituloPonencia}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_congNombreEvento}"/>
+                        <h:outputText value="#{congresoController.selected.congNombreEvento}" title="#{bundlePracticaDocente.ViewCongresoTitle_congNombreEvento}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_congTipoCongreso}"/>
+                        <h:outputText value="#{congresoController.selected.congTipoCongreso}" title="#{bundlePracticaDocente.ViewCongresoTitle_congTipoCongreso}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_publicacion}"/>
+                        <h:outputText value="#{congresoController.selected.publicacion}" title="#{bundlePracticaDocente.ViewCongresoTitle_publicacion}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_congDoi}"/>
+                        <h:outputText value="#{congresoController.selected.congDoi}" title="#{bundlePracticaDocente.ViewCongresoTitle_congDoi}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_congIssn}"/>
+                        <h:outputText value="#{congresoController.selected.congIssn}" title="#{bundlePracticaDocente.ViewCongresoTitle_congIssn}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_ciudadId}"/>
+                        <h:outputText value="#{congresoController.selected.ciudadId}" title="#{bundlePracticaDocente.ViewCongresoTitle_ciudadId}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_fechaInicio}"/>
+                        <h:outputText value="#{congresoController.selected.fechaInicio}" title="#{bundlePracticaDocente.ViewCongresoTitle_fechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundlePracticaDocente.ViewCongresoLabel_fechaFin}"/>
+                        <h:outputText value="#{congresoController.selected.fechaFin}" title="#{bundlePracticaDocente.ViewCongresoTitle_fechaFin}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="CongresoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

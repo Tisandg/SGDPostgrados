@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.ComboBox;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -53,6 +55,10 @@ public class ReportesJasperController implements Serializable {
     private static final String RANGO_TIEMPO_ANIO = "POR AÑO";
     private static final String RANGO_TIEMPO_SEMESTRE = "POR SEMESTRE";
     private static final String RANGO_TIEMPO_TODO = "TODO";
+
+    public static String getTIPO_REPORTE_ESTUDIANTE() {
+        return TIPO_REPORTE_ESTUDIANTE;
+    }
 
     public String[] listaTiposReporte() {
         return new String[]{TIPO_REPORTE_GLOBAL, TIPO_REPORTE_ESTUDIANTE};
@@ -165,6 +171,9 @@ public class ReportesJasperController implements Serializable {
      * Genera un reporte de tipo pdf
      */
     public void getReportePdf() {
+        if (tipoReporte.equals(" ")) {
+            return;
+        }
         getReporte(TIPO_DOC_PDF);
     }
 
@@ -172,6 +181,9 @@ public class ReportesJasperController implements Serializable {
      * Genera un reporte de tipo xls
      */
     public void getReporteExcel() {
+        if (tipoReporte.equals(" ")) {
+            return;
+        }
         getReporte(TIPO_DOC_EXCEL);
     }
 

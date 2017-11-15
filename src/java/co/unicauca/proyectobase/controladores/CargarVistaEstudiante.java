@@ -35,9 +35,20 @@ public class CargarVistaEstudiante implements Serializable
     
     public void verPublicacion()
     {
-        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/VerPublicacion_Est.xhtml";
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/verDocumentos/VerPublicacion_Est.xhtml";
     }
     
+    /**
+     * ver practica docente rol estudiante
+     */
+    public void verPractica()
+    {
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/verDocumentos/verPracticaDocente_est.xhtml";
+    }
+    public void verReportes()
+    {
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/Reportes.xhtml";
+    }
     public void editarDocumentacion(){
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/EditarPublicacion_Est.xhtml";
     }
@@ -82,6 +93,10 @@ public class CargarVistaEstudiante implements Serializable
     public void registrarLibro() //Cambio
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/registrar_documentos/RegistrarLibro.xhtml";
+    }
+    
+    public void IrEditarPracticaDocente(){
+        this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/editarDocumentos/EditarPracticaDocente_Est.xhtml";
     }
 
 }

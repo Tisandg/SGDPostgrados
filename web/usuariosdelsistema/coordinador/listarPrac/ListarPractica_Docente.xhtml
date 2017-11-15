@@ -42,18 +42,15 @@
                                   rowsPerPageTemplate="15,30,50" emptyMessage="No se han registrado practicas o no se encuentra ninguna con el criterio de busqueda."
                                   style="text-align: left;">   
                     <p:column headerText="Nombre autor principal">
-                        <h:outputText value="#{practicaDocenteController.formatoNombreUsuario(prac.publicacion.pubEstIdentificador)}"/>
+                    <h:outputText value="#{practicaDocenteController.formatoNombreUsuario(prac.publicacion.pubEstIdentificador)}"/>
                     </p:column>
+               
+                <p:column headerText="Actividad">
+                    <h:outputText value="#{prac.idActividad.nombreActividad}"/>
+                </p:column>
                     
-                    <p:column headerText="Fecha Inicio">
-                        <h:outputText value="#{prac.fechaIn}"/>
-                    </p:column>
-                    <p:column headerText="Fecha Terminación">
-                        <h:outputText value="#{prac.fechaTer}"/>
-                    </p:column>
-                    <p:column headerText="Lugar de práctica"  >
-                        <h:outputText value="#{prac.lugarPractica}"/>
-                    </p:column>                  
+                    
+                    
                     <p:column headerText="Acción"   >
                         <h:form style="font-size: 10px;"> 
                             <p:commandButton actionListener="#{practicaDocenteController.verPractica(prac)}" value="Ver" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>

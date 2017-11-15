@@ -16,5 +16,17 @@
             <base-name>/BundlePracticaDocente</base-name>
             <var>bundlePracticaDocente</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleActividadPd</base-name>
+            <var>bundleActividadPd</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePracticaDocente</base-name>
+            <var>bundlePracticaDocente</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePracticaDocente</base-name>
+            <var>bundlePracticaDocente</var>
+        </resource-bundle>
     </application>
 </faces-config>

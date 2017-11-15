@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.CreateUsuarioTitle}">
+            <h:form id="UsuarioCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateUsuarioLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{usuarioController.selected.id}" title="#{bundlePracticaDocente.CreateUsuarioTitle_id}" required="true" requiredMessage="#{bundlePracticaDocente.CreateUsuarioRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateUsuarioLabel_nombres}" for="nombres" />
+                        <p:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{bundlePracticaDocente.CreateUsuarioTitle_nombres}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateUsuarioLabel_apellidos}" for="apellidos" />
+                        <p:inputText id="apellidos" value="#{usuarioController.selected.apellidos}" title="#{bundlePracticaDocente.CreateUsuarioTitle_apellidos}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateUsuarioLabel_nombreUsuario}" for="nombreUsuario" />
+                        <p:inputText id="nombreUsuario" value="#{usuarioController.selected.nombreUsuario}" title="#{bundlePracticaDocente.CreateUsuarioTitle_nombreUsuario}" required="true" requiredMessage="#{bundlePracticaDocente.CreateUsuarioRequiredMessage_nombreUsuario}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateUsuarioLabel_contrasena}" for="contrasena" />
+                        <p:inputText id="contrasena" value="#{usuarioController.selected.contrasena}" title="#{bundlePracticaDocente.CreateUsuarioTitle_contrasena}" required="true" requiredMessage="#{bundlePracticaDocente.CreateUsuarioRequiredMessage_contrasena}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreateUsuarioLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{bundlePracticaDocente.CreateUsuarioTitle_estado}" required="true" requiredMessage="#{bundlePracticaDocente.CreateUsuarioRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.create}" value="#{bundlePracticaDocente.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioCreateDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="UsuarioCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

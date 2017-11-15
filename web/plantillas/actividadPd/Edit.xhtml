@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ActividadPdEditDlg" widgetVar="ActividadPdEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.EditActividadPdTitle}">
+            <h:form id="ActividadPdEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{actividadPdController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.EditActividadPdLabel_idActividad}" for="idActividad" />
+                        <p:inputText id="idActividad" value="#{actividadPdController.selected.idActividad}" title="#{bundlePracticaDocente.EditActividadPdTitle_idActividad}" required="true" requiredMessage="#{bundlePracticaDocente.EditActividadPdRequiredMessage_idActividad}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditActividadPdLabel_nombreActividad}" for="nombreActividad" />
+                        <p:inputText id="nombreActividad" value="#{actividadPdController.selected.nombreActividad}" title="#{bundlePracticaDocente.EditActividadPdTitle_nombreActividad}" required="true" requiredMessage="#{bundlePracticaDocente.EditActividadPdRequiredMessage_nombreActividad}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditActividadPdLabel_horasAsignadas}" for="horasAsignadas" />
+                        <p:inputText id="horasAsignadas" value="#{actividadPdController.selected.horasAsignadas}" title="#{bundlePracticaDocente.EditActividadPdTitle_horasAsignadas}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditActividadPdLabel_faseAjuste}" for="faseAjuste" />
+                        <p:inputText id="faseAjuste" value="#{actividadPdController.selected.faseAjuste}" title="#{bundlePracticaDocente.EditActividadPdTitle_faseAjuste}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditActividadPdLabel_maximoHoras}" for="maximoHoras" />
+                        <p:inputText id="maximoHoras" value="#{actividadPdController.selected.maximoHoras}" title="#{bundlePracticaDocente.EditActividadPdTitle_maximoHoras}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{actividadPdController.update}" value="#{bundlePracticaDocente.Save}" update="display,:ActividadPdListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ActividadPdEditDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="ActividadPdEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

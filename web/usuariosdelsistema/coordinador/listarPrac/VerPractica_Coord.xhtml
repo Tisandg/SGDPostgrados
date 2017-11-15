@@ -21,49 +21,59 @@
             <h:form id="form_registrar">
                 <p:tab  title="Información publicación" titleStyleClass="title">             
                     <p:panel header="Datos generales">                                
-                        <h:panelGrid columns="2" cellspacing="5">
+                        <h:panelGrid columns="2" cellspacing="15">
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombAut"  value="#{practicaDocenteController.formatoNombreUsuario(practicaDocenteController.selected.publicacion.pubEstIdentificador)}"  style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valNombAut"  value="#{practicaDocenteController.formatoNombreUsuario(practicaDocenteController.selected.publicacion.pubEstIdentificador)}"  style="color: #3366ff"/>                                                                                                                                                              
 
-                            <p:separator/>
-                            <br/>
-                            
-                            <p:outputLabel value="Fecha Inicio:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valAutSec"  value="#{practicaDocenteController.selected.fechaIn}" style="color: #3366ff"/>
+                            <p:outputLabel value="Nombre de la actividad:" style="font-weight:bold;" />
+                            <h:outputText class="form-control" id="valNombActividad"  value="#{practicaDocenteController.selected.idActividad.nombreActividad}" style="color: #3366ff"/>
 
-                            <p:separator/>
-                            <br/>
+                            <p:outputLabel value="Cantidad de horas:" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valHoras"  value="#{practicaDocenteController.selected.numeroHoras}" style="color: #3366ff"/>    
                             
-                            <p:outputLabel value="Fecha Terminacion:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valTipoPub"  value="#{practicaDocenteController.selected.fechaTer}" style="color: #3366ff"/>                           
-
-                            <p:separator/>
-                            <br/>
-                            
-                            <h:outputLabel value="Lugar:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valEstadoVis" value="#{practicaDocenteController.selected.lugarPractica}" style="color: #3366ff"/>                                                                                                                                                                                                                
+                            <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valEstadoVis" value="#{practicaDocenteController.selected.publicacion.pubVisado}" style="color: #3366ff"/>  
+                                      
+                            <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>
+                            <p:tooltip id="toolTipGrow" for="ayuda" value="Estado visado indica si la publicación aun no ha sido revisada(espera), o si fue aceptada o rechazada." showEffect="clip" hideEffect="blind" />
                         
+                            
+                            </h:panelGrid>
+                        
+                       <h:panelGrid id="formAprobar" columns="3" cellspacing="5" rendered="#{practicaDocenteController.selected.publicacion.pubVisado != 'aprobado'}">
+                            <h:outputLabel value="Cambiar estado visado:" style="font-weight:bold;"/>
+                            <p:selectOneMenu id="console" value="#{practicaDocenteController.visado}" style="width:125px" >
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                <f:selectItem itemLabel="Aprobado" itemValue="aprobado" />
+                                <f:selectItem itemLabel="No Aprobado" itemValue="no aprobado" />
+                            </p:selectOneMenu>
+                            <p:commandButton value="Aceptar" update="valEstadoVis" onclick="PF('dlg2').show();"/>                                    
+
                             <p:separator/>
                             <br/>
                             
-                        </h:panelGrid>
-
+                            <p:dialog header="Enviar observaciones" widgetVar="dlg2" modal="true" height="150">                                                
+                                <h:inputTextarea id="obs" rows = "7" cols = "80">
+                                    <f:ajax listener="#{practicaDocenteController.recibirTexto}" execute="obs" event="blur"></f:ajax>                                                    
+                                </h:inputTextarea>         
+                                <br/>
+                                <p:commandButton value="Enviar" actionListener="#{practicaDocenteController.cambiarEstadoVisado}" update="valEstadoVis formAprobar" onclick="PF('dlg2').hide()"/>
+                            </p:dialog>
+                        </h:panelGrid>  
+                        
+                                                    
                        
-                        <p:separator/>
-
-                            <h:panelGrid columns="2" cellpadding="5" id="panelRegistrar"  >                                                                                            
-                                <p:outputLabel value="Evidencia practica docente:" style="font-weight:bold;"/>
-                                <h:commandButton   class="botonVerPractica" value="Ver" action="#{practicaDocenteController.pdfPubPD()}" onclick="this.form.target = '_blank'" />
-
-                                
-                                
-                            </h:panelGrid>
+                            
+                            
+                            <p:separator/>
+                            <h:commandButton   class="botonVerPractica" value="Ver Evidencia" action="#{practicaDocenteController.pdfPubPD()}" onclick="this.form.target = '_blank'" />                    
+                            <br/><br/>
                         </p:panel>
                 </p:tab>
                 <br/>
                 
-                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirAlistarCoord(usuariosSessionController.nombreUsuario)}"/>                       
+                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirPracticaDocente()}"/>                       
                 <br/><br/><br/>                       
             </h:form>
         </ui:define>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CongresoEditDlg" widgetVar="CongresoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.EditCongresoTitle}">
+            <h:form id="CongresoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{congresoController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_pubIdentificador}" for="pubIdentificador" />
+                        <p:inputText id="pubIdentificador" value="#{congresoController.selected.pubIdentificador}" title="#{bundlePracticaDocente.EditCongresoTitle_pubIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.EditCongresoRequiredMessage_pubIdentificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_congTituloPonencia}" for="congTituloPonencia" />
+                        <p:inputText id="congTituloPonencia" value="#{congresoController.selected.congTituloPonencia}" title="#{bundlePracticaDocente.EditCongresoTitle_congTituloPonencia}" required="true" requiredMessage="#{bundlePracticaDocente.EditCongresoRequiredMessage_congTituloPonencia}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_congNombreEvento}" for="congNombreEvento" />
+                        <p:inputText id="congNombreEvento" value="#{congresoController.selected.congNombreEvento}" title="#{bundlePracticaDocente.EditCongresoTitle_congNombreEvento}" required="true" requiredMessage="#{bundlePracticaDocente.EditCongresoRequiredMessage_congNombreEvento}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_congTipoCongreso}" for="congTipoCongreso" />
+                        <p:inputText id="congTipoCongreso" value="#{congresoController.selected.congTipoCongreso}" title="#{bundlePracticaDocente.EditCongresoTitle_congTipoCongreso}" required="true" requiredMessage="#{bundlePracticaDocente.EditCongresoRequiredMessage_congTipoCongreso}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_publicacion}" for="publicacion" />
+                        <p:selectOneMenu id="publicacion" value="#{congresoController.selected.publicacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditCongresoRequiredMessage_publicacion}">
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{publicacionController.itemsAvailableSelectOne}"
+                                           var="publicacionItem"
+                                           itemValue="#{publicacionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_congDoi}" for="congDoi" />
+                        <p:inputText id="congDoi" value="#{congresoController.selected.congDoi}" title="#{bundlePracticaDocente.EditCongresoTitle_congDoi}" required="true" requiredMessage="#{bundlePracticaDocente.EditCongresoRequiredMessage_congDoi}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_congIssn}" for="congIssn" />
+                        <p:inputText id="congIssn" value="#{congresoController.selected.congIssn}" title="#{bundlePracticaDocente.EditCongresoTitle_congIssn}" required="true" requiredMessage="#{bundlePracticaDocente.EditCongresoRequiredMessage_congIssn}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_ciudadId}" for="ciudadId" />
+                        <p:selectOneMenu id="ciudadId" value="#{congresoController.selected.ciudadId}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{ciudadController.itemsAvailableSelectOne}"
+                                           var="ciudadIdItem"
+                                           itemValue="#{ciudadIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{congresoController.selected.fechaInicio}" title="#{bundlePracticaDocente.EditCongresoTitle_fechaInicio}"  showOn="button"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditCongresoLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{congresoController.selected.fechaFin}" title="#{bundlePracticaDocente.EditCongresoTitle_fechaFin}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{congresoController.update}" value="#{bundlePracticaDocente.Save}" update="display,:CongresoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CongresoEditDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="CongresoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PublicacionEditDlg" widgetVar="PublicacionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.EditPublicacionTitle}">
+            <h:form id="PublicacionEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{publicacionController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubIdentificador}" for="pubIdentificador" />
+                        <p:inputText id="pubIdentificador" value="#{publicacionController.selected.pubIdentificador}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.EditPublicacionRequiredMessage_pubIdentificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubHash}" for="pubHash" />
+                        <p:inputText id="pubHash" value="#{publicacionController.selected.pubHash}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubHash}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubDiropkm}" for="pubDiropkm" />
+                        <p:inputText id="pubDiropkm" value="#{publicacionController.selected.pubDiropkm}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubDiropkm}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubFechaVisado}" for="pubFechaVisado" />
+                        <p:calendar id="pubFechaVisado" pattern="MM/dd/yyyy" value="#{publicacionController.selected.pubFechaVisado}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubFechaVisado}"  showOn="button"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubFechaRegistro}" for="pubFechaRegistro" />
+                        <p:calendar id="pubFechaRegistro" pattern="MM/dd/yyyy" value="#{publicacionController.selected.pubFechaRegistro}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubFechaRegistro}"  showOn="button"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubEstado}" for="pubEstado" />
+                        <p:inputText id="pubEstado" value="#{publicacionController.selected.pubEstado}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubEstado}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubAutoresSecundarios}" for="pubAutoresSecundarios" />
+                        <p:inputText id="pubAutoresSecundarios" value="#{publicacionController.selected.pubAutoresSecundarios}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubAutoresSecundarios}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubTipoPublicacion}" for="pubTipoPublicacion" />
+                        <p:inputText id="pubTipoPublicacion" value="#{publicacionController.selected.pubTipoPublicacion}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubTipoPublicacion}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubFechaPublicacion}" for="pubFechaPublicacion" />
+                        <p:calendar id="pubFechaPublicacion" pattern="MM/dd/yyyy" value="#{publicacionController.selected.pubFechaPublicacion}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubFechaPublicacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditPublicacionRequiredMessage_pubFechaPublicacion}" showOn="button"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubNumActa}" for="pubNumActa" />
+                        <p:inputText id="pubNumActa" value="#{publicacionController.selected.pubNumActa}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubNumActa}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubVisado}" for="pubVisado" />
+                        <p:inputText id="pubVisado" value="#{publicacionController.selected.pubVisado}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubVisado}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_congreso}" for="congreso" />
+                        <p:selectOneMenu id="congreso" value="#{publicacionController.selected.congreso}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{congresoController.itemsAvailableSelectOne}"
+                                           var="congresoItem"
+                                           itemValue="#{congresoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_revista}" for="revista" />
+                        <p:selectOneMenu id="revista" value="#{publicacionController.selected.revista}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{revistaController.itemsAvailableSelectOne}"
+                                           var="revistaItem"
+                                           itemValue="#{revistaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_capituloLibro}" for="capituloLibro" />
+                        <p:selectOneMenu id="capituloLibro" value="#{publicacionController.selected.capituloLibro}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{capituloLibroController.itemsAvailableSelectOne}"
+                                           var="capituloLibroItem"
+                                           itemValue="#{capituloLibroItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_libro}" for="libro" />
+                        <p:selectOneMenu id="libro" value="#{publicacionController.selected.libro}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{libroController.itemsAvailableSelectOne}"
+                                           var="libroItem"
+                                           itemValue="#{libroItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubEstIdentificador}" for="pubEstIdentificador" />
+                        <p:selectOneMenu id="pubEstIdentificador" value="#{publicacionController.selected.pubEstIdentificador}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{estudianteController.itemsAvailableSelectOne}"
+                                           var="pubEstIdentificadorItem"
+                                           itemValue="#{pubEstIdentificadorItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_idTipoDocumento}" for="idTipoDocumento" />
+                        <p:selectOneMenu id="idTipoDocumento" value="#{publicacionController.selected.idTipoDocumento}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoDocumentoController.itemsAvailableSelectOne}"
+                                           var="idTipoDocumentoItem"
+                                           itemValue="#{idTipoDocumentoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_practicaDocente}" for="practicaDocente" />
+                        <p:selectOneMenu id="practicaDocente" value="#{publicacionController.selected.practicaDocente}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{practicaDocenteController.itemsAvailableSelectOne}"
+                                           var="practicaDocenteItem"
+                                           itemValue="#{practicaDocenteItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditPublicacionLabel_pubCreditos}" for="pubCreditos" />
+                        <p:inputText id="pubCreditos" value="#{publicacionController.selected.pubCreditos}" title="#{bundlePracticaDocente.EditPublicacionTitle_pubCreditos}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{publicacionController.update}" value="#{bundlePracticaDocente.Save}" update="display,:PublicacionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PublicacionEditDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="PublicacionEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -14,12 +14,16 @@
                     <p:panelGrid columns="2" rendered="#{practicaDocenteController.selected != null}">
                         <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_pubIdentificador}" for="pubIdentificador" />
                         <p:inputText id="pubIdentificador" value="#{practicaDocenteController.selected.pubIdentificador}" title="#{bundlePracticaDocente.CreatePracticaDocenteTitle_pubIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.CreatePracticaDocenteRequiredMessage_pubIdentificador}"/>
-                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_fechaInicio}" for="fechaInicio" />
-                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{practicaDocenteController.selected.fechaInicio}" title="#{bundlePracticaDocente.EditPracticaDocenteTitle_fechaInicio}" required="true" requiredMessage="#{bundlePracticaDocente.EditPracticaDocenteRequiredMessage_fechaInicio}" showOn="button"/>
-                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_fechaTerminacion}" for="fechaTerminacion" />
-                        <p:calendar id="fechaTerminacion" pattern="MM/dd/yyyy" value="#{practicaDocenteController.selected.fechaTerminacion}" title="#{bundlePracticaDocente.EditPracticaDocenteTitle_fechaTerminacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditPracticaDocenteRequiredMessage_fechaTerminacion}" showOn="button"/>
-                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_lugarPractica}" for="lugarPractica" />
-                        <p:inputText id="lugarPractica" value="#{practicaDocenteController.selected.lugarPractica}" title="#{bundlePracticaDocente.CreatePracticaDocenteTitle_lugarPractica}" required="true" requiredMessage="#{bundlePracticaDocente.CreatePracticaDocenteRequiredMessage_lugarPractica}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_numeroHoras}" for="numeroHoras" />
+                        <p:inputText id="numeroHoras" value="#{practicaDocenteController.selected.numeroHoras}" title="#{bundlePracticaDocente.CreatePracticaDocenteTitle_numeroHoras}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_otros}" for="otros" />
+                        <p:inputText id="otros" value="#{practicaDocenteController.selected.otros}" title="#{bundlePracticaDocente.CreatePracticaDocenteTitle_otros}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_idActividad}" for="idActividad" />
+                        <p:selectOneMenu id="idActividad" value="#{practicaDocenteController.selected.idActividad}" required="true" requiredMessage="#{bundlePracticaDocente.EditPracticaDocenteRequiredMessage_idActividad}">
+                            <f:selectItems value="#{actividadPdController.itemsAvailableSelectOne}"
+                                           var="idActividadItem"
+                                           itemValue="#{idActividadItem}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundlePracticaDocente.CreatePracticaDocenteLabel_publicacion}" for="publicacion" />
                         <p:selectOneMenu id="publicacion" value="#{practicaDocenteController.selected.publicacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditPracticaDocenteRequiredMessage_publicacion}">
                             <f:selectItems value="#{publicacionController.itemsAvailableSelectOne}"

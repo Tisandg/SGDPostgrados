@@ -1,5 +1,6 @@
 package co.unicauca.proyectobase.utilidades;
 
+import co.unicauca.proyectobase.entidades.Estudiante;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -52,15 +53,35 @@ public class Utilidades {
      * @param tiempo 
      */
     public static void correoRegistroPublicaciones(String destino, String autor, String tipoPublicacion, String tiempo){
-        String asunto = "Notificación registro de publicación DCE";
-        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de regitrar una publicación del tipo " 
+        String asunto = "Notificación registro de documento";
+        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de registrar un documento del tipo " 
                                 + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
-        String mensajeEstudiante = "Estimado" + autor + ".\n" + "Se acaba de regitrar una publicación del tipo " 
+        String mensajeEstudiante = "Estimado "+autor + ".\n" + "Se acaba de registrar un documento del tipo " 
                                 + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
         //Correo para el estudiante
         enviarCorreo(destino,asunto, mensajeEstudiante);
         //Correo para el coordinador
         enviarCorreo("posgradoselectunic@gmail.com",asunto, mensajeCoordinador);
+    }
+    
+    
+    /**
+     * Metodo para enviar el correo de notificacion al estudiante para informar
+     * que se le ha creado una cuenta en el sistema con sus datos.
+     * @param estudiante 
+     */
+    public static void correoRegistroEstudiante(Estudiante estudiante){
+        String destinatario = estudiante.getEstCorreo();
+        String asunto = "Notificación registro de usuario DCE";
+        String mensaje = "Estimado estudiante.\n"
+                + "Se acaba de crear una cuenta de estudiante con sus datos en el sistema de Doctorado en Ciencias de la Electrónica.\n"
+                + "Recuerde que a partir de la fecha puede hacer uso del sistema, ingresando la siguiente información:"
+                + "Nombre Usuario: " + estudiante.getEstUsuario()
+                +"\nContraseña: " + estudiante.getEstCodigo() 
+                +"\n\nServicio notificación DCE.";
+        
+        /*Se envia el correo al estudiante*/
+        enviarCorreo(destinatario,asunto,mensaje);
     }
 
     /***
@@ -109,6 +130,11 @@ public class Utilidades {
         return resultado;
     }
     
+    /**
+     * Metodo para cifrar una cadena con el algoritmo SHA-256
+     * @param cadena
+     * @return 
+     */
     public static String sha256(String cadena)
     {
         StringBuilder sb= new StringBuilder();

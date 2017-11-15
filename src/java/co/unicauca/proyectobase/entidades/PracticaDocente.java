@@ -1,34 +1,34 @@
 package co.unicauca.proyectobase.entidades;
 
+import co.unicauca.proyectobase.controladores.OpenKMController;
 import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
+import com.openkm.sdk4j.bean.Folder;
 import com.openkm.sdk4j.bean.QueryParams;
 import com.openkm.sdk4j.bean.QueryResult;
 import com.openkm.sdk4j.exception.AccessDeniedException;
 import com.openkm.sdk4j.exception.DatabaseException;
-import com.openkm.sdk4j.exception.ParseException;
+import com.openkm.sdk4j.exception.LockException;
 import com.openkm.sdk4j.exception.PathNotFoundException;
 import com.openkm.sdk4j.exception.RepositoryException;
 import com.openkm.sdk4j.exception.UnknowException;
 import com.openkm.sdk4j.exception.WebserviceException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,60 +42,41 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PracticaDocente.findAll", query = "SELECT p FROM PracticaDocente p"),
-    @NamedQuery(name = "PracticaDocente.misPracticas", query = "SELECT p FROM PracticaDocente p "),    
-    
-    @NamedQuery(name = "PracticaDocente.buscarPracticasByNombreUsuario", query = "select pr from PracticaDocente pr where pr.pubIdentificador IN (SELECt p.pubIdentificador FROM Publicacion p where P.pubEstIdentificador = (select e.estIdentificador from Estudiante e where e.estUsuario = :nombreUsuario))"),
-        
     @NamedQuery(name = "PracticaDocente.findByPubIdentificador", query = "SELECT p FROM PracticaDocente p WHERE p.pubIdentificador = :pubIdentificador"),
-    @NamedQuery(name = "PracticaDocente.findByFechaInicio", query = "SELECT p FROM PracticaDocente p WHERE p.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "PracticaDocente.findByFechaTerminacion", query = "SELECT p FROM PracticaDocente p WHERE p.fechaTerminacion = :fechaTerminacion"),
-    @NamedQuery(name = "PracticaDocente.findByLugarPractica", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica = :lugarPractica"),
-        
-    @NamedQuery(name = "PracticaDocente.findByLugarPracticaLike", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),        
-    
+    @NamedQuery(name = "PracticaDocente.findByNumeroHoras", query = "SELECT p FROM PracticaDocente p WHERE p.numeroHoras = :numeroHoras"),
+    @NamedQuery(name = "PracticaDocente.findByOtros", query = "SELECT p FROM PracticaDocente p WHERE p.otros = :otros"),
+
+    @NamedQuery(name = "PracticaDocente.misPracticas", query = "SELECT p FROM PracticaDocente p "),
+    @NamedQuery(name = "PracticaDocente.buscarPracticasByNombreUsuario", query = "select pr from PracticaDocente pr where pr.pubIdentificador IN "
+            + "(SELECt p.pubIdentificador FROM Publicacion p where P.pubEstIdentificador = (select e.estIdentificador from Estudiante e where e.estUsuario = :nombreUsuario))"),
+    @NamedQuery(name = "PracticaDocente.findByPubIdentificador", query = "SELECT p FROM PracticaDocente p WHERE p.pubIdentificador = :pubIdentificador"),
     @NamedQuery(name = "PracticaDocente.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like 'Practica docente'")
-                         
 })
 public class PracticaDocente implements Serializable {
-//@NamedQuery(name = "PracticaDocente.findByNombreAutor", query = "SELECT p FROM PracticaDocente p WHERE p.lugarPractica like :lugarPractica"),
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "fecha_inicio")
-    @Temporal(TemporalType.DATE)
-    private Date fechaInicio;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "fecha_terminacion")
-    @Temporal(TemporalType.DATE)
-    private Date fechaTerminacion;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
-    @Column(name = "lugar_practica")
-    private String lugarPractica;
+    @Column(name = "numero_horas")
+    private Integer numeroHoras;
+    @Size(max = 200)
+    @Column(name = "otros")
+    private String otros;
+    @JoinColumn(name = "id_actividad", referencedColumnName = "id_actividad")
+    @ManyToOne(optional = false)
+    private ActividadPd idActividad;
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;
 
     public PracticaDocente() {
-        publicacion= new Publicacion();
     }
 
     public PracticaDocente(Integer pubIdentificador) {
         this.pubIdentificador = pubIdentificador;
-    }
-
-    public PracticaDocente(Integer pubIdentificador, Date fechaInicio, Date fechaTerminacion, String lugarPractica) {
-        this.pubIdentificador = pubIdentificador;
-        this.fechaInicio = fechaInicio;
-        this.fechaTerminacion = fechaTerminacion;
-        this.lugarPractica = lugarPractica;
     }
 
     public Integer getPubIdentificador() {
@@ -106,36 +87,28 @@ public class PracticaDocente implements Serializable {
         this.pubIdentificador = pubIdentificador;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
-    
-     public String getFechaIn() {        
-        return new SimpleDateFormat("dd-MMMM-yyyy").format(fechaInicio);
+    public Integer getNumeroHoras() {
+        return numeroHoras;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setNumeroHoras(Integer numeroHoras) {
+        this.numeroHoras = numeroHoras;
     }
 
-    public Date getFechaTerminacion() {
-        return fechaTerminacion;
-    }
-    
-     public String getFechaTer() {
-        return new SimpleDateFormat("dd-MMMM-yyyy").format(fechaTerminacion);
+    public String getOtros() {
+        return otros;
     }
 
-    public void setFechaTerminacion(Date fechaTerminacion) {
-        this.fechaTerminacion = fechaTerminacion;
+    public void setOtros(String otros) {
+        this.otros = otros;
     }
 
-    public String getLugarPractica() {
-        return lugarPractica;
+    public ActividadPd getIdActividad() {
+        return idActividad;
     }
 
-    public void setLugarPractica(String lugarPractica) {
-        this.lugarPractica = lugarPractica;
+    public void setIdActividad(ActividadPd idActividad) {
+        this.idActividad = idActividad;
     }
 
     public Publicacion getPublicacion() {
@@ -170,7 +143,7 @@ public class PracticaDocente implements Serializable {
     public String toString() {
         return "co.unicauca.proyectobase.entidades.PracticaDocente[ pubIdentificador=" + pubIdentificador + " ]";
     }
-    
+
     public archivoPDF descargaPubPrac() {
         archivoPDF archivo = new archivoPDF();
         String tipoPDF = "practicaDocente";
@@ -209,13 +182,41 @@ public class PracticaDocente implements Serializable {
                 }                
                 posPub = posPub + 1;
             }
-        } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
+        } catch (Exception e) {
             System.out.println("error en descargaPubPrac de clase practicaDocente.java");
             System.out.println("error: " + e.getMessage());
         }
         System.out.println("DATOS: "+ archivo.getArchivo());
         return archivo;
     }
-
+    
+    /***
+     * Elimina los documentos subidos al gestor de documentos OpenKM.
+     * Se obtiene una instancia de openKm con la cual buscamos la carpeta donde
+     * estan almacenados los documentos. Si se encuentra se eliminar toda la 
+     * carpeta de lo contrario se lanza un mensaje por consola notificando que
+     * ocurrio un error al eliminar la documentacion.
+     * @return True si se elimino el documento de openKM, False de lo contrario 
+     */
+    public boolean eliminarDocOpenkm(){        
+        String rutaFolder="/okm:root/Doctorado_Electronica/" + this.publicacion.getPubEstIdentificador().getEstUsuario() + "/" + this.publicacion.getPubDiropkm();
+        Folder folder = new Folder();
+        folder.setPath(rutaFolder);
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        try {
+            /* Se valida si el forder a eliminar existe o no*/
+            boolean valido = ws.isValidFolder(rutaFolder);            
+            if(valido){
+                ws.deleteFolder(rutaFolder);                
+            }else{
+                return false;
+            }
+        } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
+            System.out.println("Error al eliminar documento: "+e.getMessage());
+        } catch (LockException ex) {        
+            Logger.getLogger(PracticaDocente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("exception lockException. err: " + ex.getMessage());
+        }
+        return true;
+    }
 }
-

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ActividadPdViewDlg" widgetVar="ActividadPdViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewActividadPdTitle}">
+            <h:form id="ActividadPdViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{actividadPdController.selected != null}">
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_idActividad}"/>
+                        <h:outputText value="#{actividadPdController.selected.idActividad}" title="#{bundlePracticaDocente.ViewActividadPdTitle_idActividad}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_nombreActividad}"/>
+                        <h:outputText value="#{actividadPdController.selected.nombreActividad}" title="#{bundlePracticaDocente.ViewActividadPdTitle_nombreActividad}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_horasAsignadas}"/>
+                        <h:outputText value="#{actividadPdController.selected.horasAsignadas}" title="#{bundlePracticaDocente.ViewActividadPdTitle_horasAsignadas}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_faseAjuste}"/>
+                        <h:outputText value="#{actividadPdController.selected.faseAjuste}" title="#{bundlePracticaDocente.ViewActividadPdTitle_faseAjuste}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewActividadPdLabel_maximoHoras}"/>
+                        <h:outputText value="#{actividadPdController.selected.maximoHoras}" title="#{bundlePracticaDocente.ViewActividadPdTitle_maximoHoras}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="ActividadPdViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

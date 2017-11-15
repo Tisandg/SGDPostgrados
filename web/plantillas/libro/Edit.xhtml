@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LibroEditDlg" widgetVar="LibroEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.EditLibroTitle}">
+            <h:form id="LibroEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{libroController.selected != null}">
+                        <p:outputLabel value="#{bundlePracticaDocente.EditLibroLabel_pubIdentificador}" for="pubIdentificador" />
+                        <p:inputText id="pubIdentificador" value="#{libroController.selected.pubIdentificador}" title="#{bundlePracticaDocente.EditLibroTitle_pubIdentificador}" required="true" requiredMessage="#{bundlePracticaDocente.EditLibroRequiredMessage_pubIdentificador}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditLibroLabel_libTituloLibro}" for="libTituloLibro" />
+                        <p:inputText id="libTituloLibro" value="#{libroController.selected.libTituloLibro}" title="#{bundlePracticaDocente.EditLibroTitle_libTituloLibro}" required="true" requiredMessage="#{bundlePracticaDocente.EditLibroRequiredMessage_libTituloLibro}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditLibroLabel_publicacion}" for="publicacion" />
+                        <p:selectOneMenu id="publicacion" value="#{libroController.selected.publicacion}" required="true" requiredMessage="#{bundlePracticaDocente.EditLibroRequiredMessage_publicacion}">
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{publicacionController.itemsAvailableSelectOne}"
+                                           var="publicacionItem"
+                                           itemValue="#{publicacionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditLibroLabel_libIsbn}" for="libIsbn" />
+                        <p:inputText id="libIsbn" value="#{libroController.selected.libIsbn}" title="#{bundlePracticaDocente.EditLibroTitle_libIsbn}" required="true" requiredMessage="#{bundlePracticaDocente.EditLibroRequiredMessage_libIsbn}"/>
+                        <p:outputLabel value="#{bundlePracticaDocente.EditLibroLabel_editorial}" for="editorial" />
+                        <p:inputText id="editorial" value="#{libroController.selected.editorial}" title="#{bundlePracticaDocente.EditLibroTitle_editorial}" />
+                        <p:outputLabel value="#{bundlePracticaDocente.EditLibroLabel_ciudadId}" for="ciudadId" />
+                        <p:selectOneMenu id="ciudadId" value="#{libroController.selected.ciudadId}" >
+                            <f:selectItem itemLabel="#{bundlePracticaDocente.SelectOneMessage}"/>
+                            <f:selectItems value="#{ciudadController.itemsAvailableSelectOne}"
+                                           var="ciudadIdItem"
+                                           itemValue="#{ciudadIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{libroController.update}" value="#{bundlePracticaDocente.Save}" update="display,:LibroListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LibroEditDialog');"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Cancel}" onclick="LibroEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -10,12 +10,12 @@
 
 
         <ui:define name="title">
-            <h:outputText value="#{bundleTipoDocumento.ListTipoDocumentoTitle}"></h:outputText>
+            <h:outputText value="#{bundlePracticaDocente.ListTipoDocumentoTitle}"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
             <h:form id="TipoDocumentoListForm">
-                <p:panel header="#{bundleTipoDocumento.ListTipoDocumentoTitle}">
+                <p:panel header="#{bundlePracticaDocente.ListTipoDocumentoTitle}">
                     <p:dataTable id="datalist" value="#{tipoDocumentoController.items}" var="item"
                                  selectionMode="single" selection="#{tipoDocumentoController.selected}"
                                  paginator="true"
@@ -29,33 +29,45 @@
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundleTipoDocumento.ListTipoDocumentoTitle_identificador}"/>
+                                <h:outputText value="#{bundlePracticaDocente.ListTipoDocumentoTitle_identificador}"/>
                             </f:facet>
                             <h:outputText value="#{item.identificador}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundleTipoDocumento.ListTipoDocumentoTitle_nombre}"/>
+                                <h:outputText value="#{bundlePracticaDocente.ListTipoDocumentoTitle_nombre}"/>
                             </f:facet>
                             <h:outputText value="#{item.nombre}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundleTipoDocumento.ListTipoDocumentoTitle_creditos}"/>
+                                <h:outputText value="#{bundlePracticaDocente.ListTipoDocumentoTitle_creditos}"/>
                             </f:facet>
                             <h:outputText value="#{item.creditos}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundleTipoDocumento.ListTipoDocumentoTitle_correquisitos}"/>
+                                <h:outputText value="#{bundlePracticaDocente.ListTipoDocumentoTitle_maxCreditos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.maxCreditos}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListTipoDocumentoTitle_minCreditos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.minCreditos}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundlePracticaDocente.ListTipoDocumentoTitle_correquisitos}"/>
                             </f:facet>
                             <h:outputText value="#{item.correquisitos}"/>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundleTipoDocumento.Create}" actionListener="#{tipoDocumentoController.prepareCreate}" update=":TipoDocumentoCreateForm" oncomplete="PF('TipoDocumentoCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundleTipoDocumento.View}" update=":TipoDocumentoViewForm" oncomplete="PF('TipoDocumentoViewDialog').show()" disabled="#{empty tipoDocumentoController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundleTipoDocumento.Edit}" update=":TipoDocumentoEditForm" oncomplete="PF('TipoDocumentoEditDialog').show()" disabled="#{empty tipoDocumentoController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundleTipoDocumento.Delete}" actionListener="#{tipoDocumentoController.destroy}" update=":growl,datalist" disabled="#{empty tipoDocumentoController.selected}"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundlePracticaDocente.Create}" actionListener="#{tipoDocumentoController.prepareCreate}" update=":TipoDocumentoCreateForm" oncomplete="PF('TipoDocumentoCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundlePracticaDocente.View}" update=":TipoDocumentoViewForm" oncomplete="PF('TipoDocumentoViewDialog').show()" disabled="#{empty tipoDocumentoController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundlePracticaDocente.Edit}" update=":TipoDocumentoEditForm" oncomplete="PF('TipoDocumentoEditDialog').show()" disabled="#{empty tipoDocumentoController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundlePracticaDocente.Delete}" actionListener="#{tipoDocumentoController.destroy}" update=":growl,datalist" disabled="#{empty tipoDocumentoController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

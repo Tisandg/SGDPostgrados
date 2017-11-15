@@ -8,20 +8,24 @@
 
     <ui:composition>
 
-        <p:dialog id="TipoDocumentoViewDlg" widgetVar="TipoDocumentoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleTipoDocumento.ViewTipoDocumentoTitle}">
+        <p:dialog id="TipoDocumentoViewDlg" widgetVar="TipoDocumentoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePracticaDocente.ViewTipoDocumentoTitle}">
             <h:form id="TipoDocumentoViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tipoDocumentoController.selected != null}">
-                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_identificador}"/>
-                        <h:outputText value="#{tipoDocumentoController.selected.identificador}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_identificador}"/>
-                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_nombre}"/>
-                        <h:outputText value="#{tipoDocumentoController.selected.nombre}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_nombre}"/>
-                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_creditos}"/>
-                        <h:outputText value="#{tipoDocumentoController.selected.creditos}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_creditos}"/>
-                        <h:outputText value="#{bundleTipoDocumento.ViewTipoDocumentoLabel_correquisitos}"/>
-                        <h:outputText value="#{tipoDocumentoController.selected.correquisitos}" title="#{bundleTipoDocumento.ViewTipoDocumentoTitle_correquisitos}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewTipoDocumentoLabel_identificador}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.identificador}" title="#{bundlePracticaDocente.ViewTipoDocumentoTitle_identificador}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewTipoDocumentoLabel_nombre}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.nombre}" title="#{bundlePracticaDocente.ViewTipoDocumentoTitle_nombre}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewTipoDocumentoLabel_creditos}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.creditos}" title="#{bundlePracticaDocente.ViewTipoDocumentoTitle_creditos}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewTipoDocumentoLabel_maxCreditos}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.maxCreditos}" title="#{bundlePracticaDocente.ViewTipoDocumentoTitle_maxCreditos}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewTipoDocumentoLabel_minCreditos}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.minCreditos}" title="#{bundlePracticaDocente.ViewTipoDocumentoTitle_minCreditos}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewTipoDocumentoLabel_correquisitos}"/>
+                        <h:outputText value="#{tipoDocumentoController.selected.correquisitos}" title="#{bundlePracticaDocente.ViewTipoDocumentoTitle_correquisitos}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundleTipoDocumento.Close}" onclick="TipoDocumentoViewDialog.hide()"/>
+                    <p:commandButton value="#{bundlePracticaDocente.Close}" onclick="TipoDocumentoViewDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

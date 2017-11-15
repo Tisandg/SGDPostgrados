@@ -33,13 +33,12 @@ import javax.faces.convert.FacesConverter;
 public class EstudianteController implements Serializable {
 
     @EJB
-    private EstudianteFacade ejbFacade;
+    private EstudianteFacade estFacade;
     @EJB
     private PublicacionFacade daoPublicacion;
 
     
     private Estudiante actual;
-    private String cohorte;
     private String variableFiltrado;
     private List<Estudiante> listadoEncontrado;
     private List<String> Estado;
@@ -50,7 +49,7 @@ public class EstudianteController implements Serializable {
 
     public String getCredi() {
         credi = "" + actual.getEstCreditos();
-
+        (new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new java.util.Locale("es_ES"))).format(new java.util.Date());
         if (credi.equalsIgnoreCase("null")) {
             credi = "0";
         }
@@ -61,16 +60,14 @@ public class EstudianteController implements Serializable {
         this.credi = credi;
     }
 
-    public String getCohorte() {
+    public int getCohorte() {
+        return actual.getEstCohorte();
+        /*
         if ((cohorte == null) || (cohorte.equals("null")) || (cohorte.equals(""))) {
             return "";
         }
         cohorte = String.valueOf(actual.getEstCohorte());
-        return cohorte;
-    }
-
-    public void setCohorte(String cohorte) {
-        this.cohorte = cohorte;
+        return cohorte;*/
     }
 
     public List<Estudiante> getListadoEncontrado() {
@@ -90,7 +87,6 @@ public class EstudianteController implements Serializable {
         this.Estado.add("Activo");
         this.Estado.add("Inactivo");
         this.Estado.add("Egresado");
-        cohorte = "";
         this.cvc = new CargarVistaCoordinador();
     }
 
@@ -113,9 +109,11 @@ public class EstudianteController implements Serializable {
     public Estudiante getActual() {
         if (actual == null) {
             actual = new Estudiante();
-            cohorte = "";
         }
         return actual;
+    }
+    public String getCodigoEstudianteActual() {
+        return actual.getEstCodigo();
     }
 
     public String getVariableFiltrado() {
@@ -129,10 +127,10 @@ public class EstudianteController implements Serializable {
     public List<Estudiante> listado() {
 
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            listadoEncontrado = ejbFacade.findAll();
+            listadoEncontrado = estFacade.findAll();
             return listadoEncontrado;
         } else {
-            listadoEncontrado = ejbFacade.findAllByString(variableFiltrado);
+            listadoEncontrado = estFacade.findAllByString(variableFiltrado);
             return listadoEncontrado;
         }
     }
@@ -140,7 +138,7 @@ public class EstudianteController implements Serializable {
     public List<Estudiante> listadoQuery(String query) {
         query = query.toLowerCase();
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
-            listadoEncontrado = ejbFacade.findAll();
+            listadoEncontrado = estFacade.findAll();
 
             List<Estudiante> listaFiltrada = new ArrayList();
             for (Estudiante estudiante : listadoEncontrado) {
@@ -150,20 +148,23 @@ public class EstudianteController implements Serializable {
             }
             return listaFiltrada;
         } else {
-            listadoEncontrado = ejbFacade.findAllByString(variableFiltrado);
+            listadoEncontrado = estFacade.findAllByString(variableFiltrado);
             return listadoEncontrado;
         }
     }
 
+    /**
+     * Metodo para registrar un estudiante en el sistema. Los datos del objeto 
+     * estudiante "actual" seran utilizados para el registro en la base de datos
+     */
     public void agregar() {
+        
         try {
             String contrasena = Utilidades.sha256(actual.getEstCodigo());
             String[] nombreusuario = actual.getEstCorreo().split("@"); // para un unico dominio
             actual.setEstUsuario(nombreusuario[0]);
             actual.setEstEstado("activo");
 
-            //System.out.println("est:"+actual);
-            // configuracion de estudiante como usuario del sistema
             Usuario user = new Usuario(actual.getEstNombre(), actual.getEstApellido(), actual.getEstUsuario(),
                     contrasena, "activo");
 
@@ -186,23 +187,20 @@ public class EstudianteController implements Serializable {
             grpPK.setIdTipo(tu.getId());
             grpPK.setIdUsuario(user.getId());
             gtu.setGrupoTipoUsuarioPK(grpPK);
+            
             // controlador tipo usuario del contexto actual
             GrupoTipoUsuarioController gtuc = getGrupoTipoUsuarioController();
             gtuc.setCurrent(gtu);
             gtuc.create();
 
-            //agregar id de usuario a estudiante
-            System.out.println("id de ususario: "+ uc.getCurrent().toString());     
+            //agregar id de usuario a estudiante    
             actual.setUsuarioId(user);
             actual.setEstCreditos(0);
             getFacade().create(actual);
             getFacade().flush();
             mensajeconfirmarRegistro();
-
-            /*Mejorar este procedimiento de enviar mensaje, el mensaje no deberia ir 
-            como parametro, solo seria enviarle el objeto estudiante*/
-            //Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Registro en Doctorados de Ciencias de la Elecrónica ", "Cordial Saludo " + "\n" + "El registro en el sistema de Doctorados de Ciencias de la Electrónica fue exitoso,para ingresar sírvase usar los siguientes datos: " + "\n" + "Nombre de Usuario: " + actual.getEstUsuario() + "\n" + "Clave Ingreso: " + actual.getEstCodigo());  se cambio el mensaje 
-            Utilidades.enviarCorreo("" + actual.getEstCorreo(), "Notificación registro de usuario DCE ", "Estimado estudiante." + "\n"+ "\n" + "Se acaba de registrar un usuario en el sistema de Doctorado en Ciencias de la Electrónica." + "\n" + "Recuerde que a partir de la fecha puede hacer uso del sistema, ingresando la siguiente información:" + "\n" + "Nombre Usuario: " + actual.getEstUsuario() + "\n" + "Contraseña: " + actual.getEstCodigo() + "\n" + "\n" + "Servicio notificación DCE.");
+            
+            Utilidades.correoRegistroEstudiante(actual);
             limpiarCampos();
             redirigirAlistar();
         } catch (EJBException e) {
@@ -210,16 +208,19 @@ public class EstudianteController implements Serializable {
         }
     }
 
+    /**
+     * Metodo para limpiar los campos del formulario de registro de un estudiante
+     * Para ello se inicializa de nuevo el objeto estudiante
+     */
     public void limpiarCampos() {
         actual = new Estudiante();
-        cohorte = "";
     }
 
     public void guardarEdicion() {
         try {
-            actual.setEstCohorte(Integer.parseInt(cohorte));
-            ejbFacade.edit(actual);
-            ejbFacade.flush();
+            //actual.setEstCohorte(Integer.parseInt(cohorte));
+            estFacade.edit(actual);
+            estFacade.flush();
 
             String usuario= actual.getEstCorreo();
             String delimitador="@";
@@ -245,10 +246,10 @@ public class EstudianteController implements Serializable {
 
     public void cambiarEstado(int id) {
         try {
-            actual = ejbFacade.find(id);
+            actual = estFacade.find(id);
             actual.setEstEstado("Inactivo");
-            ejbFacade.edit(actual);
-            ejbFacade.flush();
+            estFacade.edit(actual);
+            estFacade.flush();
             mensajeDeshabilitar();
         } catch (EJBException e) {
 
@@ -257,10 +258,10 @@ public class EstudianteController implements Serializable {
 
     public void habilitarEstudiante(int id) {
         try {
-            actual = ejbFacade.find(id);
+            actual = estFacade.find(id);
             actual.setEstEstado("Activo");
-            ejbFacade.edit(actual);
-            ejbFacade.flush();
+            estFacade.edit(actual);
+            estFacade.flush();
             mensajeConfirmacionHabilitacion();
         } catch (EJBException e) {
 
@@ -269,8 +270,8 @@ public class EstudianteController implements Serializable {
 
     public boolean estudianteRegistrado(String codigo) {
         try {
-            Estudiante estudiante = ejbFacade.find(codigo);
-            ejbFacade.flush();
+            Estudiante estudiante = estFacade.find(codigo);
+            estFacade.flush();
 
             if (estudiante != null) {
                 return true;
@@ -291,7 +292,7 @@ public class EstudianteController implements Serializable {
 
     public void editarEstudiante(Estudiante est) {
         actual = est;
-        cohorte = "" + est.getEstCohorte();
+        //cohorte = "" + est.getEstCohorte();
         cvc.editarEstudiante();
         Utilidades.redireccionar(cvc.getRuta());
     }
@@ -304,7 +305,7 @@ public class EstudianteController implements Serializable {
      * @return
      */
     public boolean existByCodigoEst(String codigo) {
-        return ejbFacade.existByEstCodigo(codigo);
+        return estFacade.existByEstCodigo(codigo);
     }
 
     /**
@@ -314,7 +315,7 @@ public class EstudianteController implements Serializable {
      * @return
      */
     public Estudiante buscarPorCodigoExceptoConId(String estCodigo, Integer id) {
-        return ejbFacade.buscarPorCodigoExceptoConId(estCodigo, id);
+        return estFacade.buscarPorCodigoExceptoConId(estCodigo, id);
 
     }
     /**
@@ -324,11 +325,14 @@ public class EstudianteController implements Serializable {
      * @return
      */
     public Estudiante buscarPorCorreoExceptoConId(String estCodigo, Integer id) {
-        return ejbFacade.buscarPorCorreoExceptoConId(estCodigo, id);
+        return estFacade.buscarPorCorreoExceptoConId(estCodigo, id);
 
     }
 
-    /*redireccionamiento para boton cancelar*/
+    /**
+     * Procedimiento para redirigir al listado los estudiante registrados en el
+     * sistema.
+     */
     public void redirigirAlistar() {
         limpiarCampos();
         cvc.listarEstudiantes();
@@ -375,6 +379,11 @@ public class EstudianteController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    /**
+     * Funcion para obtener el controlador "UsuarioController" del contexto
+     * de la aplicacion
+     * @return UsuarioController
+     */
     public UsuarioController getUsuarioController() {
         FacesContext context = FacesContext.getCurrentInstance();
         ELContext contextoEL = context.getELContext();
@@ -383,6 +392,11 @@ public class EstudianteController implements Serializable {
         return usuarioController;
     }
 
+    /**
+     * Funcion para obtener el controlador "GrupoTipoUsuarioController" del 
+     * contexto de la aplicacion
+     * @return GrupoTipoUsuarioController
+     */
     public GrupoTipoUsuarioController getGrupoTipoUsuarioController() {
         FacesContext context = FacesContext.getCurrentInstance();
         ELContext contextoEL = context.getELContext();
@@ -396,13 +410,13 @@ public class EstudianteController implements Serializable {
     
     private EstudianteFacade getFacade()
     {
-        return this.ejbFacade;
+        return this.estFacade;
     }
 
     public List<Publicacion> PublicacionPorEstudiante(String codigo)
     {
 
-        Estudiante estudiante = ejbFacade.buscarPorCodigo(codigo);
+        Estudiante estudiante = estFacade.buscarPorCodigo(codigo);
         int idEstudianteConsulta = estudiante.getEstIdentificador();
         List<Publicacion> pub= daoPublicacion.ListadoPublicacionEst(idEstudianteConsulta);
         for (int i = 0; i < pub.size(); i++) {

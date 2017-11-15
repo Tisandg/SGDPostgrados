@@ -102,6 +102,10 @@ public class UserLoginView implements Serializable {
         }
     }
 
+    /**
+     * Metodo para cerrar sesion en el sistema
+     * @throws IOException 
+     */
     public void salir() throws IOException 
     {
         FacesContext fc = FacesContext.getCurrentInstance();

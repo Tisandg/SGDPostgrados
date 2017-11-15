@@ -14,16 +14,12 @@
                     <p:panelGrid columns="2" rendered="#{practicaDocenteController.selected != null}">
                         <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_pubIdentificador}"/>
                         <h:outputText value="#{practicaDocenteController.selected.pubIdentificador}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_pubIdentificador}"/>
-                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_fechaInicio}"/>
-                        <h:outputText value="#{practicaDocenteController.selected.fechaInicio}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_fechaInicio}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:outputText>
-                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_fechaTerminacion}"/>
-                        <h:outputText value="#{practicaDocenteController.selected.fechaTerminacion}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_fechaTerminacion}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:outputText>
-                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_lugarPractica}"/>
-                        <h:outputText value="#{practicaDocenteController.selected.lugarPractica}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_lugarPractica}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_numeroHoras}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.numeroHoras}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_numeroHoras}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_otros}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.otros}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_otros}"/>
+                        <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_idActividad}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.idActividad}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_idActividad}"/>
                         <h:outputText value="#{bundlePracticaDocente.ViewPracticaDocenteLabel_publicacion}"/>
                         <h:outputText value="#{practicaDocenteController.selected.publicacion}" title="#{bundlePracticaDocente.ViewPracticaDocenteTitle_publicacion}"/>
                     </p:panelGrid>
