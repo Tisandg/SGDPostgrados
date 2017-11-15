@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="600" pageHeight="800" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c2aeef0-cc31-4143-969d-2554d0ac9f4d">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="600" pageHeight="800" columnWidth="540" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="8c2aeef0-cc31-4143-969d-2554d0ac9f4d">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="84"/>
 	<style name="Title" fontName="Serif" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Serif" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Serif" fontSize="12" isBold="true"/>
@@ -63,11 +63,11 @@ ORDER BY
 	<group name="pub_visado_group">
 		<groupExpression><![CDATA[$F{publicacion_pub_visado}]]></groupExpression>
 		<groupHeader>
-			<band height="50">
+			<band height="27">
 				<textField>
-					<reportElement mode="Opaque" x="0" y="0" width="560" height="50" forecolor="#3333FF" backcolor="#CCCCCC" uuid="dfc8d2f6-9663-44af-b753-95de6f774307"/>
+					<reportElement mode="Opaque" x="0" y="0" width="540" height="27" forecolor="#000000" backcolor="#CCCCCC" uuid="dfc8d2f6-9663-44af-b753-95de6f774307"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="18" isBold="true"/>
+						<font size="11" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[( $F{publicacion_pub_visado}.equals( "espera" ) ? "en espera" :  $F{publicacion_pub_visado} )]]></textFieldExpression>
 				</textField>
@@ -84,7 +84,7 @@ ORDER BY
 					<text><![CDATA[subtotal publicaciones:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="188" y="0" width="251" height="24" uuid="a9348a5b-43e4-4172-9ef9-35013f0fed49"/>
+					<reportElement x="188" y="0" width="230" height="24" uuid="a9348a5b-43e4-4172-9ef9-35013f0fed49"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="12" isBold="true"/>
 					</textElement>
@@ -94,66 +94,86 @@ ORDER BY
 		</groupFooter>
 	</group>
 	<title>
-		<band height="91" splitType="Stretch">
-			<frame>
-				<reportElement style="Heading 4" mode="Opaque" x="0" y="0" width="560" height="91" backcolor="#006699" uuid="5e917349-198d-4344-a191-7f732be062c2"/>
-				<staticText>
-					<reportElement x="0" y="0" width="439" height="46" forecolor="#FFFFFF" uuid="66790422-029d-4d8e-bb67-60855dbcd720"/>
-					<box topPadding="10" leftPadding="10"/>
-					<textElement>
-						<font size="28" isBold="true"/>
-					</textElement>
-					<text><![CDATA[REPORTE ESTUDIANTE]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="0" y="46" width="188" height="20" forecolor="#FFFFFF" uuid="87258f5f-1459-462b-9b34-78b326e25bd5"/>
-					<textElement verticalAlignment="Middle">
-						<font size="12"/>
-						<paragraph leftIndent="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA["Año: "+$P{anio}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="0" y="68" width="188" height="20" forecolor="#FFFFFF" uuid="28206fee-781b-4f8a-a430-9e484d5579a4"/>
-					<textElement verticalAlignment="Middle">
-						<font size="12"/>
-						<paragraph leftIndent="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA["Código: "+$P{codEst}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="188" y="68" width="251" height="20" forecolor="#FFFFFF" uuid="c066e7fa-7cdd-4248-98cd-d161ef02fa76"/>
-					<textElement verticalAlignment="Middle">
-						<font size="12"/>
-						<paragraph leftIndent="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA["Nombre: "+$F{usuario_nombres} +" "+ $F{usuario_apellidos}]]></textFieldExpression>
-				</textField>
-			</frame>
+		<band height="244" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="0" y="144" width="418" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="87258f5f-1459-462b-9b34-78b326e25bd5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Año: "+$P{anio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="182" width="418" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="28206fee-781b-4f8a-a430-9e484d5579a4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Código: "+$P{codEst}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="163" width="418" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="c066e7fa-7cdd-4248-98cd-d161ef02fa76"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nombre: "+$F{usuario_nombres} +" "+ $F{usuario_apellidos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="111" width="540" height="20" uuid="038987a2-4f4e-49fe-8326-dd98244ce65a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Reporte por estudiante]]></text>
+			</staticText>
+			<image>
+				<reportElement x="175" y="0" width="81" height="96" uuid="55929bf9-ecd1-4d0e-bc68-d70008d6fae9"/>
+				<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/unicauca.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="338" y="0" width="80" height="96" uuid="a0ee8a92-af04-43a3-bb44-e16af6f80227"/>
+				<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/logo8.png"]]></imageExpression>
+			</image>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" mode="Transparent" x="0" y="201" width="418" height="20" forecolor="#000000" uuid="dc87ad58-24e9-4c1f-a840-9b9b05c8bd70"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado en: "+(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Transparent" x="0" y="220" width="418" height="20" uuid="e039b2c5-0f31-400c-b08d-1a406b6faa28"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total publicaciones: "+$V{publicacion_pub_fecha_registro_2}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="439" y="0" width="121" height="20" backcolor="#FFFFFF" uuid="9bc57958-1107-435d-82df-ee8676fd0233"/>
+				<reportElement mode="Opaque" x="418" y="0" width="122" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="9bc57958-1107-435d-82df-ee8676fd0233"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="11" isBold="true" isUnderline="false" isPdfEmbedded="false"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[créditos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="188" height="20" backcolor="#FFFFFF" uuid="4fc51dfb-602a-4e26-8030-05a04e4c14e7"/>
+				<reportElement mode="Opaque" x="0" y="0" width="188" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="4fc51dfb-602a-4e26-8030-05a04e4c14e7"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="11" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[Publicacion]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="188" y="0" width="251" height="20" backcolor="#FFFFFF" uuid="d90733ad-514f-4d64-a384-f0e2100c1741"/>
+				<reportElement mode="Opaque" x="188" y="0" width="230" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="d90733ad-514f-4d64-a384-f0e2100c1741"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="11" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[Estado]]></text>
@@ -170,14 +190,14 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{tipo_documento_nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="439" y="0" width="121" height="25" uuid="3c4646ea-4f83-4335-af64-c416aa8715d6"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement x="418" y="0" width="122" height="25" uuid="3c4646ea-4f83-4335-af64-c416aa8715d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<paragraph leftIndent="5" rightIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{publicacion_pub_creditos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="188" y="0" width="251" height="25" uuid="7d80217b-5bfa-40d0-b08b-3edd6e3d0f01"/>
+				<reportElement x="188" y="0" width="230" height="25" uuid="7d80217b-5bfa-40d0-b08b-3edd6e3d0f01"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{publicacion_pub_estado}]]></textFieldExpression>
 			</textField>
@@ -186,45 +206,22 @@ ORDER BY
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement style="Column header" x="439" y="0" width="74" height="20" uuid="026456f5-2504-4569-9933-256ab504b898"/>
+				<reportElement style="Column header" x="418" y="0" width="95" height="20" uuid="026456f5-2504-4569-9933-256ab504b898"/>
 				<textElement textAlignment="Right">
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement style="Column header" x="513" y="0" width="47" height="20" uuid="74a6355b-c021-4a5d-9cf2-4f0ca6e9cb3d"/>
+				<reportElement style="Column header" x="513" y="0" width="27" height="20" uuid="74a6355b-c021-4a5d-9cf2-4f0ca6e9cb3d"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" x="0" y="0" width="188" height="20" uuid="19c8a17b-6b72-476f-91ac-3f719d1bdcf0"/>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="50">
-			<textField evaluationTime="Report">
-				<reportElement mode="Transparent" x="188" y="0" width="251" height="20" uuid="59ca5241-476b-4563-a226-ba8b84aa18a0"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
-					<font size="12" isBold="true" isUnderline="false" isStrikeThrough="false"/>
-					<paragraph leftIndent="5" rightIndent="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{publicacion_pub_fecha_registro_2}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement style="Detail" mode="Opaque" x="0" y="0" width="188" height="20" forecolor="#FFFFFF" backcolor="#006699" uuid="4cffe5ee-99a4-4375-b6fb-a2110294a3c6"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[TOTAL PUBLICACIONES:]]></text>
-			</staticText>
-		</band>
+		<band height="50"/>
 	</summary>
 </jasperReport>
