@@ -124,11 +124,11 @@ ORDER BY
 			<elementGroup>
 				<image hAlign="Center" vAlign="Middle" isUsingCache="false">
 					<reportElement x="352" y="0" width="80" height="96" uuid="7c9098c1-4345-4d32-b0d4-be743e910f66"/>
-					<imageExpression><![CDATA["../../web/resources/images/logo8.png"]]></imageExpression>
+					<imageExpression><![CDATA["../../resources/images/logo8.png"]]></imageExpression>
 				</image>
 				<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle" isUsingCache="false">
 					<reportElement x="147" y="0" width="85" height="96" uuid="3ce9cc46-c6c9-4a5e-838e-975d18212cbf"/>
-					<imageExpression><![CDATA["../../web/resources/images/unicauca.png"]]></imageExpression>
+					<imageExpression><![CDATA["../../resources/images/unicauca.png"]]></imageExpression>
 				</image>
 			</elementGroup>
 		</band>

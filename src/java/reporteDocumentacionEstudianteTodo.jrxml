@@ -116,7 +116,7 @@ ORDER BY
 			</staticText>
 			<image>
 				<reportElement x="175" y="0" width="81" height="96" uuid="55929bf9-ecd1-4d0e-bc68-d70008d6fae9"/>
-				<imageExpression><![CDATA["/home/debian/Documentos/SemestreII2017/proyecto2/SGDPosgrados/SGDPostgrados/build/web/resources/images/unicauca.png"]]></imageExpression>
+				<imageExpression><![CDATA["../../web/resources/images/unicauca.png"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement x="338" y="0" width="80" height="96" uuid="a0ee8a92-af04-43a3-bb44-e16af6f80227"/>
