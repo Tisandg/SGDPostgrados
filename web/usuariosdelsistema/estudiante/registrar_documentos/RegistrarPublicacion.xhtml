@@ -445,7 +445,7 @@
                 <p:messages for="valPublicacion"  id="msjPublicacionF"/>
                 <h:panelGrid columns="4">                        
                     <h:outputLabel value="Tabla de contenido PDF:" styleClass="addEspacio"/>
-                    <p:fileUpload id="tablaContenidoPDF"   value="#{publicacionController.tablaContenidoPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio"/>                        
+                    <p:fileUpload id="tablaContenidoPDF"   value="#{publicacionController.tablaContenidoPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                        
                     <p:messages for="valTContenido"  id="msjvalTContenido" />
                     <h:outputText value=""/>
 
@@ -466,12 +466,12 @@
             <br/>
             <h:form>
                 <h:panelGrid columns="2" cellspacing="10>">
-                <h:commandButton value="Registrar" action="#{publicacionController.registrarPublicacion()}" class="btn btn-primary"/>                     
+                <h:commandButton value="Registrar" action="#{publicacionController.registrarPublicacion()}" class="botonVerPractica"/>                     
                 <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro de la publicación?')) {
                             return false;
                         }
                         ;
-                        return true;" action="#{publicacionController.redirigirPublicacionesEst()}" class="btn btn-primary" immediate="true"/>
+                        return true;" action="#{publicacionController.redirigirPublicacionesEst()}" class="botonVerPractica" immediate="true"/>
                 </h:panelGrid>
             </h:form>
             </p:panel>

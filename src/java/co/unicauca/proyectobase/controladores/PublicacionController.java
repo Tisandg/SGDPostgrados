@@ -289,7 +289,7 @@ public class PublicacionController implements Serializable {
         Estudiante est = daoPublicacion.obtenerEstudiante(nombreUsuario);
         setAuxEstudiante(est);
         int idEstudiante = est.getEstIdentificador();
-        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
+        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {            
             return daoPublicacion.ListadoPublicacionEst(idEstudiante);
         } else {
             return daoPublicacion.ListadoPublicacionEstFilt(idEstudiante, variableFiltrado);

@@ -6,6 +6,7 @@ import co.unicauca.proyectobase.controladores.util.JsfUtil.PersistAction;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.PracticaDocenteFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
+import co.unicauca.proyectobase.entidades.ActividadPd;
 import co.unicauca.proyectobase.entidades.Archivo;
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
@@ -48,13 +49,13 @@ public class PracticaDocenteController implements Serializable {
     @EJB
     private PracticaDocenteFacade ejbFacade;
     @EJB
-    private PublicacionFacade daoPublicacion;
+    private PublicacionFacade ejbFacadePub;
     @EJB
     private EstudianteFacade daoEst;
     
     private List<PracticaDocente> items = null;
     private PracticaDocente actual;
-    private Publicacion pub;
+    private Publicacion publicacionEntity;
     private UploadedFile documento;
     private Estudiante auxEstudiante;
     private CargarVistaEstudiante cve;
@@ -62,6 +63,26 @@ public class PracticaDocenteController implements Serializable {
     private String variableFiltrado;
     private String nombrePD;
 
+    
+    private boolean renderizarHorasVar;
+    private boolean renderizarOtrosVar;    
+    
+    public boolean isRenderizarHorasVar() {
+        return renderizarHorasVar;
+    }
+
+    public boolean isRenderizarOtrosVar() {
+        return renderizarOtrosVar;
+    }
+
+    public void setRenderizarOtrosVar(boolean renderizarOtrosVar) {
+        this.renderizarOtrosVar = renderizarOtrosVar;
+    }
+
+    public void setRenderizarHorasVar(boolean renderizarHorasVar) {        
+        this.renderizarHorasVar = renderizarHorasVar;
+    }
+ 
     public String getNombrePD() {
         return nombrePD;
     }
@@ -251,7 +272,7 @@ public class PracticaDocenteController implements Serializable {
      
     public void inicializarVariables() {
         actual = new PracticaDocente();
-        pub = new Publicacion();        
+        publicacionEntity = new Publicacion();        
     }
      
     /**
@@ -264,78 +285,95 @@ public class PracticaDocenteController implements Serializable {
         facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
     
-    
     /**
      * agrega un registro de practica docente del estudiante BD 
+     * @param user nombre de usuario para buscar el estudiante
      */
-    public void AgregarPracticaDocente()
+    public void AgregarPracticaDocente(String user)
     {
          System.out.println("Registrando practica docente");
          boolean formatoValido = true;
-         if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {
-
-            FacesContext.getCurrentInstance().addMessage("valPublicacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la practica docente en formato PDF", ""));
+         //validar el formato del docuemtno seleccionado
+         if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
+            FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la práctica docente en formato PDF", ""));
             formatoValido = false;
         }
         if (formatoValido == true) {
              boolean puedeSubir = false;
-             if (documento.getFileName().equalsIgnoreCase("")) {
-                FacesContext.getCurrentInstance().addMessage("Documento practica docente", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir evidencia de practica docente", ""));             
+             if (documento.getFileName().equalsIgnoreCase("")) {                
+                FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la práctica docente", ""));
              }
+             
              else puedeSubir = true;             
              
-             if (puedeSubir) {                 
-                System.out.println("Agregando practica docente");
-                Estudiante est = getAuxEstudiante();
-                try{
-                    pub.setPubEstIdentificador(est);
+             if (puedeSubir) {
+                Estudiante est = ejbFacade.obtenerEstudiante(user);
+                try{                    
+                    publicacionEntity.setPubEstIdentificador(est);
                     String nombreAut = est.getEstNombre() + " " + est.getEstApellido();
                     //gijar el identificador consultando la cantidad de filas
-                    int numPubRevis = daoPublicacion.getnumFilasPubRev();
-                    pub.setPubIdentificador(numPubRevis);
+                    int numPubRevis = ejbFacadePub.getnumFilasPubRev();
+                    publicacionEntity.setPubIdentificador(numPubRevis);
                     
                     ArrayList<Archivo> CollArchivo = new ArrayList<>();
-                    int numArchivos = daoPublicacion.getIdArchivo();
+                    int numArchivos = ejbFacadePub.getIdArchivo();
 
                     Archivo pd = new Archivo();
-                    pd.setArcPubIdentificador(pub);
+                    pd.setArcPubIdentificador(publicacionEntity);
                     pd.setArcIdentificador(numArchivos);
-                    pd.setArctipoPDFcargar("cartaAprobacion");
+                    pd.setArctipoPDFcargar("practicaDocente");
                     CollArchivo.add(pd);
                     
                     if (!documento.getFileName().equalsIgnoreCase("")) {
                         Archivo archArt = new Archivo();
                         numArchivos = numArchivos + 1;
-                        archArt.setArcPubIdentificador(pub);
+                        archArt.setArcPubIdentificador(publicacionEntity);
                         archArt.setArcIdentificador(numArchivos);
-                        archArt.setArctipoPDFcargar("tipoPublicacion");
+                        archArt.setArctipoPDFcargar("practicaDocente");
                     }
                     
-                    pub.setArchivoCollection(CollArchivo);
+                    publicacionEntity.setArchivoCollection(CollArchivo);
                     try{
-                        pub.AgregarPracticaDocente(documento);
+                        publicacionEntity.AgregarPracticaDocente(documento);
                     }catch(IOException e){
-                        System.out.println("error agregando documento a practica docente en metodo agregarPracticaDocente() del controlador de practica docente ");                                
+                        System.out.println("error agregando documento a practica docente. err: " + e.getMessage());                                
                     }
                     
-                    pub.setPubEstado("Activo");                    
-                    pub.setPubVisado("espera");
-                    pub.setIdTipoDocumento(ejbFacade.findTipoDocumento());
-                    pub.setPubFechaPublicacion(new Date());
-                    actual.setPubIdentificador(pub.getPubIdentificador());
+                    publicacionEntity.setPubEstado("Activo");                    
+                    publicacionEntity.setPubVisado("espera");
+                    publicacionEntity.setPubTipoPublicacion("Practica docente");
+                    publicacionEntity.setIdTipoDocumento(ejbFacade.findTipoDocumento());
+                    publicacionEntity.setPubFechaPublicacion(new Date());                    
+                    
+                    actual.setPubIdentificador(publicacionEntity.getPubIdentificador());
+                    
+                    publicacionEntity.setLibro(null);
+                    publicacionEntity.setCongreso(null);
+                    publicacionEntity.setCapituloLibro(null);
+                    publicacionEntity.setRevista(null);
                     
                     //almacenar el objeto en la base de datos
-                    daoPublicacion.create(pub);
-                    daoPublicacion.flush();                    
+                    ejbFacadePub.create(publicacionEntity);                    
+                    ejbFacadePub.flush();                    
+                    actual.setPublicacion(publicacionEntity);                    
+                    
+                    //si no se digitaron las horas, se asignan las horas de actividadPd
+                    if(actual.getNumeroHoras() == null){
+                        actual.setNumeroHoras(actual.getIdActividad().getHorasAsignadas());
+                    }
+                    //almacenar el contenido del objeto practicaDocente en la base de datos
                     ejbFacade.create(this.actual);
+                    
                     mensajeconfirmarRegistro();
                     Date date = new Date();                    
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String estampaTiempo = "" + datehourFormat.format(date);
                     String[] fecha = estampaTiempo.split(" ");
-                    //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + pub.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
-                    Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante." + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + pub.getIdTipoDocumento().getNombre()+ ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
-                    redirigirAlistarPublicacionesEst();                                                                
+                    //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
+                    //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante " + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
+                    Utilidades.correoRegistroPublicaciones(auxEstudiante.getEstCorreo(), nombreAut, 
+                                actual.getPublicacion().getIdTipoDocumento().getNombre(), estampaTiempo);
+                    redirigirListarPracticasEst();                    
                 }catch(EJBException ex)
                 {
                     System.out.println("Error: No se pudo registrar la publicacion. error: " + ex.getMessage());
@@ -343,7 +381,7 @@ public class PracticaDocenteController implements Serializable {
                 }
             }                                  
         }         
-    }    
+    }
      
     /**
      * redirigir a listar publicaciones
@@ -360,6 +398,12 @@ public class PracticaDocenteController implements Serializable {
     public void redirigirListarPracticasEst() 
     {        
         cve.verPracticas();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+    
+    public void redirigirRegistrarPracticaDocente(String nombreUsuario) {
+        limpiarCampos(nombreUsuario);        
+        cve.registrarPractica();        
         Utilidades.redireccionar(cve.getRuta());
     }
     
@@ -390,25 +434,28 @@ public class PracticaDocenteController implements Serializable {
         List<PracticaDocente> result = ejbFacade.findAll();
 
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {  return result;  } 
-        else {
-            List<PracticaDocente> resultFilter = new ArrayList<>();  
-            //revisar, esta haciendo las consultas tres veces
-            //System.out.println(result.size());
-            for (PracticaDocente item : result) {                                
-                String nombre = item.getPublicacion().getPubEstIdentificador().getEstNombre() + item.getPublicacion().getPubEstIdentificador().getEstApellido();                
-                if(nombre.contains(variableFiltrado) || 
-                        item.getFechaIn().contains(variableFiltrado) || 
-                        item.getFechaTer().contains(variableFiltrado) || 
-                        item.getLugarPractica().contains(variableFiltrado)){
-                    resultFilter.add(item);
-                }                
-            }
-            return resultFilter;           
-        }
+        else
+            return result;
+//        else {
+//            List<PracticaDocente> resultFilter = new ArrayList<>();  
+//            //revisar, esta haciendo las consultas tres veces
+//            //System.out.println(result.size());
+//            for (PracticaDocente item : result) {                                
+//                String nombre = item.getPublicacion().getPubEstIdentificador().getEstNombre() + item.getPublicacion().getPubEstIdentificador().getEstApellido();                
+//                if(nombre.contains(variableFiltrado) || 
+//                        item.getFechaIn().contains(variableFiltrado) || 
+//                        item.getFechaTer().contains(variableFiltrado) || 
+//                        item.getLugarPractica().contains(variableFiltrado)){
+//                    resultFilter.add(item);
+//                }                
+//            }
+//            return resultFilter;           
+//        }
     }
-     public List<PracticaDocente> listadoDesdeEst(){
+     public List<PracticaDocente> listadoDesdeEst(String nombreUsuario){
          //aqui hay que recibir el nombre de usuario como variale
-         List<PracticaDocente> result = ejbFacade.practicaDocente("dlopezs");
+         System.out.println("Nombre de usuario" + nombreUsuario);
+         List<PracticaDocente> result = ejbFacade.practicaDocente(nombreUsuario);
          return result; 
         //if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {   } 
       /*  else {
@@ -464,10 +511,76 @@ public class PracticaDocenteController implements Serializable {
      
       public void verPractica(PracticaDocente prac) {
         actual = prac;
-        cvc.listarPracticaDocenteVer();
+        cvc.listarPracticaDocenteVer();        
         Utilidades.redireccionar(cvc.getRuta());
     }
      
+      
+      /**
+     * se establece si hay que renderizar el input para ingresar las horas 
+     * trabajadas en la practica docente y el input de lugar cuando se escoje 
+     * "Otrás actividades de apyo al departamento"
+     * @param actividades lista de actividades
+     * @return TRUE si debe renderizar horas ó lugar de practica, TRUE si debe 
+     * renderizar horas y lugar de practica, de lo contrario retorna FALSE.
+     */
+    public boolean renderizarHoras(List<ActividadPd> actividades){
+        ActividadPd aux = new ActividadPd();
+        //encontrar la actividad seleccionada
+        for (ActividadPd actividad : actividades) {
+            if(getSelected().getIdActividad() != null){
+                if(getSelected().getIdActividad().equals(actividad)){
+                    //sacar una copia de la actividad encontrada                    
+                    aux = actividad;
+                    break;
+                }
+            }
+        }        
+        //verificar que se halla escojido una opcion de la lista
+        if(getSelected().getIdActividad() == null){
+            renderizarOtrosVar = false;
+            renderizarHorasVar = false;
+            System.out.println("null actividad");
+            return false;
+        }
+        //si la actividad seleccionada no posee horas y selecciono otras
+        if(aux.getHorasAsignadas() == null && 
+                getSelected().getIdActividad().getNombreActividad().equals("Otrás actividades de apoyo al departamento")){            
+            renderizarHorasVar = true;
+            renderizarOtrosVar = true;
+            return true;
+        }
+        //si la actividad seleccionada no posee horas y selecciono un item dierente a otras
+        if(aux.getHorasAsignadas() == null && !getSelected().getIdActividad().getNombreActividad().equals("Otrás actividades de apoyo al departamento")){
+            renderizarOtrosVar = false;
+            renderizarHorasVar = true;
+            return true;
+        }
+        //si no entra en ninguna retorna falase y no renderiza nada
+        renderizarHorasVar = false;
+        renderizarOtrosVar = false;
+        return false;
+    }        
+    
+    /**
+     * ver la informacion de una practica docente
+     * @param prac practica docente que se desea visualizar
+     */
+    public void verPracticaDocenteEst(PracticaDocente prac){
+        actual = prac;
+        cve.verPractica();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+    
+    /**
+     * redirigir a la informacion del estudiante cuando se le de al boton
+     * cancelar o el boton que lo requiera
+     */
+    public void redirigirInfoEstudiante(){
+        cve.verDatosPersonales();
+        Utilidades.redireccionar(cve.getRuta());
+    }
+        
        
     
 }

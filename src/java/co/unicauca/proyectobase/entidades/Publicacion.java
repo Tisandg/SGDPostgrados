@@ -127,7 +127,8 @@ import org.primefaces.model.UploadedFile;
             + "LIKE :variableFiltro)"),
     @NamedQuery(
             name = "findAllPub_Est",
-            query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador = :identificacion"
+            query = "SELECT p FROM Publicacion p WHERE p.pubEstIdentificador.estIdentificador = :identificacion and p.idTipoDocumento.identificador"
+                    + " IN (1,2,3,4)"
     ),
     @NamedQuery(name = "Publicacion.updateVisadoById", query = "UPDATE Publicacion as p SET p.pubVisado = :valorVisado where p.pubIdentificador = :id"),
     @NamedQuery(name = "Publicacion.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like :tipoDoc")
@@ -135,10 +136,8 @@ import org.primefaces.model.UploadedFile;
 })
 public class Publicacion implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "pub_creditos", nullable = false)
-    private int pubCreditos;
+    @Column(name = "pub_creditos")
+    private Integer pubCreditos;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "publicacion")
     private PracticaDocente practicaDocente;
@@ -1016,13 +1015,13 @@ public class Publicacion implements Serializable {
             System.out.println("Error al descargar documento "+tipoPDF+". "+e.getMessage());
         }
         return archivo;
-    }
-
+    }   
+    
     /**
      * Metodo para obtener el titulo de la publicacion segun tu su tipo
      * @return nombrePublicacion
      */
-    public String obtenerNombrePub() {
+    public String obtenerNombrePub() {        
         String nombrePub = "";
         if (this.idTipoDocumento.getIdentificador() == 1) {
             nombrePub = this.getLibro().getLibTituloLibro();
@@ -1223,7 +1222,11 @@ public class Publicacion implements Serializable {
 
     public void setPracticaDocente(PracticaDocente practicaDocente) {
         this.practicaDocente = practicaDocente;
-    }
+    }   
+
+    public void setPubCreditos(int pubCreditos) {
+        this.pubCreditos = pubCreditos;
+}
 
     public Integer getPubCreditos() {
         return pubCreditos;
@@ -1232,9 +1235,5 @@ public class Publicacion implements Serializable {
     public void setPubCreditos(Integer pubCreditos) {
         this.pubCreditos = pubCreditos;
     }
-
-    public void setPubCreditos(int pubCreditos) {
-        this.pubCreditos = pubCreditos;
-}
 
 }

@@ -41,10 +41,10 @@ public class Utilidades {
      * @param tiempo 
      */
     public static void correoRegistroPublicaciones(String destino, String autor, String tipoPublicacion, String tiempo){
-        String asunto = "Notificación registro de publicación DCE";
-        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de regitrar una publicación del tipo " 
+        String asunto = "Notificación registro de documento";
+        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de registrar un documento del tipo " 
                                 + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
-        String mensajeEstudiante = "Estimado" + autor + ".\n" + "Se acaba de regitrar una publicación del tipo " 
+        String mensajeEstudiante = "Estimado "+autor + ".\n" + "Se acaba de registrar un documento del tipo " 
                                 + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
         //Correo para el estudiante
         enviarCorreo(destino,asunto, mensajeEstudiante);
