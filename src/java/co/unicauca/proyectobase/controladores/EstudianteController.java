@@ -117,6 +117,9 @@ public class EstudianteController implements Serializable {
         }
         return actual;
     }
+    public String getCodigoEstudianteActual() {
+        return actual.getEstCodigo();
+    }
 
     public String getVariableFiltrado() {
         return variableFiltrado;
