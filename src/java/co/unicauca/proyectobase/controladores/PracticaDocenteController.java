@@ -32,9 +32,11 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
@@ -657,4 +659,77 @@ public class PracticaDocenteController implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+
+    
+    String visado;
+    
+    public String getVisado() {
+        return visado;
+    }
+
+    public void setVisado(String visado) {
+        this.visado = visado;
+    }
+    
+     public void cambiarEstadoVisado() {
+        if (!visado.equals("")) {
+            actual.getPublicacion().setPubVisado(visado);
+            ejbFacadePub.edit(actual.getPublicacion());
+            String correo = actual.getPublicacion().getPubEstIdentificador().getEstCorreo();
+
+            if (visado.equalsIgnoreCase("Aprobado")) {
+//                cambiarCreditos();
+                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante, "
+                        + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
+                        + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
+                        + "\n\nSe acaba de APROBAR la publicación "
+                        + actual.getPublicacion().obtenerNombrePub() + "."
+                        + "\nQue fue registrada previamente en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\nNúmero de creditos actuales: " + actual.getPublicacion().getPubEstIdentificador().getEstCreditos()
+                        + "\n\n\n" + "Servicio notificación DCE.");
+            }
+            if (visado.equalsIgnoreCase("No Aprobado")) {
+                String mensaje = "Estimado estudiante."
+                        + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
+                        + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
+                        + "\n\n Se acaba de RECHAZAR la publicación "
+                        + actual.getPublicacion().obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\n\n" + "Servicio notificación DCE.";
+                    if (!valorTexto.equals("")) {
+                        mensaje = mensaje + "\n\n Observaciones: " + valorTexto;
+                        valorTexto = "";
+                    }
+                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", mensaje);
+            }
+            if (visado.equalsIgnoreCase("espera")) {
+                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante."
+                        + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
+                        + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
+                        + "\n\n Se acaba de PONER EN ESPERA la publicación "
+                        + actual.getPublicacion().obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
+                        + "\n\n" + "Servicio notificación DCE.");
+            }
+            //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
+        }
+
+    }
+      private String valorTexto = "";
+      
+      public void recibirTexto(AjaxBehaviorEvent evt) {
+        String texto = "" + ((UIOutput) evt.getSource()).getValue();
+        this.valorTexto = texto;
+        System.out.println("en recibir texto: " + texto);
+    }
+        private void cambiarCreditos() {
+            
+         int idTipoDocumento = actual.getPublicacion().getIdTipoDocumento().getIdentificador();
+        int creditosPub = ejbFacadePub.getCreditosTipoPubicacionPorID(idTipoDocumento);
+        int creditosEst = actual.getPublicacion().getPubEstIdentificador().getEstCreditos();
+        actual.getPublicacion().setPubCreditos(creditosPub);
+        actual.getPublicacion().getPubEstIdentificador().setEstCreditos(creditosEst + creditosPub);
+        daoEst.edit(actual.getPublicacion().getPubEstIdentificador());
+        ejbFacadePub.edit(actual.getPublicacion());
+        
+    }
+    
 }

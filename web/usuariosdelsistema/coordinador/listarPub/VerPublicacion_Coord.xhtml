@@ -55,7 +55,6 @@
                             <h:outputLabel value="Cambiar estado visado:" style="font-weight:bold;"/>
                             <p:selectOneMenu id="console" value="#{publicacionController.visado}" style="width:125px" >
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                <f:selectItem itemLabel="En espera" itemValue="espera" />
                                 <f:selectItem itemLabel="Aprobado" itemValue="aprobado" />
                                 <f:selectItem itemLabel="No Aprobado" itemValue="no aprobado" />
                             </p:selectOneMenu>
@@ -138,13 +137,13 @@
 
                             <h:panelGrid columns="2" cellpadding="5" id="panelRegistrar"  >                                                                                            
                                 <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
-                                <p:commandButton  value="Ver " action="#{publicacionController.pdfCartaAprob()}" onclick="this.form.target = '_blank'" />
+                                <h:commandButton  value="Ver " class="botonVerPractica" action="#{publicacionController.pdfCartaAprob()}" onclick="this.form.target = '_blank'" />
 
                                 <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
-                                <p:commandButton   value="Ver"   action="#{publicacionController.pdfPub()}" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
+                                <h:commandButton   value="Ver" class="botonVerPractica"  action="#{publicacionController.pdfPub()}" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
 
                                 <p:outputLabel value="Tabla de contenido:" style="font-weight:bold"/>
-                                <p:commandButton  value="Ver "  action="#{publicacionController.pdfPubTC()}" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
+                                <h:commandButton  value="Ver " class="botonVerPractica"  action="#{publicacionController.pdfPubTC()}" onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
                             </h:panelGrid>
                         </p:panel>
                     </p:panel>
