@@ -706,6 +706,7 @@ public class PublicacionController implements Serializable {
                 actual.eliminarDocOpenkm();
                 daoPublicacion.remove(actual);
                 daoPublicacion.flush();
+                addMessage("Documentación Eliminada", EDITAR);
                 System.out.println("Documentacion eliminada");
 
             } catch (LockException e) {

@@ -418,6 +418,7 @@ public class PracticaDocenteController implements Serializable {
     
     public void mensajeconfirmarRegistro() {
         System.out.println("Registrada con exito");
+        addMessage("Registrado con éxito",null);
     }
       
     public void limpiarcampos()
@@ -640,6 +641,7 @@ public class PracticaDocenteController implements Serializable {
                 PublicacionController con = new PublicacionController();
                 con.eliminarDocumentacion(actual.getPublicacion());
                 this.destroy();
+                addMessage("Documentación eliminada", visado);
                 System.out.println("Documentacion eliminada");
             } catch (LockException ex) {                
                 System.out.println("error eliminando la publicacion desde practica docente");
