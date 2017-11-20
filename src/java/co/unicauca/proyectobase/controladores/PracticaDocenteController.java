@@ -302,13 +302,13 @@ public class PracticaDocenteController implements Serializable {
          boolean formatoValido = true;
          //validar el formato del docuemtno seleccionado
          if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
-            FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la práctica docente en formato PDF", ""));
+            FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));
             formatoValido = false;
         }
         if (formatoValido == true) {
              boolean puedeSubir = false;
              if (documento.getFileName().equalsIgnoreCase("")) {                
-                FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la práctica docente", ""));
+                FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Campo obligatorio.","Debe subir la evidencia de la práctica docente."));
              }
              
              else puedeSubir = true;             
@@ -550,26 +550,32 @@ public class PracticaDocenteController implements Serializable {
         //verificar que se halla escojido una opcion de la lista
         if(getSelected().getIdActividad() == null){
             renderizarOtrosVar = false;
-            renderizarHorasVar = false;
-            System.out.println("null actividad");
+            renderizarHorasVar = false;            
             return false;
         }
         //si la actividad seleccionada no posee horas y selecciono otras
         if(aux.getHorasAsignadas() == null && 
-                getSelected().getIdActividad().getNombreActividad().equals("Otrás actividades de apoyo al departamento")){            
+                getSelected().getIdActividad().getIdActividad() != 18){            
+            getSelected().setNumeroHoras(null);
             renderizarHorasVar = true;
             renderizarOtrosVar = true;
             return true;
         }
         //si la actividad seleccionada no posee horas y selecciono un item dierente a otras
-        if(aux.getHorasAsignadas() == null && !getSelected().getIdActividad().getNombreActividad().equals("Otrás actividades de apoyo al departamento")){
-            renderizarOtrosVar = false;
+        if(aux.getHorasAsignadas() == null 
+                && getSelected().getIdActividad().getIdActividad() != 18){
+            getSelected().setNumeroHoras(null);
+            renderizarOtrosVar = false;            
             renderizarHorasVar = true;
             return true;
         }
-        //si no entra en ninguna retorna falase y no renderiza nada
-        renderizarHorasVar = false;
-        renderizarOtrosVar = false;
+        //si selecciona una actividad conun numero de horas predefinido
+        if(aux.getHorasAsignadas() != null){
+            renderizarHorasVar = false;            
+            renderizarOtrosVar = false;
+            getSelected().setNumeroHoras(getSelected().getIdActividad().getHorasAsignadas());
+            return false;
+        }        
         return false;
     }        
     
