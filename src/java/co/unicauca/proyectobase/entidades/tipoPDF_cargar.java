@@ -1,8 +1,6 @@
 package co.unicauca.proyectobase.entidades;
 
-import java.io.IOException;
 import java.io.InputStream;
-import org.primefaces.model.UploadedFile;
 
 /**
  *

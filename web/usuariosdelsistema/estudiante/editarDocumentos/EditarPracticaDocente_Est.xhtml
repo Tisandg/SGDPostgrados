@@ -17,7 +17,7 @@
                     <b>Editar información de práctica docente</b>
                 </span>
             </div>            
-            <h:form id="PracticaDocenteEditForm">
+            <h:form id="PracticaDocenteEditForm" enctype="multipart/form-data">
                 <p:panel >
                     <div style = "float: right;">
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
@@ -72,12 +72,12 @@
                             </h:panelGroup>
                             <p:fileUpload id="tablaContenidoPDF"   value="#{practicaDocenteController.documento}" required="true" mode="simple" 
                                           allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio"/>                                                        
-                            <p:outputLabel value=""/>                
+                            <p:outputLabel value=""/>                                             
                         </h:panelGrid>
                     
                         <p:messages for="valPractica"  id="msjvalPractica" showDetail="true"/>
                         
-                        <p:commandButton actionListener="#{practicaDocenteController.update}" value="Guardar" oncomplete="handleSubmit(args, 'PracticaDocenteEditDialog');"/>&lrm;
+                        <h:commandButton actionListener="#{practicaDocenteController.update}" value="Guardar"/>&lrm;
                         <p:commandButton value="Cancelar" actionListener="#{practicaDocenteController.redirigirListarPracticasEst()}"/>
                 </p:panel>
             </h:form>

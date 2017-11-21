@@ -11,18 +11,25 @@ import co.unicauca.proyectobase.entidades.Archivo;
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.archivoPDF;
+import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
 import com.openkm.sdk4j.bean.QueryParams;
 import com.openkm.sdk4j.bean.QueryResult;
 import com.openkm.sdk4j.exception.AccessDeniedException;
+import com.openkm.sdk4j.exception.AutomationException;
 import com.openkm.sdk4j.exception.DatabaseException;
+import com.openkm.sdk4j.exception.ExtensionException;
+import com.openkm.sdk4j.exception.FileSizeExceededException;
 import com.openkm.sdk4j.exception.LockException;
 import com.openkm.sdk4j.exception.ParseException;
 import com.openkm.sdk4j.exception.PathNotFoundException;
 import com.openkm.sdk4j.exception.RepositoryException;
 import com.openkm.sdk4j.exception.UnknowException;
+import com.openkm.sdk4j.exception.UserQuotaExceededException;
+import com.openkm.sdk4j.exception.VersionException;
+import com.openkm.sdk4j.exception.VirusDetectedException;
 import com.openkm.sdk4j.exception.WebserviceException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -173,61 +180,42 @@ public class PracticaDocenteController implements Serializable {
         }
         
         if(documento != null){
+            System.out.println("editando");
             editarArchivoOpenKM();
+        }else{
+            System.out.println("pailas nulo " + documento);
         }
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteUpdated"));
         cve.verPracticas();
         Utilidades.redireccionar(cve.getRuta());
     }
     
-    public boolean editarArchivoOpenKM(){
-                
-        archivoPDF archivo = new archivoPDF();
+    public boolean editarArchivoOpenKM(){                        
         String tipoPDF = "practicaDocente";
-
-        String host = "http://localhost:8083/OpenKM";
-         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
-
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();                        
         try {
-
-            Map<String, String> properties = new HashMap();            
-            //System.out.println("IMPRIMIENDO PUBLICACION: " + publicacion.toString());
+            Map<String, String> properties = new HashMap();                        
             properties.put("okp:practica.identPublicacion", "" + actual.getPublicacion().getPubIdentificador());
-            properties.put("okp:practica.tipoPDFCargar", "" + tipoPDF);
-                        
-            // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
+            properties.put("okp:practica.tipoPDFCargar", tipoPDF);            
             QueryParams qParams = new QueryParams();
-            qParams.setProperties(properties);
-            int posPub = 0;            
-            for (QueryResult qr : ws.find(qParams)) {                
-                if (posPub == 0) {                    
-                    String auxDoc = qr.getDocument().getPath();
-                    String[] arrayNombre = auxDoc.split("/");
-                    int pos = arrayNombre.length;
-                    String nombreDoc = arrayNombre[pos - 1];
-                    //System.out.println("nombreDocPUB: " + nombreDoc);
-                    InputStream initialStream = ws.getContent(qr.getDocument().getPath());
-                    archivo.setArchivo(initialStream);
-                    archivo.setNombreArchivo(nombreDoc);
-                }                
-                posPub = posPub + 1;
-            }
-        } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
-            System.out.println("error en descargaPubPrac de clase practicaDocente.java");
-            System.out.println("error: " + e.getMessage());
+            qParams.setProperties(properties);            
+            int posPub = 0;                   
+            String auxDoc = qParams).get(0).getDocument().getPath();
+                
+            //editar archivo de open km           
+            //primero se debe hacer un checkout enviando la ruta del archivo que se desea editar
+            ws.checkout(auxDoc);
+            //con un checkin se envia la ruta(debe ser la misma), el flujo de string y 
+            //unas observaciones que se envian en blanco
+            ws.checkin(auxDoc, documento.getInputstream(), "");
+            return true;
+        }catch (FileSizeExceededException | UserQuotaExceededException | VirusDetectedException | LockException | VersionException | 
+                PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | 
+                ExtensionException | AutomationException | UnknowException | WebserviceException | ParseException ex) {
+            Logger.getLogger(PracticaDocenteController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("error en editarArchivoOpenKM");
+            System.out.println("error: " + ex.getMessage());
         }
-        //System.out.println("DATOS: "+ archivo.getArchivo());        
-    
-        
-        
-        
-        
-        
-        
-        
         return false;
     }
 
