@@ -944,7 +944,7 @@ public class PublicacionController implements Serializable {
 
     /*mensajes de confirmacion */
     public void mensajeEditar() {
-        addMessage("ha editado satisfactoriamente la publicacion", "");
+        addMessage("Informe." , "Se editó satisfactoriamente la publicacion");
     }
 
     public void mensajeconfirmarRegistro() {

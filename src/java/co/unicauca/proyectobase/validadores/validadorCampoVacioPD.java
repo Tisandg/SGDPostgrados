@@ -20,11 +20,11 @@ public class validadorCampoVacioPD implements Validator{
             String valor = value.toString();        
             valor = valor.trim();        
             if(valor.equals("")){            
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Campo obligatorio. Debe ingresar la descripcion de la actividad.");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Campo obligatorio.","Debe ingresar la descripcion de la actividad.");
                 throw new ValidatorException(msg);
             }            
         }catch(Exception e){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error, debe ingresar la descripción de actividad.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe ingresar la descripción de actividad.");
             throw new ValidatorException(msg);
         }        
     }

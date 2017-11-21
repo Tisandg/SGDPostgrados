@@ -9,10 +9,12 @@ import com.openkm.sdk4j.bean.QueryResult;
 import com.openkm.sdk4j.exception.AccessDeniedException;
 import com.openkm.sdk4j.exception.DatabaseException;
 import com.openkm.sdk4j.exception.LockException;
+import com.openkm.sdk4j.exception.ParseException;
 import com.openkm.sdk4j.exception.PathNotFoundException;
 import com.openkm.sdk4j.exception.RepositoryException;
 import com.openkm.sdk4j.exception.UnknowException;
 import com.openkm.sdk4j.exception.WebserviceException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -159,7 +161,7 @@ public class PracticaDocente implements Serializable {
             Map<String, String> properties = new HashMap();
             /* Se comprueba el tipo de publicacion: revista congreso , un libro 
                 o un capitulo de un libro que se devolvera como resultado*/
-            System.out.println("IMPRIMIENDO PUBLICACION: " + publicacion.toString());
+            //System.out.println("IMPRIMIENDO PUBLICACION: " + publicacion.toString());
                 properties.put("okp:practica.identPublicacion", "" + publicacion.getPubIdentificador());
                 properties.put("okp:practica.tipoPDFCargar", "" + tipoPDF);
 
@@ -175,18 +177,18 @@ public class PracticaDocente implements Serializable {
                     String[] arrayNombre = auxDoc.split("/");
                     int pos = arrayNombre.length;
                     String nombreDoc = arrayNombre[pos - 1];
-                    System.out.println("nombreDocPUB: " + nombreDoc);
+                    //System.out.println("nombreDocPUB: " + nombreDoc);
                     InputStream initialStream = ws.getContent(qr.getDocument().getPath());
                     archivo.setArchivo(initialStream);
                     archivo.setNombreArchivo(nombreDoc);
                 }                
                 posPub = posPub + 1;
             }
-        } catch (Exception e) {
+        } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
             System.out.println("error en descargaPubPrac de clase practicaDocente.java");
             System.out.println("error: " + e.getMessage());
         }
-        System.out.println("DATOS: "+ archivo.getArchivo());
+        //System.out.println("DATOS: "+ archivo.getArchivo());
         return archivo;
     }
     

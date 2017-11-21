@@ -46,24 +46,24 @@
                 </p:selectOneMenu>
                 <p:message for="actividad" id="msjvalTipoPublicacion" />
                                                               
-                <h:panelGroup id="lugar" rendered="#{practicaDocenteController.renderizarOtrosVar}">
+                <h:panelGroup id="desc" rendered="#{practicaDocenteController.renderizarOtrosVar}">
                     <p:outputLabel value="Descripcion de actividad:"  />
                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " />
                 </h:panelGroup>                
-                <p:inputText id="idLugar"  value="#{practicaDocenteController.selected.otros}" 
+                <p:inputText id="idDesc"  value="#{practicaDocenteController.selected.otros}" 
                              style="width: 100% !important" rendered="#{practicaDocenteController.renderizarOtrosVar}" 
                              placeholder="Ingese la descripción de la actividad aquí">
                     <f:validator validatorId="validadorCampoVacioPD" />
-                    <p:ajax event="blur" update="msjValLugarOtros idHoras" />
+                    <p:ajax event="blur" update="msjValDescOtros idHoras" />
                 </p:inputText>                
-                <p:message for="idLugar" id="msjValLugarOtros" rendered="#{practicaDocenteController.renderizarOtrosVar}"/>                                            
+                <p:message for="idDesc" id="msjValDescOtros" rendered="#{practicaDocenteController.renderizarOtrosVar}"/>                                            
             
                 <h:panelGroup id="horas">                     
                     <p:outputLabel value="Cantidad de horas:"  />
                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="* " rendered="#{practicaDocenteController.renderizarHorasVar}"/>
                 </h:panelGroup>                    
-                <p:inputText id="idHoras" value="#{practicaDocenteController.selected.numeroHoras}" disabled="#{!practicaDocenteController.renderizarHorasVar}"               
-                             style="width: 100% !important" 
+                <p:inputText id="idHoras" value="#{practicaDocenteController.selected.numeroHoras}" 
+                             disabled="#{!practicaDocenteController.renderizarHorasVar}" style="width: 100% !important" 
                              converterMessage="Error, sólo se admiten valores númericos para la cantidad de horas."  >
                     <f:validator validatorId="validadorHorasPD" />
                     <p:ajax event="blur" update="msjValHoras" />
@@ -73,7 +73,7 @@
                 <h:panelGroup>
                     <h:outputLabel value="Evidencia de actividad:" styleClass="addEspacio"/>
                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                </h:panelGroup>
+                </h:panelGroup>                
                 <p:fileUpload id="tablaContenidoPDF"   value="#{practicaDocenteController.documento}" required="true" mode="simple" 
                               allowTypes="/(\.|\/)(pdf)$/" styleClass="addEspacio" />
                 <p:outputLabel value=""/>                

@@ -12,7 +12,18 @@ import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.archivoPDF;
 import co.unicauca.proyectobase.utilidades.Utilidades;
+import com.openkm.sdk4j.OKMWebservices;
+import com.openkm.sdk4j.OKMWebservicesFactory;
+import com.openkm.sdk4j.bean.QueryParams;
+import com.openkm.sdk4j.bean.QueryResult;
+import com.openkm.sdk4j.exception.AccessDeniedException;
+import com.openkm.sdk4j.exception.DatabaseException;
 import com.openkm.sdk4j.exception.LockException;
+import com.openkm.sdk4j.exception.ParseException;
+import com.openkm.sdk4j.exception.PathNotFoundException;
+import com.openkm.sdk4j.exception.RepositoryException;
+import com.openkm.sdk4j.exception.UnknowException;
+import com.openkm.sdk4j.exception.WebserviceException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +33,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -158,9 +171,64 @@ public class PracticaDocenteController implements Serializable {
         if(actual.getIdActividad().getHorasAsignadas() != null){
             actual.setNumeroHoras(actual.getIdActividad().getHorasAsignadas());
         }
+        
+        if(documento != null){
+            editarArchivoOpenKM();
+        }
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteUpdated"));
         cve.verPracticas();
         Utilidades.redireccionar(cve.getRuta());
+    }
+    
+    public boolean editarArchivoOpenKM(){
+                
+        archivoPDF archivo = new archivoPDF();
+        String tipoPDF = "practicaDocente";
+
+        String host = "http://localhost:8083/OpenKM";
+         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
+        String username = "okmAdmin";
+        String password = "admin";
+        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+
+        try {
+
+            Map<String, String> properties = new HashMap();            
+            //System.out.println("IMPRIMIENDO PUBLICACION: " + publicacion.toString());
+            properties.put("okp:practica.identPublicacion", "" + actual.getPublicacion().getPubIdentificador());
+            properties.put("okp:practica.tipoPDFCargar", "" + tipoPDF);
+                        
+            // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
+            QueryParams qParams = new QueryParams();
+            qParams.setProperties(properties);
+            int posPub = 0;            
+            for (QueryResult qr : ws.find(qParams)) {                
+                if (posPub == 0) {                    
+                    String auxDoc = qr.getDocument().getPath();
+                    String[] arrayNombre = auxDoc.split("/");
+                    int pos = arrayNombre.length;
+                    String nombreDoc = arrayNombre[pos - 1];
+                    //System.out.println("nombreDocPUB: " + nombreDoc);
+                    InputStream initialStream = ws.getContent(qr.getDocument().getPath());
+                    archivo.setArchivo(initialStream);
+                    archivo.setNombreArchivo(nombreDoc);
+                }                
+                posPub = posPub + 1;
+            }
+        } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
+            System.out.println("error en descargaPubPrac de clase practicaDocente.java");
+            System.out.println("error: " + e.getMessage());
+        }
+        //System.out.println("DATOS: "+ archivo.getArchivo());        
+    
+        
+        
+        
+        
+        
+        
+        
+        return false;
     }
 
     public void destroy() {
@@ -298,10 +366,11 @@ public class PracticaDocenteController implements Serializable {
      */
     public void AgregarPracticaDocente(String user)
     {
-         System.out.println("Registrando practica docente");
-         boolean formatoValido = true;
-         //validar el formato del docuemtno seleccionado
-         if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
+        System.out.println("Registrando practica docente");
+        boolean formatoValido = true;
+        //validar el formato del docuemtno seleccionado
+        System.out.println("doc: " + documento.toString());
+        if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
             FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));
             formatoValido = false;
         }
@@ -374,8 +443,7 @@ public class PracticaDocenteController implements Serializable {
                     mensajeconfirmarRegistro();
                     Date date = new Date();                    
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    String estampaTiempo = "" + datehourFormat.format(date);
-                    String[] fecha = estampaTiempo.split(" ");
+                    String estampaTiempo = "" + datehourFormat.format(date);                    
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante " + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     Utilidades.correoRegistroPublicaciones(auxEstudiante.getEstCorreo(), nombreAut, 
@@ -418,7 +486,7 @@ public class PracticaDocenteController implements Serializable {
     
     public void mensajeconfirmarRegistro() {
         System.out.println("Registrada con exito");
-        addMessage("Registrado con éxito",null);
+        addMessage("Informe","La práctica docente se registró con éxito");
     }
       
     public void limpiarcampos()
@@ -438,12 +506,15 @@ public class PracticaDocenteController implements Serializable {
                 
     /**
      * retorna una lista que contiene objetos de tipo practicaDocente 
-     * @return si variableFiltrado == null retorna todas las praticas, de lo contrario retorna las coincidencias de nombre, fecha inicio fecha fin o lugar
+     * @return si variableFiltrado == null retorna todas las praticas, de lo 
+     * contrario retorna las coincidencias de nombre, fecha inicio fecha fin 
+     * o lugar
      */
     public List<PracticaDocente> listado(){
         List<PracticaDocente> result = ejbFacade.findAll();
 
-        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {  return result;  } 
+        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {  
+            return result;  } 
         else
             return result;
 //        else {
@@ -491,7 +562,9 @@ public class PracticaDocenteController implements Serializable {
     public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaPubPrac();                   
         if (archivoPublic.getNombreArchivo().equals("")) {
-            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
+            FacesContext.getCurrentInstance().addMessage("error", 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                            "Usuario no ha cargado un PDF de la tabla de contenido", ""));
 
         } else {
             InputStream fis = archivoPublic.getArchivo();
@@ -546,36 +619,13 @@ public class PracticaDocenteController implements Serializable {
                     break;
                 }
             }
-        }        
-        //verificar que se halla escojido una opcion de la lista
-        if(getSelected().getIdActividad() == null){
-            renderizarOtrosVar = false;
-            renderizarHorasVar = false;            
-            return false;
         }
-        //si la actividad seleccionada no posee horas y selecciono otras
-        if(aux.getHorasAsignadas() == null && 
-                getSelected().getIdActividad().getIdActividad() != 18){            
-            getSelected().setNumeroHoras(null);
-            renderizarHorasVar = true;
-            renderizarOtrosVar = true;
-            return true;
+        renderizarOtrosVar = getSelected().getIdActividad().getIdActividad() == 18;
+        renderizarHorasVar = aux.getHorasAsignadas() == null;
+        
+        if(!renderizarHorasVar){
+            getSelected().setNumeroHoras(aux.getHorasAsignadas());
         }
-        //si la actividad seleccionada no posee horas y selecciono un item dierente a otras
-        if(aux.getHorasAsignadas() == null 
-                && getSelected().getIdActividad().getIdActividad() != 18){
-            getSelected().setNumeroHoras(null);
-            renderizarOtrosVar = false;            
-            renderizarHorasVar = true;
-            return true;
-        }
-        //si selecciona una actividad conun numero de horas predefinido
-        if(aux.getHorasAsignadas() != null){
-            renderizarHorasVar = false;            
-            renderizarOtrosVar = false;
-            getSelected().setNumeroHoras(getSelected().getIdActividad().getHorasAsignadas());
-            return false;
-        }        
         return false;
     }        
     
@@ -606,22 +656,8 @@ public class PracticaDocenteController implements Serializable {
      */
     public void irAEditar(PracticaDocente prac) {
         setSelected(prac);                
-        //si la actividad seleccionada no posee horas y selecciono otras
-        if(prac.getIdActividad().getHorasAsignadas() == null && 
-                getSelected().getIdActividad().getIdActividad() == 18){            
-            renderizarHorasVar = true;
-            renderizarOtrosVar = true;                        
-        }
-        //si la actividad seleccionada no posee horas y selecciono un item dierente a otras
-        if(prac.getIdActividad().getHorasAsignadas() == null &&
-                getSelected().getIdActividad().getIdActividad() != 18){
-            renderizarOtrosVar = false;
-            renderizarHorasVar = true;                        
-        }
-        if(prac.getIdActividad().getHorasAsignadas() != null){
-            renderizarHorasVar = false;        
-            renderizarOtrosVar = false;
-        }   
+        renderizarOtrosVar = getSelected().getIdActividad().getIdActividad() == 18;
+        renderizarHorasVar = prac.getIdActividad().getHorasAsignadas() == null;
         cve.IrEditarPracticaDocente();       
         Utilidades.redireccionar(cve.getRuta());
     }
@@ -721,23 +757,36 @@ public class PracticaDocenteController implements Serializable {
         }
 
     }
-      private String valorTexto = "";
-      
-      public void recibirTexto(AjaxBehaviorEvent evt) {
+    
+    private String valorTexto = "";      
+    /**
+     * recibir e texto que se ingresa en un input text mediante evento de ajax
+     * proporcionado por jsf
+     * @param evt evento ajax de jsf
+     */
+    public void recibirTexto(AjaxBehaviorEvent evt) {
         String texto = "" + ((UIOutput) evt.getSource()).getValue();
         this.valorTexto = texto;
         System.out.println("en recibir texto: " + texto);
     }
-        private void cambiarCreditos() {
-            
-         int idTipoDocumento = actual.getPublicacion().getIdTipoDocumento().getIdentificador();
+      
+    /**
+     * retorna el nombre del autor concatenado con su apellido
+     * @return nombre completo del autor
+     */
+    public String getnombreAut() {
+        Estudiante est = getAuxEstudiante();
+        return est.getEstNombre() + " " + est.getEstApellido();
+    }
+    
+    private void cambiarCreditos() {            
+        int idTipoDocumento = actual.getPublicacion().getIdTipoDocumento().getIdentificador();
         int creditosPub = ejbFacadePub.getCreditosTipoPubicacionPorID(idTipoDocumento);
         int creditosEst = actual.getPublicacion().getPubEstIdentificador().getEstCreditos();
         actual.getPublicacion().setPubCreditos(creditosPub);
         actual.getPublicacion().getPubEstIdentificador().setEstCreditos(creditosEst + creditosPub);
         daoEst.edit(actual.getPublicacion().getPubEstIdentificador());
-        ejbFacadePub.edit(actual.getPublicacion());
-        
+        ejbFacadePub.edit(actual.getPublicacion());        
     }
     
 }

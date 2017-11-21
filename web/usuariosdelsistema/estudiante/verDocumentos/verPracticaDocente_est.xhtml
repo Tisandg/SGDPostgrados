@@ -23,13 +23,16 @@
                 <p:panel header="Datos generales">
                     <h:panelGrid columns="2" cellspacing="10">
                         <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
-                        <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.obtenerNombreUsuario(userLoginView.username)}" style="color: #3366ff"/>
+                        <h:outputText id="valNombAut"  value="#{publicacionController.getnombreAut()}" style="color: #3366ff"/>
 
                         <p:outputLabel value="Nombre de la actividad:" style="font-weight:bold;" />
-                        <h:outputText class="form-control" id="valNombActividad"  value="#{practicaDocenteController.selected.idActividad.nombreActividad}" style="color: #3366ff"/>
+                        <h:outputText id="valNombActividad"  value="#{practicaDocenteController.selected.idActividad.nombreActividad}" style="color: #3366ff"/>
+                        
+                        <p:outputLabel value="Descripcion de la actividad:" style="font-weight:bold;" rendered="#{practicaDocenteController.selected.otros != null}"/>
+                        <h:outputText value="#{practicaDocenteController.selected.otros}" style="color: #3366ff" rendered="#{practicaDocenteController.selected.otros != null}"/>
 
                         <p:outputLabel value="Cantidad de horas:" style="font-weight:bold;"/>
-                        <h:outputText class="form-control" id="valHoras"  value="#{practicaDocenteController.selected.numeroHoras}" style="color: #3366ff"/>
+                        <h:outputText id="valHoras"  value="#{practicaDocenteController.selected.numeroHoras}" style="color: #3366ff"/>
                         
                          <h:commandButton   class="botonVerPractica" value="Ver Evidencia" action="#{practicaDocenteController.pdfPubPD()}" onclick="this.form.target = '_blank'" />
                     </h:panelGrid>
