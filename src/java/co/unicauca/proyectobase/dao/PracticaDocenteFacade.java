@@ -48,12 +48,11 @@ public class PracticaDocenteFacade extends AbstractFacade<PracticaDocente> {
         }
     }       
     public List<PracticaDocente> practicaDocente(String nombreUsuario){
-        System.out.println("EL nombre es  "+nombreUsuario);
+        //System.out.println("EL nombre es  "+nombreUsuario);
         javax.persistence.Query query = getEntityManager().createNamedQuery("PracticaDocente.buscarPracticasByNombreUsuario");
         query.setParameter("nombreUsuario", nombreUsuario);
         List<PracticaDocente> lista = null;
-        try {
-            
+        try {            
             lista = query.getResultList();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());

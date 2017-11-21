@@ -171,6 +171,9 @@ public class PracticaDocenteController implements Serializable {
         }
     }
 
+    /**
+     * actualizar el contenido del objeto de ractica docente en la BD
+     */
     public void update() {
         if(actual.getIdActividad().getIdActividad() != 18){
             actual.setOtros(null);            
@@ -179,17 +182,20 @@ public class PracticaDocenteController implements Serializable {
             actual.setNumeroHoras(actual.getIdActividad().getHorasAsignadas());
         }
         
-        if(documento != null){
-            System.out.println("editando");
+        if(documento != null){            
             editarArchivoOpenKM();
         }else{
-            System.out.println("pailas nulo " + documento);
+            System.out.println("DOCUMENTO NULO: " + documento);
         }
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteUpdated"));
         cve.verPracticas();
         Utilidades.redireccionar(cve.getRuta());
     }
     
+    /**
+     * editar el contenido de un archivo en openkm
+     * @return TRUE si se edito el documento, FALSE de lo contrario
+     */
     public boolean editarArchivoOpenKM(){                        
         String tipoPDF = "practicaDocente";
         OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();                        
@@ -198,10 +204,9 @@ public class PracticaDocenteController implements Serializable {
             properties.put("okp:practica.identPublicacion", "" + actual.getPublicacion().getPubIdentificador());
             properties.put("okp:practica.tipoPDFCargar", tipoPDF);            
             QueryParams qParams = new QueryParams();
-            qParams.setProperties(properties);            
-            int posPub = 0;                   
-            String auxDoc = qParams).get(0).getDocument().getPath();
-                
+            qParams.setProperties(properties);                        
+            String auxDoc = ws.find(qParams).get(0).getDocument().getPath();
+            
             //editar archivo de open km           
             //primero se debe hacer un checkout enviando la ruta del archivo que se desea editar
             ws.checkout(auxDoc);
@@ -522,8 +527,8 @@ public class PracticaDocenteController implements Serializable {
 //        }
     }
      public List<PracticaDocente> listadoDesdeEst(String nombreUsuario){
-         //aqui hay que recibir el nombre de usuario como variale
-         System.out.println("Nombre de usuario" + nombreUsuario);
+         //aqui hay que recibir el nombre de usuario como variable
+         //System.out.println("Nombre de usuario" + nombreUsuario);
          List<PracticaDocente> result = ejbFacade.practicaDocente(nombreUsuario);
          return result; 
         //if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {   } 

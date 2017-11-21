@@ -111,12 +111,12 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
      * @return 
      */
     public Estudiante findByUsername(String nombreUsuario) {
-        System.out.println("Buscando por nombre de usuario: " + nombreUsuario);
+        //System.out.println("Buscando por nombre de usuario: " + nombreUsuario);
         Query query = em.createNamedQuery("Estudiante.findByEstUsuario");
         query.setParameter("estUsuario", nombreUsuario);
         List<Estudiante> resultList = query.getResultList();        
         if(!resultList.isEmpty()){    
-            System.out.println("encontrado: " + resultList.get(0).toString());
+            //System.out.println("encontrado: " + resultList.get(0).toString());
             return resultList.get(0);
         }
         return null;

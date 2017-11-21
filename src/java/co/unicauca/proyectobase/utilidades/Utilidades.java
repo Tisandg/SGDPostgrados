@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -38,7 +39,7 @@ public class Utilidades {
             extcontext.redirect(pagina);
         } catch (IOException ex) {
             System.out.println("Errror al redireccionar. err: " + ex.getMessage());
-            Logger.getLogger("Error al redireccionar a " + pagina);
+            Logger.getLogger(Utilidades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
