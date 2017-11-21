@@ -16,6 +16,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Para ejecutar el script debe haber corrido el script de creación de usuario y base de datos (Script_usuario_y_DB.sql), luego por consola se debe ingrear con privilegios root (linux) o administrador (windows) y ejecutar los siguiente:
+-- mysql -u Doctorado -p doctorado < Script_BD_doctorado.sql
+--
+
+--
 -- Table structure for table `actividad_pd`
 --
 
