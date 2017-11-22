@@ -182,14 +182,19 @@ public class PracticaDocenteController implements Serializable {
             actual.setNumeroHoras(actual.getIdActividad().getHorasAsignadas());
         }
         
-        if(documento != null){            
-            editarArchivoOpenKM();
+        if(documento != null){
+            if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
+                FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));
+                return;
+            }else{
+                editarArchivoOpenKM();
+            }
         }else{
             System.out.println("DOCUMENTO NULO: " + documento);
-        }
+        }        
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteUpdated"));
         cve.verPracticas();
-        Utilidades.redireccionar(cve.getRuta());
+        Utilidades.redireccionar(cve.getRuta());        
     }
     
     /**
@@ -618,6 +623,8 @@ public class PracticaDocenteController implements Serializable {
         
         if(!renderizarHorasVar){
             getSelected().setNumeroHoras(aux.getHorasAsignadas());
+        }else{
+            getSelected().setNumeroHoras(null);
         }
         return false;
     }        
