@@ -4,7 +4,7 @@ import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
 
 /**
- * calse para obtener una coneccion a openKM
+ * clase para obtener una coneccion a openKM
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 public class ConeccionOpenKM {

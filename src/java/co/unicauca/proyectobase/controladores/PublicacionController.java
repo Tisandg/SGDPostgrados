@@ -706,7 +706,7 @@ public class PublicacionController implements Serializable {
                 actual.eliminarDocOpenkm();
                 daoPublicacion.remove(actual);
                 daoPublicacion.flush();
-                addMessage("Documentación Eliminada", EDITAR);
+                addMessage("Documentacion ha sido eliminada","");
                 System.out.println("Documentacion eliminada");
 
             } catch (LockException e) {
@@ -1124,23 +1124,14 @@ public class PublicacionController implements Serializable {
         }
     }
 
-    public void cambiarEstado(int id) {
-        try {
-            actual = daoPublicacion.find(id);
-            actual.setPubEstado("Inactivo");
-            daoPublicacion.edit(actual);
-            daoPublicacion.flush();
-            mensajeDeshabilitar();
-        } catch (EJBException e) {
-            System.out.println("error cambiando el estado");
-            System.out.println("error. " + e.getMessage());
+    public String getAutoresSecundarios(){
+        if(!actual.getPubAutoresSecundarios().equals("") || !actual.getPubAutoresSecundarios().isEmpty()){
+            return actual.getPubAutoresSecundarios();
+        }else{
+            return "Ninguno";
         }
     }
-
-    public void mensajeDeshabilitar() {
-        addMessage("Ha deshabilitado satisfactoriamente la publicacion indicada.", "");
-    }
-
+    
     public void habilitarPublicacion(int id) {
         try {
             actual = daoPublicacion.find(id);

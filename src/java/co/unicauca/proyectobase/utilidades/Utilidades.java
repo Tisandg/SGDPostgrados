@@ -54,8 +54,8 @@ public class Utilidades {
      */
     public static void correoRegistroPublicaciones(String destino, String autor, String tipoPublicacion, String tiempo){
         String asunto = "Notificación registro de documento";
-        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de registrar un documento del tipo " 
-                                + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
+        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de registrar un documento del tipo '" 
+                                + tipoPublicacion+ "' en la siguiente fecha y hora: " + tiempo;
         String mensajeEstudiante = "Estimado "+autor + ".\n" + "Se acaba de registrar un documento del tipo " 
                                 + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
         //Correo para el estudiante
@@ -76,9 +76,9 @@ public class Utilidades {
         String mensaje = "Estimado estudiante.\n"
                 + "Se acaba de crear una cuenta de estudiante con sus datos en el sistema de Doctorado en Ciencias de la Electrónica.\n"
                 + "Recuerde que a partir de la fecha puede hacer uso del sistema, ingresando la siguiente información:"
-                + "Nombre Usuario: " + estudiante.getEstUsuario()
-                +"\nContraseña: " + estudiante.getEstCodigo() 
-                +"\n\nServicio notificación DCE.";
+                + "\nNombre Usuario: " + estudiante.getEstUsuario()
+                + "\nContraseña: " + estudiante.getEstCodigo() 
+                + "\n\nServicio notificación DCE.";
         
         /*Se envia el correo al estudiante*/
         enviarCorreo(destinatario,asunto,mensaje);

@@ -103,13 +103,18 @@
                 </p:tab>
                 <br/><br/>                                                 
                 <h:form>                                          
-                    <p:commandButton value="Registrar" onclick="if (!confirm('¿Desea registrar este estudiante?')) {
-                                return false;
-                            }
-                            ;
-                            return true;" actionListener="#{estudianteController.agregar()}" class="btn btn-primary " />
-                    <p:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro del estudiante?')) {
-                                return false;}; return true;" actionListener="#{estudianteController.redirigirAlistar()}" immediate="true"/>
+                    <p:commandButton value="Registrar" action="#{estudianteController.agregar()}" class="btn btn-primary " />
+                    <p:commandButton onclick="PF('dlg2').show();"  value="Cancelar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+
+                    <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false">
+                        <h:form style="font-size: 10px;">
+                            <br/>
+                            <h:outputText value="¿Esta seguro que cancelar el registro del estudiante?" />
+                            <br/><br/>
+                            <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                            <p:commandButton action="#{estudianteController.redirigirAlistar()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                        </h:form>
+                    </p:dialog>
                 </h:form>
                 <br/><br/><br/>
             </h:form>
