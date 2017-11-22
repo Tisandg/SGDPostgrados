@@ -359,14 +359,14 @@ public class PracticaDocenteController implements Serializable {
     }
     
     /**
-     * agrega un registro de practica docente del estudiante BD 
+     * Agrega un registro de practica docente del estudiante BD 
      * @param user nombre de usuario para buscar el estudiante
      */
     public void AgregarPracticaDocente(String user)
     {
         System.out.println("Registrando practica docente");
         boolean formatoValido = true;
-        //validar el formato del docuemtno seleccionado
+        //validar el formato del documento seleccionado
         System.out.println("doc: " + documento.toString());
         if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
             FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));

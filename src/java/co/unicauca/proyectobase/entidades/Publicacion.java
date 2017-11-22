@@ -1,6 +1,7 @@
 package co.unicauca.proyectobase.entidades;
 
 import co.unicauca.proyectobase.controladores.OpenKMController;
+import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import java.io.Serializable;
 import java.util.Collection;
@@ -29,7 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.openkm.sdk4j.bean.Folder;
 import org.apache.commons.io.IOUtils;
 import com.openkm.sdk4j.OKMWebservices;
-import com.openkm.sdk4j.OKMWebservicesFactory;
 import com.openkm.sdk4j.bean.QueryResult;
 import com.openkm.sdk4j.bean.form.FormElement;
 import com.openkm.sdk4j.bean.form.Input;
@@ -346,7 +346,7 @@ public class Publicacion implements Serializable {
         boolean archivosSubidos = false;
         /* Inicia una instancia del Gestor Documental Openkm*/
         this.setPubHash(hash);
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
         try {
             boolean crearFolder;
             String rutaFolderCrear;
@@ -794,7 +794,7 @@ public class Publicacion implements Serializable {
         String rutaFolder="/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario() + "/" + this.pubDiropkm;
         Folder folder = new Folder();
         folder.setPath(rutaFolder);
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
         try {
             /* Se valida si el forder a eliminar existe o no*/
             ws.isValidFolder(rutaFolder);
@@ -813,7 +813,7 @@ public class Publicacion implements Serializable {
     public void SubirOpenKMPD(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash)
     {        
 
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
         try{
             boolean crearFolder;
             String rutaFolderCrear;
@@ -970,7 +970,7 @@ public class Publicacion implements Serializable {
         String tipoPDF = nombreTipoDocumento(tipo);
         archivoPDF archivo = new archivoPDF();
         /*Obtenemos la instancia del openKM*/
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
 
         try {
 
@@ -1041,7 +1041,6 @@ public class Publicacion implements Serializable {
     public String getNombreCompleto(String username){
         System.out.println("Nombre a buscar "+username);
         String nombreCompleto = pubEstIdentificador.getNombreCompleto();
-        //String nombreCompleto = e.getEstNombre()+" "+e.getEstApellido();
         return nombreCompleto;
     }
     
