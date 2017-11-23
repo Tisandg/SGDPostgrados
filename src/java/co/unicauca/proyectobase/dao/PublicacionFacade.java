@@ -356,6 +356,14 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
     
+    /**
+     * Funcion para obtener el numero de creditos de un tipo de publicacion
+     * en especifico. Se busca en la tabla tipo_documento de la base de datos
+     * con el parametro proporcionado y se devuelve el numero de creditos que
+     * se ha establecido en la tabla
+     * @param idTipoPublicacion
+     * @return numeroCreditos
+     */
     public int getCreditosTipoPubicacionPorID(int idTipoPublicacion) {
         String comSimple = "\'";
         String queryStr;

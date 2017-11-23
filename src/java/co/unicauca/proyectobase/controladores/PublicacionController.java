@@ -1230,50 +1230,24 @@ public class PublicacionController implements Serializable {
     }
 
     /**
-     * Método que permite cambia el estado de visado de una publicación en la
-     * base de datos.
+     * Método que permite cambia el estado de visado de la publicación que se 
+     * esta revisando. Se notifica al estudiante mediante correo que la publicacion
+     * ha sido aprobada/rechazada. Solo si se aprobo, se modifica el numero de creditos
+     * de la publicacion. Si se rechazo,se envian las observaciones.
      */
     public void cambiarEstadoVisado() {
         if (!visado.equals("")) {
             actual.setPubVisado(visado);
             daoPublicacion.edit(actual);
-            String correo = actual.getPubEstIdentificador().getEstCorreo();
-
+            boolean aprobo = false;
             if (visado.equalsIgnoreCase("Aprobado")) {
                 cambiarCreditos();
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante, "
-                        + actual.getPubEstIdentificador().getEstNombre() + " "
-                        + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\nSe acaba de APROBAR la publicación "
-                        + actual.obtenerNombrePub() + "."
-                        + "\nQue fue registrada previamente en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\nNúmero de creditos actuales: " + actual.getPubEstIdentificador().getEstCreditos()
-                        + "\n\n\n" + "Servicio notificación DCE.");
+                aprobo = true;
             }
-            if (visado.equalsIgnoreCase("No Aprobado")) {
-                String mensaje = "Estimado estudiante."
-                        + actual.getPubEstIdentificador().getEstNombre() + " "
-                        + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de RECHAZAR la publicación "
-                        + actual.obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\n\n" + "Servicio notificación DCE.";
-                if (!valorTexto.equals("")) {
-                    mensaje = mensaje + "\n\n Observaciones: " + valorTexto;
-                    valorTexto = "";
-                }
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", mensaje);
-            }
-            if (visado.equalsIgnoreCase("espera")) {
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante."
-                        + actual.getPubEstIdentificador().getEstNombre() + " "
-                        + actual.getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de PONER EN ESPERA la publicación "
-                        + actual.obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\n\n" + "Servicio notificación DCE.");
-            }
-            //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                    "Se ha modificado el estado de la publicacion exitosamente", ""));
+            Utilidades.correoVisadoPublicacion(aprobo, actual.getPubEstIdentificador(), actual.obtenerNombrePub(), this.valorTexto);
         }
-
     }
     //</editor-fold>
 

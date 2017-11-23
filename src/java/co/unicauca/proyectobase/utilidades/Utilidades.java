@@ -46,7 +46,7 @@ public class Utilidades {
     /***
      * Metodo que envia las notificaciones de correo electronico al estudiante
      * que registro la publicacion y al coordinador del doctorado. Para el envio
-     * utiliza la funcion enviarCorreo despues de que se crea el mensaje a enviar
+     * utiliza la funcion enviarCorreo, despues de que se crea el mensaje a enviar
      * @param destino
      * @param autor
      * @param tipoPublicacion
@@ -62,6 +62,33 @@ public class Utilidades {
         enviarCorreo(destino,asunto, mensajeEstudiante);
         //Correo para el coordinador
         enviarCorreo("posgradoselectunic@gmail.com",asunto, mensajeCoordinador);
+    }
+    /**
+     * Envio de notificacion por correo al estudiante cuando se haya cambiado
+     * el estado de visado de una documentacion en especifico.
+     * @param aprobado
+     * @param estudiante
+     * @param nombreActividad
+     * @param observaciones 
+     */
+    public static void correoVisadoPublicacion(boolean aprobado, Estudiante estudiante,String nombreActividad,String observaciones ){
+        String asunto = "Notificación revisión de documentos DCE";
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("Estimado estudiante ").append(estudiante.getNombreCompleto()).append(".");
+        if(aprobado){
+            mensaje.append("\n\nSe acaba de APROBAR el documento '").append(nombreActividad)
+                    .append("' que fue registrado previamente en el sistema de Doctorado en Ciencias de la Electrónica.")
+                    .append("\nNúmero de creditos actuales: ").append(estudiante.getEstCreditos());
+                    
+        }else{
+            mensaje.append("\n\nSe acaba de APROBAR el documento '").append(nombreActividad)
+                    .append("' que fue registrado previamente en el sistema de Doctorado en Ciencias de la Electrónica.");
+            if (!observaciones.equals("")) {
+                mensaje.append("\n Observaciones: ").append(observaciones);
+            }
+        }
+        mensaje.append("\n\n\nServicio notificación DCE.");
+        enviarCorreo(estudiante.getEstCorreo(), asunto, mensaje.toString());
     }
     
     
