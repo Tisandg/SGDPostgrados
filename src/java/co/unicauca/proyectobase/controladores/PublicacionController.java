@@ -191,17 +191,6 @@ public class PublicacionController implements Serializable {
         this.numActa = numActa;
     }
 
-
-    /**
-     * Funcion que retorna el nombre completo del autor de la publicacion 
-     * que se esta observando actualmente
-     * @param nombreUsuario
-     * @return nombreCompleto
-     */
-    public String getNombreCompleto(String nombreUsuario){
-        return actual.getPubEstIdentificador().getEstNombre()+" "+actual.getPubEstIdentificador().getEstApellido();        
-    }
-
     /**
      * metodo para buscar el nombre de usuario de cada publicacion que desea ver
      * el coordinador
@@ -212,9 +201,13 @@ public class PublicacionController implements Serializable {
         return daoEst.findNombreById(actual.getPubEstIdentificador());
     }
 
+    /**
+     * Obtener el nombre com
+     * @param nombreUsuario
+     * @return 
+     */
     public String obtenerNombreUsuarioById(Estudiante nombreUsuario) {
         return daoEst.findNombreById(nombreUsuario);
-
     }
 
     public String getCreditos() {
@@ -379,6 +372,14 @@ public class PublicacionController implements Serializable {
         facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
 
+    /**
+     * Metodo para visualizar la carta de aprobacion(o evidencia) que se ha 
+     * registrado con la publicacion. Este archivo se obtiene del gestor OpenKM
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+     */
     public void pdfCartaAprob() throws FileNotFoundException, IOException, IOException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPublic = actual.descargarDocumento(2);
@@ -402,6 +403,14 @@ public class PublicacionController implements Serializable {
         }
     }
 
+    /**
+     * Metodo para visualizar el documento de la publicacion con el que se
+     * ha registrado. El archivo es obtenido desde OpenKM
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+     */
     public void pdfPub() throws FileNotFoundException, IOException, IOException, IOException {
 
         archivoPDF archivoPublic = actual.descargarDocumento(1);
@@ -424,6 +433,14 @@ public class PublicacionController implements Serializable {
         }
     }
 
+    /**
+     * Metodo para visualizar la tabla de contenido que se ha registrado junto
+     * con la publicacion. El archivo es obtenido desde el OpenKM
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+     */
     public void pdfPubTC() throws FileNotFoundException, IOException, IOException, IOException {
         
         archivoPDF archivoPublic = actual.descargarDocumento(3);
@@ -797,6 +814,11 @@ public class PublicacionController implements Serializable {
         setAuxEstudiante(est);
     }
 
+    /**
+     * Funcion para obtener el nombre completo del autor de la publicacion o
+     * practica.
+     * @return nombre autor completo
+     */
     public String getnombreAut() {
         Estudiante est = getAuxEstudiante();
         return est.getEstNombre() + " " + est.getEstApellido();
@@ -882,10 +904,15 @@ public class PublicacionController implements Serializable {
         return edicion;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="metodos para rediriguir">    
+    //<editor-fold defaultstate="collapsed" desc="metodos para rediriguir">  
+    /**
+     * Metodo que redirige a la vista de una publicacion en particular.
+     * Esta vista es propia del rol coordinador
+     * @param pub 
+     */
     public void verPublicacion(Publicacion pub) {
         actual = pub;
-        cvc.listarPublicacionesEstudiante();
+        cvc.verPublicacionCoordinador();
         Utilidades.redireccionar(cvc.getRuta());
     }
 
@@ -900,6 +927,11 @@ public class PublicacionController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
 
+    /**
+     * Metodo para redirigir a la vista de edicion de la publicacion.
+     * Con el parametro se obtiene referencia de la publicacion a editar
+     * @param pub 
+     */
     public void irAEditar(Publicacion pub) {
         actual = pub;
         cve.editarDocumentacion();
@@ -1069,36 +1101,42 @@ public class PublicacionController implements Serializable {
         requestContext.update("filemessage");
     }
 
+    
+    //Metodos repetido con documento Controller
+     
     /**
-     * Metodos repetido con documento Controller
+     * Funcion para determinar si renderiza los campos de revista 
+     * @return 
      */
     public boolean renderizarRevista() {
         return actual.getIdTipoDocumento().getIdentificador() == 4;
     }
 
+    /**
+     * Funcion que determina si renderiza los campos de congreso
+     * @return 
+     */
     public boolean renderizarCongreso() {
         return actual.getIdTipoDocumento().getIdentificador() == 3;
     }
 
+    /**
+     * Funcion que determina si renderiza los campos de libro
+     * @return 
+     */
     public boolean renderizarLibro() {
         return actual.getIdTipoDocumento().getIdentificador() == 1;
     }
 
+    /**
+     * Funcion que determina si renderiza los campos de capitulo libro
+     * @return 
+     */
     public boolean renderizarCapLibro() {
         return actual.getIdTipoDocumento().getIdentificador() == 2;
     }
 
-    /*public void asignarCreditos() {
-        // Obtiene la fecha correspondiente al moemento en el que se 
-            //realiza el visado de la publicacion
-       Date date = new Date();
 
-        int auxCreditos = Integer.parseInt(creditos);        
-        actual.setPubFechaVisado(date);
-        daoPublicacion.edit(actual);
-        daoPublicacion.flush();
-        redirigirAlistar();
-    }*/
     public void mensajeVisar() {
         addMessage("Ha visado satisfactoriamente la publicacion", "");
     }
@@ -1203,6 +1241,12 @@ public class PublicacionController implements Serializable {
         }
     }
 
+    /**
+     * Metodo para obtener los autores secundarios de la publicacion. Si hay
+     * autores secundarios se retorn los nombres de lo contrario se retorna
+     * "Ninguno"
+     * @return 
+     */
     public String getAutoresSecundarios(){
         if(!actual.getPubAutoresSecundarios().equals("") || !actual.getPubAutoresSecundarios().isEmpty()){
             return actual.getPubAutoresSecundarios();
@@ -1299,7 +1343,7 @@ public class PublicacionController implements Serializable {
     }
 
     /**
-     * agrega un autor secundario a la lista de autores secundarios
+     * Metodo que agrega temporalmente los autores secundarios en una lista.
      */
     public void agregarAutorSecundario() {
         System.out.print("adicionando autor");
@@ -1318,8 +1362,7 @@ public class PublicacionController implements Serializable {
     }
 
     /**
-     * elimina un autor secundario de la lista de autores secundarios
-     *
+     * Elimina un autor secundario de la lista de autores secundarios
      * @param nombre nombre del autor a eliminar
      */
     public void eliminarAutorSecundario(String nombre) {
@@ -1496,6 +1539,9 @@ public class PublicacionController implements Serializable {
         this.idCiudad = idCiudad;
     }
 
+    /**
+     * Metodo para actualizar la lista de ciudades segun el pais seleccionado.
+     */
     public void actualizarCiudades() {
         System.out.println("lista de ciudades de " + idPais);
         this.listaCiudades = this.ejbCiudad.getCiudadPorPais(this.idPais);

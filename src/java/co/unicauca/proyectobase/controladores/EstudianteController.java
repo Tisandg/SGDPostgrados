@@ -413,6 +413,12 @@ public class EstudianteController implements Serializable {
         return this.estFacade;
     }
 
+    /**
+     * Metodo que me retorna el listado de las publicaciones que ha registrado
+     * el estudiante.
+     * @param codigo
+     * @return 
+     */
     public List<Publicacion> PublicacionPorEstudiante(String codigo)
     {
 

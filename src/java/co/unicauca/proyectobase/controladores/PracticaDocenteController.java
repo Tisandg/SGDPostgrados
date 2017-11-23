@@ -466,7 +466,7 @@ public class PracticaDocenteController implements Serializable {
     }
     
     /**
-     * rediriguir a listar practica docente 
+     * Redirigir a listar practica docente .
      */
     public void redirigirListarPracticasEst() 
     {        
@@ -474,6 +474,12 @@ public class PracticaDocenteController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
     
+    /**
+     * Metodo para redirigir a la vista de registro de una practica docente.
+     * Con el nombre de usuario se establece el usuario quien va a registrar
+     * la practica
+     * @param nombreUsuario 
+     */
     public void redirigirRegistrarPracticaDocente(String nombreUsuario) {
         limpiarCampos(nombreUsuario);        
         cve.registrarPractica();        
@@ -531,32 +537,28 @@ public class PracticaDocenteController implements Serializable {
 //            return resultFilter;           
 //        }
     }
+    
+    /**
+     * Consulta las practicas registradas por el usuario y las retorna en un 
+     * listado
+     * @param nombreUsuario
+     * @return 
+     */
      public List<PracticaDocente> listadoDesdeEst(String nombreUsuario){
-         //aqui hay que recibir el nombre de usuario como variable
-         //System.out.println("Nombre de usuario" + nombreUsuario);
          List<PracticaDocente> result = ejbFacade.practicaDocente(nombreUsuario);
          return result; 
-        //if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {   } 
-      /*  else {
-            List<PracticaDocente> resultFilter = new ArrayList<>();  
-            //revisar, esta haciendo las consultas tres veces
-            //System.out.println(result.size());
-            for (PracticaDocente item : result) {                                
-                String nombre = item.getPublicacion().getPubEstIdentificador().getEstNombre() + item.getPublicacion().getPubEstIdentificador().getEstApellido();                
-                if(nombre.contains(variableFiltrado) || 
-                        item.getFechaIn().contains(variableFiltrado) || 
-                        item.getFechaTer().contains(variableFiltrado) || 
-                        item.getLugarPractica().contains(variableFiltrado)){
-                    resultFilter.add(item);
-                }                
-            }
-            return resultFilter;           
-        }*/
-     // return null;
     }
     
     //</editor-fold>
      
+    /**
+     * Metodo para visualizar el documento de evidencia registrado junto con 
+     * la practica. Este documento se obtiene del gestor OpenKM
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+    */
     public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaPubPrac();                   
         if (archivoPublic.getNombreArchivo().equals("")) {

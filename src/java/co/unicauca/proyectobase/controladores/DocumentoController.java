@@ -34,8 +34,6 @@ import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-/*import java.nio.charset.StandardCharsets;
-import java.util.Base64;*/
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -695,7 +693,7 @@ public class DocumentoController implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="metodos para rediriguir">    
     public void verPublicacion(Publicacion pub) {
         actual = pub;
-        cvc.listarPublicacionesEstudiante();
+        cvc.verPublicacionCoordinador();
         Utilidades.redireccionar(cvc.getRuta());
     }
 

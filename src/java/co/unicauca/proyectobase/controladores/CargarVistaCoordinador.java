@@ -107,7 +107,7 @@ public class CargarVistaCoordinador implements Serializable
     /**
      * Ruta hacia la vista una publicacion en particular
      */
-    public void listarPublicacionesEstudiante()
+    public void verPublicacionCoordinador()
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/coordinador/listarPub/VerPublicacion_Coord.xhtml";
     }

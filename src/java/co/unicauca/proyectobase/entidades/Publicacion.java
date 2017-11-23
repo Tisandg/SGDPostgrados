@@ -1039,8 +1039,12 @@ public class Publicacion implements Serializable {
         return nombrePub;
     }
     
-    public String getNombreCompleto(String username){
-        System.out.println("Nombre a buscar "+username);
+    /**
+     * Funcion para obtener el nombre completo del estudiante que registro
+     * la publicacion.
+     * @return nombreCompleto
+     */
+    public String getNombreCompleto(){
         String nombreCompleto = pubEstIdentificador.getNombreCompleto();
         return nombreCompleto;
     }

@@ -47,7 +47,7 @@
                                   style="text-align: left;">   
 
                     <p:column headerText="Nombre autor principal" >
-                        <h:outputText value="#{publicacionController.obtenerNombreUsuarioById(pub.pubEstIdentificador)}"/>
+                        <h:outputText value="#{pub.getNombreCompleto()}"/>
                     </p:column>
                     <p:column headerText="Tipo de documento"  >
                         <h:outputText value="#{pub.idTipoDocumento.nombre}"/>
