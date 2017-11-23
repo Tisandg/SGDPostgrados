@@ -18,15 +18,16 @@
                 </span>
             </div>
                         
-            <h:form id="form_registrar">
-                <p:tab  title="Información documentacion" titleStyleClass="title">             
+            
+            <p:tab  title="Información documentacion" titleStyleClass="title">             
+                <h:form id="form_registrar" enctype="multipart/form-data">
                     <p:panel header="Datos registrados">
                         <h:panelGrid columns="3" cellpadding="5">                                   
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.getNombreCompleto(userLoginView.username)}" style="color: #3366ff"/>
                             <p:outputLabel value="" styleClass="addEspacio"/>
-                            
+
                             <p:outputLabel value="Autores secundarios:" styleClass="addEspacio"/>
                             <p:inputText value="#{publicacionController.nombreAutor}" id="autor" placeholder="Ingrese nombre autor aquí" size="43">
                                 <f:validator validatorId="validadorAutoresSecundarios" />
@@ -57,8 +58,9 @@
 
                         </h:panelGrid>
                         <br/>
+
                         <p:panel header="Información documento">
-                            
+
                             <!-- Revista -->
                             <h:panelGrid columns="5" cellpadding="5" rendered="#{publicacionController.renderizarRevista() == true}">
                                 <h:panelGroup>
@@ -72,7 +74,7 @@
                                 <p:message for="valDOIRev" id="msjValDOIRev" />
                                 <p:commandLink style="color: blue" value="Conozca más sobre el DOI" onclick="window.open('https://goo.gl/AKGq9b'); return false;" />
                                 <p:commandLink style="color: blue" value="Verifique su DOI" onclick="window.open('https://goo.gl/jPGYcc'); return false;" />
-                                
+
                                 <h:panelGroup>
                                 <p:outputLabel value="Título artículo:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
@@ -83,8 +85,8 @@
                                 </p:inputText>
                                 <p:message for="valNArticulo" id="msjValNombreArticulo" />
                                 <p:outputLabel value=""/><p:outputLabel value=""/>
-                                
-                                
+
+
                                 <h:panelGroup>
                                     <p:outputLabel value="Nombre revista:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
@@ -113,12 +115,12 @@
                                 </p:selectOneMenu>
                                 <p:message for="valCategoria" id="msjvalCategoriaRevista" />
                                 <p:commandLink style="color: blue" value="Homologación de categoría de la revista" onclick="window.open('https://goo.gl/2Ul5BG'); return false;" />                           
-                                
+
                             </h:panelGrid>
 
                             <!-- Congreso -->
                             <h:panelGrid columns="5" cellpadding="5" rendered="#{publicacionController.renderizarCongreso() == true}">
-                                
+
                                 <h:panelGroup>
                                     <p:outputLabel value="Fecha inicio" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
@@ -144,7 +146,7 @@
                                 </p:calendar>
                                 <p:message for="fechaFin" id="msjValFechaPublicacionFin" />
                                 <p:outputLabel value=""/><p:outputLabel value=""/>
-                                
+
                                 <h:panelGroup>
                                     <h:outputLabel value="ISSN:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
@@ -233,7 +235,7 @@
                                                    itemLabel="#{ciudadItem.ciudNombre}"/>
                                 </p:selectOneMenu>
                                 <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
-                                
+
                             </h:panelGrid>            
 
                             <!-- Libro -->
@@ -252,7 +254,7 @@
                                 <p:message for="valISBNLibro" id="msjValISBNLibro" /> 
                                 <p:commandLink style="color: blue" value="Conozca más sobre el ISBN" onclick="window.open('https://goo.gl/jQFjlJ'); return false;" />
                                 <p:commandLink style="color: blue" value="Verifique su ISBN" onclick="window.open('https://goo.gl/DQUANK'); return false;" />
-                                
+
                                 <h:panelGroup>
                                     <p:outputLabel value="Título libro:" styleClass="addEspacio"/>
                                     <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
@@ -350,14 +352,12 @@
                                 </p:inputText>
                                 <p:message for="valTCapLibro" id="msjvalTCapLibro" />
                                 <p:outputLabel value=""/><p:outputLabel value=""/>
-                                              
+
                             </h:panelGrid>            
 
-                            
-                        </p:panel>
-                        
-                        <h:panelGrid columns="4" cellpadding="2" id="panelRegistrar"  >
-                                
+                            <!-- Documentos pdf-->
+                            <h:panelGrid columns="4" cellpadding="2" id="panelRegistrar"  >
+
                                 <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
                                 <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfCartaAprob()}" onclick="this.form.target = '_blank'" />
                                 <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
@@ -369,36 +369,33 @@
                                 <p:fileUpload id="publicacionPDF" styleClass="btn btn-primary" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
                                               update="messagesPublicacion"/>
                                  <p:growl id="messagesPublicacion" showDetail="true" />
-                                
+
 
                                 <p:outputLabel value="Tabla de contenido:" style="font-weight:bold;"/>
                                 <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfPubTC()}" onclick="this.form.target = '_blank'" />
                                 <p:fileUpload id="tablaContenidoPDF" styleClass="btn btn-primary" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
                                               update="messagesTabla"/>
                                 <p:growl id="messagesTabla" showDetail="true" />
-                                
-                                
+
                             </h:panelGrid>
-                            
-                            <h:form style="font-size: 10px;">
-                                <p:commandButton onclick="PF('dlg2').show();"  value="Cancelar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                                <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false">
-                                    <h:form style="font-size: 10px;">
-                                        <br/>
-                                        <h:outputText value="¿Esta seguro que desea cancelar la edicion?" />
-                                        <br/><br/>
-                                        <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                                        <p:commandButton action="#{publicacionController.redirigirPublicacionesEst()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                                    </h:form>
-                                </p:dialog>
-                                <p:commandButton value="Guardar" action="#{publicacionController.guardarEdicion()}" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/> 
-                           </h:form>
+
+                            <h:commandButton value="Guardar" actionListener="#{publicacionController.guardarEdicion()}" class="botonVerPractica" style="font-size: 13px;"/> 
+                            <p:commandButton onclick="PF('dlg2').show();"  value="Cancelar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                            <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false">
+                                <h:form style="font-size: 10px;">
+                                    <br/>
+                                    <h:outputText value="¿Esta seguro que desea cancelar la edicion?" />
+                                    <br/><br/>
+                                    <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                    <p:commandButton action="#{publicacionController.redirigirPublicacionesEst()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                </h:form>
+                            </p:dialog>
+
+                        </p:panel>
+
                     </p:panel>
-                </p:tab>
-                <br/>                        
-                <p:commandButton  value="Volver" actionListener="#{publicacionController.redirigirPublicacionesEst()}" class="btn btn-primary"/>                       
-                <br/><br/><br/>
-            </h:form>
+                </h:form>
+            </p:tab>
         </ui:define>
     </ui:composition>
 </html>

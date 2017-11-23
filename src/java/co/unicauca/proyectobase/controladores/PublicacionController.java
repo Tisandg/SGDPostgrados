@@ -72,8 +72,8 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
- * vistas que maneja este controlador
- * 
+ * Vistas del controlador
+ * EditarPublicacion_Est,
  * @author Santiago
  */
 @Named(value = "publicacionController")
@@ -454,6 +454,12 @@ public class PublicacionController implements Serializable {
         }
     }
 
+    /**
+     * Metodo que descarga la carta de aprovacion(o Evidencia) de la publicacion.
+     * Este se descarga desde el gestor OpenKM
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void descargarCartaAprobac() throws FileNotFoundException, IOException {
         
         archivoPDF archivoPublic = actual.descargarDocumento(2);
@@ -484,6 +490,12 @@ public class PublicacionController implements Serializable {
         }
     }
 
+    /**
+     * Metodo para descargar el documento de la publicacion que se ha registrado.
+     * Este documento se descarga desde el gestor OpenKM
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void descargarPublicacion() throws FileNotFoundException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPublic = actual.descargarDocumento(1);
@@ -514,6 +526,12 @@ public class PublicacionController implements Serializable {
 
     }
 
+    /**
+     * Metodo para descargar el documento de la tabla de contenido que
+     * se ha registrado con la publicacion. Este se descarga desde openKM
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void descargarPubTC() throws FileNotFoundException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPubTC = actual.descargarDocumento(3);
@@ -559,25 +577,28 @@ public class PublicacionController implements Serializable {
         if (cartaAprobacionPDF != null && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
             tituloMensaje = "Evidencia";
             mensaje = "Debe subir la carta de aprobación en formato PDF";
-            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
             this.numeroDocumentos++;
+            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
+            
         }
         if (publicacionPDF != null && !publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
             tituloMensaje = "Publicacion";
             mensaje = "Debe subir la publicación en formato PDF";
-            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
             this.numeroDocumentos++;
+            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
+            
         }
-        if (publicacionPDF != null && !TablaContenidoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(TablaContenidoPDF.getContentType())) {
+        if (TablaContenidoPDF != null && !TablaContenidoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(TablaContenidoPDF.getContentType())) {
             tituloMensaje = "Tabla de contenido";
             mensaje = "Debe subir la Tabla de Contenido en formato PDF";
-            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
             this.numeroDocumentos++;
+            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
+            
         }
         if(this.numeroDocumentos > 0){
             validos = false;
         }
-        System.out.println("numero de documentos "+this.numeroDocumentos);
+        System.out.println("Numero de documentos "+this.numeroDocumentos);
         return validos;
     }
 
@@ -807,9 +828,14 @@ public class PublicacionController implements Serializable {
             mensajeEditar();
             redirigirPublicacionesEst();
         }
-        
     }
     
+    /**
+     * Funcion que actualiza los documentos previamente registrados en el openkm
+     * por los nuevos que quiero subir. Se busca en openKm con el id de la 
+     * publicacion y el tipo de documento y se reemplaza la informacion
+     * @return 
+     */
     public boolean editarAchivosOpenKm(){
         boolean edicion = false;
         StringBuilder tipoPDF = new StringBuilder("");
