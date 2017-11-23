@@ -198,7 +198,7 @@ public class PracticaDocenteController implements Serializable {
     }
     
     /**
-     * editar el contenido de un archivo en openkm
+     * Editar el contenido de un archivo en openkm
      * @return TRUE si se edito el documento, FALSE de lo contrario
      */
     public boolean editarArchivoOpenKM(){                        

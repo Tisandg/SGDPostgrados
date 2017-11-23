@@ -18,10 +18,25 @@ import co.unicauca.proyectobase.entidades.CapituloLibro;
 import co.unicauca.proyectobase.entidades.Ciudad;
 import co.unicauca.proyectobase.entidades.Pais;
 import co.unicauca.proyectobase.entidades.archivoPDF;
-import co.unicauca.proyectobase.login.UserLoginView;
 import co.unicauca.proyectobase.utilidades.Autor;
+import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import co.unicauca.proyectobase.utilidades.Utilidades;
+import com.openkm.sdk4j.OKMWebservices;
+import com.openkm.sdk4j.bean.QueryParams;
+import com.openkm.sdk4j.exception.AccessDeniedException;
+import com.openkm.sdk4j.exception.AutomationException;
+import com.openkm.sdk4j.exception.DatabaseException;
+import com.openkm.sdk4j.exception.ExtensionException;
+import com.openkm.sdk4j.exception.FileSizeExceededException;
 import com.openkm.sdk4j.exception.LockException;
+import com.openkm.sdk4j.exception.ParseException;
+import com.openkm.sdk4j.exception.PathNotFoundException;
+import com.openkm.sdk4j.exception.RepositoryException;
+import com.openkm.sdk4j.exception.UnknowException;
+import com.openkm.sdk4j.exception.UserQuotaExceededException;
+import com.openkm.sdk4j.exception.VersionException;
+import com.openkm.sdk4j.exception.VirusDetectedException;
+import com.openkm.sdk4j.exception.WebserviceException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -32,7 +47,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
@@ -116,6 +133,8 @@ public class PublicacionController implements Serializable {
 
     private int idPais;
     private int idCiudad;
+    
+    private int numeroDocumentos;
 
     public String getTipoPublicacion() {
         return tipoPublicacion;
@@ -385,7 +404,6 @@ public class PublicacionController implements Serializable {
 
     public void pdfPub() throws FileNotFoundException, IOException, IOException, IOException {
 
-        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPublic = actual.descargarDocumento(1);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF para esta publicacion", ""));
@@ -407,7 +425,7 @@ public class PublicacionController implements Serializable {
     }
 
     public void pdfPubTC() throws FileNotFoundException, IOException, IOException, IOException {
-        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        
         archivoPDF archivoPublic = actual.descargarDocumento(3);
         if (archivoPublic.getNombreArchivo().equals("")) {
             System.out.println("Error al obtener tabla de contenido de controlador de publicaciones");
@@ -437,7 +455,7 @@ public class PublicacionController implements Serializable {
     }
 
     public void descargarCartaAprobac() throws FileNotFoundException, IOException {
-        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        
         archivoPDF archivoPublic = actual.descargarDocumento(2);
         if (archivoPublic.getNombreArchivo().equals("")) {
             FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Para esta publicacion el Usuario no ha cargado un PDF de la carta de aprobacion  ", ""));
@@ -529,41 +547,43 @@ public class PublicacionController implements Serializable {
     }
 
     /**
-     * *
-     * Funcion para comprobar que los archivos de la publicados sean cargados y
-     * que esten en formato pdf
-     *
+     * Funcion para comprobar que los archivos de la publicados cargados 
+     * esten en formato pdf
      * @return true si son validos los archivos
      */
     public boolean comprobarArchivosPDF() {
+        this.numeroDocumentos = 0;
         boolean validos = true;
         String tituloMensaje = "";
         String mensaje = "";
-        if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
-            tituloMensaje = "valPublicacion";
-            mensaje = "Debe subir la publicación en formato PDF";
-            validos = false;
-        }
-        if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(TablaContenidoPDF.getContentType())) {
-            tituloMensaje = "valTContenido";
-            mensaje = "Debe subir la Tabla de Contenido en formato PDF";
-            validos = false;
-        }
-        if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
-            tituloMensaje = "cartaAprobacion";
+        if (cartaAprobacionPDF != null && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
+            tituloMensaje = "Evidencia";
             mensaje = "Debe subir la carta de aprobación en formato PDF";
+            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
+            this.numeroDocumentos++;
+        }
+        if (publicacionPDF != null && !publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
+            tituloMensaje = "Publicacion";
+            mensaje = "Debe subir la publicación en formato PDF";
+            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
+            this.numeroDocumentos++;
+        }
+        if (publicacionPDF != null && !TablaContenidoPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(TablaContenidoPDF.getContentType())) {
+            tituloMensaje = "Tabla de contenido";
+            mensaje = "Debe subir la Tabla de Contenido en formato PDF";
+            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
+            this.numeroDocumentos++;
+        }
+        if(this.numeroDocumentos > 0){
             validos = false;
         }
-        if (validos == false) {
-            FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
-        }
+        System.out.println("numero de documentos "+this.numeroDocumentos);
         return validos;
     }
 
     /**
      * Metodo para registrar la publicacion en la base de datos y subir los
      * documentos al gestor de documentos openKM
-     *
      * @throws IOException
      */
     public void registrarPublicacion() throws IOException {
@@ -762,7 +782,6 @@ public class PublicacionController implements Serializable {
     }
 
     /**
-     * *
      * Metodo para guardar los cambios realizados en una publicacion. Una vez
      * guardados se redirecciona a la lista de publicaciones del estudiante.
      */
@@ -777,11 +796,64 @@ public class PublicacionController implements Serializable {
             actual.getCongreso().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
             System.out.println("Tipo de evento " + actual.getCongreso().getCongTipoCongreso());
         }
+        boolean formatoValido = comprobarArchivosPDF();
+        if(formatoValido){
+            if(this.numeroDocumentos>0){
+                /*Editamos los archivos en el openkm*/
+                editarAchivosOpenKm();
+            }
+            daoPublicacion.edit(actual);
+            System.out.println("Datos editados");
+            mensajeEditar();
+            redirigirPublicacionesEst();
+        }
+        
+    }
+    
+    public boolean editarAchivosOpenKm(){
+        boolean edicion = false;
+        StringBuilder tipoPDF = new StringBuilder("");
+        int contadorDocumentos = 0;
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();
+        while(contadorDocumentos<3){
+            UploadedFile documento = null;
+            if (!publicacionPDF.getFileName().equalsIgnoreCase("")) {
+                tipoPDF.replace(0,tipoPDF.length()-1,"tipoPublicacion");
+                documento = publicacionPDF;
+            }
+            if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
+                tipoPDF.replace(0,tipoPDF.length()-1,"cartaAprobacion");
+                documento = cartaAprobacionPDF;
+            }
+            if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("")) {
+                tipoPDF.replace(0,tipoPDF.length()-1,"tablaContenido");
+                documento = TablaContenidoPDF;
+            }
+            try {
+                Map<String, String> properties = new HashMap();                        
+                properties.put("okp:practica.identPublicacion", "" + actual.getPubIdentificador());
+                properties.put("okp:practica.tipoPDFCargar", tipoPDF.toString());            
+                QueryParams qParams = new QueryParams();
+                qParams.setProperties(properties);                        
+                String auxDoc = ws.find(qParams).get(0).getDocument().getPath();
 
-        daoPublicacion.edit(actual);
-        System.out.println("Datos editados");
-        mensajeEditar();
-        redirigirPublicacionesEst();
+                //editar archivo de open km           
+                //primero se debe hacer un checkout enviando la ruta del archivo que se desea editar
+                ws.checkout(auxDoc);
+                //con un checkin se envia la ruta(debe ser la misma), el flujo de string y 
+                //unas observaciones que se envian en blanco
+                ws.checkin(auxDoc, documento.getInputstream(), "");
+                edicion = true;
+            }catch (FileSizeExceededException | UserQuotaExceededException | VirusDetectedException | LockException | VersionException | 
+                    PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | 
+                    ExtensionException | AutomationException | UnknowException | WebserviceException | ParseException ex) {
+                Logger.getLogger(PracticaDocenteController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("error en editarArchivoOpenKM");
+                System.out.println("error: " + ex.getMessage());
+            }
+            contadorDocumentos++;
+        }
+        return edicion;
     }
 
     //<editor-fold defaultstate="collapsed" desc="metodos para rediriguir">    
@@ -806,35 +878,16 @@ public class PublicacionController implements Serializable {
         actual = pub;
         cve.editarDocumentacion();
         extraerAutoresSecundarios();
-        if (actual.getIdTipoDocumento().getIdentificador() == 4) {
-
-        }
         if (actual.getIdTipoDocumento().getIdentificador() == 3) {
             idPais = actual.getCongreso().getCiudadId().getPaisId().getPaisId();
             idCiudad = actual.getCongreso().getCiudadId().getCiudId();
             actualizarCiudades();
-        }
-        if (actual.getIdTipoDocumento().getIdentificador() == 2) {
-
         }
         if (actual.getIdTipoDocumento().getIdentificador() == 1) {
             idPais = actual.getLibro().getCiudadId().getPaisId().getPaisId();
             idCiudad = actual.getLibro().getCiudadId().getCiudId();
             actualizarCiudades();
         }
-        /*Cargamos los archivos pdf que han registrado*/
-        archivoPDF publicacion = actual.descargarDocumento(1);
-        archivoPDF evidencia = actual.descargarDocumento(2);
-        archivoPDF tabla = actual.descargarDocumento(3);
-        if (publicacion != null) {
-            publicacion.setNombreArchivo(publicacion.getNombreArchivo());
-
-        }
-        if (evidencia != null) {
-        }
-        if (tabla != null) {
-        }
-
         Utilidades.redireccionar(cve.getRuta());
     }
 
@@ -944,7 +997,7 @@ public class PublicacionController implements Serializable {
 
     /*mensajes de confirmacion */
     public void mensajeEditar() {
-        addMessage("Informe." , "Se editó satisfactoriamente la publicacion");
+        addMessage("Edicion exitosa","Se registrado los cambios de la publicacion satisfactoriamente");
     }
 
     public void mensajeconfirmarRegistro() {

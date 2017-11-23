@@ -114,12 +114,6 @@
                                 <p:message for="valCategoria" id="msjvalCategoriaRevista" />
                                 <p:commandLink style="color: blue" value="Homologación de categoría de la revista" onclick="window.open('https://goo.gl/2Ul5BG'); return false;" />                           
                                 
-                                <h:outputLabel value=""/>
-                                <h:panelGroup>
-                                    <h:outputLabel value="Artículo PDF:" styleClass="addEspacio"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
-                                </h:panelGroup>
-                                <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>    
                             </h:panelGrid>
 
                             <!-- Congreso -->
@@ -240,11 +234,6 @@
                                 </p:selectOneMenu>
                                 <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                                 
-                                <h:panelGroup>
-                                    <p:outputLabel value="Congreso PDF:" styleClass="addEspacio"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                                </h:panelGroup>    
-                                <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
                             </h:panelGrid>            
 
                             <!-- Libro -->
@@ -321,11 +310,6 @@
                                 </p:selectOneMenu>
                                 <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
 
-                                <h:panelGroup>
-                                    <p:outputLabel value="Libro PDF:"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                                </h:panelGroup>
-                                <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />
                             </h:panelGrid>            
 
                             <!-- Capitulo libro-->
@@ -366,33 +350,33 @@
                                 </p:inputText>
                                 <p:message for="valTCapLibro" id="msjvalTCapLibro" />
                                 <p:outputLabel value=""/><p:outputLabel value=""/>
-                                
-
-                                <h:panelGroup>
-                                    <p:outputLabel value="Capítulo libro PDF:"/>
-                                    <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
-                                </h:panelGroup>
-                                <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
-                                
+                                              
                             </h:panelGrid>            
 
-                            <h:panelGrid columns="3" cellpadding="5" id="panelRegistrar"  >
+                            
+                        </p:panel>
+                        
+                        <h:panelGrid columns="4" cellpadding="2" id="panelRegistrar"  >
                                 
-                                    <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
-                                    <p:fileUpload value="#{publicacionController.cartaAprobacionPDF}" mode="simple" label="Subir archivo" dragDropSupport="false"
-                                            update="messagesEvidencia" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" />
+                                <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
+                                <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfCartaAprob()}" onclick="this.form.target = '_blank'" />
+                                <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
+                                              update="messagesEvidencia"/>
+                                <p:growl id="messagesEvidencia" showDetail="true" />
 
-                                     <p:growl id="messagesEvidencia" showDetail="true" />
+                                <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
+                                <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfPub()}" onclick="this.form.target = '_blank'" />
+                                <p:fileUpload id="publicacionPDF" styleClass="btn btn-primary" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
+                                              update="messagesPublicacion"/>
+                                 <p:growl id="messagesPublicacion" showDetail="true" />
                                 
-                                    <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
-                                    <p:fileUpload value="#{publicacionController.publicacionPDF}" mode="simple" label="Subir archivo" uploadLabel="" cancelLabel="" dragDropSupport="false"
-                                            update="messagesPublicacion" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" />
-                                     <p:growl id="messagesPublicacion" showDetail="true" />
+
+                                <p:outputLabel value="Tabla de contenido:" style="font-weight:bold;"/>
+                                <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfPubTC()}" onclick="this.form.target = '_blank'" />
+                                <p:fileUpload id="tablaContenidoPDF" styleClass="btn btn-primary" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
+                                              update="messagesTabla"/>
+                                <p:growl id="messagesTabla" showDetail="true" />
                                 
-                                    <p:outputLabel value="Tabla de contenido:" style="font-weight:bold;"/>
-                                    <p:fileUpload value="#{publicacionController.tablaContenidoPDF}" mode="simple" label="Subir archivo" dragDropSupport="false"
-                                            update="messagesTabla" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" />
-                                     <p:growl id="messagesTabla" showDetail="true" />
                                 
                             </h:panelGrid>
                             
@@ -409,7 +393,6 @@
                                 </p:dialog>
                                 <p:commandButton value="Guardar" action="#{publicacionController.guardarEdicion()}" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/> 
                            </h:form>
-                        </p:panel>
                     </p:panel>
                 </p:tab>
                 <br/>                        

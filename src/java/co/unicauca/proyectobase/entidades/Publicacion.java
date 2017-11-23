@@ -961,7 +961,8 @@ public class Publicacion implements Serializable {
      * Descarga los documentos subidos a OpenKM para poder visualizarlos.
      * Dependiendo del tipo de documento, se busca en en OpenKM si se encuentra
      * el archivo. Si esta se retorna el archivo, de lo contrario se genera
-     * una excepcion notificando que ocurrio un error al encontrar el archivo
+     * una excepcion notificando que ocurrio un error al encontrar el archivo.
+     * 1 publicacion, 2 evidencia, 3 tabla de contenido
      * @param tipo
      * @return archivoPDF
      */
