@@ -16,12 +16,13 @@
     
     <ui:composition template="../../../plantillas/Estudiante.xhtml">
     <ui:define name="content">         
-        
+        <h:form>
         <ui:insert>
             <ui:include src="TabRegistrar.xhtml"></ui:include>
         </ui:insert>
-                     
-        <h:form id="form_registrar" enctype="multipart/form-data">    
+         </h:form>           
+        <h:form id="form_registrar" enctype="multipart/form-data">  
+            
             <p:panel header="Registar datos publicación">
                 <div style = "float: right;">
                     <p:outputLabel style="font-weight:bold; " value="Campos obligatorios"/>

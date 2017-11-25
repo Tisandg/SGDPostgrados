@@ -37,7 +37,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         query.setParameter("anio", anio);
         List<Publicacion> lista = null;
         try {
-            System.out.println("Buscando publicaciones en el año "+anio);
+            //System.out.println("Buscando publicaciones en el año "+anio);
             lista = query.getResultList();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
@@ -66,7 +66,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
         List<Publicacion> lista = null;
         try {
-            System.out.println("Buscando publicaciones en el semestre "+anio+"-"+semestre);
+            //System.out.println("Buscando publicaciones en el semestre "+anio+"-"+semestre);
             lista = query.getResultList();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
@@ -116,6 +116,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
 
+    /*
     public Estudiante obtenerEstudiante(String nombreUsuario) {
 
         Query consulta = getEntityManager().createNamedQuery("Estudiante.findByEstUsuario");
@@ -131,7 +132,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
             System.out.println("Error " + e.getMessage());
         }
         return null;
-    }
+    }*/
     
     public int CountByMonthYear(String anio, String mes) {
 
@@ -163,7 +164,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         javax.persistence.Query query = getEntityManager().createNamedQuery("findAllPub_Est");
         query.setParameter("identificacion", estudianteId);
         try {
-            System.out.println("Buscando publicaciones por estudiante");
+            //System.out.println("Buscando publicaciones por estudiante");
             return query.getResultList();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
@@ -185,7 +186,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         query.setParameter("identificador", estudianteId);
         query.setParameter("anio", anio);
         try {
-            System.out.println("Buscando publicaciones de estudiante por año");
+            //System.out.println("Buscando publicaciones de estudiante por año");
             return query.getResultList();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
@@ -215,7 +216,7 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
             query.setParameter("fin",12);
         }
         try {
-            System.out.println("Buscando publicaciones de estudiante por semestre");
+            //System.out.println("Buscando publicaciones de estudiante por semestre");
             return query.getResultList();
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
@@ -355,6 +356,14 @@ public class PublicacionFacade extends AbstractFacade<Publicacion> {
         }
     }
     
+    /**
+     * Funcion para obtener el numero de creditos de un tipo de publicacion
+     * en especifico. Se busca en la tabla tipo_documento de la base de datos
+     * con el parametro proporcionado y se devuelve el numero de creditos que
+     * se ha establecido en la tabla
+     * @param idTipoPublicacion
+     * @return numeroCreditos
+     */
     public int getCreditosTipoPubicacionPorID(int idTipoPublicacion) {
         String comSimple = "\'";
         String queryStr;

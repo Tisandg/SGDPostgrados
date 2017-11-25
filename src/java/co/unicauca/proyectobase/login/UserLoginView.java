@@ -21,7 +21,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import co.unicauca.proyectobase.controladores.CargarVistaCoordinador;
 import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
-import co.unicauca.proyectobase.controladores.VerEstudianteController;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 
 /**
@@ -47,26 +46,29 @@ public class UserLoginView implements Serializable {
     @EJB
     private EstudianteFacade ejbEstudiante;
 
-    
+    /**
+     * Metodo para iniciar sesion en el sistema. El sistema si los datos 
+     * proporcionados coinciden con los registros en la base de datos. Si coinciden
+     * se inicia sesion y se redirige a la vista principal del usuario. En caso
+     * contrario, se mostrar una notificacion.
+     * @throws ServletException 
+     */
     public void login() throws ServletException 
     {
         System.out.println("Verificando datos login");
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
+        FacesContext contexto = FacesContext.getCurrentInstance();
+        HttpServletRequest req = (HttpServletRequest) contexto.getExternalContext().getRequest();
         if (username.length()==0 | password.length()==0) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Error", "Los campos no pueden ir vacios"));
+            contexto.addMessage(null, new FacesMessage("Error", "Los campos no pueden ir vacios"));
             Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
         }else{
             if (req.getUserPrincipal() == null){
-                try 
-                {
+                try {
                     req.login(this.username, this.password);
                     System.out.println("Login Exitoso");
-                } catch (ServletException e) {
+                }catch (ServletException e) {
                     System.out.println(e.getMessage());
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    context.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
+                    contexto.addMessage(null, new FacesMessage("Error", "Usuario o contraseña incorrectos"));
                     Utilidades.redireccionar("/ProyectoII/faces/index.xhtml");
                     return;
                 }
@@ -74,11 +76,8 @@ public class UserLoginView implements Serializable {
                 Principal principal = req.getUserPrincipal();
                 System.out.println("buscando usuario en control: " + principal.getName());
                 this.usuario = ejbUsuarioActual.findAllByNombreUsuario(principal.getName()).get(0);            
-                
-                System.out.println("buscando creditos");
-                this.creditos = ejbEstudiante.findCreditosByNombreUsuario(this.usuario.getNombreUsuario());
 
-                ExternalContext external = FacesContext.getCurrentInstance().getExternalContext();
+                ExternalContext external = contexto.getExternalContext();
                 Map<String, Object> sessionMap = external.getSessionMap();
                 sessionMap.put("user", this.usuario);
 
@@ -96,15 +95,17 @@ public class UserLoginView implements Serializable {
                         cvc = new CargarVistaCoordinador();
                         Utilidades.redireccionar(cvc.getRuta());
                         break;
-
                 }
             }else{
                 System.out.println("Ya se ha iniciado sesion");
             }
         }
-        
     }
 
+    /**
+     * Metodo para cerrar sesion en el sistema
+     * @throws IOException 
+     */
     public void salir() throws IOException 
     {
         FacesContext fc = FacesContext.getCurrentInstance();

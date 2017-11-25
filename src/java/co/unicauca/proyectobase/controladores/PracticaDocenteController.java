@@ -11,8 +11,26 @@ import co.unicauca.proyectobase.entidades.Archivo;
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.archivoPDF;
+import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import co.unicauca.proyectobase.utilidades.Utilidades;
+import com.openkm.sdk4j.OKMWebservices;
+import com.openkm.sdk4j.OKMWebservicesFactory;
+import com.openkm.sdk4j.bean.QueryParams;
+import com.openkm.sdk4j.bean.QueryResult;
+import com.openkm.sdk4j.exception.AccessDeniedException;
+import com.openkm.sdk4j.exception.AutomationException;
+import com.openkm.sdk4j.exception.DatabaseException;
+import com.openkm.sdk4j.exception.ExtensionException;
+import com.openkm.sdk4j.exception.FileSizeExceededException;
 import com.openkm.sdk4j.exception.LockException;
+import com.openkm.sdk4j.exception.ParseException;
+import com.openkm.sdk4j.exception.PathNotFoundException;
+import com.openkm.sdk4j.exception.RepositoryException;
+import com.openkm.sdk4j.exception.UnknowException;
+import com.openkm.sdk4j.exception.UserQuotaExceededException;
+import com.openkm.sdk4j.exception.VersionException;
+import com.openkm.sdk4j.exception.VirusDetectedException;
+import com.openkm.sdk4j.exception.WebserviceException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +40,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -151,6 +171,9 @@ public class PracticaDocenteController implements Serializable {
         }
     }
 
+    /**
+     * actualizar el contenido del objeto de ractica docente en la BD
+     */
     public void update() {
         if(actual.getIdActividad().getIdActividad() != 18){
             actual.setOtros(null);            
@@ -158,9 +181,52 @@ public class PracticaDocenteController implements Serializable {
         if(actual.getIdActividad().getHorasAsignadas() != null){
             actual.setNumeroHoras(actual.getIdActividad().getHorasAsignadas());
         }
+        
+        if(documento != null){
+            if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
+                FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));
+                return;
+            }else{
+                editarArchivoOpenKM();
+            }
+        }else{
+            System.out.println("DOCUMENTO NULO: " + documento);
+        }        
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteUpdated"));
         cve.verPracticas();
-        Utilidades.redireccionar(cve.getRuta());
+        Utilidades.redireccionar(cve.getRuta());        
+    }
+    
+    /**
+     * Editar el contenido de un archivo en openkm
+     * @return TRUE si se edito el documento, FALSE de lo contrario
+     */
+    public boolean editarArchivoOpenKM(){                        
+        String tipoPDF = "practicaDocente";
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();                        
+        try {
+            Map<String, String> properties = new HashMap();                        
+            properties.put("okp:practica.identPublicacion", "" + actual.getPublicacion().getPubIdentificador());
+            properties.put("okp:practica.tipoPDFCargar", tipoPDF);            
+            QueryParams qParams = new QueryParams();
+            qParams.setProperties(properties);                        
+            String auxDoc = ws.find(qParams).get(0).getDocument().getPath();
+            
+            //editar archivo de open km           
+            //primero se debe hacer un checkout enviando la ruta del archivo que se desea editar
+            ws.checkout(auxDoc);
+            //con un checkin se envia la ruta(debe ser la misma), el flujo de string y 
+            //unas observaciones que se envian en blanco
+            ws.checkin(auxDoc, documento.getInputstream(), "");
+            return true;
+        }catch (FileSizeExceededException | UserQuotaExceededException | VirusDetectedException | LockException | VersionException | 
+                PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | 
+                ExtensionException | AutomationException | UnknowException | WebserviceException | ParseException ex) {
+            Logger.getLogger(PracticaDocenteController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("error en editarArchivoOpenKM");
+            System.out.println("error: " + ex.getMessage());
+        }
+        return false;
     }
 
     public void destroy() {
@@ -293,22 +359,23 @@ public class PracticaDocenteController implements Serializable {
     }
     
     /**
-     * agrega un registro de practica docente del estudiante BD 
+     * Agrega un registro de practica docente del estudiante BD 
      * @param user nombre de usuario para buscar el estudiante
      */
     public void AgregarPracticaDocente(String user)
     {
-         System.out.println("Registrando practica docente");
-         boolean formatoValido = true;
-         //validar el formato del docuemtno seleccionado
-         if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
-            FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la práctica docente en formato PDF", ""));
+        System.out.println("Registrando practica docente");
+        boolean formatoValido = true;
+        //validar el formato del documento seleccionado
+        System.out.println("doc: " + documento.toString());
+        if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
+            FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));
             formatoValido = false;
         }
         if (formatoValido == true) {
              boolean puedeSubir = false;
              if (documento.getFileName().equalsIgnoreCase("")) {                
-                FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la evidencia de la práctica docente", ""));
+                FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Campo obligatorio.","Debe subir la evidencia de la práctica docente."));
              }
              
              else puedeSubir = true;             
@@ -374,8 +441,7 @@ public class PracticaDocenteController implements Serializable {
                     mensajeconfirmarRegistro();
                     Date date = new Date();                    
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    String estampaTiempo = "" + datehourFormat.format(date);
-                    String[] fecha = estampaTiempo.split(" ");
+                    String estampaTiempo = "" + datehourFormat.format(date);                    
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante " + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     Utilidades.correoRegistroPublicaciones(auxEstudiante.getEstCorreo(), nombreAut, 
@@ -400,7 +466,7 @@ public class PracticaDocenteController implements Serializable {
     }
     
     /**
-     * rediriguir a listar practica docente 
+     * Redirigir a listar practica docente .
      */
     public void redirigirListarPracticasEst() 
     {        
@@ -408,6 +474,12 @@ public class PracticaDocenteController implements Serializable {
         Utilidades.redireccionar(cve.getRuta());
     }
     
+    /**
+     * Metodo para redirigir a la vista de registro de una practica docente.
+     * Con el nombre de usuario se establece el usuario quien va a registrar
+     * la practica
+     * @param nombreUsuario 
+     */
     public void redirigirRegistrarPracticaDocente(String nombreUsuario) {
         limpiarCampos(nombreUsuario);        
         cve.registrarPractica();        
@@ -418,6 +490,7 @@ public class PracticaDocenteController implements Serializable {
     
     public void mensajeconfirmarRegistro() {
         System.out.println("Registrada con exito");
+        addMessage("Informe","La práctica docente se registró con éxito");
     }
       
     public void limpiarcampos()
@@ -437,12 +510,15 @@ public class PracticaDocenteController implements Serializable {
                 
     /**
      * retorna una lista que contiene objetos de tipo practicaDocente 
-     * @return si variableFiltrado == null retorna todas las praticas, de lo contrario retorna las coincidencias de nombre, fecha inicio fecha fin o lugar
+     * @return si variableFiltrado == null retorna todas las praticas, de lo 
+     * contrario retorna las coincidencias de nombre, fecha inicio fecha fin 
+     * o lugar
      */
     public List<PracticaDocente> listado(){
         List<PracticaDocente> result = ejbFacade.findAll();
 
-        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {  return result;  } 
+        if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {  
+            return result;  } 
         else
             return result;
 //        else {
@@ -461,36 +537,34 @@ public class PracticaDocenteController implements Serializable {
 //            return resultFilter;           
 //        }
     }
+    
+    /**
+     * Consulta las practicas registradas por el usuario y las retorna en un 
+     * listado
+     * @param nombreUsuario
+     * @return 
+     */
      public List<PracticaDocente> listadoDesdeEst(String nombreUsuario){
-         //aqui hay que recibir el nombre de usuario como variale
-         System.out.println("Nombre de usuario" + nombreUsuario);
          List<PracticaDocente> result = ejbFacade.practicaDocente(nombreUsuario);
          return result; 
-        //if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {   } 
-      /*  else {
-            List<PracticaDocente> resultFilter = new ArrayList<>();  
-            //revisar, esta haciendo las consultas tres veces
-            //System.out.println(result.size());
-            for (PracticaDocente item : result) {                                
-                String nombre = item.getPublicacion().getPubEstIdentificador().getEstNombre() + item.getPublicacion().getPubEstIdentificador().getEstApellido();                
-                if(nombre.contains(variableFiltrado) || 
-                        item.getFechaIn().contains(variableFiltrado) || 
-                        item.getFechaTer().contains(variableFiltrado) || 
-                        item.getLugarPractica().contains(variableFiltrado)){
-                    resultFilter.add(item);
-                }                
-            }
-            return resultFilter;           
-        }*/
-     // return null;
     }
     
     //</editor-fold>
      
+    /**
+     * Metodo para visualizar el documento de evidencia registrado junto con 
+     * la practica. Este documento se obtiene del gestor OpenKM
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+    */
     public void pdfPubPD() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = actual.descargaPubPrac();                   
         if (archivoPublic.getNombreArchivo().equals("")) {
-            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario no ha cargado un PDF de la tabla de contenido", ""));
+            FacesContext.getCurrentInstance().addMessage("error", 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                            "Usuario no ha cargado un PDF de la tabla de contenido", ""));
 
         } else {
             InputStream fis = archivoPublic.getArchivo();
@@ -545,30 +619,15 @@ public class PracticaDocenteController implements Serializable {
                     break;
                 }
             }
-        }        
-        //verificar que se halla escojido una opcion de la lista
-        if(getSelected().getIdActividad() == null){
-            renderizarOtrosVar = false;
-            renderizarHorasVar = false;
-            System.out.println("null actividad");
-            return false;
         }
-        //si la actividad seleccionada no posee horas y selecciono otras
-        if(aux.getHorasAsignadas() == null && 
-                getSelected().getIdActividad().getNombreActividad().equals("Otrás actividades de apoyo al departamento")){            
-            renderizarHorasVar = true;
-            renderizarOtrosVar = true;
-            return true;
+        renderizarOtrosVar = getSelected().getIdActividad().getIdActividad() == 18;
+        renderizarHorasVar = aux.getHorasAsignadas() == null;
+        
+        if(!renderizarHorasVar){
+            getSelected().setNumeroHoras(aux.getHorasAsignadas());
+        }else{
+            getSelected().setNumeroHoras(null);
         }
-        //si la actividad seleccionada no posee horas y selecciono un item dierente a otras
-        if(aux.getHorasAsignadas() == null && !getSelected().getIdActividad().getNombreActividad().equals("Otrás actividades de apoyo al departamento")){
-            renderizarOtrosVar = false;
-            renderizarHorasVar = true;
-            return true;
-        }
-        //si no entra en ninguna retorna falase y no renderiza nada
-        renderizarHorasVar = false;
-        renderizarOtrosVar = false;
         return false;
     }        
     
@@ -599,22 +658,8 @@ public class PracticaDocenteController implements Serializable {
      */
     public void irAEditar(PracticaDocente prac) {
         setSelected(prac);                
-        //si la actividad seleccionada no posee horas y selecciono otras
-        if(prac.getIdActividad().getHorasAsignadas() == null && 
-                getSelected().getIdActividad().getIdActividad() == 18){            
-            renderizarHorasVar = true;
-            renderizarOtrosVar = true;                        
-        }
-        //si la actividad seleccionada no posee horas y selecciono un item dierente a otras
-        if(prac.getIdActividad().getHorasAsignadas() == null &&
-                getSelected().getIdActividad().getIdActividad() != 18){
-            renderizarOtrosVar = false;
-            renderizarHorasVar = true;                        
-        }
-        if(prac.getIdActividad().getHorasAsignadas() != null){
-            renderizarHorasVar = false;        
-            renderizarOtrosVar = false;
-        }   
+        renderizarOtrosVar = getSelected().getIdActividad().getIdActividad() == 18;
+        renderizarHorasVar = prac.getIdActividad().getHorasAsignadas() == null;
         cve.IrEditarPracticaDocente();       
         Utilidades.redireccionar(cve.getRuta());
     }
@@ -640,6 +685,7 @@ public class PracticaDocenteController implements Serializable {
                 PublicacionController con = new PublicacionController();
                 con.eliminarDocumentacion(actual.getPublicacion());
                 this.destroy();
+                addMessage("Documentación eliminada", visado);
                 System.out.println("Documentacion eliminada");
             } catch (LockException ex) {                
                 System.out.println("error eliminando la publicacion desde practica docente");
@@ -671,65 +717,58 @@ public class PracticaDocenteController implements Serializable {
         this.visado = visado;
     }
     
-     public void cambiarEstadoVisado() {
+    /**
+     * Metodo para cambiar el estado de visado de la practica docente que se 
+     * esta revisando. Se notifica al estudiante mediante correo que la practica
+     * ha sido aprobada/rechazada. Solo si se aprobo, se modifica el numero de creditos
+     * de la practica. Si se rechazo,se envian las observaciones.
+     */
+    public void cambiarEstadoVisado() {
         if (!visado.equals("")) {
             actual.getPublicacion().setPubVisado(visado);
             ejbFacadePub.edit(actual.getPublicacion());
             String correo = actual.getPublicacion().getPubEstIdentificador().getEstCorreo();
-
+            boolean aprobo = false;
             if (visado.equalsIgnoreCase("Aprobado")) {
-//                cambiarCreditos();
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante, "
-                        + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
-                        + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
-                        + "\n\nSe acaba de APROBAR la publicación "
-                        + actual.getPublicacion().obtenerNombrePub() + "."
-                        + "\nQue fue registrada previamente en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\nNúmero de creditos actuales: " + actual.getPublicacion().getPubEstIdentificador().getEstCreditos()
-                        + "\n\n\n" + "Servicio notificación DCE.");
+                cambiarCreditos();
+                aprobo = true;
             }
-            if (visado.equalsIgnoreCase("No Aprobado")) {
-                String mensaje = "Estimado estudiante."
-                        + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
-                        + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de RECHAZAR la publicación "
-                        + actual.getPublicacion().obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\n\n" + "Servicio notificación DCE.";
-                    if (!valorTexto.equals("")) {
-                        mensaje = mensaje + "\n\n Observaciones: " + valorTexto;
-                        valorTexto = "";
-                    }
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", mensaje);
-            }
-            if (visado.equalsIgnoreCase("espera")) {
-                Utilidades.enviarCorreo(correo, "Notificación revisión de documentos DCE", "Estimado estudiante."
-                        + actual.getPublicacion().getPubEstIdentificador().getEstNombre() + " "
-                        + actual.getPublicacion().getPubEstIdentificador().getEstApellido()
-                        + "\n\n Se acaba de PONER EN ESPERA la publicación "
-                        + actual.getPublicacion().obtenerNombrePub() + "que previamente fue registrada en el sistema de Doctorado en Ciencias de la Electrónica"
-                        + "\n\n" + "Servicio notificación DCE.");
-            }
+            Utilidades.correoVisadoPublicacion(aprobo, actual.getPublicacion().getPubEstIdentificador(), 
+                        actual.getIdActividad().getNombreActividad(), valorTexto);
             //dao.cambia1rEstadoVisado(this.actual.getPubIdentificador(),this.visado);
         }
 
     }
-      private String valorTexto = "";
-      
-      public void recibirTexto(AjaxBehaviorEvent evt) {
+    
+    private String valorTexto = "";      
+    /**
+     * recibir e texto que se ingresa en un input text mediante evento de ajax
+     * proporcionado por jsf
+     * @param evt evento ajax de jsf
+     */
+    public void recibirTexto(AjaxBehaviorEvent evt) {
         String texto = "" + ((UIOutput) evt.getSource()).getValue();
         this.valorTexto = texto;
         System.out.println("en recibir texto: " + texto);
     }
-        private void cambiarCreditos() {
-            
-         int idTipoDocumento = actual.getPublicacion().getIdTipoDocumento().getIdentificador();
+      
+    /**
+     * retorna el nombre del autor concatenado con su apellido
+     * @return nombre completo del autor
+     */
+    public String getnombreAut() {
+        Estudiante est = getAuxEstudiante();
+        return est.getEstNombre() + " " + est.getEstApellido();
+    }
+    
+    private void cambiarCreditos() {            
+        int idTipoDocumento = actual.getPublicacion().getIdTipoDocumento().getIdentificador();
         int creditosPub = ejbFacadePub.getCreditosTipoPubicacionPorID(idTipoDocumento);
         int creditosEst = actual.getPublicacion().getPubEstIdentificador().getEstCreditos();
         actual.getPublicacion().setPubCreditos(creditosPub);
         actual.getPublicacion().getPubEstIdentificador().setEstCreditos(creditosEst + creditosPub);
         daoEst.edit(actual.getPublicacion().getPubEstIdentificador());
-        ejbFacadePub.edit(actual.getPublicacion());
-        
+        ejbFacadePub.edit(actual.getPublicacion());        
     }
     
 }

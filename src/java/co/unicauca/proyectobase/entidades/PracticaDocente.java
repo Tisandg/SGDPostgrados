@@ -1,6 +1,7 @@
 package co.unicauca.proyectobase.entidades;
 
 import co.unicauca.proyectobase.controladores.OpenKMController;
+import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
 import com.openkm.sdk4j.bean.Folder;
@@ -9,10 +10,12 @@ import com.openkm.sdk4j.bean.QueryResult;
 import com.openkm.sdk4j.exception.AccessDeniedException;
 import com.openkm.sdk4j.exception.DatabaseException;
 import com.openkm.sdk4j.exception.LockException;
+import com.openkm.sdk4j.exception.ParseException;
 import com.openkm.sdk4j.exception.PathNotFoundException;
 import com.openkm.sdk4j.exception.RepositoryException;
 import com.openkm.sdk4j.exception.UnknowException;
 import com.openkm.sdk4j.exception.WebserviceException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -148,24 +151,19 @@ public class PracticaDocente implements Serializable {
         archivoPDF archivo = new archivoPDF();
         String tipoPDF = "practicaDocente";
 
-        String host = "http://localhost:8083/OpenKM";
-         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
-        String username = "okmAdmin";
-        String password = "admin";
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+//        String host = "http://localhost:8083/OpenKM";
+//         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
+//        String username = "okmAdmin";
+//        String password = "admin";
+//        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();  
 
         try {
-
-            Map<String, String> properties = new HashMap();
-            /* Se comprueba el tipo de publicacion: revista congreso , un libro 
-                o un capitulo de un libro que se devolvera como resultado*/
-            System.out.println("IMPRIMIENDO PUBLICACION: " + publicacion.toString());
-                properties.put("okp:practica.identPublicacion", "" + publicacion.getPubIdentificador());
-                properties.put("okp:practica.tipoPDFCargar", "" + tipoPDF);
-
-            
-            
-            // properties.put("okp:revista.identPublicacion", "" + this.pubIdentificador);
+            Map<String, String> properties = new HashMap();            
+            //System.out.println("IMPRIMIENDO PUBLICACION: " + publicacion.toString());
+            properties.put("okp:practica.identPublicacion", "" + publicacion.getPubIdentificador());
+            properties.put("okp:practica.tipoPDFCargar", "" + tipoPDF);
+                                    
             QueryParams qParams = new QueryParams();
             qParams.setProperties(properties);
             int posPub = 0;            
@@ -175,18 +173,17 @@ public class PracticaDocente implements Serializable {
                     String[] arrayNombre = auxDoc.split("/");
                     int pos = arrayNombre.length;
                     String nombreDoc = arrayNombre[pos - 1];
-                    System.out.println("nombreDocPUB: " + nombreDoc);
+                    //System.out.println("nombreDocPUB: " + nombreDoc);
                     InputStream initialStream = ws.getContent(qr.getDocument().getPath());
                     archivo.setArchivo(initialStream);
                     archivo.setNombreArchivo(nombreDoc);
                 }                
                 posPub = posPub + 1;
             }
-        } catch (Exception e) {
+        } catch (IOException | ParseException | RepositoryException | DatabaseException | UnknowException | WebserviceException | PathNotFoundException | AccessDeniedException e) {
             System.out.println("error en descargaPubPrac de clase practicaDocente.java");
             System.out.println("error: " + e.getMessage());
-        }
-        System.out.println("DATOS: "+ archivo.getArchivo());
+        }        
         return archivo;
     }
     
@@ -202,7 +199,8 @@ public class PracticaDocente implements Serializable {
         String rutaFolder="/okm:root/Doctorado_Electronica/" + this.publicacion.getPubEstIdentificador().getEstUsuario() + "/" + this.publicacion.getPubDiropkm();
         Folder folder = new Folder();
         folder.setPath(rutaFolder);
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        //OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();
         try {
             /* Se valida si el forder a eliminar existe o no*/
             boolean valido = ws.isValidFolder(rutaFolder);            

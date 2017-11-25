@@ -35,7 +35,7 @@ public class UsuarioController implements Serializable {
     
     private DataModel items = null;
     @EJB
-    private UsuarioFacade ejbFacade;
+    private UsuarioFacade userFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -62,11 +62,11 @@ public class UsuarioController implements Serializable {
     }
     
     public Usuario getUsuario(java.lang.Integer id) {
-        return ejbFacade.find(id);
+        return userFacade.find(id);
     }
     
     private UsuarioFacade getFacade() {
-        return ejbFacade;
+        return userFacade;
     }
     
     public Usuario getCurrent() {
@@ -128,8 +128,8 @@ public class UsuarioController implements Serializable {
             String nuevaContrasena = Utilidades.sha256(this.contrasenas.getNuevaContrasena());
             try{
                 this.current.setContrasena(nuevaContrasena);
-                ejbFacade.edit(current);
-                ejbFacade.flush();
+                userFacade.edit(current);
+                userFacade.flush();
                 respuesta = true;
                 System.out.println("Contrasena modificada");
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Su contraseña ha sido cambiada satisfactoriamente",""));
@@ -180,19 +180,27 @@ public class UsuarioController implements Serializable {
         return "View";
     }
 
+    /**
+     * Metodo que inicializa un nuevo objeto usuario listo para ser utilizado
+     * en la creacion de un usuario
+     * @return 
+     */
     public String prepareCreate() {
         current = new Usuario();
         selectedItemIndex = -1;
         return "Create";
     }
 
+    /**
+     * Funcino que crea un registro en la tabla usuario con los datos guardados
+     * en el objeto current
+     * @return "Create" si se creo el registro, de lo contrario null
+     */
     public String create() {
         try {
             getFacade().create(current);
-            //JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/BundleUsuarios").getString("UsuarioCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            //JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/BundleUsuarios").getString("PersistenceErrorOccured"));
             return null;
         }
     }
@@ -288,11 +296,11 @@ public class UsuarioController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(userFacade.findAll(), false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(userFacade.findAll(), true);
     }
 
     

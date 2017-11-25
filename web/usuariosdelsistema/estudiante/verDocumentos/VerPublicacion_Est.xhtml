@@ -24,9 +24,12 @@
                         <h:panelGrid columns="2" cellspacing="15" >                                    
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.obtenerNombreUsuario(userLoginView.username)}" style="color: #3366ff"/>                            
+                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.getnombreAut()}" style="color: #3366ff"/>
+                            <p:separator/>
+                            <br/>
+
                             <p:outputLabel value="Autores secundarios:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.actual.pubAutoresSecundarios}" style="color: #3366ff"/>                                                        
+                            <h:outputText class="form-control" id="valAutSec"  value="#{publicacionController.getAutoresSecundarios()}" style="color: #3366ff"/>                                                        
                             <p:outputLabel value="Tipo publicación:" style="font-weight:bold;"/>
                             <h:outputText class="form-control" id="valTipoPub"  value="#{publicacionController.actual.idTipoDocumento.nombre}" style="color: #3366ff"/>                                                                                  
                             <h:outputLabel value="Estado visado:" style="font-weight:bold;"/>
@@ -109,7 +112,7 @@
 
                                 <h:panelGrid columns="2" cellpadding="10" id="panelRegistrar"  >
                                     <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
-                                    <h:commandButton value="Ver" action="#{publicacionController.pdfCartaAprob()}" class="botonVerPractica" onclick="this.form.target = '_blank'"/>
+                                    <h:commandButton value="Ver" action="#{publicacionController.pdfCartaAprob()}" class="botonVerPractica" onclick="this.form.target = '_blank'" />
 
                                     <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
                                     <h:commandButton  value="Ver"   action="#{publicacionController.pdfPub()}" class="botonVerPractica"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
@@ -118,17 +121,17 @@
                                     <h:commandButton value="Ver"  action="#{publicacionController.pdfPubTC()}" class="botonVerPractica"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />                                                
                                 </h:panelGrid>
                                 <h:form style="font-size: 10px;">
-                                    <p:commandButton disabled="#{publicacionController.actual.pubVisado != 'espera'}" onclick="PF('dlg2').show();"  value="Eliminar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>&lrm;
+                                    <p:commandButton disabled="#{publicacionController.actual.pubVisado != 'espera'}" onclick="PF('dlg2').show();"  icon="ui-icon-trash" value="Eliminar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>&lrm;
                                     <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false">
                                         <h:form style="font-size: 10px;">
                                             <br/>
                                             <h:outputText value="¿Esta seguro que eliminar esta publicacion?" />
                                             <br/><br/>
-                                            <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                                            <p:commandButton action="#{publicacionController.eliminarDocumentacion(pub)}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                            <p:commandButton onclick="PF('dlg2').hide();" value="No" icon="ui-icon-cancel" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                            <p:commandButton action="#{publicacionController.eliminarDocumentacion(pub)}" icon="ui-icon-check" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
                                         </h:form>
                                     </p:dialog>
-                                    <p:commandButton actionListener="#{publicacionController.irAEditar(publicacionController.actual)}"  value="Editar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                    <p:commandButton actionListener="#{publicacionController.irAEditar(publicacionController.actual)}"  value="Editar" icon="ui-icon-pencil" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
                                </h:form>
                             </p:panel>
                         </p:panel>

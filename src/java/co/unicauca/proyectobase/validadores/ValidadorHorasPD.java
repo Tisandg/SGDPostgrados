@@ -16,31 +16,32 @@ public class ValidadorHorasPD implements Validator{
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if(value == null){
-            System.out.println("vacio");
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar la cantidad de horas . Campo obligatorio.");
+        if(value == null){            
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Campo obligatorio.","Debe ingresar la cantidad de horas.");
             throw new ValidatorException(msg);
         }else{
             String horas = value.toString();        
             horas = horas.trim();        
-            if(horas.equals("")){            
-                System.out.println("vacio");
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar la cantidad de horas . Campo obligatorio.");
+            if(horas.equals("")){                            
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Campo obligatorio.","Debe ingresar la cantidad de horas.");
                 throw new ValidatorException(msg);
             }
-            if(!esNumero(horas)){            
-                System.out.println("numero");
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Sólo se admiten valores númericos.");
+            if(!esNumero(horas)){                            
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error.","Sólo se admiten valores númericos.");
                 throw new ValidatorException(msg);
             }
-            if(horas.length() > 3){
-                System.out.println("longitud");
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Sólo se admiten valores menores a 1000.");
+            if(horas.length() > 3){                
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error.","Sólo se admiten valores menores a 1000.");
                 throw new ValidatorException(msg);
             } 
         }
     }
     
+    /**
+     * valida si el string ingresado es un numero o no
+     * @param horas string que se desea verificar
+     * @return true si el valor es un numero, fasle de lo contrario
+     */
     public boolean esNumero(String horas){
         try{
             Integer.parseInt(horas);

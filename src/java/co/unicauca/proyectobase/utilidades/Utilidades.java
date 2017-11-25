@@ -1,10 +1,12 @@
 package co.unicauca.proyectobase.utilidades;
 
+import co.unicauca.proyectobase.entidades.Estudiante;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -15,26 +17,36 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Esta clase contiene los metodos utilizados para la la redireccion de las
+ * paginas del sistema y el envio de las notificacion por correo.
+ * @author Equipo 2017-II
+ */
 public class Utilidades {
 
+    /**
+     * Metodo utilizado para redireccionar a las distintas paginas del sistema.
+     * Recibe un String que contiene la url de la pagina a la cual se va a 
+     * redirigir.
+     * @param pagina 
+     */
     public static void redireccionar(String pagina) {
-        System.out.println("EN REDIRECCIONAR A: " + pagina);
+        System.out.println("Redireccionando a: " + pagina);
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext extcontext = context.getExternalContext();
         extcontext.getFlash().setKeepMessages(true);
-        try {
-            System.out.println("REDIRIGUIENDO EN TRY");
+        try {            
             extcontext.redirect(pagina);
         } catch (IOException ex) {
             System.out.println("Errror al redireccionar. err: " + ex.getMessage());
-            Logger.getLogger("Error al redireccionar a " + pagina);
+            Logger.getLogger(Utilidades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     /***
      * Metodo que envia las notificaciones de correo electronico al estudiante
      * que registro la publicacion y al coordinador del doctorado. Para el envio
-     * utiliza la funcion enviarCorreo despues de que se crea el mensaje a enviar
+     * utiliza la funcion enviarCorreo, despues de que se crea el mensaje a enviar
      * @param destino
      * @param autor
      * @param tipoPublicacion
@@ -42,14 +54,61 @@ public class Utilidades {
      */
     public static void correoRegistroPublicaciones(String destino, String autor, String tipoPublicacion, String tiempo){
         String asunto = "Notificación registro de documento";
-        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de registrar un documento del tipo " 
-                                + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
+        String mensajeCoordinador = "Cordial saludo.\n" + "El estudiante "+autor+" acaba de registrar un documento del tipo '" 
+                                + tipoPublicacion+ "' en la siguiente fecha y hora: " + tiempo;
         String mensajeEstudiante = "Estimado "+autor + ".\n" + "Se acaba de registrar un documento del tipo " 
                                 + tipoPublicacion+ " en la siguiente fecha y hora: " + tiempo;
         //Correo para el estudiante
         enviarCorreo(destino,asunto, mensajeEstudiante);
         //Correo para el coordinador
         enviarCorreo("posgradoselectunic@gmail.com",asunto, mensajeCoordinador);
+    }
+    /**
+     * Envio de notificacion por correo al estudiante cuando se haya cambiado
+     * el estado de visado de una documentacion en especifico.
+     * @param aprobado
+     * @param estudiante
+     * @param nombreActividad
+     * @param observaciones 
+     */
+    public static void correoVisadoPublicacion(boolean aprobado, Estudiante estudiante,String nombreActividad,String observaciones ){
+        String asunto = "Notificación revisión de documentos DCE";
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("Estimado estudiante ").append(estudiante.getNombreCompleto()).append(".");
+        if(aprobado){
+            mensaje.append("\n\nSe acaba de APROBAR el documento '").append(nombreActividad)
+                    .append("' que fue registrado previamente en el sistema de Doctorado en Ciencias de la Electrónica.")
+                    .append("\nNúmero de creditos actuales: ").append(estudiante.getEstCreditos());
+                    
+        }else{
+            mensaje.append("\n\nSe acaba de APROBAR el documento '").append(nombreActividad)
+                    .append("' que fue registrado previamente en el sistema de Doctorado en Ciencias de la Electrónica.");
+            if (!observaciones.equals("")) {
+                mensaje.append("\n Observaciones: ").append(observaciones);
+            }
+        }
+        mensaje.append("\n\n\nServicio notificación DCE.");
+        enviarCorreo(estudiante.getEstCorreo(), asunto, mensaje.toString());
+    }
+    
+    
+    /**
+     * Metodo para enviar el correo de notificacion al estudiante para informar
+     * que se le ha creado una cuenta en el sistema con sus datos.
+     * @param estudiante 
+     */
+    public static void correoRegistroEstudiante(Estudiante estudiante){
+        String destinatario = estudiante.getEstCorreo();
+        String asunto = "Notificación registro de usuario DCE";
+        String mensaje = "Estimado estudiante.\n"
+                + "Se acaba de crear una cuenta de estudiante con sus datos en el sistema de Doctorado en Ciencias de la Electrónica.\n"
+                + "Recuerde que a partir de la fecha puede hacer uso del sistema, ingresando la siguiente información:"
+                + "\nNombre Usuario: " + estudiante.getEstUsuario()
+                + "\nContraseña: " + estudiante.getEstCodigo() 
+                + "\n\nServicio notificación DCE.";
+        
+        /*Se envia el correo al estudiante*/
+        enviarCorreo(destinatario,asunto,mensaje);
     }
 
     /***
@@ -93,12 +152,16 @@ public class Utilidades {
         }
         catch(Exception e)
         {
-            System.out.println("========== ERROR AL ENVIAR CORREO ============ \n" + e.getMessage());
+            System.out.println("========== ERROR AL ENVIAR CORREO ============ \n"+ e.getMessage());
         }
-        
         return resultado;
     }
     
+    /**
+     * Metodo para cifrar una cadena con el algoritmo SHA-256
+     * @param cadena
+     * @return 
+     */
     public static String sha256(String cadena)
     {
         StringBuilder sb= new StringBuilder();

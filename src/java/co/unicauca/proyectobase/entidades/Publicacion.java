@@ -1,6 +1,7 @@
 package co.unicauca.proyectobase.entidades;
 
 import co.unicauca.proyectobase.controladores.OpenKMController;
+import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import java.io.Serializable;
 import java.util.Collection;
@@ -29,7 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.openkm.sdk4j.bean.Folder;
 import org.apache.commons.io.IOUtils;
 import com.openkm.sdk4j.OKMWebservices;
-import com.openkm.sdk4j.OKMWebservicesFactory;
 import com.openkm.sdk4j.bean.QueryResult;
 import com.openkm.sdk4j.bean.form.FormElement;
 import com.openkm.sdk4j.bean.form.Input;
@@ -346,7 +346,7 @@ public class Publicacion implements Serializable {
         boolean archivosSubidos = false;
         /* Inicia una instancia del Gestor Documental Openkm*/
         this.setPubHash(hash);
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
         try {
             boolean crearFolder;
             String rutaFolderCrear;
@@ -794,7 +794,7 @@ public class Publicacion implements Serializable {
         String rutaFolder="/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario() + "/" + this.pubDiropkm;
         Folder folder = new Folder();
         folder.setPath(rutaFolder);
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
         try {
             /* Se valida si el forder a eliminar existe o no*/
             ws.isValidFolder(rutaFolder);
@@ -813,7 +813,7 @@ public class Publicacion implements Serializable {
     public void SubirOpenKMPD(ArrayList<tipoPDF_cargar> subidaArchivos, String estampaTiempo, String codigoFirma, String hash)
     {        
 
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
         try{
             boolean crearFolder;
             String rutaFolderCrear;
@@ -961,7 +961,8 @@ public class Publicacion implements Serializable {
      * Descarga los documentos subidos a OpenKM para poder visualizarlos.
      * Dependiendo del tipo de documento, se busca en en OpenKM si se encuentra
      * el archivo. Si esta se retorna el archivo, de lo contrario se genera
-     * una excepcion notificando que ocurrio un error al encontrar el archivo
+     * una excepcion notificando que ocurrio un error al encontrar el archivo.
+     * 1 publicacion, 2 evidencia, 3 tabla de contenido
      * @param tipo
      * @return archivoPDF
      */
@@ -970,7 +971,7 @@ public class Publicacion implements Serializable {
         String tipoPDF = nombreTipoDocumento(tipo);
         archivoPDF archivo = new archivoPDF();
         /*Obtenemos la instancia del openKM*/
-        OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
+        OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
 
         try {
 
@@ -1036,6 +1037,16 @@ public class Publicacion implements Serializable {
             nombrePub = this.getRevista().getRevTituloArticulo();
         }
         return nombrePub;
+    }
+    
+    /**
+     * Funcion para obtener el nombre completo del estudiante que registro
+     * la publicacion.
+     * @return nombreCompleto
+     */
+    public String getNombreCompleto(){
+        String nombreCompleto = pubEstIdentificador.getNombreCompleto();
+        return nombreCompleto;
     }
     
 
@@ -1107,6 +1118,10 @@ public class Publicacion implements Serializable {
         return pubFechaPublicacion;
     }
     
+    /**
+     * Funcion utilizada para obtener la fecha de registro de la publicacion
+     * @return fechaRegistro
+     */
     public String ObtenerFecha()
     {
         String fecha= pubFechaRegistro.toLocaleString();
