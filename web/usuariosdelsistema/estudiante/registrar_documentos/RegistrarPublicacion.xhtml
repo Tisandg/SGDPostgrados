@@ -7,12 +7,9 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets" >
 
-
     <h:head>
         <title>Registrar publicacion</title>
-    </h:head>                    
-        
-     
+    </h:head>                         
     
     <ui:composition template="../../../plantillas/Estudiante.xhtml">
     <ui:define name="content">         
@@ -154,7 +151,12 @@
                                 <h:outputLabel value="Artículo PDF:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
-                            <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>    
+                            <p:fileUpload id="revistaPDF" value="#{publicacionController.publicacionPDF}" 
+                                          required="true" mode="simple" allowTypes="/(\.|\/)(pdf|PDF)$/" update="msjRevistaPdf">
+                                <f:validator validatorId="validadorPdf"/>
+                            </p:fileUpload>
+                            <p:message for="revistaPDF" id="msjRevistaPdf" class="error"/>
+                            
                         </h:panelGrid>
 
                     </p:panel>
@@ -290,7 +292,10 @@
                                 <p:outputLabel value="Congreso PDF:" styleClass="addEspacio"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>                                                            
-                                <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <p:fileUpload id="congresoPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf|PDF)$/">
+                                <f:validator validatorId="validadorPdf" />
+                            </p:fileUpload>
+                            <p:message for="congresoPDF" id="msjvalCongresoPdf" />
                         </h:panelGrid>                                                        
 
                     </p:panel>
@@ -380,7 +385,10 @@
                                 <p:outputLabel value="Libro PDF:"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>
-                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                                 
+                            <p:fileUpload id="libroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf|PDF)$/" >
+                                
+                            </p:fileUpload>
+                            <p:message for="libroPDF" id="msjvalLibPdf" />                        
                         </h:panelGrid>
                         <br/>
 
@@ -411,12 +419,12 @@
                             </h:panelGroup>
                             <p:inputText class="form-control" id="valTCLibro"  value="#{publicacionController.actual.capituloLibro.caplibTituloLibro}" 
                                          placeholder="Ingrese título aquí" size="35">
-                                <f:validator validatorId="validadorTituloLibro" />
+                                <f:validator validatorId="validadorTituloLibCap" />
                                 <p:ajax event="blur" update="msjvalTCLibro" />
                             </p:inputText>
                             <p:message for="valTCLibro" id="msjvalTCLibro" />
-                            <p:outputLabel value=""></p:outputLabel>
-                            <p:outputLabel value=""></p:outputLabel>
+                            <p:outputLabel value=""/>
+                            <p:outputLabel value=""/>
 
                             <h:panelGroup>
                                 <p:outputLabel value="Título capítulo libro:" styleClass="addEspacio"/>
@@ -427,14 +435,17 @@
                                 <p:ajax event="blur" update="msjvalTCapLibro" />
                             </p:inputText>
                             <p:message for="valTCapLibro" id="msjvalTCapLibro" />
-                            <p:outputLabel value=""></p:outputLabel>
-                            <p:outputLabel value=""></p:outputLabel>
+                            <p:outputLabel value=""/>
+                            <p:outputLabel value=""/>
 
                             <h:panelGroup>
                                 <p:outputLabel value="Capítulo libro PDF:"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
-                            <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/"></p:fileUpload>
+                            <p:fileUpload id="capLibroPDF" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf|PDF)$/">
+                                <f:validator validatorId="validadorPdf" />
+                            </p:fileUpload>
+                            <p:message for="capLibroPDF" id="msjvalCapPdf" />
                         </h:panelGrid>
                         <br/>
 
@@ -446,35 +457,38 @@
                 <p:messages for="valPublicacion"  id="msjPublicacionF"/>
                 <h:panelGrid columns="4">                        
                     <h:outputLabel value="Tabla de contenido PDF:" styleClass="addEspacio"/>
-                    <p:fileUpload id="tablaContenidoPDF"   value="#{publicacionController.tablaContenidoPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />                        
-                    <p:messages for="valTContenido"  id="msjvalTContenido" />
-                    <h:outputText value=""/>
+                    <p:fileUpload id="tablaContenidoPDF"   value="#{publicacionController.tablaContenidoPDF}" 
+                                  mode="simple" allowTypes="/(\.|\/)(pdf|PDF)$/" update="messageTabla">                        
+                        <f:validator validatorId="validadorPdf"/>
+                    </p:fileUpload>
+                    <p:message for="tablaContenidoPDF" id="messageTabla" />
+                    <p:outputLabel value=""/>
 
                     <h:panelGroup>
                         <p:outputLabel value="Evidencia de documento:" />
                         <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
-                    </h:panelGroup>
-                    <h:panelGroup>                            
-                        <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" />&rlm;&ensp;
-                        <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
-                        <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
-                                   showEffect="clip" hideEffect="blind" />&nbsp;&nbsp;                            
-                    </h:panelGroup>
-
-                    <p:messages for="cartaAprobacion"  id="msjCartaAprobacion"/>
+                    </h:panelGroup>                          
+                    <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" 
+                                  mode="simple" allowTypes="/(\.|\/)(pdf|PDF)$/" update="messageEvidencia">
+                        <f:validator validatorId="validadorPdf"/>
+                    </p:fileUpload>
+                    <p:message for="cartaAprobacionPDF" id="messageEvidencia" /> 
+                    <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
+                    <p:tooltip id="toolTipGrow" for="ayuda" value="En este campo se debe seleccionar la carta de aprobación de la publicación"
+                               showEffect="clip" hideEffect="blind" />                            
                 </h:panelGrid>               
 
             <br/>
-            <h:form>
+            
                 <h:panelGrid columns="2" cellspacing="10>">
-                <h:commandButton value="Registrar" action="#{publicacionController.registrarPublicacion()}" class="botonVerPractica"/>                     
+                <h:commandButton id="btnRegistrar" value="Registrar" action="#{publicacionController.registrarPublicacion()}" class="botonVerPractica"/>                     
                 <h:commandButton value="Cancelar" onclick="if (!confirm('¿Desea cancelar el registro de la publicación?')) {
                             return false;
                         }
                         ;
                         return true;" action="#{publicacionController.redirigirPublicacionesEst()}" class="botonVerPractica" immediate="true"/>
                 </h:panelGrid>
-            </h:form>
+            
             </p:panel>
             <br/>
         </h:form>      

@@ -1,6 +1,5 @@
 package co.unicauca.proyectobase.entidades;
 
-import co.unicauca.proyectobase.controladores.OpenKMController;
 import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import java.io.Serializable;

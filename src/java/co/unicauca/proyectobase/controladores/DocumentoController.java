@@ -276,10 +276,13 @@ public class DocumentoController implements Serializable {
         }
 
     }
-    
 
-    /* Lista las publicaciones que su estado de Visado sea: espera,
-     es decir publicaciones que aun no han sido visadas*/
+    /**
+     * Lista las publicaciones que su estado de Visado sea: espera,
+     * es decir publicaciones que aun no han sido visadas
+     * @param lista
+     * @return 
+     */
     public List<Publicacion> listaPublicacionVisadoEspera(List<Publicacion> lista) {
         List<Publicacion> listado = new ArrayList<>();
         for (int i = 0; i < lista.size(); i++) {
@@ -290,8 +293,12 @@ public class DocumentoController implements Serializable {
         return listado;
     }
 
-    /* Lista las publicaciones que esten revisadas
-     es decir que su estado de Visado sea: aceptada o rechazada */
+    /**
+     * Lista las publicaciones que esten revisadas
+     * es decir que su estado de Visado sea: aceptada o rechazada
+     * @param lista
+     * @return 
+     */
     public List<Publicacion> listaPublicacionVisadoRevisada(List<Publicacion> lista) {
         List<Publicacion> listado = new ArrayList<>();
         for (int i = 0; i < lista.size(); i++) {

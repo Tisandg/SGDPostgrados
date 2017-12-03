@@ -16,11 +16,7 @@ public class ValidadorListaVacia implements Validator{
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        String valor = String.valueOf(value);        
-        if(valor.equalsIgnoreCase("")) {            
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe seleccionar un campo de la lista");
-            throw new ValidatorException(msg);
-        }                
+        String valor = String.valueOf(value);                     
         if(valor.equalsIgnoreCase("seleccionar")) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe seleccionar un campo de la lista");
             throw new ValidatorException(msg);

@@ -110,6 +110,8 @@ public class PublicacionController implements Serializable {
     private UploadedFile publicacionPDF;
     private UploadedFile TablaContenidoPDF;
     private UploadedFile cartaAprobacionPDF;
+    
+    private UIComponent archivoPublicacion;
     private byte[] exportContent;
     private String pdfUrl;
 
@@ -594,13 +596,14 @@ public class PublicacionController implements Serializable {
         if (cartaAprobacionPDF != null && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
             tituloMensaje = "Evidencia";
             mensaje = "Debe subir la carta de aprobación en formato PDF";
+            System.out.println("entro 1");
             this.numeroDocumentos++;
             FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
-            
         }
         if (publicacionPDF != null && !publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
             tituloMensaje = "Publicacion";
             mensaje = "Debe subir la publicación en formato PDF";
+            System.out.println("entro 2");
             this.numeroDocumentos++;
             FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
             
@@ -636,9 +639,16 @@ public class PublicacionController implements Serializable {
             if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
                 puedeSubir = true;
             } else {
-                FacesContext.getCurrentInstance().addMessage("cartaAprobacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación o la evidencia de la publicacion", ""));
+                System.out.println("Debe subir publicacion y evidencia");
+                
+                //FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación y la evidencia de la publicacion", "");
+                FacesMessage msg = new FacesMessage("Debe subir la publicación y la evidencia de la publicacion");
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(archivoPublicacion.getClientId(context), msg);
+                //  FacesContext.getCurrentInstance().addMessage("msjRevistaPdf", new FacesMessage("Debe subir la publicacion y la evidencia", "Debe subir la publicacion y la evidencia"));
+                //FacesContext.getCurrentInstance().addMessage("revistaPDF",msg);
             }
-
+            
             if (puedeSubir) {
                 System.out.println("Agregando documentacion");
                 Estudiante est = getAuxEstudiante();

@@ -12,18 +12,19 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
  * @author Juan
  */
 @FacesValidator(value="validadorNombreArticulo")
 public class ValidadorNombreArticulo implements Validator {
+    
     @EJB
     private PublicacionFacade dao;
     private Publicacion actual;
+    
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        
         String nombre = String.valueOf(value);
-        System.out.println("Nombre"+ nombre);
         nombre= nombre.trim();
         /*Validando que el campo no este vacio*/
         if(nombre.length() == 0) {
@@ -46,11 +47,11 @@ public class ValidadorNombreArticulo implements Validator {
             }
                 
         }
-        /*
+        
         if(isRegistradoTituloArticulo(nombre, context)){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del articulo ya esta registrado. Por favor revise el dato ingresado.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del articulo ya se encuentrado registrado.");
             throw new ValidatorException(msg);
-        }*/
+        }
             
     }
     

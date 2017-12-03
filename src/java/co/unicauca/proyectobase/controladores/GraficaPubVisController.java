@@ -28,17 +28,12 @@ public class GraficaPubVisController implements Serializable {
     private String anioAux;
     @PostConstruct
     public void init() {
-           
         this.anio="2017";
-           createBarModels();
-        
+        createBarModels();
     }
     
-        public void iniciar() {
-           
- 
-           createBarModels();
-        
+    public void iniciar() {
+        createBarModels();
     }
 
     public BarChartModel getBarModel() {
@@ -90,10 +85,8 @@ public class GraficaPubVisController implements Serializable {
     private int toltalContMeses(ArrayList<Integer> contMeses) {
 
         int sum = 0;
-
         for (int i = 0; i < contMeses.size(); i++) {
             sum = sum + contMeses.get(i);
-
         }
         return sum;
     }

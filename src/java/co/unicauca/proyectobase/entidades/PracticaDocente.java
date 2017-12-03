@@ -1,9 +1,7 @@
 package co.unicauca.proyectobase.entidades;
 
-import co.unicauca.proyectobase.controladores.OpenKMController;
 import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
 import com.openkm.sdk4j.OKMWebservices;
-import com.openkm.sdk4j.OKMWebservicesFactory;
 import com.openkm.sdk4j.bean.Folder;
 import com.openkm.sdk4j.bean.QueryParams;
 import com.openkm.sdk4j.bean.QueryResult;

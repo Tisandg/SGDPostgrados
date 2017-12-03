@@ -16,8 +16,9 @@ public class ValidadorCodigoEstudiante implements Validator {
     
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        
+        System.out.println("Validando codigo estudiante");
         String codigo = String.valueOf(value);
-//        System.out.println("validadorCodigoEstudiante-----------------------------------------------");
         
         if(codigo.length() == 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código del estudiante es obligatorio.");
@@ -30,7 +31,7 @@ public class ValidadorCodigoEstudiante implements Validator {
         }
         
         if(!validarFormato(codigo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código debe ser numeros en el formato 70_1061...");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El código es un numero en el formato 70_cedulaEstudiante");
             throw new ValidatorException(msg); 
         }
         
@@ -44,13 +45,11 @@ public class ValidadorCodigoEstudiante implements Validator {
             throw new ValidatorException(msg); 
         }
         
-        
         if (isRegistradoEstudianteCodigo(codigo, context)){
             String message = "Ya existe un estudiante registrado con el codigo ingresaso.";
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", message);
             throw new ValidatorException(msg);
         }
-        
         
     }
     

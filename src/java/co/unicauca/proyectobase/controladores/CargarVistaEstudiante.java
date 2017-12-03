@@ -10,7 +10,6 @@ import javax.inject.Named;
  * guardadas en el atributo "ruta".
  * @author sperez
  */
-
 @Named(value = "cargarVistaEstudianteController")
 @ManagedBean
 @RequestScoped

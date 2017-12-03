@@ -28,17 +28,12 @@ public class GraficaPubRegController implements Serializable {
     private String anioAux;
     @PostConstruct
     public void init() {
-           
         this.anio="2017";
-           createBarModels();
-        
+        createBarModels();
     }
     
-        public void iniciar() {
-           
- 
-           createBarModels();
-        
+    public void iniciar() {       
+        createBarModels();
     }
 
     public BarChartModel getBarModel() {
@@ -47,7 +42,6 @@ public class GraficaPubRegController implements Serializable {
 
     private void createBarModels() {
         createBarModel();
-
     }
 
     public String getTotalPub() {

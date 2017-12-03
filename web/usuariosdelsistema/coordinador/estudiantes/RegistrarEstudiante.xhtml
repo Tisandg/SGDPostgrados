@@ -48,12 +48,11 @@
                             <p:message for="valApellido" id="msjValApellido" styleClass="addEspacio" /> 
 
                             <h:panelGroup>
-                                <p:outputLabel value="Código:" style="font-weight:bold;"/>
+                                <p:outputLabel value="Código:" styleClass="addEspacio" style="font-weight:bold;"/>
                                 <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
                             <p:inputText class="form-control" id="valCodigo" placeholder="70_123123123" value="#{estudianteController.actual.estCodigo}">
                                 <f:validator validatorId="validadorCodigoEstudiante"/>
-                                <f:validator validatorId="ValidarCodigoEstudianteNoExistente"/>
                                 <p:ajax event="blur" update="msjValCodigo"/>
                             </p:inputText>
                             <p:message for="valCodigo" id="msjValCodigo" styleClass="addEspacio"/>
@@ -99,24 +98,23 @@
                             </p:selectOneMenu>
                             
                         </h:panelGrid>
+                        
+                        <br/>
+                        <h:commandButton value="Registrar" action="#{estudianteController.agregar()}" class="botonVerPractica " />
+                        <p:commandButton onclick="PF('dlg2').show();"  value="Cancelar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+
+                        <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false">
+                            <h:form style="font-size: 10px;">
+                                <br/>
+                                <h:outputText value="¿Esta seguro que cancelar el registro del estudiante?" />
+                                <br/><br/>
+                                <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                <p:commandButton action="#{estudianteController.redirigirAlistar()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                            </h:form>
+                        </p:dialog>
+                        
                     </p:panel>
                 </p:tab>
-                <br/><br/>                                                 
-                <h:form>                                          
-                    <p:commandButton value="Registrar" action="#{estudianteController.agregar()}" class="btn btn-primary " />
-                    <p:commandButton onclick="PF('dlg2').show();"  value="Cancelar" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-
-                    <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false">
-                        <h:form style="font-size: 10px;">
-                            <br/>
-                            <h:outputText value="¿Esta seguro que cancelar el registro del estudiante?" />
-                            <br/><br/>
-                            <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                            <p:commandButton action="#{estudianteController.redirigirAlistar()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                        </h:form>
-                    </p:dialog>
-                </h:form>
-                <br/><br/><br/>
             </h:form>
         </ui:define>
     </ui:composition>

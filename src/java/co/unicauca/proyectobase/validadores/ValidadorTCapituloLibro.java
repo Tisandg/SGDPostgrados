@@ -34,10 +34,10 @@ public class ValidadorTCapituloLibro implements Validator {
             throw new ValidatorException(msg);
         }         
         
-        /*if(isRegistradoTituloCapLibro(nombre, context)){
+        if(isRegistradoTituloCapLibro(nombre, context)){
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del capítulo libro ya se encuentra registrado. Por favor, verifique la información.");
             throw new ValidatorException(msg);
-        }*/
+        }
     }
     
     public boolean isRegistradoTituloCapLibro(String titulo, FacesContext context){

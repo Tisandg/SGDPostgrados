@@ -25,8 +25,8 @@ public class ValidadorNombrePonencias implements Validator {
             throw new ValidatorException(msg);
         }        
         
-        if(nombre.length() < 10 || nombre.length() > 100) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título de la ponencia debe contener entre 10 y 100 caracteres.");
+        if(nombre.length() < 10 || nombre.length() > 200) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título de la ponencia debe contener entre 10 y 200 caracteres.");
             throw new ValidatorException(msg);
         } 
         
@@ -34,10 +34,10 @@ public class ValidadorNombrePonencias implements Validator {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre de la ponencia es incorrecto.");
             throw new ValidatorException(msg);
         } 
-        /*if(isRegistrado(nombre, context)){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título ya esta registrado. Por favor, verifique el título de la ponencia .");
+        if(isRegistrado(nombre, context)){
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título de la ponencia ya se encuentra registrado");
             throw new ValidatorException(msg);
-        }*/
+        }
 
     }
     

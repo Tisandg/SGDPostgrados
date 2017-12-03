@@ -9,11 +9,12 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- * @author Juan
+ * @author Santiago
  */
-@FacesValidator(value="validadorTituloLibro")
-public class ValidadorTituloLibro implements Validator {
-    
+
+@FacesValidator(value="validadorTituloLibCap")
+public class ValidadorTituloLibCapitulo implements Validator{
+
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String titulo = String.valueOf(value);
@@ -26,25 +27,6 @@ public class ValidadorTituloLibro implements Validator {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro debe contener entre 3 y 200 caracteres");
             throw new ValidatorException(msg);
         } 
-        //indagar si el titulo de n libro se puede repetir
-        if(isRegistrado(titulo, context)){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro ya se encuentra registrado.");
-            throw new ValidatorException(msg);
-        }
     }
-    
-    public boolean isRegistrado(String titulo, FacesContext context){
-        /*Buscar en la bd si esta registrado*/
-        boolean variable = false;
-        PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
-                    getValue(context.getELContext(), null, "publicacionController");
-        if (controller.buscarLibroPorTitulo(titulo) != null) {
-            variable = true;
-        }
-        return variable;
-    }
-    
-    
     
 }
-
