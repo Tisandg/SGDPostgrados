@@ -28,19 +28,19 @@ public class ValidadorCorreoEditar implements Validator {
         }
 
         if((correo.length()<10) ||(correo.length()>30)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe contener de 10 a 30 caracteres");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe contener de 10 a 30 caracteres.");
             throw new ValidatorException(msg);  
         }
         
         if(validarFormato(correo)) {
             if(!siTieneArroba(correo)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no tiene @");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no tiene @.");
                 throw new ValidatorException(msg);
             }
             else {
                 if(!validarDominio(correo)) 
                 {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe tener un dominio después del @.  Ejemplo: @gmail.com");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe tener un dominio después del @.  Ejemplo: @gmail.com .");
                     throw new ValidatorException(msg);
                 }
                 else 
@@ -54,22 +54,22 @@ public class ValidadorCorreoEditar implements Validator {
             }
         }
         else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El formato del correo es incorrecto");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El formato del correo es incorrecto.");
             throw new ValidatorException(msg);
         }
         
         if(!validarInicioCorreo(correo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del correo es incorrecto");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del correo es incorrecto.");
             throw new ValidatorException(msg);
         }
         
         if(validarInicioCorreo2(correo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no debe iniciar por www");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no debe iniciar por www.");
             throw new ValidatorException(msg);
         }
         
         if(!validarCaracteresEspeciales(correo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo tiene caracteres errados. Se permiten letras, números, - , _");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo tiene caracteres errados. Se permiten letras, números, - , _ .");
             throw new ValidatorException(msg);
         }
     }

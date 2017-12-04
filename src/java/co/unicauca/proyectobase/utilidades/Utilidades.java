@@ -102,13 +102,38 @@ public class Utilidades {
         String asunto = "Notificación registro de usuario DCE";
         String mensaje = "Estimado estudiante.\n"
                 + "Se acaba de crear una cuenta de estudiante con sus datos en el sistema de Doctorado en Ciencias de la Electrónica.\n"
-                + "Recuerde que a partir de la fecha puede hacer uso del sistema, ingresando la siguiente información:"
+                + "Recuerde que a partir de la fecha puede hacer uso del sistema ingresando la siguiente información:"
                 + "\nNombre Usuario: " + estudiante.getEstUsuario()
                 + "\nContraseña: " + estudiante.getEstCodigo() 
                 + "\n\nServicio notificación DCE.";
         
         /*Se envia el correo al estudiante*/
         enviarCorreo(destinatario,asunto,mensaje);
+    }
+    
+    /**
+     * Metodo para enviar la notificaion al correo electronico del estudiante
+     * informando los cambios realizados en el perfil de estudiante.
+     * @param estudiante 
+     */
+    public static void correoEdicionPerfilEstudiante(Estudiante estudiante){
+        String destinatario = estudiante.getEstCorreo();
+        String[] username = estudiante.getEstCorreo().split("@");
+        String asunto = "Notificación edición de datos de usuario DCE";
+        String mensaje = "Estimado estudiante.\n\nSe acaba de editar información respecto a sus datos personales."
+                + "\n\nDatos actuales:"
+                + "\nCódigo: "+estudiante.getEstCodigo()
+                +"\nNombres: "+estudiante.getEstNombre()
+                +"\nApellidos: "+estudiante.getEstApellido()
+                +"\nCorreo electrónico: "+estudiante.getEstCorreo()
+                +"\nCohorte: "+estudiante.getEstCohorte()
+                +"\nNombre tutor: "+estudiante.getEstTutor() 
+                +"\nSemestre: "+estudiante.getEstSemestre()
+                +"\nEstado: "+estudiante.getEstEstado()
+                +"\n\nRecuerde que a partir de la fecha puede hacer uso del sistema, ingresando la siguiente información: " 
+                +"\nNombre Usuario: " + username[0]+ "\nContraseña: "+ estudiante.getEstCodigo()
+                +"\n\nServicio notificación DCE.";
+        enviarCorreo(destinatario, asunto, mensaje);
     }
 
     /***

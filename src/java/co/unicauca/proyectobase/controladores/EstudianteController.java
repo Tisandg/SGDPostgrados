@@ -216,6 +216,10 @@ public class EstudianteController implements Serializable {
         actual = new Estudiante();
     }
 
+    /**
+     * Metodo para guardar los cambios realizados en la informacion del
+     * perfil de un estudiante.
+     */
     public void guardarEdicion() {
         try {
             //actual.setEstCohorte(Integer.parseInt(cohorte));
@@ -232,9 +236,7 @@ public class EstudianteController implements Serializable {
             }
             else
             {
-                //Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Sistema de doctorado en ciencias de la electronica - Edición de Datos en cuenta de estudiante ", "Cordial Saludo. "+ "\n" + "\n" +"La edición de datos en el sistema de doctorado en ciencias de la electrónica se ha completado correctamente."+"\n"+"Los detalles de su cuenta son los siguientes: " +"\n" + "\n" +"Datos: " +"\n" + "Codigo: "+actual.getEstCodigo()+ "\n" +"Nombres: "+actual.getEstNombre() + "\n" + "Apellidos: "+actual.getEstApellido()+ "\n" +"Correo Institucional: "+actual.getEstCorreo()+ "\n" +"Cohorte: "+actual.getEstCohorte()  + "\n" + "Nombre del Tutor: "+actual.getEstTutor() +"\n" + "Semestre: "+actual.getEstSemestre()  + "\n" +"Estado: "+actual.getEstEstado() +"\n"+ "\n" +"Datos para iniciar sesión: " +"\n"+ "Usuario: " + username[0]+ "\n" +"Contrasenia: "+ actual.getEstCodigo());
-                Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Notificación edición de datos de usuario DCE", "Estimado estudiante. "+ "\n" + "\n" +"Se acaba de editar información respecto a sus datos personales."+"\n" +"\n" +"Datos actuales: " +"\n" + "Código: "+actual.getEstCodigo()+ "\n" +"Nombres: "+actual.getEstNombre() + "\n" + "Apellidos: "+actual.getEstApellido()+ "\n" +"Correo electrónico: "+actual.getEstCorreo()+ "\n" +"Cohorte: "+actual.getEstCohorte()  + "\n" + "Nombre tutor: "+actual.getEstTutor() +"\n" + "Semestre: "+actual.getEstSemestre()  + "\n" +"Estado: "+actual.getEstEstado() +"\n"+ "\n" +"Recuerde que a partir de la fecha puede hacer uso del sistema, ingresando la siguiente información: " +"\n"+ "Nombre Usuario: " + username[0]+ "\n" +"Contraseña: "+ actual.getEstCodigo() + "\n"+ "\n" + "Servicio notificación DCE.");
-
+                Utilidades.correoEdicionPerfilEstudiante(actual);
             }
 
             mensajeEditar();

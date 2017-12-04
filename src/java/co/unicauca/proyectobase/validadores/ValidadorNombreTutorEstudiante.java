@@ -30,7 +30,7 @@ public class ValidadorNombreTutorEstudiante implements Validator
         }
         
         boolean cumplePatron = Pattern.matches("^[a-zA-ZñÑáÁéÉíÍóÓúÚ\\s]*$", texto);
-        if(!cumplePatron)
+        if(cumplePatron == false)
         {            
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Solo se permiten letras y espacios.");
             throw new ValidatorException(msg);  

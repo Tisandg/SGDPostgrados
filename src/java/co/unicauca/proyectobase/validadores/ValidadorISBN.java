@@ -24,12 +24,12 @@ public class ValidadorISBN implements Validator{
         if(isbn.equals("")){
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar el ISBN. Campo obligatorio");
             throw new ValidatorException(msg);
-        }
-                
-        if(!isValidoFormato(isbn)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"123-12-12345-12-1\".");
-            throw new ValidatorException(msg);
-        }
+        }else{
+            if(!isValidoFormato(isbn)) {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"123-12-12345-12-1\".");
+                throw new ValidatorException(msg);
+            }
+        }   
         
         /*
         if(isRegistrado(isbn, context)){
@@ -39,8 +39,12 @@ public class ValidadorISBN implements Validator{
 
     }
     
-    /*La validacion del ISBN sera con respecto a los 13 digitos que establecieron
-    * a partir de enero de 2007. Formato: xxx-xx-xxxxx-xx-x donde las x son numeros*/
+    /**
+     * La validacion del ISBN sera con respecto a los 13 digitos que establecieron
+     * a partir de enero de 2007. Formato: xxx-xx-xxxxx-xx-x donde las x son numeros
+     * @param isbn
+     * @return 
+     */
     public boolean isValidoFormato(String isbn){
         boolean valido = true;
         String[] dividido = isbn.split("-");
@@ -88,13 +92,23 @@ public class ValidadorISBN implements Validator{
         return valido;
     }
     
-    /*Validar que el string sean numeros*/
+    /**
+     * Validar que el string sean numeros
+     * @param cadena
+     * @return 
+     */
     public boolean isNumero(String cadena) {
         Pattern p = Pattern.compile("^[0-9]*$");
         Matcher m = p.matcher(cadena); 
         return m.find();
     }
     
+    /**
+     * Comprueba si el isbn ya ha sido registrado en el sistema
+     * @param isbn
+     * @param context
+     * @return 
+     */
     public boolean isRegistrado(String isbn, FacesContext context){
         boolean variable = false;
         PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().

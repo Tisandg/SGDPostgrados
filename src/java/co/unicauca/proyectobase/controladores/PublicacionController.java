@@ -115,7 +115,6 @@ public class PublicacionController implements Serializable {
     private UploadedFile TablaContenidoPDF;
     private UploadedFile cartaAprobacionPDF;
     
-    private UIComponent archivoPublicacion;
     private byte[] exportContent;
     private String pdfUrl;
 
@@ -651,7 +650,7 @@ public class PublicacionController implements Serializable {
                 //FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación y la evidencia de la publicacion", "");
                 FacesMessage msg = new FacesMessage("Debe subir la publicación y la evidencia de la publicacion");
                 FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(archivoPublicacion.getClientId(context), msg);
+                context.addMessage("PubicacionPdf", msg);
                 //  FacesContext.getCurrentInstance().addMessage("msjRevistaPdf", new FacesMessage("Debe subir la publicacion y la evidencia", "Debe subir la publicacion y la evidencia"));
                 //FacesContext.getCurrentInstance().addMessage("revistaPDF",msg);
             }

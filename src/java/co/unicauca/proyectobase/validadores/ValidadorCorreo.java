@@ -39,7 +39,7 @@ public class ValidadorCorreo implements Validator
         }
 
         if((correo.length()<10) ||(correo.length()>30)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe contener de 10 a 30 caracteres");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo debe contener de 10 a 30 caracteres.");
             throw new ValidatorException(msg);  
         }
         
@@ -48,66 +48,50 @@ public class ValidadorCorreo implements Validator
         
         if(!validar.find())
         {
-            FacesMessage msg= new FacesMessage(FacesMessage.SEVERITY_ERROR, "","formato de Correo invalido.");
+            FacesMessage msg= new FacesMessage(FacesMessage.SEVERITY_ERROR, "","Formato de correo invalido.");
             throw new ValidatorException(msg);
         }
         
-        /*
-        if(validarFormato(correo)) {
-            if(!siTieneArroba(correo)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no tiene @");
-                throw new ValidatorException(msg);
-            }
-        }
-        else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El formato del correo es incorrecto");
-            throw new ValidatorException(msg);
-        }
-        
-        if(!validarInicioCorreo(correo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del correo es incorrecto");
-            throw new ValidatorException(msg);
-        }
-        
-        if(validarInicioCorreo2(correo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo no debe iniciar por www");
-            throw new ValidatorException(msg);
-        }
-        
-        if(!validarCaracteresEspeciales(correo)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El correo tiene caracteres errados");
-            throw new ValidatorException(msg);
-        }
-        
-        if(validarExistencia(correo))
-        {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ya existe un estudiante con este correo.");
-            throw new ValidatorException(msg); 
-        }*/
     }
     
-    //valida que el dominio del correo sea correcto
+    /**
+     * valida que el dominio del correo sea correcto
+     * @param dominio
+     * @return 
+     */
     public boolean validarDominio(String dominio) {
         return !(!dominio.equals("gmail.com") && 
                  !dominio.equals("unicauca.edu.co") &&
                  !dominio.equals("hotmail.com"));
     }
     
-    //valida que el correo no empieze por un caracter especial
+    /**
+     * valida que el correo no empieze por un caracter especial
+     * @param correo
+     * @return 
+     */
     public boolean validarInicioCorreo(String correo) {
         Pattern p = Pattern.compile("^[a-z]");
         Matcher m = p.matcher(correo);
         return m.find();
     }
     
-    //valida que no empieze por www.
+    /**
+     * valida que no empieze por www.
+     * @param correo
+     * @return 
+     */
     public boolean validarInicioCorreo2(String correo) {
         Pattern p = Pattern.compile("^www.");
         Matcher m = p.matcher(correo);
         return m.find();
     }
     
-    //valida que no contenga caracteres prohibidos
+    /**
+     * valida que no contenga caracteres prohibidos
+     * @param correo
+     * @return 
+     */
     public boolean validarCaracteresEspeciales(String correo) {
         Pattern p = Pattern.compile("^[A-Za-z0-9.@_-~#]+$");
         Matcher m = p.matcher(correo);
@@ -115,22 +99,25 @@ public class ValidadorCorreo implements Validator
         return m.matches();
     }
     
-    //valida si el correo ingresado tiene el caracter @
+    /**
+     * valida si el correo ingresado tiene el caracter @
+     * @param texto
+     * @return 
+     */
     public boolean siTieneArroba(String texto) {
         Pattern p = Pattern.compile("@");
         Matcher m = p.matcher(texto); 
         return m.find();
     }
     
-    //valida si el correo cumple con el formato xxx@xxx
+    /**
+     * valida si el correo cumple con el formato xxx@xxx
+     * @param texto
+     * @return 
+     */
     public boolean validarFormato(String texto) {
         return texto.split("@").length == 2;
     }
-    
-    public boolean validarExistencia(String correo)
-    {
-//        return dao.findByEstCorreo(correo);
-        return false;
-    }
+
     
 }

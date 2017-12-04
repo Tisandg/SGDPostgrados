@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.validadores;
 
 import java.util.regex.Matcher;
@@ -41,13 +36,15 @@ public class ValidadorISSN implements Validator {
 
     }
 
-    //valida el formato del DOI
+    /**
+     * Valida el formato del DOI
+     * @param doi
+     * @return 
+     */
     public boolean validarFormato(String doi) {
-        //  Pattern p = Pattern.compile("(^([0-9]{4})+([0-9]{3})+([0-9X]{1}))$");
         Pattern p = Pattern.compile("(^([0-9]{4})+([-]{1})+([0-9]{3})+([0-9X]{1}))$");
         //http://www.issn.org/es/comprender-el-issn/que-es-el-numero-issn/
         //https://goo.gl/jQFjlJ
-        //Pattern p = Pattern.compile("^([0-9])");
         Matcher m = p.matcher(doi);
         return m.find();
     }

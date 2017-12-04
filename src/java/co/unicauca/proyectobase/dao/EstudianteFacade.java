@@ -32,8 +32,13 @@ public class EstudianteFacade extends AbstractFacade<Estudiante> {
         return !query.getResultList().isEmpty();
     }
 
+    /**
+     * Funcion para saber si ya existe un estudiante con el codigo ingresado
+     * @param estCodigo
+     * @return 
+     */
     public boolean existByEstCodigo(String estCodigo) {
-        Query query = em.createNamedQuery("Estudiante.findByEstCodigo");
+        Query query = em.createNamedQuery("Estudiante.buscarPorCodigo");
         query.setParameter("estCodigo", estCodigo);
         return !query.getResultList().isEmpty();
     }
