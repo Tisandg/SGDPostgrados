@@ -97,13 +97,18 @@ public class VerEstudianteController implements Serializable {
         }
     }
  
-    
+    /* redirige a la vista que permite ver los datos del estudiante
+    que ha iniciado sesión
+    */
     public void redirigirVerMisDatos(String nombreUsuario) {
         fijarEstudiante(nombreUsuario);
         cve.verDatosPersonales();
         Utilidades.redireccionar(cve.getRuta());
     }
     
+    /* cuando se invoca este método, se carga la vista que muestra los datos
+    del estudiante, que pueden ser editados
+    */
     public void irEditarContrasena(String nombreUsuario) {
         fijarEstudiante(nombreUsuario);
         cve.irEditarContrasena();
@@ -159,6 +164,10 @@ public class VerEstudianteController implements Serializable {
         this.contrasenas = contrasenas;
     }
     
+    /* método que permite un cambio de contraseña, si se recibe la misma
+    contraseña actual, se alerta al usuario, de ser diferente, se acepta el 
+    cambio en la contraseña
+    */
     public boolean cambiarContrasena(){
         
         System.out.println("Cambiando contraseña...");
