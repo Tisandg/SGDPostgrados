@@ -55,9 +55,9 @@ public class Revista implements Serializable {
     @Size(min = 1, max = 2)
     @Column(name = "rev_categoria")
     private String revCategoria;
-    
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
+     
+    @Basic(optional = true)
+    @Size(max = 30)
     @Column(name = "rev_doi")
     private String revDoi;
     

@@ -19,15 +19,7 @@ public class ValidadorISSN implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String issn = value.toString();
-
-        if(issn.length() == 0) 
-        {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar el ISSN. Campo obligatorio");
-            throw new ValidatorException(msg);
-        }
-        
-        if (issn.length() != 0) {
-
+        if (isVacio(issn) == false) {
             if (!validarFormato(issn)) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Formato del ISSN es incorrecto. Intente de nuevo");
                 throw new ValidatorException(msg);
@@ -36,6 +28,18 @@ public class ValidadorISSN implements Validator {
 
     }
 
+    /**
+     * Metodo para comprobar si se han ingresado datos en el inputMask
+     * @param issn
+     * @return 
+     */
+    private boolean isVacio(String issn){
+        boolean vacio = true;
+        if(!issn.contains("_") && !issn.contains("-")){
+            vacio = false;
+        }
+        return vacio;
+    }
     /**
      * Valida el formato del DOI
      * @param doi

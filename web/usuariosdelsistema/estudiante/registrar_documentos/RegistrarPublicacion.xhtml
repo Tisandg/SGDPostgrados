@@ -95,7 +95,6 @@
 
                             <h:panelGroup>
                                 <p:outputLabel value="DOI:" styleClass="addEspacio"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>                                
                             <p:inputText class="form-control" id="valDOIRev"  value="#{publicacionController.actual.revista.revDoi}" placeholder="Ej: 10.1234/1234" size="35">
                                 <f:validator validatorId="validadorDOI" />
@@ -195,7 +194,6 @@
                             
                             <h:panelGroup>
                                 <h:outputLabel value="ISSN:" styleClass="addEspacio"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>
                             <p:inputMask class="form-control" id="valISSN"  value="#{publicacionController.actual.congreso.congIssn}" placeholder="Ej: 1234-1234 ó 1234-123X" size="35" mask="9999-999?*">
                                 <f:validator validatorId="validadorISSN" />
@@ -208,7 +206,6 @@
 
                             <h:panelGroup>
                                 <p:outputLabel value="DOI:" styleClass="addEspacio"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>
                             <p:inputText class="form-control" id="valDOICong"  value="#{publicacionController.actual.congreso.congDoi}" placeholder="Ej: 10.1234/1234" size="35" >
                                 <f:validator validatorId="validadorDOI" />
@@ -308,9 +305,7 @@
                         <h:panelGrid columns="5" cellpadding="5">
                             <h:panelGroup>
                                 <p:outputLabel value="ISBN:" styleClass="addEspacio"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />
                             </h:panelGroup>
-
                             <p:inputMask mask="999-99-99999-99-9"  class="form-control" id="valISBNLibro"  
                                          value="#{publicacionController.actual.libro.libIsbn}"  size="35"
                                          styleClass="addEspacio form-control" placeholder="123-12-12345-12-1">
@@ -401,7 +396,6 @@
                         <h:panelGrid columns="5" cellpadding="5">
                             <h:panelGroup>
                                 <p:outputLabel value="ISBN:" styleClass="addEspacio"/>
-                                <p:outputLabel style="font-style: italic; font-size: 16px; text-align: left; color: red;"  value="*" />&nbsp;
                             </h:panelGroup>
                             <p:inputMask mask="999-99-99999-99-9"  class="form-control" id="valISBNCapLibro"  
                                          value="#{publicacionController.actual.capituloLibro.caplibIsbn}"  size="35"

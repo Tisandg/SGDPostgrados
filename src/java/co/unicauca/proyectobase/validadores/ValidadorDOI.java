@@ -24,44 +24,46 @@ public class ValidadorDOI implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String doi = value.toString();
-        
         if(doi.length() != 0) 
         {
             if(!validarFormato(doi)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El DOI debe tener el siguiente formato numerico: 10.1234/1234");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El DOI debe tener el siguiente formato numérico: 10.xxxx/xxxx.");
                 throw new ValidatorException(msg);
             }
             else {
                 if(!validarSufijo(doi)) {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "No se puede iniciar con un caracter especial despues del símbolo /");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "No se puede iniciar con un caracter especial despues del símbolo '/'.");
                     throw new ValidatorException(msg);
                 }
                 else {
                     if(!validarCaracteresPrefijo(doi)) {
-                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El prefijo solo puede ser numérico");
+                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El prefijo solo puede ser numérico.");
                         throw new ValidatorException(msg);
                     }
 
                     if(!validarPrefijo(doi)) {
-                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del DOI no cumple con el formato numerico: 10.1234");
+                        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El inicio del DOI no cumple con el formato numerico: 10.1234.");
                         throw new ValidatorException(msg);
                     }
                 }
             }
-        }    
-        else
-        {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Es necesario el DOI para poder registrar la publicación");
-            throw new ValidatorException(msg);
         }
     }
     
-    //validar que el DOI tenga el formato "prefijo"/"sufijo"
+    /**
+     * validar que el DOI tenga el formato "prefijo"/"sufijo"
+     * @param doi
+     * @return 
+     */
     public boolean validarFormato(String doi) {
         return doi.split("/").length == 2;
     }
     
-    //valida que el sufijo no inicie con algun caracter especial, solo debe iniciar con una letra o un numero
+    /**
+     * valida que el sufijo no inicie con algun caracter especial, solo debe iniciar con una letra o un numero
+     * @param doi
+     * @return 
+     */
     public boolean validarSufijo(String doi) {        
         String[] valores = doi.split("/");
         
@@ -70,7 +72,11 @@ public class ValidadorDOI implements Validator {
         return m.find();
     }
     
-    //valida que el prefijo cumpla con el formato 10.xxxx
+    /**
+     * valida que el prefijo cumpla con el formato 10.xxxx
+     * @param doi
+     * @return 
+     */
     public boolean validarPrefijo(String doi) {        
         String[] valores = doi.split("/");
         
@@ -79,7 +85,11 @@ public class ValidadorDOI implements Validator {
         return m.find();
     }
     
-    //valida que el prefijo solo tenga numeros y un punto
+    /**
+     * valida que el prefijo solo tenga numeros y un punto
+     * @param doi
+     * @return 
+     */
     public boolean validarCaracteresPrefijo(String doi) {        
         String[] valores = doi.split("/");
 

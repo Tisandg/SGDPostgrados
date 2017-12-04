@@ -20,11 +20,9 @@ public class ValidadorISBN implements Validator{
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String isbn = value.toString();
-        isbn = isbn.trim();
-        if(isbn.equals("")){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar el ISBN. Campo obligatorio");
-            throw new ValidatorException(msg);
-        }else{
+        //isbn = isbn.trim();
+        System.out.println("ISBN: "+isbn);
+        if(isVacio(isbn) == false){
             if(!isValidoFormato(isbn)) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"123-12-12345-12-1\".");
                 throw new ValidatorException(msg);
@@ -37,6 +35,19 @@ public class ValidadorISBN implements Validator{
             throw new ValidatorException(msg);
         }*/
 
+    }
+    
+    /**
+     * Metodo para comprobar si se han ingresado datos en el inputMask
+     * @param issn
+     * @return 
+     */
+    private boolean isVacio(String isbn){
+        boolean vacio = true;
+        if(!isbn.contains("_") && !isbn.contains("-")){
+            vacio = false;
+        }
+        return vacio;
     }
     
     /**

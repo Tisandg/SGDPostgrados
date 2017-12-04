@@ -52,8 +52,8 @@ public class Libro implements Serializable
     @Size(max = 25)
     @Column(name = "editorial")
     private String editorial;
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
+    @Basic(optional = true)    
+    @Size(max = 30)
     @Column(name = "lib_isbn")
     private String libIsbn;
 

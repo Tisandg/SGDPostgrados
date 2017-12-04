@@ -48,13 +48,13 @@ public class Congreso implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
+    @Basic(optional = true)
+    @Size(max = 30)
     @Column(name = "cong_doi")
     private String congDoi;
     
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
+    @Basic(optional = true)    
+    @Size(max = 30)
     @Column(name = "cong_issn")
     private String congIssn;
     

@@ -29,8 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "CapituloLibro.findByCaplibTituloCapitulo", query = "SELECT c FROM CapituloLibro c WHERE c.caplibTituloCapitulo = :caplibTituloCapitulo")})
 public class CapituloLibro implements Serializable {
 
-    @Basic(optional = false)    
-    @Size(min = 1, max = 30)
+    @Basic(optional = true)    
+    @Size(max = 30)
     @Column(name = "caplib_isbn")
     private String caplibIsbn;
 
