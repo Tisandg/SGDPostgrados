@@ -118,6 +118,11 @@ public class UsuarioController implements Serializable {
      * @param actual
      * @return 
      */
+    
+    /* método para el cambio de la contraseña actual de un usuario que ha
+    iniciado sesion, en caso de no ser posible el cambio, se alerta al usuario
+    con un mensaje de pantalla
+    */
     public boolean cambiarContrasena(Usuario actual){
         
         this.current = actual;
@@ -142,7 +147,9 @@ public class UsuarioController implements Serializable {
         return respuesta;
     }
     
-    
+    /* esta función devuelve el objeto de tipo usuario que se haya seleccionado
+    en una lista de usuarios
+    */
     public Usuario getSelected() {
         if (current == null) {
             current = new Usuario();
@@ -168,12 +175,17 @@ public class UsuarioController implements Serializable {
         }
         return pagination;
     }
-
+    /* funcion que crea un objeto de lista de usuarios para ser usados en vista
+    
+    */
     public String prepareList() {
         recreateModel();
         return "List";
     }
-
+/* funcion que crea un objeto de tipo "view" que se usa para preparar la vista
+    que se va a mostrar
+    
+    */
     public String prepareView() {
         current = (Usuario) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
@@ -204,13 +216,18 @@ public class UsuarioController implements Serializable {
             return null;
         }
     }
-
+    /* funcion que crea un objeto de usuario, cos sus items por separado, para
+    ser usados en vista de edicion    
+    */
     public String prepareEdit() {
         current = (Usuario) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
+        /* funcion que crea un objeto de vista que actualiza la lista de usuarios
+    y se muestran en la pantalla
+    */
     public String update() {
         try {
             getFacade().edit(current);

@@ -61,24 +61,39 @@ public class TipoUsuarioController implements Serializable {
         }
         return pagination;
     }
-
+    /* funcion que crea un objeto de lista de usuarios para ser usados en vista
+    
+    */
     public String prepareList() {
         recreateModel();
         return "List";
     }
-
+    
+    /* funcion que crea un objeto de tipo "view" que se usa para preparar la vista
+    que se va a mostrar    
+    */
     public String prepareView() {
         current = (TipoUsuario) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
-
+    
+    /**
+     * Metodo que inicializa un nuevo objeto usuario listo para ser utilizado
+     * en la creacion de un usuario
+     * @return 
+     */
     public String prepareCreate() {
         current = new TipoUsuario();
         selectedItemIndex = -1;
         return "Create";
     }
-
+    
+    /**
+     * Funcino que crea un registro en la tabla usuario con los datos guardados
+     * en el objeto current
+     * @return "Create" si se creo el registro, de lo contrario null
+     */
     public String create() {
         try {
             getFacade().create(current);
@@ -89,13 +104,19 @@ public class TipoUsuarioController implements Serializable {
             return null;
         }
     }
-
+    
+    /* funcion que crea un objeto de usuario, cos sus items por separado, para
+    ser usados en vista de edicion    
+    */
     public String prepareEdit() {
         current = (TipoUsuario) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
-
+     
+    /* funcion que crea un objeto de vista que actualiza la lista de usuarios
+    y se muestran en la pantalla
+    */
     public String update() {
         try {
             getFacade().edit(current);
