@@ -1,6 +1,7 @@
 package co.unicauca.proyectobase.validadores;
 
 import co.unicauca.proyectobase.controladores.PublicacionController;
+import co.unicauca.proyectobase.entidades.Libro;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,19 +27,22 @@ public class ValidadorTituloLibro implements Validator {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro debe contener entre 3 y 200 caracteres");
             throw new ValidatorException(msg);
         } 
-        //indagar si el titulo de n libro se puede repetir
         if(isRegistrado(titulo, context)){
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro ya se encuentra registrado.");
             throw new ValidatorException(msg);
         }
     }
     
+    
     public boolean isRegistrado(String titulo, FacesContext context){
         /*Buscar en la bd si esta registrado*/
         boolean variable = false;
         PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "publicacionController");
-        if (controller.buscarLibroPorTitulo(titulo) != null) {
+        Libro libro = controller.buscarLibroPorTitulo(titulo);
+        //System.out.println("libro: "+libro.getPubIdentificador());
+        //System.out.println("otro "+controller.getActual().getPubIdentificador());
+        if (libro != null && !controller.getActual().getPubIdentificador().equals(libro.getPubIdentificador()) ){
             variable = true;
         }
         return variable;

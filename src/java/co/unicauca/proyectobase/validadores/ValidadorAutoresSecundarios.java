@@ -21,7 +21,6 @@ public class ValidadorAutoresSecundarios implements Validator {
         String texto = String.valueOf(value);
         
         if(!texto.equals("")) {
-            System.out.println("Validando "+texto.length());
             if(texto.length()<10 || texto.length()>200) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "La longitud debe estar entre 10 y 200 caracteres");
                 throw new ValidatorException(msg);

@@ -69,6 +69,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
 
@@ -232,8 +234,7 @@ public class Publicacion implements Serializable {
         boolean archivosSubidos = false;
         /*Nombre de los archivos que se almacenaran en el repositorio*/
         MetodosPDF mpdf = new MetodosPDF();
-        String codigoEst = this.pubEstIdentificador.getEstCodigo();
-        String codigoFirma = mpdf.codigoFirma(codigoEst);
+        String codigoFirma = mpdf.codigoFirma(this.pubEstIdentificador.getEstCodigo());
         codigoFirma = codigoFirma.trim();
 
         String nombreCartaAprob = "Carta de Aprobacion-" + codigoFirma;
@@ -297,6 +298,95 @@ public class Publicacion implements Serializable {
             System.out.println("Error al subir los archivos a openKm");
         }        
         return archivosSubidos;
+    }
+    
+    /**
+     * Metodo utilizado para agregar documentos al openkm cuando ya se ha
+     * registrado un a documentacion previamente.
+     * @param documento
+     * @param tipo
+     * @param idArchivo
+     * @return 
+     */
+    public boolean AgregaMetadatosDocumento(UploadedFile documento, int tipo, int idArchivo){
+        boolean archivoSubido = false;
+        /*Nombre de los archivos que se almacenaran en el repositorio*/
+        //MetodosPDF mpdf = new MetodosPDF();
+        //String codigoFirma = mpdf.codigoFirma(this.pubEstIdentificador.getEstCodigo());
+        //codigoFirma = codigoFirma.trim();
+        String codigoFirma = this.pubDiropkm;
+
+        String nombreDocumento = documento.getFileName()+codigoFirma;
+        String nombrePub = obtenerNombrePub();
+        PropiedadesOS os = new PropiedadesOS();
+        /*Obtiene la ruta de la ubicacion del servidor donde se almacenaran 
+          temporalmente los archivos ,para luego subirlos al Gestgor Documental OpenKm  */
+        String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(os.getSeparator());        
+        String rutaNombrePub = realPath + "WEB-INF"+ os.getSeparator() + "temp" + os.getSeparator() + nombrePub + ".pdf";
+        String rutaTemporalDoc = realPath + "WEB-INF"+ os.getSeparator() +"temp" + os.getSeparator() + nombreDocumento + ".pdf";
+
+        /*  Estampa de Tiempo
+            Obtiene el dia y hora actual del servidor para posteriormente adicionarlo
+            como Metadato en el documento PDF/A y el Gestor Documental*/
+        /*Date date = new Date();
+        DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String estampaTiempo = "" + datehourFormat.format(date);
+        this.setPubFechaRegistro(date);*/
+
+        /*  Metodo para almacenar los metadatos de la Carte de Aprobacion , Articulo y Tabla de Contenido 
+            para almacenarlo en formato PDFA */
+        String tipoDoc = tipoDocOpenKm(tipo);
+        tipoPDF_cargar pdfACargar = null;
+        try {
+            pdfACargar = new tipoPDF_cargar(nombreDocumento,rutaTemporalDoc,
+                    tipoDoc,documento.getInputstream());
+        } catch (IOException ex) {
+            Logger.getLogger(Publicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        /*Creamos los pdf con los metadatos*/
+        CrearPDFA_Metadata(pdfACargar, idArchivo);
+
+        
+        /*Obtenemos una llave hash para nuesta publicacion*/
+        String hash = this.pubHash;
+
+        /* Metodo para almacenar en el Gestor Documental(OPENKM), carta de aprobacion,
+           el articulo en formato y la Tabla de Contenido del Articulo, todos en formato
+           PDFA*/
+        ArrayList<tipoPDF_cargar> archivosSubida = new ArrayList<>();
+        archivosSubida.add(pdfACargar);
+        try {
+            if(SubirOpenKM(archivosSubida, codigoFirma, hash)){
+                System.out.println("El archivo se ha subido a openKM");
+                archivoSubido = true;
+            }else{
+                System.out.println("Error al subir los archivos a openKm");        
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Publicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return archivoSubido;
+    }
+    
+    /**
+     * Metodo que retorna el nombra del tipo de archivo como se maneja 
+     * en OpenKM
+     * @param idTipo
+     * @return 
+     */
+    public String tipoDocOpenKm(int idTipo){
+        String tipo = "";
+        if(idTipo == 1){
+            tipo = "cartaAprobacion";
+        }
+        if(idTipo == 2){
+            tipo = "tipoPublicacion";
+        }
+        if(idTipo == 3){
+            tipo = "tablaContenido";
+        }
+        return tipo;
     }
     
     public void AgregarPracticaDocente(UploadedFile ArchivoPD) throws IOException
@@ -776,6 +866,91 @@ public class Publicacion implements Serializable {
             }
             document.close();
         }
+    }
+    
+    /**
+     * Crea los archivos pdf con los metadatos que son subidos al gestor openKm.
+     * @param subidaArchivos
+     * @param estampaTiempo
+     * @param pubDoi
+     * @param pubIsbn
+     * @param pubIssn 
+     */
+    private void CrearPDFA_Metadata(tipoPDF_cargar archivo,int idArchivo) {
+
+        Document document = new Document();
+        PdfReader reader;
+        
+        try {
+            PdfAWriter writer = PdfAWriter.getInstance(document, new FileOutputStream(
+                    archivo.getRutaArchivo()), PdfAConformanceLevel.PDF_A_1B);
+            writer.setTagged();
+
+            SimpleDateFormat formateador = new SimpleDateFormat("MM-yyyy");
+            String FechaPublicacion = formateador.format(this.pubFechaPublicacion);
+            document.addHeader("Identificador Publicacion", "" + this.pubIdentificador);
+            document.addHeader("Identificador Archivo", "" + idArchivo);
+            document.addHeader("tipoPDF_cargar", "" + archivo.getTipoPDF());
+            document.addHeader("Estampa Tiempo", "" + this.pubFechaRegistro);
+            document.addAuthor("" + this.pubEstIdentificador.getEstNombre());
+            document.addCreator("" + this.pubEstIdentificador.getEstNombre());
+            try{
+                document.addHeader("Autores_Secundarios", this.pubAutoresSecundarios);
+            }catch(Exception e){
+                System.out.println("Error agregando autores secundarios a metadatos"+ e.getMessage());
+            }
+            document.addHeader("Fecha_Publicacion", FechaPublicacion);
+            document.addHeader("Tipo_Publicacion", this.idTipoDocumento.getNombre());
+
+            /* Se Comprubea si los metadatos a llenar son para una revista
+                un congreso , un libro o un capitulo de un libro*/
+            if (this.idTipoDocumento.getIdentificador() == 4) {
+                document.addTitle("" + this.revista.getRevTituloArticulo());
+                document.addHeader("Nombre_Revista", this.revista.getRevNombreRevista());
+                document.addHeader("Categoria", this.revista.getRevCategoria());
+                document.addHeader("DOI", this.revista.getRevDoi());
+            }
+            
+            if (this.idTipoDocumento.getIdentificador() == 3) {
+                document.addTitle("" + this.congreso.getCongTituloPonencia());
+                document.addHeader("Nombre_Evento", this.congreso.getCongNombreEvento());
+                document.addHeader("Tipo_Congreso", this.congreso.getCongTipoCongreso());
+                document.addHeader("DOI", this.congreso.getCongDoi());
+                document.addHeader("ISSN",this.congreso.getCongIssn());
+            }
+
+            if (this.idTipoDocumento.getIdentificador() == 2) {
+                document.addTitle("" + this.capituloLibro.getCaplibTituloLibro());
+                document.addHeader("Titulo_Libro", this.capituloLibro.getCaplibTituloLibro());
+                document.addHeader("Titulo_Capitulo", this.capituloLibro.getCaplibTituloCapitulo());
+                document.addHeader("ISBN",this.capituloLibro.getCaplibIsbn());
+            }
+
+            if (this.idTipoDocumento.getIdentificador() == 1) {
+                document.addTitle("" + this.libro.getLibTituloLibro());
+                document.addHeader("Titulo_Libro", this.libro.getLibTituloLibro());
+                document.addHeader("ISBN",this.libro.getLibIsbn());
+            }
+
+            document.addCreationDate();
+
+            writer.setTagged();
+            writer.createXmpMetadata();
+            writer.setCompressionLevel(9);
+            document.open();
+            PdfContentByte cb = writer.getDirectContent();
+            reader = new PdfReader(archivo.getArchivoIS());
+            PdfImportedPage page;
+            int pageCount = reader.getNumberOfPages();
+            for (int i = 0; i < pageCount; i++) {
+                document.newPage();
+                page = writer.getImportedPage(reader, i + 1);
+                cb.addTemplate(page, 0, 0);
+            }
+        } catch (DocumentException | IOException de) {
+            System.err.println(de.getMessage());
+        }
+        document.close();
     }
     
     /***

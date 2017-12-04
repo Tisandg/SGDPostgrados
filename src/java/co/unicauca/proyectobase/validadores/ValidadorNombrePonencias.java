@@ -1,6 +1,7 @@
 package co.unicauca.proyectobase.validadores;
 
 import co.unicauca.proyectobase.controladores.PublicacionController;
+import co.unicauca.proyectobase.entidades.Congreso;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
@@ -48,12 +49,22 @@ public class ValidadorNombrePonencias implements Validator {
         return m.find();
     }
     
+    
+    /**
+     * Funcion que determina si ya se encuentra en el sistema otro registro con
+     * el mismo titulo de la ponencia. True si hay otro registro, de lo contrario
+     * false.
+     * @param ponencia
+     * @param context
+     * @return 
+     */
     public boolean isRegistrado(String ponencia, FacesContext context){
         /*Buscar en la bd si esta registrado*/
         boolean variable = false;
         PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "publicacionController");
-        if (controller.buscarPonenciaPorTitulo(ponencia) != null) {
+        Congreso congreso = controller.buscarPonenciaPorTitulo(ponencia);
+        if (congreso != null && congreso.getPubIdentificador() != controller.getActual().getPubIdentificador()) {
             variable = true;
         }
         return variable;

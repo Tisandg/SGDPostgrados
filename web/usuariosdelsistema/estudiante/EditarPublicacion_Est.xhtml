@@ -25,7 +25,7 @@
                         <h:panelGrid columns="3" cellpadding="5">                                   
 
                             <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
-                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.getNombreCompleto(userLoginView.username)}" style="color: #3366ff"/>
+                            <h:outputText class="form-control" id="valNombAut"  value="#{publicacionController.getnombreAut()}" style="color: #3366ff"/>
                             <p:outputLabel value="" styleClass="addEspacio"/>
 
                             <p:outputLabel value="Autores secundarios:" styleClass="addEspacio"/>
@@ -264,8 +264,8 @@
                                     <p:ajax event="blur" update="msjvalTLibro" />
                                 </p:inputText>
                                 <p:message for="valTLibro" id="msjvalTLibro" />
-                                <p:outputLabel value=""></p:outputLabel>
-                                <p:outputLabel value=""></p:outputLabel>
+                                <p:outputLabel value=""/>
+                                <p:outputLabel value=""/>
 
                                 <h:panelGroup>
                                     <p:outputLabel value="Editorial:" styleClass="addEspacio"/>
@@ -360,20 +360,23 @@
 
                                 <p:outputLabel value="Evidencia publicación:" style="font-weight:bold;"/>
                                 <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfCartaAprob()}" onclick="this.form.target = '_blank'" />
-                                <p:fileUpload id="cartaAprobacionPDF" styleClass="btn btn-primary" value="#{publicacionController.cartaAprobacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
+                                <p:fileUpload id="cartaAprobacionPDF" value="#{publicacionController.cartaAprobacionPDF}" 
+                                              mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
                                               update="messagesEvidencia"/>
                                 <p:growl id="messagesEvidencia" showDetail="true" />
 
                                 <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
                                 <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfPub()}" onclick="this.form.target = '_blank'" />
-                                <p:fileUpload id="publicacionPDF" styleClass="btn btn-primary" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
+                                <p:fileUpload id="publicacionPDF" styleClass="btn btn-primary" value="#{publicacionController.publicacionPDF}" 
+                                              mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
                                               update="messagesPublicacion"/>
                                  <p:growl id="messagesPublicacion" showDetail="true" />
 
 
                                 <p:outputLabel value="Tabla de contenido:" style="font-weight:bold;"/>
                                 <h:commandButton class="botonVerPractica" value="Ver" action="#{publicacionController.pdfPubTC()}" onclick="this.form.target = '_blank'" />
-                                <p:fileUpload id="tablaContenidoPDF" styleClass="btn btn-primary" value="#{publicacionController.publicacionPDF}" required="true" mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
+                                <p:fileUpload id="tablaContenidoPDF" styleClass="btn btn-primary" value="#{publicacionController.tablaContenidoPDF}" 
+                                              mode="simple" allowTypes="/(\.|\/)(pdf)$/" 
                                               update="messagesTabla"/>
                                 <p:growl id="messagesTabla" showDetail="true" />
 
@@ -387,7 +390,7 @@
                                     <h:outputText value="¿Esta seguro que desea cancelar la edicion?" />
                                     <br/><br/>
                                     <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                                    <p:commandButton action="#{publicacionController.redirigirPublicacionesEst()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                    <p:commandButton action="#{publicacionController.redirigirPublicacionesEst()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;" ajax="false" type="submit"/>
                                 </h:form>
                             </p:dialog>
 

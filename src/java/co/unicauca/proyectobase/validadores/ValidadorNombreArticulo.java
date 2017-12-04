@@ -3,6 +3,7 @@ package co.unicauca.proyectobase.validadores;
 import co.unicauca.proyectobase.controladores.PublicacionController;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.entidades.Publicacion;
+import co.unicauca.proyectobase.entidades.Revista;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -55,12 +56,19 @@ public class ValidadorNombreArticulo implements Validator {
             
     }
     
+    /**
+     * Funcion que determina si el nombre del articulo ya ha sido registrado.
+     * @param tituloArticulo
+     * @param context
+     * @return 
+     */
      public boolean isRegistradoTituloArticulo(String tituloArticulo, FacesContext context){
-        /*Buscar en la bd si esta registrado*/
+        
         boolean variable = false;
         PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "publicacionController");
-        if (controller.buscarTituloArticulo(tituloArticulo) != null) {
+        Revista rev = controller.buscarTituloArticulo(tituloArticulo);
+        if (rev != null && !rev.getPubIdentificador().equals(controller.getActual().getPubIdentificador())) {
             variable = true;
         }
         return variable;

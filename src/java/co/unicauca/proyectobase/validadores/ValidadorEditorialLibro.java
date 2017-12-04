@@ -23,7 +23,7 @@ public class ValidadorEditorialLibro implements Validator
         
         if(editorial.equals(""))
         {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar la Editorial del libro. Campo obligatorio");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar la editorial del libro.");
             throw new ValidatorException(msg);
         }
     }

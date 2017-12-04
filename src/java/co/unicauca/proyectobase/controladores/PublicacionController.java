@@ -16,13 +16,17 @@ import co.unicauca.proyectobase.entidades.Revista;
 import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.CapituloLibro;
 import co.unicauca.proyectobase.entidades.Ciudad;
+import co.unicauca.proyectobase.entidades.MetodosPDF;
 import co.unicauca.proyectobase.entidades.Pais;
 import co.unicauca.proyectobase.entidades.archivoPDF;
+import co.unicauca.proyectobase.entidades.tipoPDF_cargar;
 import co.unicauca.proyectobase.utilidades.Autor;
 import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
+import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.bean.QueryParams;
+import com.openkm.sdk4j.bean.QueryResult;
 import com.openkm.sdk4j.exception.AccessDeniedException;
 import com.openkm.sdk4j.exception.AutomationException;
 import com.openkm.sdk4j.exception.DatabaseException;
@@ -593,6 +597,9 @@ public class PublicacionController implements Serializable {
         boolean validos = true;
         String tituloMensaje = "";
         String mensaje = "";
+        System.out.println("Carta evidencia: "+cartaAprobacionPDF.getFileName());
+        System.out.println("Carta publicacion: "+publicacionPDF.getFileName());
+        System.out.println("Carta tabla: "+TablaContenidoPDF.getFileName());
         if (cartaAprobacionPDF != null && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
             tituloMensaje = "Evidencia";
             mensaje = "Debe subir la carta de aprobación en formato PDF";
@@ -618,7 +625,7 @@ public class PublicacionController implements Serializable {
         if(this.numeroDocumentos > 0){
             validos = false;
         }
-        System.out.println("Numero de documentos "+this.numeroDocumentos);
+        System.out.println("Numero de documentos erroneos"+this.numeroDocumentos);
         return validos;
     }
 
@@ -847,18 +854,17 @@ public class PublicacionController implements Serializable {
         }
         if (actual.getIdTipoDocumento().getIdentificador() == 3) {
             actual.getCongreso().setCiudadId(ejbCiudad.getCiudadPorId(idCiudad));
-            System.out.println("Tipo de evento " + actual.getCongreso().getCongTipoCongreso());
         }
         boolean formatoValido = comprobarArchivosPDF();
         if(formatoValido){
-            if(this.numeroDocumentos>0){
+            if(this.numeroDocumentos==0){
                 /*Editamos los archivos en el openkm*/
                 editarAchivosOpenKm();
+                daoPublicacion.edit(actual);
+                System.out.println("Datos editados");
+                mensajeEditar();
+                redirigirPublicacionesEst();
             }
-            daoPublicacion.edit(actual);
-            System.out.println("Datos editados");
-            mensajeEditar();
-            redirigirPublicacionesEst();
         }
     }
     
@@ -870,44 +876,83 @@ public class PublicacionController implements Serializable {
      */
     public boolean editarAchivosOpenKm(){
         boolean edicion = false;
-        StringBuilder tipoPDF = new StringBuilder("");
         int contadorDocumentos = 0;
         OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();
+        
+        String tipoDoc = "";
+        if (this.actual.getIdTipoDocumento().getIdentificador() == 4) {
+            tipoDoc = "revista";
+        }
+        if (this.actual.getIdTipoDocumento().getIdentificador() == 3) {
+            tipoDoc = "congreso";
+        }
+        if (this.actual.getIdTipoDocumento().getIdentificador() == 2) {
+            tipoDoc = "capLibro";
+        }
+        if (this.actual.getIdTipoDocumento().getIdentificador() == 1) {
+            tipoDoc = "libro";
+        }
+        Map<String, String> properties = new HashMap();                        
+        properties.put("okp:"+tipoDoc+".identPublicacion", "" + actual.getPubIdentificador()); 
+        
         while(contadorDocumentos<3){
+            System.out.println("contador "+contadorDocumentos);
             UploadedFile documento = null;
-            if (!publicacionPDF.getFileName().equalsIgnoreCase("")) {
-                tipoPDF.replace(0,tipoPDF.length()-1,"tipoPublicacion");
-                documento = publicacionPDF;
+            String tipoPDF = "";
+            if(contadorDocumentos == 0){
+                if (!publicacionPDF.getFileName().equalsIgnoreCase("")) {
+                    tipoPDF = "tipoPublicacion";
+                    documento = publicacionPDF;
+                }
             }
-            if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
-                tipoPDF.replace(0,tipoPDF.length()-1,"cartaAprobacion");
-                documento = cartaAprobacionPDF;
+            if(contadorDocumentos == 1){
+                if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
+                    tipoPDF = "cartaAprobacion";
+                    documento = cartaAprobacionPDF;
+                }
             }
-            if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("")) {
-                tipoPDF.replace(0,tipoPDF.length()-1,"tablaContenido");
-                documento = TablaContenidoPDF;
-            }
+            if(contadorDocumentos == 2){
+                if (!TablaContenidoPDF.getFileName().equalsIgnoreCase("")) {
+                    tipoPDF = "tablaContenido";
+                    documento = TablaContenidoPDF;
+                }
+            }     
+            properties.put("okp:"+tipoDoc+".tipoPDFCargar",""+tipoPDF); 
+            QueryParams qParams = new QueryParams();
+            qParams.setProperties(properties);
+            
             try {
-                Map<String, String> properties = new HashMap();                        
-                properties.put("okp:practica.identPublicacion", "" + actual.getPubIdentificador());
-                properties.put("okp:practica.tipoPDFCargar", tipoPDF.toString());            
-                QueryParams qParams = new QueryParams();
-                qParams.setProperties(properties);                        
-                String auxDoc = ws.find(qParams).get(0).getDocument().getPath();
-
-                //editar archivo de open km           
-                //primero se debe hacer un checkout enviando la ruta del archivo que se desea editar
-                ws.checkout(auxDoc);
-                //con un checkin se envia la ruta(debe ser la misma), el flujo de string y 
-                //unas observaciones que se envian en blanco
-                ws.checkin(auxDoc, documento.getInputstream(), "");
+  
+                List<QueryResult> result = ws.find(qParams);
+                if(result.size() == 0){
+                    /*No se ha subido el documento anteriormente*/
+                    if (!documento.getFileName().equalsIgnoreCase("")) {
+                        //3 Tabla de contenido
+                        //2 tipoPublicacion
+                        //1 cartaAprobacion
+                        int numArchivos = daoPublicacion.getIdArchivo();
+                        if(actual.AgregaMetadatosDocumento(documento, 3, numArchivos)){
+                            System.out.println("El archivo se ha subido");
+                        }else{
+                            System.out.println("Problemas al subir el archivo");
+                        }
+                    }
+                }else{
+                    /*Se modifica el documento subido*/
+                    String auxDoc = result.get(0).getDocument().getPath();
+                    //editar archivo de open km           
+                    //primero se debe hacer un checkout enviando la ruta del archivo que se desea editar
+                    ws.checkout(auxDoc);
+                    //con un checkin se envia la ruta(debe ser la misma), el flujo de string y 
+                    //unas observaciones que se envian en blanco
+                    ws.checkin(auxDoc, documento.getInputstream(), "");
+                }
                 edicion = true;
             }catch (FileSizeExceededException | UserQuotaExceededException | VirusDetectedException | LockException | VersionException | 
                     PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | 
                     ExtensionException | AutomationException | UnknowException | WebserviceException | ParseException ex) {
                 Logger.getLogger(PracticaDocenteController.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("error en editarArchivoOpenKM");
-                System.out.println("error: " + ex.getMessage());
+                System.out.println("error en editarArchivoOpenKM "+ ex.getMessage());
             }
             contadorDocumentos++;
         }
@@ -1356,17 +1401,13 @@ public class PublicacionController implements Serializable {
      * Metodo que agrega temporalmente los autores secundarios en una lista.
      */
     public void agregarAutorSecundario() {
-        System.out.print("adicionando autor");
+        System.out.println("Agregando autores secundarios");
         if (!nombreAutor.equals("")) {
             if (!listaAutores.contains(new Autor(this.getNombreAutor()))) {
                 listaAutores.add(new Autor(this.getNombreAutor()));
-                System.out.println("autor adicionado");
-                //System.out.println("  tamaño: " + listaAutores.size());
-                //mostrarLista();
             }
         } else {
-            //FacesContext.getCurrentInstance().addMessage("msjValAutores", new FacesMessage(FacesMessage.SEVERITY_ERROR, " not a text file", ""));
-            System.out.println("nombre autor repetido");
+            System.out.println("Nombre autor repetido");
         }
         nombreAutor = "";
     }
