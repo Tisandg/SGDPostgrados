@@ -109,7 +109,7 @@
                                 <h:outputText value="¿Esta seguro que cancelar el registro del estudiante?" />
                                 <br/><br/>
                                 <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
-                                <p:commandButton action="#{estudianteController.redirigirAlistar()}" value="Si" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                                <h:commandButton action="#{estudianteController.redirigirAlistar()}" value="Si" class="botonVerPractica" style="font-size: 13px;" immediate="true"/>
                             </h:form>
                         </p:dialog>
                         

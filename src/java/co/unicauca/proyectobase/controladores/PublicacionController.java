@@ -1404,14 +1404,29 @@ public class PublicacionController implements Serializable {
     public void agregarAutorSecundario() {
         System.out.println("Agregando autores secundarios");
         if (!nombreAutor.equals("")) {
-            if (!listaAutores.contains(new Autor(this.getNombreAutor()))) {
+            if(estaAutorSecundario(this.getNombreAutor())){
+                System.out.println("Nombre autor repetido");
+            }else{
                 listaAutores.add(new Autor(this.getNombreAutor()));
             }
-        } else {
-            System.out.println("Nombre autor repetido");
         }
         nombreAutor = "";
     }
+    
+    /**
+     * Funcion para saber si un autor secundario ya esta en la lista de 
+     * autores secundarios
+     * @param nombre
+     * @return 
+     */
+    public boolean estaAutorSecundario(String nombre){
+        if(listaAutores.contains(new Autor(nombre))){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 
     /**
      * Elimina un autor secundario de la lista de autores secundarios

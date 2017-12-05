@@ -1,5 +1,6 @@
 package co.unicauca.proyectobase.validadores;
 
+import co.unicauca.proyectobase.controladores.PublicacionController;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
@@ -40,27 +41,57 @@ public class ValidadorAutoresSecundarios implements Validator {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Sólo se permiten letras, espacios y tildes");
                 throw new ValidatorException(msg);
             }
-          
+            if(isRegistrado(texto, context)){
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El nombre del autor ya se encuentra en la lista");
+                throw new ValidatorException(msg);
+            }
         }
-        
-
     }
     
-    //valida que el correo no empieze por un espacio en blanco
+    /**
+     * Funcion para comprobar que el autor a ingresar ya se encuentra en la
+     * lista
+     * @param nombre
+     * @param context
+     * @return 
+     */
+    public boolean isRegistrado(String nombre, FacesContext context){
+        boolean variable = false;
+        PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
+                    getValue(context.getELContext(), null, "publicacionController");
+        if (controller.estaAutorSecundario(nombre)) {
+            variable = true;
+        }
+        return variable;        
+    }
+    
+    /**
+     * valida que el correo no empieze por un espacio en blanco
+     * @param texto
+     * @return 
+     */
     public boolean validarInicioEspacio(String texto) {
         Pattern p = Pattern.compile("^[\\s_*'¿?!¡#-.$%&+=’~{}^<>;0-9]");
         Matcher m = p.matcher(texto);
         return m.find();
     }
     
-    //valida que el correo no empieze por un caracter especial o numeros
+    /**
+     * valida que el correo no empieze por un caracter especial o numeros
+     * @param texto
+     * @return 
+     */
     public boolean validarInicioCaracteres(String texto) {
         Pattern p = Pattern.compile("^[_*¿?!¡#-.$%&+=’~{},:\\[]^<>;0-9]");
         Matcher m = p.matcher(texto);
         return m.find();
     }
     
-    //valida que el correo no empieze por un caracter especial o numeros
+    /**
+     * valida que el correo no empieze por un caracter especial o numeros
+     * @param texto
+     * @return 
+     */
     public boolean validarFormato(String texto) {
         //Pattern p = Pattern.compile("^([^\\s]+[A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\\s;]*+[^;])+$");
         Pattern p = Pattern.compile("^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\\s;]*+[^;])+$");
@@ -68,7 +99,11 @@ public class ValidadorAutoresSecundarios implements Validator {
         return m.find();
     }
     
-    //valida que la cadena ingresada no termine en un ;
+    /**
+     * valida que la cadena ingresada no termine en un ;
+     * @param texto
+     * @return 
+     */
     public boolean validarTerminacion(String texto) {
         Pattern p = Pattern.compile("[_*¿?!¡#-.$%;&+=’~{}<>0-9]");
         Matcher m = p.matcher(texto);
@@ -76,7 +111,11 @@ public class ValidadorAutoresSecundarios implements Validator {
     }
     
     
-    //valida que la cadena ingresada no termine en un ;
+    /**
+     * valida que la cadena ingresada no termine en un ;
+     * @param texto
+     * @return 
+     */
     public boolean validarNombreAutores(String texto) {
         
         String[] nombres;
@@ -89,6 +128,5 @@ public class ValidadorAutoresSecundarios implements Validator {
         }
         return true;
     }
-    
-    
+
 }

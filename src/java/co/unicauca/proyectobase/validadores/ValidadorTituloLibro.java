@@ -40,11 +40,19 @@ public class ValidadorTituloLibro implements Validator {
         PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "publicacionController");
         Libro libro = controller.buscarLibroPorTitulo(titulo);
-        //System.out.println("libro: "+libro.getPubIdentificador());
-        //System.out.println("otro "+controller.getActual().getPubIdentificador());
-        if (libro != null && !controller.getActual().getPubIdentificador().equals(libro.getPubIdentificador()) ){
-            variable = true;
+        if(controller.getActual().getPubIdentificador() == null){
+            //esta registrando
+            if(libro != null){
+                variable = true;
+            }
+        }else{
+            //esta editando
+            if (libro != null && 
+                    !controller.getActual().getPubIdentificador().equals(libro.getPubIdentificador())){
+                variable = true;
+            }
         }
+        
         return variable;
     }
     

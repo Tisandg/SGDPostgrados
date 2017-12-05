@@ -226,13 +226,11 @@ public class EstudianteController implements Serializable {
             estFacade.edit(actual);
             estFacade.flush();
 
-            String usuario= actual.getEstCorreo();
-            String delimitador="@";
-            String[] username= usuario.split(delimitador);
-
             if(actual.getEstEstado().equalsIgnoreCase("Inactivo"))
             {
-                Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Sistema de doctorado en ciencias de la electronica - Eliminacion de cuenta de estudiante ", "Cordial Saludo. "+ "\n" + "La eliminacion de sus Datos en el sistema de doctorado en ciencias de la electrónica se ha completado correctamente");
+                Utilidades.enviarCorreo(""+actual.getEstCorreo(), "Sistema de doctorado en ciencias de la electronica - "
+                        + "Eliminacion de cuenta de estudiante ", "Cordial Saludo. "+ "\n" + "La eliminacion de sus Datos "
+                        + "en el sistema de doctorado en ciencias de la electrónica se ha completado correctamente");
             }
             else
             {

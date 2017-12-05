@@ -29,13 +29,13 @@ public class ValidadorNombreArticulo implements Validator {
         nombre= nombre.trim();
         /*Validando que el campo no este vacio*/
         if(nombre.length() == 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo es obligatorio");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo es obligatorio.");
             throw new ValidatorException(msg);
         }
 
         /*Validando el tamaño del campo*/
         if(nombre.length() < 10 || nombre.length()>200) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo debe contener entre 10 y 200 caracteres");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del artículo debe contener entre 10 y 200 caracteres.");
             throw new ValidatorException(msg);
         }
         
@@ -43,7 +43,7 @@ public class ValidadorNombreArticulo implements Validator {
         if(nombre.length()!=0)
         {
             if(nombre.charAt(0) == ' ' || nombre.charAt(nombre.length()-1) == ' '){
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Solo se permiten espacios entre las palabras");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Solo se permiten espacios entre las palabras.");
                 throw new ValidatorException(msg);
             }
                 
