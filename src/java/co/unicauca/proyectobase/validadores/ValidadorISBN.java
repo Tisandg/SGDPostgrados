@@ -20,13 +20,17 @@ public class ValidadorISBN implements Validator{
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String isbn = value.toString();
-        //isbn = isbn.trim();
-        System.out.println("ISBN: "+isbn);
-        if(isVacio(isbn) == false){
-            if(!isValidoFormato(isbn)) {
+        if(!isVacio(isbn)){
+            if(isValidoFormato(isbn)) {
+                if(validarInicio(isbn) == false){
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Actulamente el ISBN debe comenzar por 978 o 979.");
+                    throw new ValidatorException(msg);
+                }
+            }else{
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"123-12-12345-12-1\".");
                 throw new ValidatorException(msg);
             }
+            
         }   
         
         /*
@@ -43,9 +47,9 @@ public class ValidadorISBN implements Validator{
      * @return 
      */
     private boolean isVacio(String isbn){
-        boolean vacio = true;
-        if(!isbn.contains("_") && !isbn.contains("-")){
-            vacio = false;
+        boolean vacio = false;
+        if(isbn.contains("_")){
+            vacio = true;
         }
         return vacio;
     }
@@ -70,7 +74,7 @@ public class ValidadorISBN implements Validator{
                 } 
             }
             if(valido){
-                for (i = 0; i < tamano; i++) {
+                for (i = 0; i < tamano; i++){
                     
                     //Comprobando el tamaño de los grupos de numeros
                     if(i == 0){
@@ -129,6 +133,16 @@ public class ValidadorISBN implements Validator{
         }
         System.out.println("validado isbn: " + variable);
         return variable;        
+    }
+
+    private boolean validarInicio(String isbn) {
+        boolean valido = false;
+        String dividido[]= isbn.split("-");
+        int numero = Integer.parseInt(dividido[0]);
+        if(numero == 978 || numero == 979){
+            valido = true;
+        }
+        return valido;
     }
     
 }

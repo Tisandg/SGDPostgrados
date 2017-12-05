@@ -596,20 +596,15 @@ public class PublicacionController implements Serializable {
         boolean validos = true;
         String tituloMensaje = "";
         String mensaje = "";
-        System.out.println("Carta evidencia: "+cartaAprobacionPDF.getFileName());
-        System.out.println("Carta publicacion: "+publicacionPDF.getFileName());
-        System.out.println("Carta tabla: "+TablaContenidoPDF.getFileName());
         if (cartaAprobacionPDF != null && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(cartaAprobacionPDF.getContentType())) {
             tituloMensaje = "Evidencia";
             mensaje = "Debe subir la carta de aprobación en formato PDF";
-            System.out.println("entro 1");
             this.numeroDocumentos++;
             FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
         }
         if (publicacionPDF != null && !publicacionPDF.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(publicacionPDF.getContentType())) {
             tituloMensaje = "Publicacion";
             mensaje = "Debe subir la publicación en formato PDF";
-            System.out.println("entro 2");
             this.numeroDocumentos++;
             FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
             
@@ -619,7 +614,6 @@ public class PublicacionController implements Serializable {
             mensaje = "Debe subir la Tabla de Contenido en formato PDF";
             this.numeroDocumentos++;
             FacesContext.getCurrentInstance().addMessage(tituloMensaje, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensaje, ""));
-            
         }
         if(this.numeroDocumentos > 0){
             validos = false;
@@ -637,22 +631,25 @@ public class PublicacionController implements Serializable {
         /* formatoValido -> se utiliza para verificar que el usario
            suba unicamente archivos en formato pdf*/
         boolean formatoValido = comprobarArchivosPDF();
-
+        
         if (formatoValido) {
             /* PuedeSubir  ->  se utiliza para comprobar que el usuario ha seleccionado 
                 el PDF de la publicacion o en su defecto la carta de aprobacion*/
             boolean puedeSubir = false;
-            if (!publicacionPDF.getFileName().equalsIgnoreCase("") && !cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
-                puedeSubir = true;
-            } else {
-                System.out.println("Debe subir publicacion y evidencia");
-                
-                //FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe subir la publicación y la evidencia de la publicacion", "");
-                FacesMessage msg = new FacesMessage("Debe subir la publicación y la evidencia de la publicacion");
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage("PubicacionPdf", msg);
-                //  FacesContext.getCurrentInstance().addMessage("msjRevistaPdf", new FacesMessage("Debe subir la publicacion y la evidencia", "Debe subir la publicacion y la evidencia"));
-                //FacesContext.getCurrentInstance().addMessage("revistaPDF",msg);
+            String msjDocRequeridos = "";
+            if(this.tipoPublicacion.equals("libro") || this.tipoPublicacion.equals("capitulo libro")){
+                if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("")) {
+                    puedeSubir = true;
+                }else{
+                    msjDocRequeridos = "Debe subir la evidencia del documento";
+                }
+            }else{
+                if (!cartaAprobacionPDF.getFileName().equalsIgnoreCase("") && 
+                        !publicacionPDF.getFileName().equalsIgnoreCase("")) {
+                    puedeSubir = true;
+                }else{
+                    msjDocRequeridos = "Debe subir la publicación y la evidencia del documento";
+                }
             }
             
             if (puedeSubir) {
@@ -751,6 +748,11 @@ public class PublicacionController implements Serializable {
                 //redirigirPublicacionesEst(actual);
                 redirigirAlistarPublicionesEst();
                 //Utilidades.redireccionar("/ProyectoII/faces/usuariosdelsistema/estudiante/listarDocumentos/ListarPublicaciones_Est.xhtml");
+            }else{
+                System.out.println("Se requiren documentos");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Documentos requeridos",msjDocRequeridos);
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage("grupoDocs", msg);
             }
         }
     }
