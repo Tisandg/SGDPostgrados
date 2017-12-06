@@ -962,22 +962,20 @@ public class Publicacion implements Serializable {
      * @return
      * @throws LockException 
      */
-    public boolean eliminarDocOpenkm() throws LockException{
+    public boolean eliminarDocOpenkm(){
+        
         boolean eliminado = false;
-        boolean existe = false;
         String rutaFolder="/okm:root/Doctorado_Electronica/" + this.pubEstIdentificador.getEstUsuario() + "/" + this.pubDiropkm;
         Folder folder = new Folder();
         folder.setPath(rutaFolder);
         OKMWebservices ws = ConeccionOpenKM.getInstance().getWs(); 
         try {
             /* Se valida si el forder a eliminar existe o no*/
-            ws.isValidFolder(rutaFolder);
-            existe = true;
-            if(existe){
+            if(ws.isValidFolder(rutaFolder)){
                 ws.deleteFolder(rutaFolder);
                 eliminado = true;
             }
-        } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
+        } catch (LockException | PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
             System.out.println("Error al eliminar documento: "+e.getMessage());
         }
         

@@ -188,6 +188,7 @@ public class PracticaDocenteController implements Serializable {
                 FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));
                 return;
             }else{
+                System.out.println("editando practica");
                 editarArchivoOpenKM();
             }
         }else{
@@ -686,22 +687,28 @@ public class PracticaDocenteController implements Serializable {
                 actual.getPublicacion().getPubVisado().equalsIgnoreCase("no aprobado") ) {
             /*No se puede eliminar la publicacion*/
             System.out.println("No se puede eliminar. La documentación ya ha sido revisada");
-            addMessage("La publicación no se puede eliminar por que ha sido aceptada por el coordinador", "");
-        }else{
+            addMessage("La documentacion ya ha sido revisada por el coordinador.", "");
+        }else{   
             try {
-                actual.eliminarDocOpenkm();
-                PublicacionController con = new PublicacionController();
-                con.eliminarDocumentacion(actual.getPublicacion());
-                this.destroy();
-                addMessage("Documentación eliminada", visado);
-                System.out.println("Documentacion eliminada");
-            } catch (LockException ex) {                
+                if(actual.eliminarDocOpenkm()){
+                    PublicacionController con = new PublicacionController();
+                    Publicacion pub = actual.getPublicacion();
+                    ejbFacade.remove(actual);
+                    ejbFacadePub.remove(actual.getPublicacion());
+                    System.out.println("Documentacion eliminada");
+                    addMessage("Informe","Documentación eliminada exitosamente.");
+                    redirigirListarPracticasEst();
+                }else{
+                    System.out.println("error eliminando documento de openkm");                            
+                }
+            } catch (Exception e) {
                 System.out.println("error eliminando la publicacion desde practica docente");
                 addMessage("La publicación no se ha podido eliminar", "");
-                Logger.getLogger(PracticaDocenteController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PracticaDocenteController.class.getName()).log(Level.SEVERE, null, e);
             }
+            
         }
-        redirigirListarPracticasEst();
+        
     }
     
     /**
