@@ -769,6 +769,7 @@ public class PublicacionController implements Serializable {
      */
     public void eliminarDocumentacion(Publicacion pub) throws LockException {
         actual = pub;
+        daoPublicacion = new PublicacionFacade();
         /*Comprobamos que no halla sido visada*/
         if (actual.getPubVisado().equalsIgnoreCase("aprobado")
                 || actual.getPubVisado().equalsIgnoreCase("no aprobado")) {
@@ -780,6 +781,7 @@ public class PublicacionController implements Serializable {
                 /*Eliminamos primero los documentos que estan en el openKm
                   y luego eliminamos los registros de la base de datos*/
                 actual.eliminarDocOpenkm();
+                System.out.println("daoPub: " + daoPublicacion);
                 daoPublicacion.remove(actual);
                 daoPublicacion.flush();
                 addMessage("Documentacion ha sido eliminada","");

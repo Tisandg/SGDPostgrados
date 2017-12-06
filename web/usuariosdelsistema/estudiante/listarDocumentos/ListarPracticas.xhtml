@@ -54,21 +54,25 @@
                 <p:column headerText="Actividad">
                     <h:outputText value="#{prac.idActividad.nombreActividad}"/>
                 </p:column>
+                <p:column headerText="Fecha de Registro">
+                    <h:outputText value="#{practicaDocenteController.formatoHora(prac.publicacion.pubFechaRegistro)}"/>                                                           
+                </p:column>
                 <p:column headerText="Acciones"   >
                     <h:form style="font-size: 10px;">                        
                         <p:commandButton actionListener="#{practicaDocenteController.verPracticaDocenteEst(prac)}" value="Ver" class="btn btn_listaEstudiantes"  icon="ui-icon-search"  style="font-size: 13px;"/>
                         <p:commandButton disabled="#{prac.publicacion.pubVisado != 'espera'}" actionListener="#{practicaDocenteController.irAEditar(prac)}" value="Editar" icon="ui-icon-pencil" style="font-size: 13px;"/>
-                        <p:commandButton disabled="#{prac.publicacion.pubVisado != 'espera'}" onclick="PF('dlg2').show();"  value="Eliminar" class="btn_listaEstudiantes" icon="ui-icon-trash" style="font-size: 13px;"/>
+<!--                        <p:commandButton disabled="#//{prac.publicacion.pubVisado != 'espera'}" onclick="PF('dlg2').show();"  value="Eliminar" class="btn_listaEstudiantes" icon="ui-icon-trash" style="font-size: 13px;"/>
 
                         <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" height="100">
                             <h:form style="font-size: 10px;">
                                 <br/>
-                                <h:outputText value="Esta seguro que desea eliminar esta documentacion?" />
+                                <h:outputText value="Esta seguro que desea eliminar esta documentación?" />
                                 <br/><br/>                                
-                                <p:commandButton actionListener="#{practicaDocenteController.eliminarDocumentacion(prac)}" value="Si" class="btn_listaEstudiantes" style="font-size: 13px;"/>
+                                <p:commandButton actionListener="#//{practicaDocenteController.eliminarDocumentacion(prac)}" value="Si" class="btn_listaEstudiantes" style="font-size: 13px;"/>
                                 <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn_listaEstudiantes" style="font-size: 13px;"/>
                             </h:form>
                         </p:dialog>
+-->
 
                    </h:form>
                 </p:column>                        
