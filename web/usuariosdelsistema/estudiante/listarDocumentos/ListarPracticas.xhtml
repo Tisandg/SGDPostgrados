@@ -60,13 +60,13 @@
                         <p:commandButton disabled="#{prac.publicacion.pubVisado != 'espera'}" actionListener="#{practicaDocenteController.irAEditar(prac)}" value="Editar" icon="ui-icon-pencil" style="font-size: 13px;"/>
                         <p:commandButton disabled="#{prac.publicacion.pubVisado != 'espera'}" onclick="PF('dlg2').show();"  value="Eliminar" class="btn_listaEstudiantes" icon="ui-icon-trash" style="font-size: 13px;"/>
 
-                        <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" height="100">
+                        <p:dialog header="Advertencia" widgetVar="dlg2" modal="true" resizable="false" style="font-size: 13px;">
                             <h:form style="font-size: 10px;">
                                 <br/>
                                 <h:outputText value="Esta seguro que desea eliminar esta documentacion?" />
                                 <br/><br/>                                
-                                <p:commandButton actionListener="#{practicaDocenteController.eliminarDocumentacion(prac)}" value="Si" class="btn_listaEstudiantes" style="font-size: 13px;"/>
-                                <p:commandButton onclick="PF('dlg2').hide();" value="No" class="btn_listaEstudiantes" style="font-size: 13px;"/>
+                                <p:commandButton onclick="PF('dlg2').hide();" value="No" icon="ui-icon-cancel" class="btn_listaEstudiantes" style="font-size: 13px;"/>
+                                <p:commandButton action="#{practicaDocenteController.eliminarDocumentacion(prac)}" value="Si" icon="ui-icon-check" class="btn_listaEstudiantes" style="font-size: 13px;"/>
                             </h:form>
                         </p:dialog>
 

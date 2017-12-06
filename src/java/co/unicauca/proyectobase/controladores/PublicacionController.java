@@ -767,30 +767,31 @@ public class PublicacionController implements Serializable {
      * @param pub
      * @throws LockException
      */
-    public void eliminarDocumentacion(Publicacion pub) throws LockException {
+    public boolean eliminarDocumentacion(Publicacion pub){
         actual = pub;
+        boolean eliminado = false;
         /*Comprobamos que no halla sido visada*/
         if (actual.getPubVisado().equalsIgnoreCase("aprobado")
                 || actual.getPubVisado().equalsIgnoreCase("no aprobado")) {
             /*No se puede eliminar la publicacion*/
             System.out.println("No se puede eliminar. La documentacion ya ha sido revisada");
-            addMessage("La publicación no se puede eliminar por que ha sido aceptada por el coordinador", "");
+            addMessage("La documentacion ya ha sido revisada por el coordinador", "");
         } else {
-            try {
-                /*Eliminamos primero los documentos que estan en el openKm
-                  y luego eliminamos los registros de la base de datos*/
-                actual.eliminarDocOpenkm();
+            /*Eliminamos primero los documentos que estan en el openKm
+              y luego eliminamos los registros de la base de datos*/
+            if(actual.eliminarDocOpenkm()){
                 daoPublicacion.remove(actual);
                 daoPublicacion.flush();
                 addMessage("Documentacion ha sido eliminada","");
                 System.out.println("Documentacion eliminada");
-
-            } catch (LockException e) {
+                eliminado = true;
+                redirigirPublicacionesEst();
+            }else{
+                System.out.println("No se ha podido eliminar la documentacion de openkm");
                 addMessage("La publicación no se ha podido eliminar", "");
-                System.out.println("PublicacionController: " + e.getMessage());
             }
         }
-        redirigirPublicacionesEst();
+        return eliminado;
     }
     
     /**

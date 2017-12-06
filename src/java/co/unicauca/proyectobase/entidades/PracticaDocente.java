@@ -194,25 +194,23 @@ public class PracticaDocente implements Serializable {
      * @return True si se elimino el documento de openKM, False de lo contrario 
      */
     public boolean eliminarDocOpenkm(){        
+        boolean eliminado = false;
         String rutaFolder="/okm:root/Doctorado_Electronica/" + this.publicacion.getPubEstIdentificador().getEstUsuario() + "/" + this.publicacion.getPubDiropkm();
         Folder folder = new Folder();
         folder.setPath(rutaFolder);
-        //OKMWebservices ws = OKMWebservicesFactory.newInstance(OpenKMController.host , OpenKMController.username, OpenKMController.password);
         OKMWebservices ws = ConeccionOpenKM.getInstance().getWs();
         try {
             /* Se valida si el forder a eliminar existe o no*/
-            boolean valido = ws.isValidFolder(rutaFolder);            
-            if(valido){
+            if(ws.isValidFolder(rutaFolder)){
                 ws.deleteFolder(rutaFolder);                
-            }else{
-                return false;
+                eliminado = true;
             }
         } catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | UnknowException | WebserviceException e) {
             System.out.println("Error al eliminar documento: "+e.getMessage());
         } catch (LockException ex) {        
             Logger.getLogger(PracticaDocente.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("exception lockException. err: " + ex.getMessage());
+            System.out.println("Exception lockException. err: " + ex.getMessage());
         }
-        return true;
+        return eliminado;
     }
 }
