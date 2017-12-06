@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -72,7 +73,7 @@ public class ReportesJasperController implements Serializable {
     private String codEstudiante;
     private int anio;
     private int semestre;
-    String[][] plantillasReportes;
+    String[][] plantillasReportes; //matriz de rutas de las plantillas de reportes
 
     public ReportesJasperController() {
         tipoReporte = "";
@@ -168,7 +169,7 @@ public class ReportesJasperController implements Serializable {
     }
 
     /**
-     * Genera un reporte de tipo pdf
+     * Genera un reporte de tipo pdf, llamado desde a interfaz de usuario
      */
     public void getReportePdf() {
         if (tipoReporte.equals(" ")) {
@@ -178,7 +179,7 @@ public class ReportesJasperController implements Serializable {
     }
 
     /**
-     * Genera un reporte de tipo xls
+     * Genera un reporte de tipo xls, llamado desde a interfaz de usuario
      */
     public void getReporteExcel() {
         if (tipoReporte.equals(" ")) {
@@ -186,7 +187,12 @@ public class ReportesJasperController implements Serializable {
         }
         getReporte(TIPO_DOC_EXCEL);
     }
-
+    
+    public boolean redireccionar(){
+        System.out.println("redireccionando para archivo");
+        return true;
+    }
+    
     /**
      * A partir del paramtro tipoDoc mas los atributos globales genera un
      * reporte de tipo pdf o xls
@@ -196,6 +202,9 @@ public class ReportesJasperController implements Serializable {
      */
     private void getReporte(String tipoDoc) {
         try (Connection conn = getConnection()) {
+            // "fila" y "columna" guardan las coordenadas, en la matriz de rutas
+            // de las plantillas los reportes, del reporte correspondiente a la configuracion 
+            // elegida por el usuario
             int fila = 0, columna = 0;
             Map<String, Object> reportParameters = new HashMap<String, Object>();
 
@@ -225,19 +234,35 @@ public class ReportesJasperController implements Serializable {
                     System.out.println("semestre: " + semestre);
                     break;
             }
+            //obtencion de la ruta del archivo .jasper que contiene la plantilla
+            //del reporte, de acuerdo a la configuracion elegida por el usuario,
+            //que solicita el reporte
             URL url = this.getClass().getResource(plantillasReportes[fila][columna]);
             JasperReport report = (JasperReport) JRLoader.loadObject(url);
             jasperPrint = JasperFillManager.fillReport(report, reportParameters, conn);
-
-            switch (tipoDoc) {
-                case TIPO_DOC_PDF:
-                    pdf();
-                    break;
-                case TIPO_DOC_EXCEL:
-                    exportXls();
-                    break;
+            System.out.println("report" + report);
+            System.out.println("report" + report.getFields().length);
+            System.out.println("jasperPrint" + jasperPrint);
+            System.out.println("jasperPrint" + jasperPrint.getPages());
+            //confirmacion de datos existentes para generar reporte
+            if (!jasperPrint.getPages().isEmpty()) {
+                //eleccion del formato de salidad del reporte
+                switch (tipoDoc) {
+                    case TIPO_DOC_PDF:
+                        pdf();
+                        break;
+                    case TIPO_DOC_EXCEL:
+                        exportXls();
+                        break;
+                }
+            } else {
+                // cuando no hay datos para generar reporte para la configuracion
+                // elegida por el usuario
+                String summary = "No hay datos para generar el reporte.";
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, summary);
+                FacesContext.getCurrentInstance().addMessage(null, message);
             }
-//            conn.close();
+            conn.close();
         } catch (JRException ex) {
             Logger.getLogger(ReportesJasperController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -251,6 +276,7 @@ public class ReportesJasperController implements Serializable {
     public void pdf() {
         try {
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+
 //            response.addHeader("Content-disposition", "attachment; filename=report.pdf");
             //tipo del archivo de descarga
             response.addHeader("Content-disposition", "inline; filename=report.pdf");

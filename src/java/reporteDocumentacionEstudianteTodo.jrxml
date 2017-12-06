@@ -187,7 +187,7 @@ ORDER BY
 			<textField>
 				<reportElement x="188" y="0" width="230" height="25" uuid="7d80217b-5bfa-40d0-b08b-3edd6e3d0f01"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{publicacion_pub_estado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{publicacion_pub_visado}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
