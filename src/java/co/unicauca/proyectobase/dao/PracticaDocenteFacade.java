@@ -2,7 +2,6 @@ package co.unicauca.proyectobase.dao;
 
 import co.unicauca.proyectobase.entidades.Estudiante;
 import co.unicauca.proyectobase.entidades.PracticaDocente;
-import co.unicauca.proyectobase.entidades.Publicacion;
 import co.unicauca.proyectobase.entidades.TipoDocumento;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -10,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
+ * Clase utilizada para las operaciones sobre la tabla de la base de datos Practica docente
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @Stateless

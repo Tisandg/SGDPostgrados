@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.dao;
 
 import co.unicauca.proyectobase.entidades.Ciudad;
@@ -13,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Clase utilizada para las operaciones sobre la tabla de la base de datos ciudad
  * @author sperez
  */
 @Stateless

@@ -10,6 +10,11 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import javax.persistence.Query;
 
+/**
+ * Clase utilizada para las operaciones sobre la tabla de la base de datos 
+ * publicacion
+ * @author Santiago
+ */
 @Stateless
 public class PublicacionFacade extends AbstractFacade<Publicacion> {
 

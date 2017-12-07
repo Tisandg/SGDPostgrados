@@ -8,7 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
- *
+ * Clase utilizada para las operaciones sobre la tabla de la base de datos 
+ * grupoTipoUsuario
  * @author Sahydo
  */
 @Stateless

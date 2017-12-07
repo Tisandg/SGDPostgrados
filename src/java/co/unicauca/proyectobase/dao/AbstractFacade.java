@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.dao;
 
 import java.util.Iterator;
@@ -16,7 +11,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 /**
- *
+ * Clase base para facade de las entidades del sistema
  * @author Sahydo
  */
 public abstract class AbstractFacade<T> {

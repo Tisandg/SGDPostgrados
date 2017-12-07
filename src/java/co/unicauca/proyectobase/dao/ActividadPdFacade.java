@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
+ * Clase para las operaciones sobre la tabla actividades de practica docentes
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @Stateless

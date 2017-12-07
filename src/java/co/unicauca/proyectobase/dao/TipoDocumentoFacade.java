@@ -6,7 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
+ * Clase utilizada para las operaciones sobre la tabla de la base de datos 
+ * tipo documento
  * @author Unicauca
  */
 @Stateless

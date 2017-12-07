@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 /**
- *
+ * Clase utilizada para las operaciones sobre la tabla de la base de datos estudiante
  * @author Sahydo
  */
 @Stateless
