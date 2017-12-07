@@ -8,13 +8,14 @@ package co.unicauca.proyectobase.utilidades;
 import java.util.Objects;
 
 /**
- *
+ * Clase que representa un autor y permite definir los atributos propios de este.
  * @author Danilo
  */
 public class Autor {
     
     String nombre ;
 
+    /* Controladores */
     public Autor(String autor) {
         this.nombre = autor;
     }
@@ -23,6 +24,7 @@ public class Autor {
         this.nombre = "";
     }
 
+    /* Getters y Setters */
     public String getNombre() {
         return nombre;
     }
@@ -31,6 +33,10 @@ public class Autor {
         this.nombre = nombre;
     }
 
+    /**
+     * Método que permite obtener el hash del autor
+     * @return hash
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -38,6 +44,12 @@ public class Autor {
         return hash;
     }
 
+    /**
+     * Método que permite verificar si un objeto es igual a un autor
+     * @param obj: objeto para comparar
+     * @return true si es igual, false si el objeto es nulo, o es un objeto de otra clase, 
+     * o si es un autor pero no coicide el nombre
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -54,11 +66,5 @@ public class Autor {
             return false;
         }
         return true;
-    }
-
-    
-    
-    
-    
-    
+    }    
 }

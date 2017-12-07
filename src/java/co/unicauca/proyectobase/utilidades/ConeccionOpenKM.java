@@ -11,19 +11,19 @@ public class ConeccionOpenKM
 {    
     private OKMWebservices ws;
     private static ConeccionOpenKM con;
-    
     private final String host = "http://localhost:8083/OpenKM";
     private final String username = "okmAdmin";
     private final String password = "admin";    
 
+    /* Controladores */
     private ConeccionOpenKM() 
     {     
         ws = OKMWebservicesFactory.newInstance(host, username, password);
     }
     
     /**
-     * metodo que permite obtener una instancia de la clase
-     * @return objeto para poder acceder a la coneccion de openKM
+     * Método que permite obtener una instancia de la clase
+     * @return con: objeto para acceder a la coneccion de openKM
      */
     public static ConeccionOpenKM getInstance() {
         if (con == null){
@@ -33,8 +33,8 @@ public class ConeccionOpenKM
     }
 
     /**
-     * obtener la coneccion con openKM
-     * @return objeto para manejar el programa de openKM
+     * Método que permite obtener la coneccion con openKM
+     * @return ws: objeto para manejar el programa de openKM
      */
     public OKMWebservices getWs() {
         return ws;
