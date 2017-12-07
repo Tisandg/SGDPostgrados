@@ -12,7 +12,6 @@ import javax.faces.validator.ValidatorException;
 /**
  * Clase que permite hacer las validaciones para el número de créditos del estudiante.
  */
-
 @FacesValidator(value = "validadorCredito")
 public class ValidadorCredito implements Validator 
 {

@@ -29,16 +29,25 @@ import javax.faces.convert.FacesConverter;
 @SessionScoped
 public class ActividadPdController implements Serializable {
 
+    /**
+     * Utilizado para consultas a la tabla de actividades de practica docente
+     */
     @EJB
     private co.unicauca.proyectobase.dao.ActividadPdFacade ejbFacade;
+    /**
+     * Listado de las actividades de practica docente
+     */
     private List<ActividadPd> items = null;
+    /**
+     * Almacena temporalmente la actividad de la practica docente
+     */
     private ActividadPd selected;
 
-    /* Controladores */
+    /* Constructor */
     public ActividadPdController() {
     }
 
-    /* Métodos creados por el framework */
+    /******** Métodos creados por el framework ********/
     public ActividadPd getSelected() {
         return selected;
     }

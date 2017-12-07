@@ -1,9 +1,7 @@
 package co.unicauca.proyectobase.validadores;
 
-import co.unicauca.proyectobase.dao.EstudianteFacade;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -19,11 +17,15 @@ import javax.faces.validator.ValidatorException;
 @FacesValidator(value="validadorCorreo")
 public class ValidadorCorreo implements Validator 
 {
-    @EJB
-    private EstudianteFacade dao;
     
+    /**
+     * Cadena de caracteres utilizada para validar el campo correo
+     */
     private String expCorreo = "([_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,}))";
 
+    /**
+     * Metodos Get and Set
+     */
     public String getExpCorreo() {
         return expCorreo;
     }

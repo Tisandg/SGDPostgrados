@@ -27,10 +27,14 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class GrupoTipoUsuarioController implements Serializable {
 
+    //El grupo del tipo de usuario actual
     private GrupoTipoUsuario current;
-    private DataModel items = null;
+    //Utilizado para operaciones sobre la tabla GrupoTipoUsuario
     @EJB
     private co.unicauca.proyectobase.dao.GrupoTipoUsuarioFacade ejbFacade;
+    
+    //Atributos utilizados por los metodos creados por el framework
+    private DataModel items = null;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 

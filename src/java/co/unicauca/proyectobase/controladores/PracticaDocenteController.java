@@ -72,6 +72,10 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class PracticaDocenteController implements Serializable {
 
+    /**
+     * Utilizadas para operaciones sobre las tablas
+     * practicaDocente, publicacion y estudiante respectivamente
+     */
     @EJB
     private PracticaDocenteFacade ejbFacade;
     @EJB
@@ -79,20 +83,37 @@ public class PracticaDocenteController implements Serializable {
     @EJB
     private EstudianteFacade daoEst;
     
+    //Para el listado de practicas docentes
     private List<PracticaDocente> items = null;
+    //La practica docente que se esta manejando
     private PracticaDocente actual;
+    //La entidad de la publicacion
     private Publicacion publicacionEntity;
+    //Para almacenar el soporte requerido por la practica
     private UploadedFile documento;
+    //Estudiante que esta en el sistema
     private Estudiante auxEstudiante;
+    //Para la redireccion a las interfaces de estudiante
     private CargarVistaEstudiante cve;
+    //Para la redireccion a las interfaces de coordinador
     private CargarVistaCoordinador cvc;
+    //La variable de filtrado para la busqueda de las practicas docentes
     private String variableFiltrado;
     private String nombrePD;
-
-    
     private boolean renderizarHorasVar;
-    private boolean renderizarOtrosVar;    
+    private boolean renderizarOtrosVar;
+    //guarda el estado de visado de la practica
+    String visado;
+       
+    /**
+     * Constructor
+     */
+    public PracticaDocenteController() {       
+        cve = new CargarVistaEstudiante();
+        cvc= new CargarVistaCoordinador();
+    }  
     
+    /***** Get and Set *****/
     public boolean isRenderizarHorasVar() {
         return renderizarHorasVar;
     }
@@ -124,11 +145,6 @@ public class PracticaDocenteController implements Serializable {
     public void setVariableFiltrado(String variableFiltrado) {
         this.variableFiltrado = variableFiltrado;
     }
-    
-    public PracticaDocenteController() {       
-        cve = new CargarVistaEstudiante();
-        cvc= new CargarVistaCoordinador();
-    }  
     
     public Estudiante getAuxEstudiante() {
         return auxEstudiante;
@@ -162,6 +178,13 @@ public class PracticaDocenteController implements Serializable {
 
     private PracticaDocenteFacade getFacade() {
         return ejbFacade;
+    }
+    public String getVisado() {
+        return visado;
+    }
+
+    public void setVisado(String visado) {
+        this.visado = visado;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Codigo generd por jsf">    
@@ -726,17 +749,6 @@ public class PracticaDocenteController implements Serializable {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    
-    String visado;
-    
-    public String getVisado() {
-        return visado;
-    }
-
-    public void setVisado(String visado) {
-        this.visado = visado;
     }
     
     /**

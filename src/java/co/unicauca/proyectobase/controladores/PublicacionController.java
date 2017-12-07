@@ -16,13 +16,10 @@ import co.unicauca.proyectobase.entidades.Revista;
 import co.unicauca.proyectobase.entidades.Libro;
 import co.unicauca.proyectobase.entidades.CapituloLibro;
 import co.unicauca.proyectobase.entidades.Ciudad;
-import co.unicauca.proyectobase.entidades.MetodosPDF;
 import co.unicauca.proyectobase.entidades.Pais;
 import co.unicauca.proyectobase.entidades.archivoPDF;
-import co.unicauca.proyectobase.entidades.tipoPDF_cargar;
 import co.unicauca.proyectobase.utilidades.Autor;
 import co.unicauca.proyectobase.utilidades.ConeccionOpenKM;
-import co.unicauca.proyectobase.utilidades.PropiedadesOS;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.bean.QueryParams;
@@ -137,7 +134,7 @@ public class PublicacionController implements Serializable {
     private int idCiudad;
     private int numeroDocumentos;
 
-    /* Controladores */
+    /* Constructores */
     public PublicacionController() {
         cve = new CargarVistaEstudiante();
         cvc = new CargarVistaCoordinador();
@@ -369,8 +366,12 @@ public class PublicacionController implements Serializable {
     }
     //</editor-fold>
 
-    /* Lista las publicaciones que su estado de Visado sea: espera,
-     es decir publicaciones que aun no han sido visadas*/
+    /**
+     * Lista las publicaciones que su estado de Visado sea: espera,
+     * es decir publicaciones que aun no han sido visadas
+     * @param lista
+     * @return 
+     */
     public List<Publicacion> listaPublicacionVisadoEspera(List<Publicacion> lista) {
         List<Publicacion> listado = new ArrayList<>();
         for (int i = 0; i < lista.size(); i++) {
@@ -381,8 +382,12 @@ public class PublicacionController implements Serializable {
         return listado;
     }
 
-    /* Lista las publicaciones que esten revisadas
-     es decir que su estado de Visado sea: aceptada o rechazada */
+    /**
+     * Lista las publicaciones que esten revisadas
+     * es decir que su estado de Visado sea: aceptada o rechazada 
+     * @param lista
+     * @return 
+     */
     public List<Publicacion> listaPublicacionVisadoRevisada(List<Publicacion> lista) {
         List<Publicacion> listado = new ArrayList<>();
         for (int i = 0; i < lista.size(); i++) {
@@ -1153,6 +1158,9 @@ public class PublicacionController implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+    public void mensajeRechazar() {
+        addMessage("El visado de la publicacion ha sido rechazado", "");
+    }
 
     public void addErrorMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail);
@@ -1213,53 +1221,6 @@ public class PublicacionController implements Serializable {
         addMessage("Ha editado satisfactoriamente los creditos de la publicacion", "");
     }
 
-    /*
-    public void visarPublicacion() {
-        int auxCreditos = Integer.parseInt(creditos);
-        int acta = Integer.parseInt(numActa);
-        if (actual.getPubVisado().equalsIgnoreCase("aceptada")) {
-            int creditos_actuales = actual.getPubEstIdentificador().getEstCreditos();           
-            //hay que agregar logica de creditos aqui
-            int creditos_nuevos = creditos_actuales + getCreditosByTipoPub("tiopPub") ;
-            creditos_nuevos = creditos_nuevos + auxCreditos;
-            actual.getPubEstIdentificador().setEstCreditos(creditos_nuevos);            
-            actual.setPubNumActa(acta);
-            daoEst.edit(actual.getPubEstIdentificador());
-            Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Edición de Creditos de publicacion", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" + "A la publicación de nombre " + actual.obtenerNombrePub() + " se le han editado los creditos obtenidos, el nuevo número de creditos asignados es: " + auxCreditos);
-            daoPublicacion.edit(actual);
-            daoPublicacion.flush();
-            mensajeEditarCreditos();
-            redirigirAlistarRevisadas();
-        } // Si no la publicacion no ha sido aceptada 
-            // indica que esta en espera  
-        else {
-            if (actual.getPubEstIdentificador().getEstCreditos() == null) {
-                actual.getPubEstIdentificador().setEstCreditos(auxCreditos);                
-                actual.setPubNumActa(acta);
-                daoEst.edit(actual.getPubEstIdentificador());
-                actual.setPubVisado("aceptada");
-                Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Asignación de Creditos de publicación", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" + "La publicación de nombre " + actual.obtenerNombrePub() + " ha sido revisada, y se la ha asignado el siguiente número de creditos: " + auxCreditos);
-                daoPublicacion.edit(actual);
-                daoPublicacion.flush();
-                mensajeVisar();
-                redirigirAlistarRevisadas();
-
-            } else {
-                int creditos_actuales = actual.getPubEstIdentificador().getEstCreditos();
-                int creditos_nuevos = creditos_actuales + auxCreditos;
-                actual.getPubEstIdentificador().setEstCreditos(creditos_nuevos);                
-                actual.setPubNumActa(acta);
-                actual.setPubVisado("aceptada");
-                Utilidades.enviarCorreo("" + actual.getPubEstIdentificador().getEstCorreo(), "Mensaje Sistema Doctorados Electronica Unicauca - Asignación de Creditos de publicación", "" + "\n" + "\n" + "Cordial Saludo " + "\n" + "\n" + "La publicación de nombre " + actual.obtenerNombrePub() + " ha sido revisada, y se la ha asignado el siguiente número de creditos: " + auxCreditos);
-                daoEst.edit(actual.getPubEstIdentificador());
-                daoPublicacion.edit(actual);
-                daoPublicacion.flush();
-                mensajeVisar();
-                redirigirAlistarRevisadas();
-            }
-        }
-    }*/
-
     /**
      * obtiene la cantidad de creditos que se deben asignar dependiendo del tipo
      * de publicacion
@@ -1269,10 +1230,6 @@ public class PublicacionController implements Serializable {
      */
     public int getCreditosByTipoPub(String tipoPub) {
         return 1;
-    }
-
-    public void mensajeRechazar() {
-        addMessage("El visado de la publicacion ha sido rechazado", "");
     }
 
     public void RechazarPublicacion() {

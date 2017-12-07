@@ -57,50 +57,71 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class DocumentoController implements Serializable {
 
+    /**
+     * Los siguientes atributos son utilizado 
+     * para operaciones sobre la tablas en la base de datos.
+     * Tablas estudiante, publicacion, revista, congreso, libro
+     * y capitulo de libro respectivamente.
+     */
     @EJB
     private EstudianteFacade daoEst;
-    
     @EJB
     private PublicacionFacade daoPublicacion;
-    
     @EJB
     private RevistaFacade daoRevista;
-    
     @EJB
     private CongresoFacade daoCongreso;
-    
     @EJB
     private LibroFacade daoLibro;
-    
     @EJB
     private CapituloLibroFacade daoCapituloLibro;
     
+    //Almacena la publicacion que se esta manejando
     private Publicacion actual;
+    
+    //Listado de las publicaciones
     private List<Publicacion> listaDocumentos;
+    
+    //Atributos para almacenar los soportes pdf
     private UploadedFile documentoPDF;
     private UploadedFile TablaContenidoPDF;
     private UploadedFile cartaAprobacionPDF;
-    private byte[] exportContent;
-    private String pdfUrl;
 
+    //Atributos para el almacenamiento de los pdf transmitidos
     private StreamedContent streamedContent;
     private InputStream stream;
+    
+    //Para almancenar el estudiante actual
     private Estudiante auxEstudiante;
 
     private String numActa;
+    
+    //creditos de la publicacion
     private String creditos;
+    
+    //Variable utilizada para filtrar la busqueda de los documentos
     private String variableFiltrado;
     
+    //Almacena las observaciones al cambiar de estado la publicacion
     private String motRechazo;
     
+    //Controlador para la redireccion a las vistas de estudiante
     private CargarVistaEstudiante cve;
+    
+    //Controlador para la redireccion a las vistas de coordinador
     private CargarVistaCoordinador cvc;
     
-    ArrayList<Publicacion> rev;
-    ArrayList<Publicacion> lib;
-    ArrayList<Publicacion> con;
-    ArrayList<Publicacion> cap;
+    String INICIO = "index";
+    String CREAR = "new";
+    String EDITAR = "editar";
 
+    //Constructor
+    public DocumentoController() {
+        cve = new CargarVistaEstudiante();
+        cvc = new CargarVistaCoordinador();
+    }
+    
+    /***** Get and Set *****/
     public String getMotRechazo() {
         return motRechazo;
     }
@@ -131,14 +152,6 @@ public class DocumentoController implements Serializable {
 
     public void setCreditos(String creditos) {
         this.creditos = creditos;
-    }
-
-    public String getPdfUrl() {
-        return pdfUrl;
-    }
-
-    public void setPdfUrl(String pdfUrl) {
-        this.pdfUrl = pdfUrl;
     }
 
     public UploadedFile getDocumentoPDF() {
@@ -173,6 +186,29 @@ public class DocumentoController implements Serializable {
 
     public void setListaEstudiantes(List<Publicacion> listaPublicacion) {
         this.listaDocumentos = listaPublicacion;
+    }
+    
+    public Publicacion getActual() {
+        if (actual == null) {
+            actual = new Publicacion();
+        }
+        return actual;
+    }
+    
+     public Estudiante getAuxEstudiante() {
+        return auxEstudiante;
+    }
+
+    public void setAuxEstudiante(Estudiante auxEstudiante) {
+        this.auxEstudiante = auxEstudiante;
+    }
+
+    public String getVariableFiltrado() {
+        return variableFiltrado;
+    }
+
+    public void setVariableFiltrado(String variableFiltrado) {
+        this.variableFiltrado = variableFiltrado;
     }
 
     public void onComplete() {  
@@ -212,37 +248,11 @@ public class DocumentoController implements Serializable {
         return streamedContent;
     }
 
-    String INICIO = "index";
-    String CREAR = "new";
-    String EDITAR = "editar";
-
-    public DocumentoController() {
-        cve = new CargarVistaEstudiante();
-        cvc = new CargarVistaCoordinador();
-    }
-
-    public Publicacion getActual() {
-        if (actual == null) {
-            actual = new Publicacion();
-        }
-        return actual;
-    }
     
-     public Estudiante getAuxEstudiante() {
-        return auxEstudiante;
-    }
 
-    public void setAuxEstudiante(Estudiante auxEstudiante) {
-        this.auxEstudiante = auxEstudiante;
-    }
+    
 
-    public String getVariableFiltrado() {
-        return variableFiltrado;
-    }
-
-    public void setVariableFiltrado(String variableFiltrado) {
-        this.variableFiltrado = variableFiltrado;
-    }
+    
 
     public String index() {
         return INICIO;

@@ -40,21 +40,40 @@ import javax.faces.convert.FacesConverter;
 public class EstudianteController implements Serializable {
 
 
+    //Utilizado para las operaciones sobre tabla estudiante
     @EJB
     private EstudianteFacade estFacade;
+    
+    //Utilizado para operaciones sobre la tabla publicaciones
     @EJB
     private PublicacionFacade daoPublicacion;
 
     
     private Estudiante actual;
+    //Metodo para almacenar el filtro para las busqueda de estudiante
     private String variableFiltrado;
+    //almacena los resultados de las busquedas de estudiantes
     private List<Estudiante> listadoEncontrado;
+    //lista de los difentes estados del estudiante
     private List<String> Estado;
+    //Creditos del estudiante
     private String credi;
-//    private String codigoEdicion;
 
+    //Controlador para redirecciones a las interfaces del coordinador
     private CargarVistaCoordinador cvc;
 
+    /**
+     * Constructor
+     */
+    public EstudianteController() {
+        this.Estado = new ArrayList<>();
+        this.Estado.add("Activo");
+        this.Estado.add("Inactivo");
+        this.Estado.add("Egresado");
+        this.cvc = new CargarVistaCoordinador();
+    }
+    
+    /**** Get and Set **/
     public String getCredi() {
         credi = "" + actual.getEstCreditos();
         (new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new java.util.Locale("es_ES"))).format(new java.util.Date());
@@ -82,14 +101,6 @@ public class EstudianteController implements Serializable {
 
     public Estudiante getEstudiante(java.lang.Integer id) {
         return getFacade().find(id);
-    }
-
-    public EstudianteController() {
-        this.Estado = new ArrayList<>();
-        this.Estado.add("Activo");
-        this.Estado.add("Inactivo");
-        this.Estado.add("Egresado");
-        this.cvc = new CargarVistaCoordinador();
     }
 
     public CargarVistaCoordinador getCvc() {
@@ -246,6 +257,10 @@ public class EstudianteController implements Serializable {
         }
     }
 
+    /**
+     * Metodo para cambiar a inactivo el estado de un estudiante
+     * @param id 
+     */
     public void cambiarEstado(int id) {
         try {
             actual = estFacade.find(id);
@@ -258,6 +273,10 @@ public class EstudianteController implements Serializable {
         }
     }
 
+    /**
+     * Metodo para definir en activo el estado de un estudiante
+     * @param id 
+     */
     public void habilitarEstudiante(int id) {
         try {
             actual = estFacade.find(id);
@@ -270,6 +289,11 @@ public class EstudianteController implements Serializable {
         }
     }
 
+    /**
+     * Funcion para comprobar si un estudiante ha sido registrado
+     * @param codigo
+     * @return 
+     */
     public boolean estudianteRegistrado(String codigo) {
         try {
             Estudiante estudiante = estFacade.find(codigo);
@@ -286,12 +310,20 @@ public class EstudianteController implements Serializable {
 
     //jquery-3.1.1//
 
+    /**
+     * Metodo para redireccionar a la interfaz ver un estudiante en particular
+     * @param est 
+     */
     public void verEstudiante(Estudiante est) {
         actual = est;
         cvc.verEstudiante();
         Utilidades.redireccionar(cvc.getRuta());
     }
 
+    /**
+     * Metodo para redireccionar a la interfaz para editar un estudiante
+     * @param est 
+     */
     public void editarEstudiante(Estudiante est) {
         actual = est;
         //cohorte = "" + est.getEstCohorte();
@@ -341,26 +373,31 @@ public class EstudianteController implements Serializable {
         Utilidades.redireccionar(cvc.getRuta());
     }
 
-    /*redireccion para volver a registrar */
+    /**
+     * redireccion para volver a registrar
+     */
     public void redirigirARegistrar() {
         limpiarCampos();
         cvc.registrarEstudiante();
         Utilidades.redireccionar(cvc.getRuta());
     }
 
-    /*Redireccion para volver a editar*/
+    /**
+     * Redireccion para volver a editar
+     */
     public void redirigirAEditar() {
         cvc.editarEstudiante();
         Utilidades.redireccionar(cvc.getRuta());
     }
 
-    /*mensajes de confirmacion */
+    /**
+     * Metodos para las notificaciones 
+     */
     public void mensajeEditar() {
         addMessage("Ha editado satisfactoriamente al estudiante.", "");
     }
 
     public void mensajeDeshabilitar() {
-
         addMessage("Ha deshabilitado satisfactoriamente al estudiante.", "");
     }
 
@@ -435,6 +472,9 @@ public class EstudianteController implements Serializable {
 
     }
 
+    /**
+     * Metodos del framework
+     */
     @FacesConverter(forClass = Estudiante.class)
     public class EstudianteControllerConverter implements Converter {
 

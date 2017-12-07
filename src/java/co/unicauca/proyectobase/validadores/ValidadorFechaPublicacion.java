@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.unicauca.proyectobase.validadores;
 
 import javax.faces.application.FacesMessage;
@@ -13,12 +8,20 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Validador utilizado para la fecha de publicacion
  * @author Juan
  */
 @FacesValidator(value="validadorFechaPublicacion")
 public class ValidadorFechaPublicacion implements Validator {
     
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene la fecha de publicacion del registro de publicaciones y es 
+     * transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 

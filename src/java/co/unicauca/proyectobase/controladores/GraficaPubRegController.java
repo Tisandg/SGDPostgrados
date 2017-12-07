@@ -26,12 +26,18 @@ import org.primefaces.model.chart.ChartSeries;
 @SessionScoped
 public class GraficaPubRegController implements Serializable {
 
+    //Para operaciones sobre la tabla publicaciones
     @EJB
     private PublicacionFacade dao;
+    //Para generar las graficas
     private BarChartModel barModel;
+    //Para el total de publicaciones
     private String totalPub;
+    //Año en que se genera la grafica
     private String anio;
     private String anioAux;
+    
+    /*** Metodos para la construccion de la grafica ***/
     @PostConstruct
     public void init() {
         this.anio="2017";
@@ -50,6 +56,7 @@ public class GraficaPubRegController implements Serializable {
         createBarModel();
     }
 
+    /****** Get and Set *******/
     public String getTotalPub() {
         return totalPub;
     }

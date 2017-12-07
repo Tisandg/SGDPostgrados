@@ -1,9 +1,7 @@
 package co.unicauca.proyectobase.validadores;
 
-import co.unicauca.proyectobase.dao.EstudianteFacade;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -19,8 +17,6 @@ import javax.faces.validator.ValidatorException;
 @FacesValidator(value="validadorCorreoEditar")
 public class ValidadorCorreoEditar implements Validator 
 {    
-    @EJB
-    private EstudianteFacade dao;
     
     /**
      * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
@@ -87,12 +83,22 @@ public class ValidadorCorreoEditar implements Validator
         }
     }
     
+    /**
+     * Funcion para saber si la el dominio contiene el punto
+     * @param texto
+     * @return 
+     */
     public boolean validarDominio(String texto) 
     {
         String cadena[] = texto.split("@");
         return cadena[1].contains(".");
     }
     
+    /**
+     * Funcion para saber si la cadena termina en punto
+     * @param texto
+     * @return 
+     */
     public boolean validarNoTerminaConPunto(String texto) 
     {
         String cadena[] = texto.split("@");
@@ -100,21 +106,33 @@ public class ValidadorCorreoEditar implements Validator
     }
     
     
-    //valida que el correo no empieze por un caracter especial
+    /**
+     * valida que el correo no empieze por un caracter especial
+     * @param correo
+     * @return 
+     */
     public boolean validarInicioCorreo(String correo) {
         Pattern p = Pattern.compile("^[a-z]");
         Matcher m = p.matcher(correo);
         return m.find();
     }
     
-    //valida que no empieze por www.
+    /**
+     * valida que no empieze por www.
+     * @param correo
+     * @return 
+     */
     public boolean validarInicioCorreo2(String correo) {
         Pattern p = Pattern.compile("^www.");
         Matcher m = p.matcher(correo);
         return m.find();
     }
     
-    //valida que no contenga caracteres prohibidos
+    /**
+     * valida que no contenga caracteres prohibidos
+     * @param correo
+     * @return 
+     */
     public boolean validarCaracteresEspeciales(String correo) {
         Pattern p = Pattern.compile("^[A-Za-z0-9.@_-~#]+$");
         Matcher m = p.matcher(correo);
@@ -122,14 +140,22 @@ public class ValidadorCorreoEditar implements Validator
         return m.matches();
     }
     
-    //valida si el correo ingresado tiene el caracter @
+    /**
+     * valida si el correo ingresado tiene el caracter @
+     * @param texto
+     * @return 
+     */
     public boolean siTieneArroba(String texto) {
         Pattern p = Pattern.compile("@");
         Matcher m = p.matcher(texto); 
         return m.find();
     }
     
-    //valida si el correo cumple con el formato xxx@xxx
+    /**
+     * valida si el correo cumple con el formato xxx@xxx
+     * @param texto
+     * @return 
+     */
     public boolean validarFormato(String texto) {
         return texto.split("@").length == 2;
     }
