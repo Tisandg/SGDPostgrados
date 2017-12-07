@@ -47,6 +47,11 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
+/**
+ * Clase controlador que permite realizar la gestión de documentos.
+ * @author Carolina
+ */
+
 @Named(value = "documentoController")
 @ManagedBean
 @SessionScoped
@@ -103,35 +108,7 @@ public class DocumentoController implements Serializable {
     public void setMotRechazo(String motRechazo) {
         this.motRechazo = motRechazo;
     }
-
-    public void onComplete() {  
-      FacesContext.getCurrentInstance().addMessage(null, new  FacesMessage(FacesMessage.SEVERITY_INFO, "Progress Completed", "Progress Completed"));  
-    } 
-  
-    public void visPdfPub() throws IOException {
-
-        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
-        archivoPDF archivoPublic = actual.descargarDocumento(1);
-        InputStream fis = archivoPublic.getArchivo();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        byte[] buffer = new byte[0xFFFF];
-        for (int len; (len = fis.read(buffer)) != -1;) {
-            os.write(buffer, 0, len);
-        }
-        os.flush();
-        byte[] b = os.toByteArray();
-        stream = new ByteArrayInputStream(b);
-        stream.mark(0); //remember to this position!
-        streamedContent = new DefaultStreamedContent(stream, "application/pdf");
-    }
-
-    public StreamedContent getStreamedContent() throws IOException {
-        if (streamedContent != null) {
-            streamedContent.getStream().reset(); //reset stream to the start position!
-        }
-        return streamedContent;
-    }
-
+    
     public String getNumActa() {
         numActa = "" + actual.getPubNumActa();
         if (numActa.equalsIgnoreCase("null")) {
@@ -198,6 +175,43 @@ public class DocumentoController implements Serializable {
         this.listaDocumentos = listaPublicacion;
     }
 
+    public void onComplete() {  
+      FacesContext.getCurrentInstance().addMessage(null, new  FacesMessage(FacesMessage.SEVERITY_INFO, "Progress Completed", "Progress Completed"));  
+    } 
+  
+    /**
+     * Método que permite visar una publicación
+     * @throws IOException 
+     */
+    public void visPdfPub() throws IOException {
+
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
+        InputStream fis = archivoPublic.getArchivo();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[0xFFFF];
+        for (int len; (len = fis.read(buffer)) != -1;) {
+            os.write(buffer, 0, len);
+        }
+        os.flush();
+        byte[] b = os.toByteArray();
+        stream = new ByteArrayInputStream(b);
+        stream.mark(0); //remember to this position!
+        streamedContent = new DefaultStreamedContent(stream, "application/pdf");
+    }
+
+    /**
+     * Método que permite obtener el contenido transmitido.
+     * @return streamedContent: contenido transmitido.
+     * @throws IOException 
+     */
+    public StreamedContent getStreamedContent() throws IOException {
+        if (streamedContent != null) {
+            streamedContent.getStream().reset(); //reset stream to the start position!
+        }
+        return streamedContent;
+    }
+
     String INICIO = "index";
     String CREAR = "new";
     String EDITAR = "editar";
@@ -213,11 +227,31 @@ public class DocumentoController implements Serializable {
         }
         return actual;
     }
+    
+     public Estudiante getAuxEstudiante() {
+        return auxEstudiante;
+    }
+
+    public void setAuxEstudiante(Estudiante auxEstudiante) {
+        this.auxEstudiante = auxEstudiante;
+    }
+
+    public String getVariableFiltrado() {
+        return variableFiltrado;
+    }
+
+    public void setVariableFiltrado(String variableFiltrado) {
+        this.variableFiltrado = variableFiltrado;
+    }
 
     public String index() {
         return INICIO;
     }
 
+    /**
+     * Metodo que permite obtener la lista de publicaciones.
+     * @return List<Publicacion>: lista de publicaciones.
+     */
     public List<Publicacion> listado() {
 
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
@@ -232,9 +266,10 @@ public class DocumentoController implements Serializable {
 
     }
    
-        
-    
-
+    /**
+     * Metodo que permite obtener la lista de publicaciones en espera.
+     * @return List<Publicacion>: lista de publicaciones con estado "en espera"
+     */
     public List<Publicacion> listadoEspera() {
 
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
@@ -246,6 +281,10 @@ public class DocumentoController implements Serializable {
         }
     }
 
+    /**
+     * Metodo que permite obtener la lista de publicaciones revisadas.
+     * @return List<Publicacion>: lista de publicaciones con estado "Revisadas"
+     */
     public List<Publicacion> listadoRevisadas() {
 
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
@@ -257,6 +296,10 @@ public class DocumentoController implements Serializable {
         }
     }
     
+    /**
+     * Metodo que permite obtener la lista de publicaciones.
+     * @return List<Publicacion>: lista de publicaciones.
+     */
     public List<Publicacion> listadoPublicaciones(String nombreUsuario) {
 
         if ((variableFiltrado == null) || (variableFiltrado.equals(""))) {
@@ -309,12 +352,23 @@ public class DocumentoController implements Serializable {
         return listado;
     }
 
+    /**
+     * Permite validar el formato de fecha
+     * @param event 
+     */
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
         //facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
     
+    /**
+     * Método que permite generar la carta de aprobación de una publicación.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+     */
     public void pdfCartaAprob() throws FileNotFoundException, IOException, IOException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPublic = actual.descargarDocumento(2);
@@ -345,6 +399,13 @@ public class DocumentoController implements Serializable {
         }
     }
 
+    /**
+     * Método que permite subir un documento en formato PDF para una publicación.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+     */
     public void pdfPub() throws FileNotFoundException, IOException, IOException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPublic = actual.descargarDocumento(1);
@@ -379,6 +440,13 @@ public class DocumentoController implements Serializable {
 
     }
 
+    /**
+     * Método que permite subir la tabla de contenido en formato PDF para una publicación.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IOException
+     * @throws IOException 
+     */
     public void pdfPubTC() throws FileNotFoundException, IOException, IOException, IOException {
         archivoPDF archivoPublic = new archivoPDF();
         boolean descargado = false;
@@ -423,6 +491,11 @@ public class DocumentoController implements Serializable {
         
     }
 
+    /**
+     * Método que permite descargar la carta de aprobación de la publicación
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void descargarCartaAprobac() throws FileNotFoundException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPublic = actual.descargarDocumento(2);
@@ -453,6 +526,11 @@ public class DocumentoController implements Serializable {
         }
     }
 
+    /**
+     * Método que permite descargar una publicación
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void descargarPublicacion() throws FileNotFoundException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPublic = actual.descargarDocumento(1);
@@ -483,6 +561,11 @@ public class DocumentoController implements Serializable {
 
     }
 
+    /**
+     * Método que permite descargar la tabla de contenido de una publicación
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void descargarPubTC() throws FileNotFoundException, IOException {
         /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
         archivoPDF archivoPubTC = actual.descargarDocumento(3);
@@ -515,6 +598,10 @@ public class DocumentoController implements Serializable {
 
     }
 
+    /**
+     * Método que permite registrar un documento
+     * @throws IOException 
+     */
     public void agregar() throws IOException {
         System.out.println("Registrando documento");
         /* formatoValido -> se utiliza para verificar que el usario
@@ -652,6 +739,9 @@ public class DocumentoController implements Serializable {
 
     }
 
+    /**
+     * Método que permite limpiar los campos en la GUI
+     */
     public void limpiarCampos() {
         actual = new Publicacion();
         Revista revi = new Revista();
@@ -665,6 +755,10 @@ public class DocumentoController implements Serializable {
         actual.setCapituloLibro(caplib);       
     }
 
+    /**
+     * Método que permite limpiar los campos en la GUI a partir de un nombre de usuario
+     * @param nombreUsuario: nombre de usuario que ha iniciado sesión
+     */
     public void limpiarCampos(String nombreUsuario) {
         actual = new Publicacion();
         Revista revi = new Revista();
@@ -680,16 +774,28 @@ public class DocumentoController implements Serializable {
         setAuxEstudiante(est);
     }
 
+    /**
+     * Método que permite obtener el nombre del estudiante para fijar en la GUI
+     * @param nombreUsuario 
+     */
     public void fijarEstudiante(String nombreUsuario) {
         Estudiante est = daoEst.findByUsername(nombreUsuario);
         setAuxEstudiante(est);
     }
 
+    /**
+     * Método que permite obtener el nombre del autor de una publicación
+     * @return Cadena con el nombre del autor
+     */
     public String getnombreAut() {
         Estudiante est = getAuxEstudiante();
         return est.getEstNombre() + " " + est.getEstApellido();        
     }
 
+    /**
+     * Método que permite guardar la edición
+     * @return 
+     */
     public String guardarEdicion() {
         daoPublicacion.edit(actual);
         mensajeEditar();
@@ -831,22 +937,11 @@ public class DocumentoController implements Serializable {
     }
     //</editor-fold>
 
-    public Estudiante getAuxEstudiante() {
-        return auxEstudiante;
-    }
 
-    public void setAuxEstudiante(Estudiante auxEstudiante) {
-        this.auxEstudiante = auxEstudiante;
-    }
-
-    public String getVariableFiltrado() {
-        return variableFiltrado;
-    }
-
-    public void setVariableFiltrado(String variableFiltrado) {
-        this.variableFiltrado = variableFiltrado;
-    }
-
+    /**
+     * Método que permite seleccionar un archivo
+     * @param event 
+     */
     public void seleccionarArchivo(FileUploadEvent event) {
         String nombreArchivo = event.getFile().getFileName();
         UploadedFile Archivo = event.getFile();
@@ -875,6 +970,9 @@ public class DocumentoController implements Serializable {
     }
     //</editor-fold>
 
+    /**
+     * Método que permite asignar créditos a una publicación
+     */
     public void asignarCreditos() {
 
         /* Obtiene la fecha correspondiente al moemento en el que se 
@@ -889,6 +987,9 @@ public class DocumentoController implements Serializable {
 
     }
     
+    /**
+     * Método que permite visar una publicación
+     */
     public void visarPublicacion() {
 
         int auxCreditos = Integer.parseInt(creditos);
@@ -949,8 +1050,9 @@ public class DocumentoController implements Serializable {
         return 1;
     }
 
-    
-
+    /**
+     * Método que permite rechazar una publicación
+     */
     public void RechazarPublicacion() {
         actual.setPubVisado("rechazada");
         daoPublicacion.edit(actual);
@@ -961,6 +1063,7 @@ public class DocumentoController implements Serializable {
        
     }
 
+     //<editor-fold defaultstate="collapsed" desc="métodos de archivo">    
     private String uploadedFileName;
 
     public String getUploadedFileName() {
@@ -991,7 +1094,12 @@ public class DocumentoController implements Serializable {
         }
 
     }
+    //</editor-fold>
 
+    /**
+     * Método que permite cambiar el estado de una publicación
+     * @param id: identificador de la publicación
+     */
     public void cambiarEstado(int id) {
         try {
             actual = daoPublicacion.find(id);
@@ -1004,11 +1112,18 @@ public class DocumentoController implements Serializable {
         }
     }
 
+    /**
+     * Método que permite generar un mensaje de deshabilitar una publicación
+     */
     public void mensajeDeshabilitar() {
 
         addMessage("Ha deshabilitado satisfactoriamente la publicacion indicada.", "");
     }
 
+    /**
+     * Método que permite habilitar una publicación
+     * @param id 
+     */
     public void habilitarPublicacion(int id) {
         try {
             actual = daoPublicacion.find(id);
@@ -1021,6 +1136,9 @@ public class DocumentoController implements Serializable {
         }
     }
 
+    /**
+     * Método que permite generar un mensaje de habilitar una publicación
+     */
     public void mensajeConfirmacionHabilitacion() {
         addMessage("Ha habilitado satisfactoriamente la publicacion indicada.", "");
     }   

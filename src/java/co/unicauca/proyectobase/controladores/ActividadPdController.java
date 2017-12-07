@@ -19,6 +19,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * 
+ * Clase controlador que se usa para registrar y editar una actividad de una práctica docente.
+ * Controlador de las vistas: EditarPracticaDocente_Est y RegistrarPracticaDocente.
+ * @author Carolina
+ */
+
 @Named("actividadPdController")
 @SessionScoped
 public class ActividadPdController implements Serializable {
@@ -28,9 +35,11 @@ public class ActividadPdController implements Serializable {
     private List<ActividadPd> items = null;
     private ActividadPd selected;
 
+    /* Controladores */
     public ActividadPdController() {
     }
 
+    /* Métodos creados por el framework */
     public ActividadPd getSelected() {
         return selected;
     }
@@ -72,13 +81,6 @@ public class ActividadPdController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<ActividadPd> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -162,4 +164,15 @@ public class ActividadPdController implements Serializable {
 
     }
 
+    
+    /**
+    * Método que permite obtener varios elementos de tipo 
+    * @return items: Lista de actividades de práctica docente
+    */
+    public List<ActividadPd> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        return items;
+    }
 }

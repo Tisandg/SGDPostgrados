@@ -27,6 +27,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Clase controlador que permite la gestión de estudiantes.
+ * Controlador de las vistas: EditarPublicacion, menu, Estudiante, EditarEstudiante, ListarEstudiante, 
+ * RegistrarEstudiante, VerEstudiante, GraficaPubReg, Reportes, VerEstudiante_Est, y EditarConstrasena.
+ * @author Carolina
+ */
+
 @Named(value = "estudianteController")
 @ManagedBean
 @SessionScoped

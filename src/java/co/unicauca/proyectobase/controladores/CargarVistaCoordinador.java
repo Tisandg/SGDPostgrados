@@ -6,8 +6,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
- * Esta clase contiene laas rutas a las que es redirigido el usuario 
+ * Esta clase contiene las rutas a las que es redirigido el usuario 
  * coordinador. Los metodos definen la direccion en la variable ruta
+ * Usado por los controladores: DocumentoController, EstudianteController, PracticaDocenteController, 
+ * PublicacionController y UserLoginView. 
  * @author sperez
  */
 @Named(value = "cargarVistaCoordinadorController")

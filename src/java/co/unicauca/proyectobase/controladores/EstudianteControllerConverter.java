@@ -6,7 +6,7 @@
 package co.unicauca.proyectobase.controladores;
 
 /**
- *
+ * Clase controlador que permite...
  * @author debian
  */
 import co.unicauca.proyectobase.entidades.Estudiante;

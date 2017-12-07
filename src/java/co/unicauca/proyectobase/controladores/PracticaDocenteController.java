@@ -61,6 +61,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
+/**
+ * Clase controlador que permite gestionar las prácticas docentes.
+ * Controlador usado por las vistas: EditarPracticaDocente_Est, ListarPracticas, TabListar, 
+ * RegistrarPracticaDocente, TabRegistrar y verPracticaDocente_est.
+ * @author Carolina
+ */
+
 @Named("practicaDocenteController")
 @SessionScoped
 public class PracticaDocenteController implements Serializable {
@@ -768,7 +775,7 @@ public class PracticaDocenteController implements Serializable {
     }
       
     /**
-     * retorna el nombre del autor concatenado con su apellido
+     * Método que retorna el nombre del autor concatenado con su apellido
      * @return nombre completo del autor
      */
     public String getnombreAut() {
@@ -776,6 +783,9 @@ public class PracticaDocenteController implements Serializable {
         return est.getEstNombre() + " " + est.getEstApellido();
     }
     
+    /**
+     * Método que permite modificar el número de créditos de una punlicación
+     */
     private void cambiarCreditos() {            
         int idTipoDocumento = actual.getPublicacion().getIdTipoDocumento().getIdentificador();
         int creditosPub = ejbFacadePub.getCreditosTipoPubicacionPorID(idTipoDocumento);
