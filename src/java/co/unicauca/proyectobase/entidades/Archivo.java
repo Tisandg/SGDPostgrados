@@ -16,8 +16,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author DELL7
+ * Entidad que representa un archivo
+ * @author 
  */
 @Entity
 @Table(name = "archivo")
@@ -28,19 +28,26 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Archivo.findByArctipoPDFcargar", query = "SELECT a FROM Archivo a WHERE a.arctipoPDFcargar = :arctipoPDFcargar")})
 public class Archivo implements Serializable {
 
+    // Versión de la base de datos
+    
     private static final long serialVersionUID = 1L;
+    
+    // Clave identificadora del archivo
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "arc_identificador")
     private Integer arcIdentificador;
+    // Tipo de archivo PDF a cargar
     @Size(max = 40)
     @Column(name = "arc_tipoPDF_cargar")
     private String arctipoPDFcargar;
+    // Identificador de la publicación asociada al archivo
     @JoinColumn(name = "arc_pub_identificador", referencedColumnName = "pub_identificador")
     @ManyToOne(optional = false)
     private Publicacion arcPubIdentificador;
 
+    /* Constructores */
     public Archivo() {
     }
 
@@ -54,6 +61,7 @@ public class Archivo implements Serializable {
         this.arctipoPDFcargar = tipoPDF;
     }
 
+    /* Setters y Getters */
     public Integer getArcIdentificador() {
         return arcIdentificador;
     }

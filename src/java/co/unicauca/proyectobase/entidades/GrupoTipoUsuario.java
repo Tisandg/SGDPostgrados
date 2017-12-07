@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Entidad que representa un grupo con el mismo tipo de usuario
  * @author Sahydo
  */
 @Entity
@@ -34,21 +34,27 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "GrupoTipoUsuario.findByNombreUsuario", query = "SELECT g FROM GrupoTipoUsuario g WHERE g.nombreUsuario = :nombreUsuario")})
 public class GrupoTipoUsuario implements Serializable {
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora del grupo
     @EmbeddedId
     protected GrupoTipoUsuarioPK grupoTipoUsuarioPK;
+    // Nombre del grupo de usuarios
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
+    // Identificador del tipo de usuario
     @JoinColumn(name = "id_tipo", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private TipoUsuario tipoUsuario;
+    // Identificador del usuario
     @JoinColumn(name = "id_usuario", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
 
+    /* Constructores */
     public GrupoTipoUsuario() {
     }
 
@@ -65,6 +71,7 @@ public class GrupoTipoUsuario implements Serializable {
         this.grupoTipoUsuarioPK = new GrupoTipoUsuarioPK(id, idTipo, idUsuario);
     }
 
+    /*Setters y Getters */
     public GrupoTipoUsuarioPK getGrupoTipoUsuarioPK() {
         return grupoTipoUsuarioPK;
     }

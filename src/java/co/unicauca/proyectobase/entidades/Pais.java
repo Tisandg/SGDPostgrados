@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa un país
  * @author sperez
  */
 @Entity
@@ -30,19 +30,23 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pais.findByPaisId", query = "SELECT p FROM Pais p WHERE p.paisId = :paisId"),
     @NamedQuery(name = "Pais.findByPaisNombre", query = "SELECT p FROM Pais p WHERE p.paisNombre = :paisNombre")})
 public class Pais implements Serializable {
-
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora del país
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "pais_id")
     private Integer paisId;
+    // Nombre del país
     @Size(max = 40)
     @Column(name = "pais_nombre")
     private String paisNombre;
+    // Ciudades asociadas al país
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paisId")
     private List<Ciudad> ciudadList;
 
+    /* Constructores */
     public Pais() {
     }
 
@@ -50,6 +54,7 @@ public class Pais implements Serializable {
         this.paisId = paisId;
     }
 
+    /* Getters y Setters */
     public Integer getPaisId() {
         return paisId;
     }

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Entidad que representa del programa de doctorado
  * @author Sahydo
  */
 @Entity
@@ -29,16 +29,21 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Doctorado.findByDocEstIdentificador", query = "SELECT d FROM Doctorado d WHERE d.doctoradoPK.docEstIdentificador = :docEstIdentificador")})
 public class Doctorado implements Serializable {
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora del doctorado
     @EmbeddedId
     protected DoctoradoPK doctoradoPK;
+    // Identificador del coordinador del doctorado
     @JoinColumn(name = "doc_coo_identificador", referencedColumnName = "coo_identificador", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Coordinador coordinador;
+    // Identificador del estudiante del doctorado
     @JoinColumn(name = "doc_est_identificador", referencedColumnName = "est_identificador", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Estudiante estudiante;
 
+    /* Constructor */
     public Doctorado() {
     }
 
@@ -50,6 +55,7 @@ public class Doctorado implements Serializable {
         this.doctoradoPK = new DoctoradoPK(docIdentificador, docCooIdentificador, docEstIdentificador);
     }
 
+    /* Getters y Setters */
     public DoctoradoPK getDoctoradoPK() {
         return doctoradoPK;
     }

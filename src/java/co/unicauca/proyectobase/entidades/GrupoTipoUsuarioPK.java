@@ -12,24 +12,28 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * Clase que define el identificador del grupo de tipos de usuario
  * @author Sahydo
  */
 @Embeddable
 public class GrupoTipoUsuarioPK implements Serializable {
 
+    // Clave identificadora del grupo
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
+    // Identificador del tipo de usuario
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_tipo")
     private int idTipo;
+    // Identificador del usuario
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_usuario")
     private int idUsuario;
 
+    /* Constructores */
     public GrupoTipoUsuarioPK() {
     }
 
@@ -39,6 +43,7 @@ public class GrupoTipoUsuarioPK implements Serializable {
         this.idUsuario = idUsuario;
     }
 
+    /*Setters y Getters */
     public int getId() {
         return id;
     }

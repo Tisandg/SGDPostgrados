@@ -3,7 +3,7 @@ package co.unicauca.proyectobase.entidades;
 import java.io.InputStream;
 
 /**
- *
+ * Clase que representa un archivo tipo PDF
  * @author Juan
  */
 public class archivoPDF {
@@ -11,6 +11,7 @@ public class archivoPDF {
     private String nombreArchivo;
     private InputStream archivo; 
 
+    /* Constructores */
     public archivoPDF() {
        this.nombreArchivo = "";
     }
@@ -20,6 +21,7 @@ public class archivoPDF {
         this.archivo = archivo;
     }
 
+    /* Getters y Setters */
     public String getNombreArchivo() {
         return nombreArchivo;
     }

@@ -23,16 +23,18 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 /**
- *
+ * Clase que contiene diferentes metodos para manipular un archivo PDF
+ * link: http://developers.itextpdf.com/examples/itext-action-second-edition/chapter-12#476-metadatapdf.java
  * @author Juan
  */
 public class MetodosPDF {
-    //diferentes metodos para manipular un archivo PDF
-    //link: http://developers.itextpdf.com/examples/itext-action-second-edition/chapter-12#476-metadatapdf.java
     
-
-    
-    //metodo para crear un archivo PDF y anexar algunos metadatos basicos
+    /**
+     * metodo para crear un archivo PDF y anexar algunos metadatos basicos
+     * @param filename: nombre el archivo PDF.
+     * @throws IOException
+     * @throws DocumentException
+     */
     public void createPdf(String filename) throws IOException, DocumentException {
         // step 1: Crear el objeto
         Document document = new Document();
@@ -51,7 +53,14 @@ public class MetodosPDF {
         document.close();
     }
     
-    //manipular el archivo PDF original (src) con el archivo de destino (dest) como resultado de la manipulacion
+    /**
+     * manipular el archivo PDF original (src) con el archivo de destino (dest) 
+     * como resultado de la manipulacion
+     * @param src: archivo PDF de origen
+     * @param dest: archivo de destino
+     * @throws IOException
+     * @throws DocumentException
+     */
     public void manipulatePdf(String src, String dest) throws IOException, DocumentException {
         PdfReader reader = new PdfReader(src);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
@@ -97,22 +106,32 @@ public class MetodosPDF {
     }
     
     
-    
+    /**
+     * 
+     * @param file: nombre del archivo
+     * @return hashed
+     * @throws Exception 
+     */
     private static byte[] hashFile(File file) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        FileInputStream fis = new FileInputStream(file.getAbsolutePath());
 
-    MessageDigest digest = MessageDigest.getInstance("SHA-256");
-    FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+        byte[] bytesBuffer = new byte[1024];
+        int bytesRead = 0;
 
-    byte[] bytesBuffer = new byte[1024];
-    int bytesRead = 0;
+        while ((bytesRead = fis.read(bytesBuffer)) != -1) {
+            digest.update(bytesBuffer, 0, bytesRead);
+        }
 
-    while ((bytesRead = fis.read(bytesBuffer)) != -1) {
-        digest.update(bytesBuffer, 0, bytesRead);
+        byte[] hashed = digest.digest();
+        return hashed;
     }
-
-    byte[] hashed = digest.digest();
-    return hashed;
-}
+    
+    /**
+     * 
+     * @param ruta
+     * @return 
+     */
     public String obtenerHash(String ruta) {
         try {
             File fichero = new File(ruta); 
@@ -123,6 +142,11 @@ public class MetodosPDF {
         } catch(Exception e){ return null; }
     }
 
+    /**
+     * 
+     * @param digest
+     * @return 
+     */
     private String toHexadecimal(byte[] digest){ 
 //        String hash = ""; 
 //        for(byte aux : digest) { 
@@ -141,6 +165,11 @@ public class MetodosPDF {
         return hash; 
     } 
 
+    /**
+     * 
+     * @param contenido
+     * @return 
+     */
     public String getHash(byte[] contenido){ 
 
         byte[] digest = null; 

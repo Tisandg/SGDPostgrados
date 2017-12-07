@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Entidad que representa una revista
  * @author DELL7
  */
 @Entity
@@ -31,40 +31,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class Revista implements Serializable {
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora de la publicación
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
-    
+    // Nombre de la revista
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "rev_nombre_revista")
     private String revNombreRevista;
-    
+    // Título del artículo 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "rev_titulo_articulo")
     private String revTituloArticulo;
-    
+    // Categoria de la revista
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "rev_categoria")
     private String revCategoria;
-     
+    // DOI de la revista
     @Basic(optional = true)
     @Size(max = 30)
     @Column(name = "rev_doi")
     private String revDoi;
-    
+    // Publicación asociada a la revista
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;
 
+
+    /* Constructores  */    
     public Revista() {
     }
 
@@ -79,6 +83,7 @@ public class Revista implements Serializable {
         this.revCategoria = revCategoria;
     }
 
+    /* Getters y Setters */
     public Integer getPubIdentificador() {
         return pubIdentificador;
     }

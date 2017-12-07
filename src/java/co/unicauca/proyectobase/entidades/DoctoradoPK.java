@@ -12,24 +12,28 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * Clase que representa la clave del programa de doctorado
  * @author Sahydo
  */
 @Embeddable
 public class DoctoradoPK implements Serializable {
 
+    // Identificador del doctorado
     @Basic(optional = false)
     @Column(name = "doc_identificador")
     private int docIdentificador;
+    // Identificador del coordinador del doctorado
     @Basic(optional = false)
     @NotNull
     @Column(name = "doc_coo_identificador")
     private int docCooIdentificador;
+    // Identificador del estudiante del doctorado
     @Basic(optional = false)
     @NotNull
     @Column(name = "doc_est_identificador")
     private int docEstIdentificador;
 
+    /* Constructores */
     public DoctoradoPK() {
     }
 
@@ -47,6 +51,7 @@ public class DoctoradoPK implements Serializable {
         this.docIdentificador = docIdentificador;
     }
 
+    /* Getters y Setters */
     public int getDocCooIdentificador() {
         return docCooIdentificador;
     }

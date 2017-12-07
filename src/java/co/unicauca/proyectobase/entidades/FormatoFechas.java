@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
+ * Clase que define el formato de las fechas
  * @author Juan
  */
 public class FormatoFechas extends Date {
@@ -20,12 +20,9 @@ public class FormatoFechas extends Date {
     }
     
    @Override
-   public String toString() {
-       
- 
-            SimpleDateFormat sdtf = new SimpleDateFormat("yyyy-MM-dd");
-            String fecha = sdtf.format(formatDate);
- 
+   public String toString() { 
+        SimpleDateFormat sdtf = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdtf.format(formatDate);
      return fecha;
    } 
 }
