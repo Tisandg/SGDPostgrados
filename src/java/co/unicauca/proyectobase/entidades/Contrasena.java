@@ -1,15 +1,28 @@
-package co.unicauca.proyectobase.controladores;
+package co.unicauca.proyectobase.entidades;
 
 /**
  * @author Santiago Garcia
  */
  
-public class contrasenaView {
+public class Contrasena {
     
+    //Almacena la contraseña actual
     private String contrasenaActual;
+    //Almacena la contraseña nueva
     private String nuevaContrasena;
+    //Almacena la repeticion de la contraseña
     private String nuevaContrasenaR;
+    
+    /**
+     * Constructor
+     */
+    public Contrasena(){
+        this.contrasenaActual = "";
+        this.nuevaContrasena = "";
+        this.nuevaContrasenaR = "";
+    }
 
+    /**   Get and Set    */
     public String getContrasenaActual() {
         return contrasenaActual;
     }
@@ -32,5 +45,5 @@ public class contrasenaView {
 
     public void setNuevaContrasenaR(String nuevaContrasenaR) {
         this.nuevaContrasenaR = nuevaContrasenaR;
-    }
+    }    
 }

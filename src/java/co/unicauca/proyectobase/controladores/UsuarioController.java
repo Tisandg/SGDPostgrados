@@ -3,7 +3,7 @@ package co.unicauca.proyectobase.controladores;
 import co.unicauca.proyectobase.entidades.Usuario;
 import co.unicauca.proyectobase.controladores.util.JsfUtil;
 import co.unicauca.proyectobase.controladores.util.PaginationHelper;
-import co.unicauca.proyectobase.dao.Contrasena;
+import co.unicauca.proyectobase.entidades.Contrasena;
 import co.unicauca.proyectobase.dao.UsuarioFacade;
 import co.unicauca.proyectobase.utilidades.Utilidades;
 
@@ -23,22 +23,35 @@ import javax.faces.model.SelectItem;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
  
-
+/**
+ * Clase utilizado que define las funciones para las operaciones
+ * sobre el usuario
+ * @author Santiago
+ */
 @Named("usuarioController")
 @ManagedBean
 @SessionScoped
 public class UsuarioController implements Serializable {
 
+    //Usuario que esta actualmente en el sistema
     private Usuario current;
+    //Para el almacenamiento de las contrasena
     private Contrasena contrasenas;
+    //indica si se ha editado o no la contrasena
     private boolean editarContrasena;
     
-    private DataModel items = null;
+    //Para realiza operaciones sobre la tabla usuario
     @EJB
     private UsuarioFacade userFacade;
+    
+    //Atributos utilizados por los metodos creados por el framework
+    private DataModel items = null;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
+    /**
+     * Constructor
+     */
     public UsuarioController() {
         this.editarContrasena = false;
         this.contrasenas = new Contrasena();

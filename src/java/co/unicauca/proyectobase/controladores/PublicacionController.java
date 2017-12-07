@@ -115,7 +115,6 @@ public class PublicacionController implements Serializable {
     private UploadedFile publicacionPDF;
     private UploadedFile TablaContenidoPDF;
     private UploadedFile cartaAprobacionPDF;
-    private byte[] exportContent;
     private String pdfUrl;
     private StreamedContent streamedContent;
     private InputStream stream;

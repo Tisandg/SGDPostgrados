@@ -1,5 +1,6 @@
 package co.unicauca.proyectobase.controladores;
 
+import co.unicauca.proyectobase.entidades.Contrasena;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 import co.unicauca.proyectobase.dao.PublicacionFacade;
 import co.unicauca.proyectobase.dao.UsuarioFacade;
@@ -26,44 +27,40 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class VerEstudianteController implements Serializable {
 
+    /**
+     * Variables para las operaciones sobre las tablas estudiante, 
+     * usuario y publicacion respectivamente
+     */
     @EJB
     private EstudianteFacade daoEst;
     @EJB
     private UsuarioFacade daoUsuario;
- 
     @EJB
     private PublicacionFacade daoPublicacion;
+    
+    
+    //Estudiante que esta en el sistema
     private Estudiante auxEstudiante;
+    //Usuario que esta en el sistema
     private Usuario usuario;
-    private contrasenaView contrasenas;
+    //Almacena los datos de los campos contraseñas
+    private Contrasena contrasenas;
     private String credi;
     
+    //Para la redireccion a las vistas del estudiante
     private CargarVistaEstudiante cve;
  
     String INICIO = "index";
     String CREAR = "new";
     String EDITAR = "editar";
 
+    /**
+     * Constructor
+     */
     public VerEstudianteController() 
     {
         cve = new CargarVistaEstudiante();
     }
-
-    public String index() {
-        return INICIO;
-    }
- 
-    public String getCredi(){
-         credi = "" + auxEstudiante.getEstCreditos();
-    
-        if (credi.equalsIgnoreCase("null")) {
-            credi = "0";
-        }
-        return credi;
-    }
-    public void setCredi(String credi) {
-        this.credi = credi;
-    } 
 
     /**
      * Metodo para buscar y fijar los datos de un determinado estudiante.
@@ -76,7 +73,7 @@ public class VerEstudianteController implements Serializable {
         Estudiante est = daoEst.findByUsername(nombreUsuario);
         setAuxEstudiante(est);
         this.usuario = user;
-        this.contrasenas = new contrasenaView();
+        this.contrasenas = new Contrasena();
     }
 
     /**
@@ -196,11 +193,11 @@ public class VerEstudianteController implements Serializable {
         this.usuario = usuario;
     }
 
-    public contrasenaView getContrasenas() {
+    public Contrasena getContrasenas() {
         return contrasenas;
     }
 
-    public void setContrasenas(contrasenaView contrasenas) {
+    public void setContrasenas(Contrasena contrasenas) {
         this.contrasenas = contrasenas;
     }
     
@@ -211,4 +208,20 @@ public class VerEstudianteController implements Serializable {
 
         return nombreAut;
     }
+    
+     public String index() {
+        return INICIO;
+    }
+ 
+    public String getCredi(){
+         credi = "" + auxEstudiante.getEstCreditos();
+    
+        if (credi.equalsIgnoreCase("null")) {
+            credi = "0";
+        }
+        return credi;
+    }
+    public void setCredi(String credi) {
+        this.credi = credi;
+    } 
 }

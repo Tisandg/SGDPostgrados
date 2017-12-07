@@ -1,3 +1,0 @@
-@startuml
-Usuario -> Controlador
-@enduml

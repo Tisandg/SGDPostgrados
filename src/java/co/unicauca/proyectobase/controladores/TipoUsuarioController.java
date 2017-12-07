@@ -18,14 +18,23 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
+/**
+ * Controlador donde se definene las funciones para el manejo del
+ * tipo de usuario
+ * @author Santiago
+ */
 @Named("tipoUsuarioController")
 @SessionScoped
 public class TipoUsuarioController implements Serializable {
 
+    //Almacenar el tipo de usuario actual
     private TipoUsuario current;
-    private DataModel items = null;
+    
+    //Para hacer operaciones sobre la tabla TipoUsuario
     @EJB
     private co.unicauca.proyectobase.dao.TipoUsuarioFacade ejbFacade;
+    //Atributos utilizados por los metodos creados por el framework
+    private DataModel items = null;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
