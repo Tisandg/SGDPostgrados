@@ -20,7 +20,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 /**
- * 
  * Clase controlador que se usa para registrar y editar una actividad de una práctica docente.
  * Controlador de las vistas: EditarPracticaDocente_Est y RegistrarPracticaDocente.
  * @author Carolina

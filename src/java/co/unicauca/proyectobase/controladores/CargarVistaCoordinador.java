@@ -17,8 +17,15 @@ import javax.inject.Named;
 @RequestScoped
 public class CargarVistaCoordinador implements Serializable
 {
+    /**
+     * Almacena la ruta a la cual se va a redirigir.
+     */
     private String ruta;
     
+    /**
+     * Metodo para obtener la la ruta
+     * @return ruta
+     */
     public String getRuta()
     {
         return this.ruta;

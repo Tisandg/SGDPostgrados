@@ -15,6 +15,9 @@ import javax.inject.Named;
 @RequestScoped
 public class CargarVistaEstudiante implements Serializable
 {
+    /**
+     * Atributo donde se almacena la ruta a direccionar
+     */
     private String ruta;
     
     public String getRuta()
@@ -30,11 +33,17 @@ public class CargarVistaEstudiante implements Serializable
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/VerEstudiante_Est.xhtml";
     }
     
+    /**
+     * Fija la ruta hacia la vista de un estudiante en particular
+     */
     public void verDatosPersonales()
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/VerEstudiante_Est.xhtml";
     }
     
+    /**
+     * Fija la ruta hacia la publicacion en particular de un estudiante
+     */
     public void verPublicacion()
     {
         this.ruta = "/ProyectoII/faces/usuariosdelsistema/estudiante/verDocumentos/VerPublicacion_Est.xhtml";

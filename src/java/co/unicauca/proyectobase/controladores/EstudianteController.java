@@ -39,6 +39,7 @@ import javax.faces.convert.FacesConverter;
 @SessionScoped
 public class EstudianteController implements Serializable {
 
+
     @EJB
     private EstudianteFacade estFacade;
     @EJB
@@ -69,12 +70,6 @@ public class EstudianteController implements Serializable {
 
     public int getCohorte() {
         return actual.getEstCohorte();
-        /*
-        if ((cohorte == null) || (cohorte.equals("null")) || (cohorte.equals(""))) {
-            return "";
-        }
-        cohorte = String.valueOf(actual.getEstCohorte());
-        return cohorte;*/
     }
 
     public List<Estudiante> getListadoEncontrado() {
