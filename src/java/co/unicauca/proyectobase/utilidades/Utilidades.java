@@ -19,16 +19,15 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * Esta clase contiene los metodos utilizados para la la redireccion de las
- * paginas del sistema y el envio de las notificacion por correo.
+ * páginas del sistema y el envio de las notificación por correo.
  * @author Equipo 2017-II
  */
 public class Utilidades {
 
     /**
-     * Metodo utilizado para redireccionar a las distintas paginas del sistema.
-     * Recibe un String que contiene la url de la pagina a la cual se va a 
+     * Método utilizado para redireccionar a las distintas paginas del sistema.
+     * @param pagina: String que contiene la url de la pagina a la cual se va a 
      * redirigir.
-     * @param pagina 
      */
     public static void redireccionar(String pagina) {
         System.out.println("Redireccionando a: " + pagina);
@@ -44,13 +43,13 @@ public class Utilidades {
     }
     
     /***
-     * Metodo que envia las notificaciones de correo electronico al estudiante
+     * Método que envia las notificaciones de correo electrónico al estudiante
      * que registro la publicacion y al coordinador del doctorado. Para el envio
      * utiliza la funcion enviarCorreo, despues de que se crea el mensaje a enviar
-     * @param destino
-     * @param autor
-     * @param tipoPublicacion
-     * @param tiempo 
+     * @param destino: correo de destino 
+     * @param autor: nombre del estudiante que hizo la publicación.
+     * @param tipoPublicacion: indica que tipo de publicación es. (revista, congreso, libro, etc)
+     * @param tiempo: hora de registro de la publicación
      */
     public static void correoRegistroPublicaciones(String destino, String autor, String tipoPublicacion, String tiempo){
         String asunto = "Notificación registro de documento";
@@ -64,12 +63,12 @@ public class Utilidades {
         enviarCorreo("posgradoselectunic@gmail.com",asunto, mensajeCoordinador);
     }
     /**
-     * Envio de notificacion por correo al estudiante cuando se haya cambiado
+     * Método que realiza el envio de notificación por correo al estudiante cuando se haya cambiado
      * el estado de visado de una documentacion en especifico.
-     * @param aprobado
-     * @param estudiante
-     * @param nombreActividad
-     * @param observaciones 
+     * @param aprobado: indica si la publicación fue aprobada. true si fue aprobado, false si no fue aprobado.
+     * @param estudiante: Nombre del estudiante que realizó la publicación.
+     * @param nombreActividad: nombre de la actividad
+     * @param observaciones: Observaciones realizadas con rerspecto a la publicación
      */
     public static void correoVisadoPublicacion(boolean aprobado, Estudiante estudiante,String nombreActividad,String observaciones ){
         String asunto = "Notificación revisión de documentos DCE";
@@ -93,9 +92,9 @@ public class Utilidades {
     
     
     /**
-     * Metodo para enviar el correo de notificacion al estudiante para informar
+     * Método para enviar el correo de notificación al estudiante para informar
      * que se le ha creado una cuenta en el sistema con sus datos.
-     * @param estudiante 
+     * @param estudiante: objeto de tipo estudiante.
      */
     public static void correoRegistroEstudiante(Estudiante estudiante){
         String destinatario = estudiante.getEstCorreo();
@@ -112,9 +111,9 @@ public class Utilidades {
     }
     
     /**
-     * Metodo para enviar la notificaion al correo electronico del estudiante
+     * Método para enviar la notificación al correo electrónico del estudiante
      * informando los cambios realizados en el perfil de estudiante.
-     * @param estudiante 
+     * @param estudiante: objeto de tipo estudiante.
      */
     public static void correoEdicionPerfilEstudiante(Estudiante estudiante){
         String destinatario = estudiante.getEstCorreo();
@@ -137,11 +136,11 @@ public class Utilidades {
     }
 
     /***
-     * Funcion utilizada para enviar la notificaion al correo del destinatario,
+     * Funcion utilizada para enviar la notificación al correo del destinatario,
      * con su respectivo asunto y mensaje.
-     * @param destinatario
-     * @param asunto
-     * @param mensaje
+     * @param destinatario: correo de destino
+     * @param asunto: asunto del correo electrónico
+     * @param mensaje: Contenido del correo electrónico.
      * @return true si se envio el mensaje
      */
     public static boolean enviarCorreo(String destinatario, String asunto, String mensaje) 
