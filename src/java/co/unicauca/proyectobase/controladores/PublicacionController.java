@@ -86,6 +86,8 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class PublicacionController implements Serializable {
 
+    //Atributos utilizados para realizar operaciones sobre
+    //las tablas de la base de datos
     @EJB
     private EstudianteFacade daoEst;
 
@@ -110,27 +112,46 @@ public class PublicacionController implements Serializable {
     @EJB
     private PaisFacade ejbPais;
 
+    //Publicacion que se esta manejando
     private Publicacion actual;
+    //Lista de publicaciones
     private List<Publicacion> listaPublicaciones;
+    
+    //Variables para almacenar los soportes pdf
     private UploadedFile publicacionPDF;
     private UploadedFile TablaContenidoPDF;
     private UploadedFile cartaAprobacionPDF;
+    
     private String pdfUrl;
+    //Utilizados para el contenido transmitido del pdf
     private StreamedContent streamedContent;
     private InputStream stream;
+    //Estudiante que esta en el sistema
     private Estudiante estudianteActual;
+    //numero de acta de la aprobacion de los creditos
     private String numActa;
+    //numero de creditos por la publicacion
     private String creditos;
+    //Filtro para la buqueda de publicaciones
     private String variableFiltrado;
+    //Tipo de publicacion
     private String tipoPublicacion;
+    //observaciones al cambiar estado de publicacion
     private String motivoRechazo;
     private String uploadedFileName;
+    //Controlador para la redireccion hacia las interfaces del estudiante
     private CargarVistaEstudiante cve;
+    //Controlador para la redireccion hacia las interfaces del coordinador
     private CargarVistaCoordinador cvc;
+    //Lista de ciudades segun el pais
     private List<Ciudad> listaCiudades;
+    //Lista de paises
     private List<Pais> listaPaises;
+    //identificador del pais
     private int idPais;
+    //identificador de la ciudad
     private int idCiudad;
+    //Para comprobar el numero de documentos que no son validos al momento de subir
     private int numeroDocumentos;
 
     /* Constructores */

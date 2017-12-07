@@ -19,18 +19,29 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Controlador que define las funciones para el maneja del tipo de documento
+ * @author Santiago
+ */
 @Named("tipoDocumentoController")
 @SessionScoped
 public class TipoDocumentoController implements Serializable {
 
+    //Utilizada para operaciones sobre la tabla Tipo Documento
     @EJB
     private co.unicauca.proyectobase.dao.TipoDocumentoFacade ejbFacade;
+    //lista de los diferentes tipos de documentos
     private List<TipoDocumento> items = null;
+    //Tipo de documento que se ha seleccionado
     private TipoDocumento selected;
 
+    /**
+     * Constructor
+     */
     public TipoDocumentoController() {
     }
 
+    /******* Get and Set *******/
     public TipoDocumento getSelected() {
         return selected;
     }
@@ -39,16 +50,17 @@ public class TipoDocumentoController implements Serializable {
         this.selected = selected;
     }
 
+    private TipoDocumentoFacade getFacade() {
+        return ejbFacade;
+    }
+
+    /**** Metodos generados por el framework *******/
     protected void setEmbeddableKeys() {
     }
 
     protected void initializeEmbeddableKey() {
     }
-
-    private TipoDocumentoFacade getFacade() {
-        return ejbFacade;
-    }
-
+    
     public TipoDocumento prepareCreate() {
         selected = new TipoDocumento();
         initializeEmbeddableKey();
