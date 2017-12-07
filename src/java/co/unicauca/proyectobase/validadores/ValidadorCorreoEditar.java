@@ -11,12 +11,25 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator(value="validadorCorreoEditar")
-public class ValidadorCorreoEditar implements Validator {
-    
-@EJB
-    private EstudianteFacade dao;
+/**
+ * Clase que permite hacer las validaciones para el correo electrónico del estudiante.
+ * Esta clase es usada para la edición Estudiante.
+ */
 
+@FacesValidator(value="validadorCorreoEditar")
+public class ValidadorCorreoEditar implements Validator 
+{    
+    @EJB
+    private EstudianteFacade dao;
+    
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene el correo electrónico desde la vista de edición Estudiante
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
@@ -74,13 +87,6 @@ public class ValidadorCorreoEditar implements Validator {
         }
     }
     
-    
-    //valida que el dominio del correo sea correcto
-    /*public boolean validarDominio(String dominio) {
-        return !(!dominio.equals("gmail.com")
-                && !dominio.equals("unicauca.edu.co") 
-                && !dominio.equals("hotmail.com"));
-    }*/
     public boolean validarDominio(String texto) 
     {
         String cadena[] = texto.split("@");
@@ -127,6 +133,4 @@ public class ValidadorCorreoEditar implements Validator {
     public boolean validarFormato(String texto) {
         return texto.split("@").length == 2;
     }
-    
-    
 }

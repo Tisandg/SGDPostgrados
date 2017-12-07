@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa la actividad de práctica docente
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @Entity
@@ -34,27 +34,35 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ActividadPd.findByMaximoHoras", query = "SELECT a FROM ActividadPd a WHERE a.maximoHoras = :maximoHoras")})
 public class ActividadPd implements Serializable {
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora de la actividad de práctica docente
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_actividad")
     private Integer idActividad;
+    // Nombre de la actividad de práctica docente
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "nombre_actividad")
     private String nombreActividad;
+    // Horas asignadas a la actividad de práctica docente
     @Column(name = "horas_asignadas")
     private Integer horasAsignadas;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // fase de ajuste de la actividad de práctica docente
     @Column(name = "fase_ajuste")
     private Float faseAjuste;
+    // Máximo de horas para la actividad de práctica docente
     @Column(name = "maximoHoras")
     private Integer maximoHoras;
+    //Actividades asociadas a la práctica docente
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idActividad")
     private List<PracticaDocente> practicaDocenteList;
 
+    //constructores
     public ActividadPd() {
     }
 
@@ -67,6 +75,7 @@ public class ActividadPd implements Serializable {
         this.nombreActividad = nombreActividad;
     }
 
+    //Getters y Setters
     public Integer getIdActividad() {
         return idActividad;
     }

@@ -76,10 +76,14 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
- * Vistas del controlador
- * EditarPublicacion_Est,
- * @author Santiago
+ * Clase controlador que permite realizar la gestión de una publicación.
+ * Controlador usado por las vistas: VerPublicacion, menu, VerEstudiante, GraficaPubReg, ListarPublicaciones_Coord, 
+ * ListarPublicaciones_Espera, ListarPublicaciones_Rev, VerPublicacion_Coord, EditarPublicacion_Est, ListarPracticas, 
+ * ListarPublicaciones_Est, TabListar, EditarContrasena, RegistrarPracticaDocente, RegistrarPublicacion, TabRegistrar, 
+ * VerPublicacion_Est, verPracticaDocente_est.
+ * @author Carolina
  */
+
 @Named(value = "publicacionController")
 @ManagedBean
 @SessionScoped
@@ -114,33 +118,39 @@ public class PublicacionController implements Serializable {
     private UploadedFile publicacionPDF;
     private UploadedFile TablaContenidoPDF;
     private UploadedFile cartaAprobacionPDF;
-    
     private byte[] exportContent;
     private String pdfUrl;
-
     private StreamedContent streamedContent;
     private InputStream stream;
     private Estudiante estudianteActual;
-
     private String numActa;
     private String creditos;
     private String variableFiltrado;
     private String tipoPublicacion;
-
     private String motivoRechazo;
     private String uploadedFileName;
-
     private CargarVistaEstudiante cve;
     private CargarVistaCoordinador cvc;
-
     private List<Ciudad> listaCiudades;
     private List<Pais> listaPaises;
-
     private int idPais;
     private int idCiudad;
-    
     private int numeroDocumentos;
 
+    /* Controladores */
+    public PublicacionController() {
+        cve = new CargarVistaEstudiante();
+        cvc = new CargarVistaCoordinador();
+        this.listaPaises = new ArrayList<>();
+    }
+    public PublicacionController(Publicacion pub) {
+        actual = pub;
+        cve = new CargarVistaEstudiante();
+        cvc = new CargarVistaCoordinador();
+        this.listaPaises = new ArrayList<>();
+    }
+    
+    /* Getters y Setters */
     public String getTipoPublicacion() {
         return tipoPublicacion;
     }
@@ -156,34 +166,7 @@ public class PublicacionController implements Serializable {
     public void setMotivoRechazo(String motivoRechazo) {
         this.motivoRechazo = motivoRechazo;
     }
-
-    public void onComplete() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Progress Completed", "Progress Completed"));
-    }
-
-    public void visPdfPub() throws IOException {
-        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
-        archivoPDF archivoPublic = actual.descargarDocumento(1);
-        InputStream fis = archivoPublic.getArchivo();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        byte[] buffer = new byte[0xFFFF];
-        for (int len; (len = fis.read(buffer)) != -1;) {
-            os.write(buffer, 0, len);
-        }
-        os.flush();
-        byte[] b = os.toByteArray();
-        stream = new ByteArrayInputStream(b);
-        stream.mark(0); //remember to this position!
-        streamedContent = new DefaultStreamedContent(stream, "application/pdf");
-    }
-
-    public StreamedContent getStreamedContent() throws IOException {
-        if (streamedContent != null) {
-            streamedContent.getStream().reset(); //reset stream to the start position!
-        }
-        return streamedContent;
-    }
-
+    
     public String getNumActa() {
         numActa = "" + actual.getPubNumActa();
         if (numActa.equalsIgnoreCase("null")) {
@@ -195,26 +178,7 @@ public class PublicacionController implements Serializable {
     public void setNumActa(String numActa) {
         this.numActa = numActa;
     }
-
-    /**
-     * metodo para buscar el nombre de usuario de cada publicacion que desea ver
-     * el coordinador
-     *
-     * @return nombre de usuario
-     */
-    public String obtenerNombreUsuarioCoor() {
-        return daoEst.findNombreById(actual.getPubEstIdentificador());
-    }
-
-    /**
-     * Obtener el nombre com
-     * @param nombreUsuario
-     * @return 
-     */
-    public String obtenerNombreUsuarioById(Estudiante nombreUsuario) {
-        return daoEst.findNombreById(nombreUsuario);
-    }
-
+    
     public String getCreditos() {
         creditos = "" + daoEst.findCreditosByNombreUsuario(estudianteActual.getEstUsuario());
         if (creditos.equalsIgnoreCase("null")) {
@@ -268,22 +232,84 @@ public class PublicacionController implements Serializable {
     public void setListaEstudiantes(List<Publicacion> listaPublicacion) {
         this.listaPublicaciones = listaPublicacion;
     }
+    
+    public Estudiante getAuxEstudiante() {
+        return estudianteActual;
+    }
 
+    public void setAuxEstudiante(Estudiante auxEstudiante) {
+        this.estudianteActual = auxEstudiante;
+    }
+
+    public String getVariableFiltrado() {
+        return variableFiltrado;
+    }
+
+    public void setVariableFiltrado(String variableFiltrado) {
+        this.variableFiltrado = variableFiltrado;
+    }
+
+    /* Métodos */
+    public void onComplete() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Progress Completed", "Progress Completed"));
+    }
+
+    /**
+     * Método que permite visar una publicación
+     * @throws IOException 
+     */
+    public void visPdfPub() throws IOException {
+        /* 1 publicacion, 2 evidencia, 3 tabla de contenido */
+        archivoPDF archivoPublic = actual.descargarDocumento(1);
+        InputStream fis = archivoPublic.getArchivo();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[0xFFFF];
+        for (int len; (len = fis.read(buffer)) != -1;) {
+            os.write(buffer, 0, len);
+        }
+        os.flush();
+        byte[] b = os.toByteArray();
+        stream = new ByteArrayInputStream(b);
+        stream.mark(0); //remember to this position!
+        streamedContent = new DefaultStreamedContent(stream, "application/pdf");
+    }
+
+    /**
+     * Método que permite obtener el contenido transmitido
+     * @return streamedContent: contenido resultante
+     * @throws IOException 
+     */
+    public StreamedContent getStreamedContent() throws IOException {
+        if (streamedContent != null) {
+            streamedContent.getStream().reset(); //reset stream to the start position!
+        }
+        return streamedContent;
+    }
+
+
+    /**
+     * metodo para buscar el nombre de usuario de cada publicacion que desea ver
+     * el coordinador
+     *
+     * @return nombre de usuario
+     */
+    public String obtenerNombreUsuarioCoor() {
+        return daoEst.findNombreById(actual.getPubEstIdentificador());
+    }
+
+    /**
+     * Obtener el nombre com
+     * @param nombreUsuario
+     * @return 
+     */
+    public String obtenerNombreUsuarioById(Estudiante nombreUsuario) {
+        return daoEst.findNombreById(nombreUsuario);
+    }
+
+   
     String INICIO = "index";
     String CREAR = "new";
     String EDITAR = "editar";
-
-    public PublicacionController() {
-        cve = new CargarVistaEstudiante();
-        cvc = new CargarVistaCoordinador();
-        this.listaPaises = new ArrayList<>();
-    }
-    public PublicacionController(Publicacion pub) {
-        actual = pub;
-        cve = new CargarVistaEstudiante();
-        cvc = new CargarVistaCoordinador();
-        this.listaPaises = new ArrayList<>();
-    }
 
     public Publicacion getActual() {
         if (actual == null) {
@@ -1133,21 +1159,6 @@ public class PublicacionController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public Estudiante getAuxEstudiante() {
-        return estudianteActual;
-    }
-
-    public void setAuxEstudiante(Estudiante auxEstudiante) {
-        this.estudianteActual = auxEstudiante;
-    }
-
-    public String getVariableFiltrado() {
-        return variableFiltrado;
-    }
-
-    public void setVariableFiltrado(String variableFiltrado) {
-        this.variableFiltrado = variableFiltrado;
-    }
 
     public void seleccionarArchivo(FileUploadEvent event) {
         String nombreArchivo = event.getFile().getFileName();

@@ -3,8 +3,8 @@ package co.unicauca.proyectobase.entidades;
 import java.io.InputStream;
 
 /**
- *
- * @author DELL7
+ * Clase que permite definir los atributos necesarios para cargar archivos PDF
+ * @author 
  */
 public class tipoPDF_cargar{
 
@@ -13,6 +13,7 @@ public class tipoPDF_cargar{
     private String tipoPDF;
     private InputStream archivoIS;
 
+    /* Constructores*/
     public tipoPDF_cargar() {
     }  
 
@@ -23,6 +24,7 @@ public class tipoPDF_cargar{
         this.archivoIS = archivoIS;
     }
 
+    /* Getters y Setters */
     public String getNombreArchivo() {
         return nombreArchivo;
     }

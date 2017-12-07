@@ -19,8 +19,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author DELL7
+ * Entidad que representa al congreso
+ * @author 
  */
 @Entity
 @Table(name = "congreso")
@@ -33,57 +33,60 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Congreso.findByCongTipoCongreso", query = "SELECT c FROM Congreso c WHERE c.congTipoCongreso = :congTipoCongreso")})
 public class Congreso implements Serializable {
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
-    
+    // Clave identificadora de la publicación
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
-
+    // Fecha de inicio del congreso
     @Column(name = "fechaInicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
+    // Fecha de finalización del congreso
     @Column(name = "fechaFin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
-
+    // Doi del congreso
     @Basic(optional = true)
     @Size(max = 30)
     @Column(name = "cong_doi")
     private String congDoi;
-    
+    // ISSN del congreso
     @Basic(optional = true)    
     @Size(max = 30)
     @Column(name = "cong_issn")
     private String congIssn;
-    
+    // Título ponencia del congreso
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "cong_titulo_ponencia")
     private String congTituloPonencia;
-    
+    // Nombre del congreso
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "cong_nombre_evento")
     private String congNombreEvento;
-    
+    // Tipo del congreso
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "cong_tipo_congreso")
     private String congTipoCongreso;
-    
+    // Publicación asociada al congreso
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;
-    
+    // Ciudad asociada al congreso
     @JoinColumn(name = "ciudad_id", referencedColumnName = "ciud_id")
     @ManyToOne
     private Ciudad ciudadId;
 
+    /* Constructores */
     public Congreso() {
     }
 
@@ -98,6 +101,7 @@ public class Congreso implements Serializable {
         this.congTipoCongreso = congTipoCongreso;
     }
 
+    /*Setters y Getters */
     public Integer getPubIdentificador() {
         return pubIdentificador;
     }
@@ -137,32 +141,7 @@ public class Congreso implements Serializable {
     public void setPublicacion(Publicacion publicacion) {
         this.publicacion = publicacion;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (pubIdentificador != null ? pubIdentificador.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Congreso)) {
-            return false;
-        }
-        Congreso other = (Congreso) object;
-        if ((this.pubIdentificador == null && other.pubIdentificador != null) || (this.pubIdentificador != null && !this.pubIdentificador.equals(other.pubIdentificador))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "co.unicauca.proyectobase.entidades.Congreso[ pubIdentificador=" + pubIdentificador + " ]";
-    }
-
+    
     public String getCongDoi() {
         return congDoi;
     }
@@ -202,5 +181,29 @@ public class Congreso implements Serializable {
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (pubIdentificador != null ? pubIdentificador.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Congreso)) {
+            return false;
+        }
+        Congreso other = (Congreso) object;
+        if ((this.pubIdentificador == null && other.pubIdentificador != null) || (this.pubIdentificador != null && !this.pubIdentificador.equals(other.pubIdentificador))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "co.unicauca.proyectobase.entidades.Congreso[ pubIdentificador=" + pubIdentificador + " ]";
+    }    
 }

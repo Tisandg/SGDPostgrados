@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa una ciudad
  * @author sperez
  */
 @Entity
@@ -39,19 +39,25 @@ public class Ciudad implements Serializable {
     @OneToMany(mappedBy = "ciudadId")
     private List<Congreso> congresoList;
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora de la ciudad
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ciud_id")
     private Integer ciudId;
+    // Nombre de la ciudad
     @Size(max = 40)
     @Column(name = "ciud_nombre")
     private String ciudNombre;
+    // Ciudades asociadas a un país
     @OneToMany(mappedBy = "ciudadId")
     private List<Libro> libroList;
     @JoinColumn(name = "pais_id", referencedColumnName = "pais_id")
     @ManyToOne(optional = false)
+   
+    /* Constructores */
     private Pais paisId;
 
     public Ciudad() {
@@ -61,6 +67,7 @@ public class Ciudad implements Serializable {
         this.ciudId = ciudId;
     }
 
+    /* Getters y Setters */
     public Integer getCiudId() {
         return ciudId;
     }

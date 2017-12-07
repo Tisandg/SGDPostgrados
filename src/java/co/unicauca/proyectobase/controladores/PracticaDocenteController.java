@@ -61,6 +61,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
+/**
+ * Clase controlador que permite gestionar las prácticas docentes.
+ * Controlador usado por las vistas: EditarPracticaDocente_Est, ListarPracticas, TabListar, 
+ * RegistrarPracticaDocente, TabRegistrar y verPracticaDocente_est.
+ * @author Carolina
+ */
+
 @Named("practicaDocenteController")
 @SessionScoped
 public class PracticaDocenteController implements Serializable {
@@ -182,16 +189,18 @@ public class PracticaDocenteController implements Serializable {
             actual.setNumeroHoras(actual.getIdActividad().getHorasAsignadas());
         }
         
-        if(documento != null){
+        if(!documento.getFileName().equals("")){
+            System.out.println("DOCUMENTO no NULO: " + documento.getFileName());
             if (!documento.getFileName().equalsIgnoreCase("") && !"application/pdf".equals(documento.getContentType())) {            
                 FacesContext.getCurrentInstance().addMessage("valPractica", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.","Debe subir la evidencia de la práctica docente en formato PDF."));
                 return;
             }else{
+                System.out.println("editando practica");
                 editarArchivoOpenKM();
             }
         }else{
             System.out.println("DOCUMENTO NULO: " + documento);
-        }        
+        }
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundlePracticaDocente").getString("PracticaDocenteUpdated"));
         cve.verPracticas();
         Utilidades.redireccionar(cve.getRuta());        
@@ -358,6 +367,12 @@ public class PracticaDocenteController implements Serializable {
         facesContext.addMessage("event", new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
     
+    public String formatoHora(Date date){
+        DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String estampaTiempo = "" + datehourFormat.format(date);
+        return estampaTiempo;
+    }
+    
     /**
      * Agrega un registro de practica docente del estudiante BD 
      * @param user nombre de usuario para buscar el estudiante
@@ -441,11 +456,12 @@ public class PracticaDocenteController implements Serializable {
                     mensajeconfirmarRegistro();
                     Date date = new Date();                    
                     DateFormat datehourFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    String estampaTiempo = "" + datehourFormat.format(date);                    
+                    String estampaTiempo = "" + datehourFormat.format(date);
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Mensaje sistema doctorados - Registro practica docente", "El estudiante " + nombreAut + " ha regitrado una publicación del tipo " + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
                     //Utilidades.enviarCorreo("posgradoselectunic@gmail.com", "Notificación registro de publicación DCE", "Estimado estudiante " + nombreAut + "\n" + "Se acaba de regitrar una práctica docente" + publicacionEntity.getPubTipoPublicacion() + ". Fecha: " +fecha[0]+ ",  Hora: "+ fecha[1]);
-                    Utilidades.correoRegistroPublicaciones(auxEstudiante.getEstCorreo(), nombreAut, 
-                                actual.getPublicacion().getIdTipoDocumento().getNombre(), estampaTiempo);
+                    String msj = ", tipo de actividad: " +actual.getIdActividad().getNombreActividad()+
+                            ", y con una duracion de " + actual.getNumeroHoras() + " horas ";
+                    Utilidades.correoRegistroPublicaciones(auxEstudiante.getEstCorreo(), nombreAut, "Práctica docente" + msj,estampaTiempo);
                     redirigirListarPracticasEst();                    
                 }catch(EJBException ex)
                 {
@@ -687,10 +703,10 @@ public class PracticaDocenteController implements Serializable {
                     ejbFacade.remove(actual);
                     ejbFacadePub.remove(actual.getPublicacion());
                     System.out.println("Documentacion eliminada");
-                    addMessage("Documentación eliminada", visado);
+                    addMessage("Informe","Documentación eliminada exitosamente.");
                     redirigirListarPracticasEst();
                 }else{
-                    
+                    System.out.println("error eliminando documento de openkm");                            
                 }
             } catch (Exception e) {
                 System.out.println("error eliminando la publicacion desde practica docente");
@@ -759,7 +775,7 @@ public class PracticaDocenteController implements Serializable {
     }
       
     /**
-     * retorna el nombre del autor concatenado con su apellido
+     * Método que retorna el nombre del autor concatenado con su apellido
      * @return nombre completo del autor
      */
     public String getnombreAut() {
@@ -767,6 +783,9 @@ public class PracticaDocenteController implements Serializable {
         return est.getEstNombre() + " " + est.getEstApellido();
     }
     
+    /**
+     * Método que permite modificar el número de créditos de una punlicación
+     */
     private void cambiarCreditos() {            
         int idTipoDocumento = actual.getPublicacion().getIdTipoDocumento().getIdentificador();
         int creditosPub = ejbFacadePub.getCreditosTipoPubicacionPorID(idTipoDocumento);

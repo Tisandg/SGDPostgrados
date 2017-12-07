@@ -9,10 +9,22 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Clase que permite hacer las validaciones para el código del estudiante
+ * Esta clase es usada para la edición de un estudiante.
+ */
 
 @FacesValidator(value="validadorCodigoEstudianteEditar")
 public class ValidadorCodigoEstudianteEditar implements Validator
 {    
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene el código del estudiante desde la vista de edición Estudiante
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String codigo = String.valueOf(value);
@@ -43,17 +55,29 @@ public class ValidadorCodigoEstudianteEditar implements Validator
         }
     }
     
-    //validar que el codigo tenga el formato xx_xxxxxx
+    /**
+     * Validar que el codigo tenga el formato xx_xxxxxx
+     * @param codigo
+     * @return True si el código contiene un solo guión al piso (_).
+     */
     public boolean validarFormato(String codigo) {
         return codigo.split("_").length == 2;
     }
     
-    //valida que el codigo empiece por 70
+    /**
+     * valida que el codigo empiece por 70
+     * @param codigo
+     * @return True si antes de guión al piso (_) hay un 70.
+     */
     public boolean validarInicioCodigo(String codigo) {
         return codigo.split("_")[0].equals("70");
     }
     
-    //valida que la cedula, la segunda parte del codigo, sea numerica
+    /**
+     * valida que la cedula, la segunda parte del codigo, sea numerica
+     * @param codigo
+     * @return True si es válida la expresión regular
+     */
     public boolean validarCedula(String codigo) {
         String aux = codigo.split("_")[1];
         Pattern p = Pattern.compile("^[0-9]*$");

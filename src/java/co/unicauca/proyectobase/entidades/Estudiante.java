@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa al estudiante
  * @author Sahydo
  */
 @Entity
@@ -54,46 +54,58 @@ public class Estudiante implements Serializable {
     @ManyToOne(optional = false)
     private Usuario usuarioId;
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora del estudiante
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "est_identificador")
     private Integer estIdentificador;
+    // Código del estudiante
     @Size(max = 20)
     @Column(name = "est_codigo")
     private String estCodigo;
+    // Nombre del estudiante
     @Size(max = 20)
     @Column(name = "est_nombre")
     private String estNombre;
+    // Apellido del estudiante
     @Size(max = 20)
     @Column(name = "est_apellido")
     private String estApellido;
+    // Correo del estudiante
     @Size(max = 30)
     @Column(name = "est_correo")
     private String estCorreo;
+    // Cohorte del estudiante
     @Column(name = "est_cohorte")
     private Integer estCohorte;
+    // Tutor del estudiante
     @Size(max = 45)
     @Column(name = "est_tutor")
     private String estTutor;
+    // Semestre del estudiante
     @Column(name = "est_semestre")
     private Integer estSemestre;
+    // Estado del estudiante
     @Size(max = 12)
     @Column(name = "est_estado")
     private String estEstado;
+    // Usuario del estudiante
     @Size(max = 20)
     @Column(name = "est_usuario")
     private String estUsuario;
-
+    // Créditos del estudiante
     @Column(name = "est_creditos")
     private Integer estCreditos;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estudiante")
     private List<Doctorado> doctoradoList;
+    // Publicaciones asociadas al estudiante
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pubEstIdentificador")
     private List<Publicacion> publicacionList;
 
+    /* Constructores */
     public Estudiante() {
     }
 
@@ -101,6 +113,7 @@ public class Estudiante implements Serializable {
         this.estIdentificador = estIdentificador;
     }
 
+    /*Setters y Getters */
     public Integer getEstCreditos() {
         return estCreditos;
     }
@@ -211,6 +224,23 @@ public class Estudiante implements Serializable {
     public void setPublicacionList(List<Publicacion> publicacionList) {
         this.publicacionList = publicacionList;
     }
+    
+    public Usuario getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    @XmlTransient
+    public List<Publicacion> getDocumentoList() {
+        return documentoList;
+    }
+
+    public void setDocumentoList(List<Publicacion> documentoList) {
+        this.documentoList = documentoList;
+    }
 
     @Override
     public int hashCode() {
@@ -237,22 +267,4 @@ public class Estudiante implements Serializable {
     {
         return ""+estCodigo; 
     }
-
-    public Usuario getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    @XmlTransient
-    public List<Publicacion> getDocumentoList() {
-        return documentoList;
-    }
-
-    public void setDocumentoList(List<Publicacion> documentoList) {
-        this.documentoList = documentoList;
-    }
-
 }

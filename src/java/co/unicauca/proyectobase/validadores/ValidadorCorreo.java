@@ -11,7 +11,11 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-    
+/**
+ * Clase que permite hacer las validaciones para el correo electrónico del estudiante.
+ * Esta clase es usada para el registro Estudiante.
+ */
+
 @FacesValidator(value="validadorCorreo")
 public class ValidadorCorreo implements Validator 
 {
@@ -27,7 +31,15 @@ public class ValidadorCorreo implements Validator
     public void setExpCorreo(String expCorreo) {
         this.expCorreo = expCorreo;
     }
-
+    
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene el correo electrónico desde la vista de registro Estudiante
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 

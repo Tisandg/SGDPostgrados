@@ -100,14 +100,22 @@
                             <p:commandLink type="submit" 
                                            title="descargar reporte en formato pdf" 
                                            action="#{reportesJasperController.getReportePdf()}" 
-                                           ajax="false" target="_blank">
+                                           ajax="false" 
+                                           target="pdfframe"
+                                           onclick="PF('dlg3').show();" 
+                                           >
                                 <h:graphicImage title="descargar reporte en formato pdf" name="images/pdf-icon.png" />
                             </p:commandLink>
                             <p:commandLink  action="#{reportesJasperController.getReporteExcel()}"  ajax="false">
                                 <h:graphicImage  title="descargar reporte en formato excel" name="images/excel-xls-icon.png" />
                             </p:commandLink>
                         </h:panelGrid> 
-
+                        <p:dialog id="dlgpdf" header="document" widgetVar="dlg3"
+                                  showEffect="explode" modal="true" width="90%"  height="540" resizable="false" appendTo="@(body)" >
+                            <iframe id="pdfframe" name="pdfframe" width="100%" height="100%">
+                                
+                            </iframe>
+                        </p:dialog>  
                     </h:panelGrid> 
 
                 </h:form>

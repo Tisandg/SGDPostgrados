@@ -14,7 +14,13 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
- 
+
+/**
+ * Clase controlador que permite realizar la gráfica de publicaciones visadas.
+ * Controlador usado por la vista: GraficaPubVis
+ * @author Carolina
+ */
+
 @Named(value = "graficaPubVisController")
 @ManagedBean
 @SessionScoped
@@ -70,6 +76,10 @@ public class GraficaPubVisController implements Serializable {
     }
     
 
+    /**
+     * Metodo que permite contar los meses en el año 
+     * @return ArrayList<Integer>: lista con los números de los meses.
+     */
     private ArrayList<Integer> ContMeses() {
         String auxAnio = anio;
         String mes;
@@ -82,6 +92,11 @@ public class GraficaPubVisController implements Serializable {
         return contMeses;
     }
 
+    /**
+     * Método que permite conocer el total de meses.
+     * @param contMeses: ista con los números de los meses.
+     * @return sum: número de meses en total
+     */
     private int toltalContMeses(ArrayList<Integer> contMeses) {
 
         int sum = 0;
@@ -91,6 +106,9 @@ public class GraficaPubVisController implements Serializable {
         return sum;
     }
 
+    /**
+     * Método que permite crear un modelo de barras
+     */
     private void createBarModel() {
 
         ArrayList<Integer> resMes = ContMeses();

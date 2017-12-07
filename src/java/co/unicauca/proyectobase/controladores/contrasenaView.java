@@ -1,5 +1,4 @@
 package co.unicauca.proyectobase.controladores;
-import javax.faces.bean.ManagedBean;
 
 /**
  * @author Santiago Garcia
@@ -34,6 +33,4 @@ public class contrasenaView {
     public void setNuevaContrasenaR(String nuevaContrasenaR) {
         this.nuevaContrasenaR = nuevaContrasenaR;
     }
-    
-    
 }

@@ -11,34 +11,39 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Clase que permite hacer las validaciones para el ISBN de libro.
+ * Esta clase es usada para el registro de libro.
  * @author Juan
  */
 @FacesValidator(value="validadorISBN")
-public class ValidadorISBN implements Validator{
-
+public class ValidadorISBN implements Validator
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene el ISB desde la vista de registro de libro.
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException 
+    {
         String isbn = value.toString();
         if(!isVacio(isbn)){
             if(isValidoFormato(isbn)) {
-                if(validarInicio(isbn) == false){
+                if(validarInicio(isbn) == false)
+                {
                     FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Actulamente el ISBN debe comenzar por 978 o 979.");
                     throw new ValidatorException(msg);
                 }
-            }else{
+            }
+            else
+            {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El ISBN debe tener el siguiente formato numerico:\n \"123-12-12345-12-1\".");
                 throw new ValidatorException(msg);
             }
-            
         }   
-        
-        /*
-        if(isRegistrado(isbn, context)){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ya exite un libro almacenado con el ISBN ingresado.");
-            throw new ValidatorException(msg);
-        }*/
-
     }
     
     /**
@@ -124,7 +129,8 @@ public class ValidadorISBN implements Validator{
      * @param context
      * @return 
      */
-    public boolean isRegistrado(String isbn, FacesContext context){
+    public boolean isRegistrado(String isbn, FacesContext context)
+    {
         boolean variable = false;
         PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "publicacionController");
@@ -134,7 +140,7 @@ public class ValidadorISBN implements Validator{
         System.out.println("validado isbn: " + variable);
         return variable;        
     }
-
+   
     private boolean validarInicio(String isbn) {
         boolean valido = false;
         String dividido[]= isbn.split("-");

@@ -16,8 +16,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author DELL7
+ * Entidad que representa un libro
+ * @author 
  */
 @Entity
 @Table(name = "libro")
@@ -28,19 +28,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Libro.findByLibTituloLibro", query = "SELECT l FROM Libro l WHERE l.libTituloLibro = :libTituloLibro")})
 public class Libro implements Serializable 
 {
-
     @JoinColumn(name = "ciudad_id", referencedColumnName = "ciud_id")
     @ManyToOne
     private Ciudad ciudadId;
 
-    
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
-
+    // Clave identificadora de la publicación
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
+    // Título del libro
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -49,14 +49,17 @@ public class Libro implements Serializable
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;
+    //Editorial del libro
     @Size(max = 25)
     @Column(name = "editorial")
     private String editorial;
+    // ISBN del libro
     @Basic(optional = true)    
     @Size(max = 30)
     @Column(name = "lib_isbn")
     private String libIsbn;
 
+    /* Controlador */
     public Libro() {
     }
 
@@ -69,6 +72,7 @@ public class Libro implements Serializable
         this.libTituloLibro = libTituloLibro;
     }
 
+    /* Getters y Setters */
     public Integer getPubIdentificador() {
         return pubIdentificador;
     }
@@ -91,6 +95,30 @@ public class Libro implements Serializable
 
     public void setPublicacion(Publicacion publicacion) {
         this.publicacion = publicacion;
+    }
+    
+    public String getLibIsbn() {
+        return libIsbn;
+    }
+
+    public void setLibIsbn(String libIsbn) {
+        this.libIsbn = libIsbn;
+    }
+
+    public String getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(String editorial) {
+        this.editorial = editorial.toUpperCase();
+    }    
+
+    public Ciudad getCiudadId() {
+        return ciudadId;
+    }
+
+    public void setCiudadId(Ciudad ciudadId) {
+        this.ciudadId = ciudadId;
     }
 
     @Override
@@ -116,29 +144,5 @@ public class Libro implements Serializable
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Libro[ pubIdentificador=" + pubIdentificador + " ]";
-    }
-
-    public String getLibIsbn() {
-        return libIsbn;
-    }
-
-    public void setLibIsbn(String libIsbn) {
-        this.libIsbn = libIsbn;
-    }
-
-    public String getEditorial() {
-        return editorial;
-    }
-
-    public void setEditorial(String editorial) {
-        this.editorial = editorial.toUpperCase();
-    }    
-
-    public Ciudad getCiudadId() {
-        return ciudadId;
-    }
-
-    public void setCiudadId(Ciudad ciudadId) {
-        this.ciudadId = ciudadId;
     }
 }

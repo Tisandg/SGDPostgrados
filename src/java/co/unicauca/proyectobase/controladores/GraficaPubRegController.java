@@ -14,7 +14,13 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
- 
+
+/**
+ * Clase controlador que permite realizar las gráficas de publicaciones.
+ * Controlador usado por las vista: GraficaPubReg.
+ * @author Carolina
+ */
+
 @Named(value = "graficaPubRegController")
 @ManagedBean
 @SessionScoped
@@ -69,6 +75,10 @@ public class GraficaPubRegController implements Serializable {
     }
     
 
+    /**
+     * Metodo que permite contar los meses en el año 
+     * @return ArrayList<Integer>: lista con los números de los meses.
+     */
     private ArrayList<Integer> ContMeses() {
         String auxAnio = anio;
         String mes;
@@ -81,17 +91,22 @@ public class GraficaPubRegController implements Serializable {
         return contMeses;
     }
 
+    /**
+     * Método que permite conocer el total de meses.
+     * @param contMeses: ista con los números de los meses.
+     * @return sum: número de meses en total
+     */
     private int toltalContMeses(ArrayList<Integer> contMeses) {
-
         int sum = 0;
-
         for (int i = 0; i < contMeses.size(); i++) {
             sum = sum + contMeses.get(i);
-
         }
         return sum;
     }
 
+    /**
+     * Método que permite crear un modelo de barras
+     */
     private void createBarModel() {
 
         ArrayList<Integer> resMes = ContMeses();

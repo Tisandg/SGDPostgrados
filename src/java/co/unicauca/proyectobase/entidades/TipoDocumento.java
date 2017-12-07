@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa el tipo de documento
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @Entity
@@ -38,31 +38,39 @@ public class TipoDocumento implements Serializable {
     @OneToMany(mappedBy = "idTipoDocumento")
     private List<Publicacion> publicacionList;
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora del tipo de documento
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "identificador")
     private Integer identificador;
+    // Nombre del tipo de documento
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "nombre")
     private String nombre;
+    // Créditos del tipo de documento
     @Basic(optional = false)
     @NotNull
     @Column(name = "creditos")
     private int creditos;
+    // Número máximo de créditos del tipo de documento
     @Column(name = "max_creditos")
     private Integer maxCreditos;
+    // Número mínimo de créditos del tipo de documento
     @Column(name = "min_creditos")
     private Integer minCreditos;
+    //Correquisitos asociados al tipo de documento
     @OneToMany(mappedBy = "correquisitos")
     private List<TipoDocumento> tipoDocumentoList;
     @JoinColumn(name = "correquisitos", referencedColumnName = "identificador")
     @ManyToOne
     private TipoDocumento correquisitos;
 
+    /* Constructores */
     public TipoDocumento() {
     }
 
@@ -76,6 +84,7 @@ public class TipoDocumento implements Serializable {
         this.creditos = creditos;
     }
 
+    /* Getters y Setters */
     public Integer getIdentificador() {
         return identificador;
     }

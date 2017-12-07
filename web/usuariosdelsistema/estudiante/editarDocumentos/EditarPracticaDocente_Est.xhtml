@@ -75,15 +75,15 @@
                             <p:fileUpload id="tablaContenidoPDF"   value="#{practicaDocenteController.documento}" mode="simple" 
                                       allowTypes="/(\.|\/)(pdf)$/" messageTemplate="hola"/>&lrm;&lrm;
                             <p:commandButton id="ayuda" ajax="false" onclick="return false;"  icon="ui-icon-help"/>
-                            <p:tooltip id="toolTipGrow" for="ayuda" value="Sí carga un nuevo documento, se sobreescribirá el que se cargo anteriormente."
+                            <p:tooltip id="toolTipGrow" for="ayuda" value="Si carga un nuevo documento, se sobreescribirá el que se cargo anteriormente."
                                    showEffect="clip" hideEffect="blind" />                                
                         </h:panelGroup>
-                        <p:outputLabel value=""  />
-
+                        <p:outputLabel value=""  />                       
                     </h:panelGrid>                                                                    
                     <p:messages for="valPractica"  id="msjvalPractica" showDetail="true"/>
-                    <br/>                        
+                    <br/>                    
                     <h:commandButton class="botonVerPractica" value="Ver documento almacenado" action="#{practicaDocenteController.pdfPubPD()}" onclick="this.form.target = '_blank'" />&lrm;
+                    <br/><br/>                    
                     <h:commandButton actionListener="#{practicaDocenteController.update}" value="Guardar" class="botonVerPractica"/>&lrm;
                     <p:commandButton value="Cancelar" actionListener="#{practicaDocenteController.redirigirListarPracticasEst()}"/>
                 </p:panel>

@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa al usuario
  * @author Sahydo
  */
 @Entity
@@ -40,36 +40,45 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private List<Coordinador> coordinadorList;
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora de la publicación
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    // Nombres del usuario
     @Size(max = 30)
     @Column(name = "nombres")
     private String nombres;
+    // Apellidos del usuario
     @Size(max = 30)
     @Column(name = "apellidos")
     private String apellidos;
+    // Nombre de usuario
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
+    // Contraseña del usuario
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 65)
     @Column(name = "contrasena")
     private String contrasena;
+    // Estado del usuario
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "estado")
     private String estado;
+    // Grupo de tipo de usuario al que está asociado el usuario
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<GrupoTipoUsuario> grupoTipoUsuarioList;
 
+    /* Constructores */
     public Usuario() {
     }
 
@@ -100,6 +109,7 @@ public class Usuario implements Serializable {
     }
     
 
+    /* Getters y Setters */
     public Integer getId() {
         return id;
     }
@@ -157,6 +167,24 @@ public class Usuario implements Serializable {
         this.grupoTipoUsuarioList = grupoTipoUsuarioList;
     }
 
+    @XmlTransient
+    public List<Estudiante> getEstudianteList() {
+        return estudianteList;
+    }
+
+    public void setEstudianteList(List<Estudiante> estudianteList) {
+        this.estudianteList = estudianteList;
+    }
+
+    @XmlTransient
+    public List<Coordinador> getCoordinadorList() {
+        return coordinadorList;
+    }
+
+    public void setCoordinadorList(List<Coordinador> coordinadorList) {
+        this.coordinadorList = coordinadorList;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -181,23 +209,4 @@ public class Usuario implements Serializable {
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Usuario[ id=" + id + " ]";
     }
-
-    @XmlTransient
-    public List<Estudiante> getEstudianteList() {
-        return estudianteList;
-    }
-
-    public void setEstudianteList(List<Estudiante> estudianteList) {
-        this.estudianteList = estudianteList;
-    }
-
-    @XmlTransient
-    public List<Coordinador> getCoordinadorList() {
-        return coordinadorList;
-    }
-
-    public void setCoordinadorList(List<Coordinador> coordinadorList) {
-        this.coordinadorList = coordinadorList;
-    }
-    
 }

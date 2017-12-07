@@ -24,7 +24,8 @@ import co.unicauca.proyectobase.controladores.CargarVistaEstudiante;
 import co.unicauca.proyectobase.dao.EstudianteFacade;
 
 /**
- * @hola unicauca
+ * Controlador encargado para el inicio de sesión por parte del estudiante
+ * o coordinador. Este controlador es usado en la vista index.
  */
 
 @ManagedBean

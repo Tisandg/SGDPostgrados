@@ -13,14 +13,23 @@ import javax.faces.validator.ValidatorException;
 import org.primefaces.model.UploadedFile;
 
 /**
- *
+ * Clase que permite hacer las validaciones de la extensión del archivo a subir por
+ * parte del estudiante. Esta clase se usa para el registro de publicaciones y práctica docente.
  * @author Juan
  */
 @FacesValidator(value="validadorPdf")
-public class VelidadorArchivosPDF implements Validator {
+public class VelidadorArchivosPDF implements Validator 
+{
     @EJB
     private EstudianteFacade dao;
     
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso obtiene el nombre completo y la extensión del archivo para comprobar si es un archivo PDF.
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         
@@ -45,8 +54,15 @@ public class VelidadorArchivosPDF implements Validator {
 
     }
     
-    //valida la extension .pdf de la publicacion a subir
-    public boolean validarExtension(String nombreArchivo) {
+    /**
+     * valida la extension .pdf de la publicacion a subir. SE RECOMIENDA POR SEGURIDAD VALIDAR CON NÚMEROS MÁGICOS.
+     * https://en.wikipedia.org/wiki/List_of_file_signatures
+     * 
+     * @param nombreArchivo
+     * @return 
+     */
+    public boolean validarExtension(String nombreArchivo) 
+    {
         //Pattern p = Pattern.compile("^([^\\s][A-ZÁÉÍÓÚa-zñáéíóú0-9*¿?!¡#$%&+=_-’~{}( )^<> ]+(\\.(?i)(pdf|PDF)))+$");
         Pattern p = Pattern.compile("([^\\s]+(\\.(?i)(pdf|PDF))$)"); 
         Matcher m = p.matcher(nombreArchivo); 

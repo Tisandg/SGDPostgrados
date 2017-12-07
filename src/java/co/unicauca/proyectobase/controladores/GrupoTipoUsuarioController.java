@@ -18,6 +18,11 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
+/**
+ * 
+ * @author Carolina
+ */
+
 @Named("grupoTipoUsuarioController")
 @SessionScoped
 public class GrupoTipoUsuarioController implements Serializable {
@@ -29,13 +34,19 @@ public class GrupoTipoUsuarioController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
+    /* Controlador */
     public GrupoTipoUsuarioController() {
     }
 
+    //<editor-fold defaultstate="collapsed" desc="métodos generados por el framework">
     public void setCurrent(GrupoTipoUsuario current) {
         this.current = current;
     }
     
+    /**
+     * Método que permite obtener el GrupoTipoUsuario seleccionado
+     * @return GrupoTipoUsuario: grupo seleccionado
+     */
     public GrupoTipoUsuario getSelected() {
         if (current == null) {
             current = new GrupoTipoUsuario();
@@ -255,5 +266,5 @@ public class GrupoTipoUsuarioController implements Serializable {
         }
 
     }
-
+    //</editor-fold>
 }

@@ -1,8 +1,5 @@
 package co.unicauca.proyectobase.validadores;
 
-import co.unicauca.proyectobase.dao.EstudianteFacade;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -10,8 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-@FacesValidator(value="validadorUsuario")
 
+@FacesValidator(value="validadorUsuario")
 public class ValidadorUsuario implements Validator{
      @EJB
      @Override

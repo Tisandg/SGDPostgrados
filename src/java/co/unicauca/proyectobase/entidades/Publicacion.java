@@ -75,7 +75,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
 
 /**
- *
+ * Entidad que representa una publicación
  * @author Unicauca
  */
 @Entity
@@ -135,56 +135,68 @@ import org.primefaces.model.UploadedFile;
     @NamedQuery(name = "Publicacion.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like :tipoDoc")
 
 })
+
 public class Publicacion implements Serializable {
 
+    //Créditos de una publicación
     @Column(name = "pub_creditos")
     private Integer pubCreditos;
-
+    // Práctica docente asociada a una publicación
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "publicacion")
     private PracticaDocente practicaDocente;
-
     @JoinColumn(name = "id_tipo_documento", referencedColumnName = "identificador")
     @ManyToOne
     private TipoDocumento idTipoDocumento;
-
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora de la publicación
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
+    // Hash de la publicación
     @Size(max = 40)
     @Column(name = "pub_hash")
     private String pubHash;
+    // Dirección de la publicación en el repositorio de openKM
     @Size(max = 30)
     @Column(name = "pub_diropkm")
     private String pubDiropkm;
+    // Fecha de visado de la publicación
     @Column(name = "pub_fecha_visado")
     @Temporal(TemporalType.DATE)
     private Date pubFechaVisado;
+    // Fecha de registro de la publicación
     @Column(name = "pub_fecha_registro")
     @Temporal(TemporalType.DATE)
     private Date pubFechaRegistro;
+    // Estado de la publicación
     @Size(max = 15)
     @Column(name = "pub_estado")
     private String pubEstado;
+    // Autores secundarios de la publicación
     @Size(max = 300)
     @Column(name = "pub_autores_secundarios")
     private String pubAutoresSecundarios;
+    // Tipo de la publicación
     @Size(min = 1, max = 22)
     @Column(name = "pub_tipo_publicacion")
     private String pubTipoPublicacion;
+    // Fecha de la publicación
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_fecha_publicacion")
     @Temporal(TemporalType.DATE)
     private Date pubFechaPublicacion;
+    // Número de acta de la publicación
     @Column(name = "pub_num_acta")
     private Integer pubNumActa;
+    // Visado de la publicación
     @Size(max = 20)
     @Column(name = "pub_visado")
     private String pubVisado;
-
+    // Tipo de publicación
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "publicacion")
     private Libro libro;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "arcPubIdentificador")
@@ -195,10 +207,12 @@ public class Publicacion implements Serializable {
     private Revista revista;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "publicacion")
     private CapituloLibro capituloLibro;
+    // Estudiante al que esta asociado la publicación
     @JoinColumn(name = "pub_est_identificador", referencedColumnName = "est_identificador")
     @ManyToOne
     private Estudiante pubEstIdentificador;
 
+    /* Constructores */
     public Publicacion() {
         this.pubAutoresSecundarios = "";
         this.libro = new Libro();
@@ -1222,6 +1236,7 @@ public class Publicacion implements Serializable {
     }
     
 
+    /* Getters y Setters */
     public Integer getPubIdentificador() {
         return pubIdentificador;
     }
@@ -1370,31 +1385,6 @@ public class Publicacion implements Serializable {
         this.archivoCollection = archivoCollection;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (pubIdentificador != null ? pubIdentificador.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Publicacion)) {
-            return false;
-        }
-        Publicacion other = (Publicacion) object;
-        if ((this.pubIdentificador == null && other.pubIdentificador != null) || (this.pubIdentificador != null && !this.pubIdentificador.equals(other.pubIdentificador))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "co.unicauca.proyectobase.entidades.Publicacion[ pubIdentificador=" + pubIdentificador + " ]";
-    }
-
     public TipoDocumento getIdTipoDocumento() {
         return idTipoDocumento;
     }
@@ -1421,6 +1411,30 @@ public class Publicacion implements Serializable {
 
     public void setPubCreditos(Integer pubCreditos) {
         this.pubCreditos = pubCreditos;
+    }
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (pubIdentificador != null ? pubIdentificador.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Publicacion)) {
+            return false;
+        }
+        Publicacion other = (Publicacion) object;
+        if ((this.pubIdentificador == null && other.pubIdentificador != null) || (this.pubIdentificador != null && !this.pubIdentificador.equals(other.pubIdentificador))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "co.unicauca.proyectobase.entidades.Publicacion[ pubIdentificador=" + pubIdentificador + " ]";
     }
 
 }

@@ -2,6 +2,7 @@ package co.unicauca.proyectobase.validadores;
 
 import co.unicauca.proyectobase.controladores.PublicacionController;
 import co.unicauca.proyectobase.entidades.CapituloLibro;
+import java.util.Objects;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -10,12 +11,20 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Clase que permite hacer las validaciones del título del capítulo del libro. Esta clase
+ * se usa para el registro de título cápitulo de libro.
  * @author Juan
  */
 @FacesValidator(value="validadorTCapituloLibro")
-public class ValidadorTCapituloLibro implements Validator {
-    
+public class ValidadorTCapituloLibro implements Validator 
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso es el título del capítulo del libro y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String nombre = String.valueOf(value);
@@ -50,7 +59,8 @@ public class ValidadorTCapituloLibro implements Validator {
         PublicacionController controller = (PublicacionController) context.getApplication().getELResolver().
                     getValue(context.getELContext(), null, "publicacionController");
         CapituloLibro cap = controller.buscarTituloCapituloLibro(titulo);
-        if (cap != null && controller.getActual().getPubIdentificador() != cap.getPubIdentificador()) {
+        if (cap != null && !Objects.equals(controller.getActual().getPubIdentificador(), cap.getPubIdentificador())) 
+        {
             /*Esta colocando el mismo nombre del capitulo de libro de otro registro*/
             variable = true;
         }

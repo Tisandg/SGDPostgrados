@@ -35,7 +35,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Entidad que representa una práctica docente
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @Entity
@@ -54,25 +54,31 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PracticaDocente.findIdTipoDocumento", query = "SELECT td FROM TipoDocumento td WHERE td.nombre like 'Practica docente'")
 })
 public class PracticaDocente implements Serializable {
-
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora de la publicación
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "pub_identificador")
     private Integer pubIdentificador;
+    // Número de horas de la práctica docente
     @Column(name = "numero_horas")
     private Integer numeroHoras;
+    // Otros en la práctica docente
     @Size(max = 200)
     @Column(name = "otros")
     private String otros;
+    // Actividad asociada a la práctica docente
     @JoinColumn(name = "id_actividad", referencedColumnName = "id_actividad")
     @ManyToOne(optional = false)
     private ActividadPd idActividad;
+    //Publicación asociada a la práctica docente
     @JoinColumn(name = "pub_identificador", referencedColumnName = "pub_identificador", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Publicacion publicacion;
-
+    
+    /* Constructor */
     public PracticaDocente() {
     }
 
@@ -80,6 +86,7 @@ public class PracticaDocente implements Serializable {
         this.pubIdentificador = pubIdentificador;
     }
 
+    /* Getter y Setters */
     public Integer getPubIdentificador() {
         return pubIdentificador;
     }
@@ -145,12 +152,16 @@ public class PracticaDocente implements Serializable {
         return "co.unicauca.proyectobase.entidades.PracticaDocente[ pubIdentificador=" + pubIdentificador + " ]";
     }
 
+    /**
+     * Método que permite descargar la práctica docente en un archivo PDF.
+     * @return archivo: archivo PDF de la práctica docente
+     */
     public archivoPDF descargaPubPrac() {
         archivoPDF archivo = new archivoPDF();
         String tipoPDF = "practicaDocente";
 
 //        String host = "http://localhost:8083/OpenKM";
-//         //String host = "http://wmyserver.sytes.net:8083/OpenKM";
+//        String host = "http://wmyserver.sytes.net:8083/OpenKM";
 //        String username = "okmAdmin";
 //        String password = "admin";
 //        OKMWebservices ws = OKMWebservicesFactory.newInstance(host, username, password);

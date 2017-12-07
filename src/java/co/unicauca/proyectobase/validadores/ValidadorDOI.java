@@ -15,12 +15,21 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Clase que permite hacer las validaciones para el DOI de alguna publicación.
+ * Esta clase es usada para el registro de libro, revista, evento, publicación.
  * @author Juan
  */
 @FacesValidator(value="validadorDOI")
-public class ValidadorDOI implements Validator {
-    
+public class ValidadorDOI implements Validator 
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene el DOI desde la vista de registro de publicación
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String doi = value.toString();

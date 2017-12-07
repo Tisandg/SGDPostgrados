@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa al tipo de usuario
  * @author Sahydo
  */
 @Entity
@@ -29,20 +29,26 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoUsuario.findByNombre", query = "SELECT t FROM TipoUsuario t WHERE t.nombre = :nombre")})
 public class TipoUsuario implements Serializable {
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora del tipo de usuario
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
+    // Nombre del tipo de usuario
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "nombre")
     private String nombre;
+    // Grupo  asociado al tipo de usuario
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoUsuario")
     private List<GrupoTipoUsuario> grupoTipoUsuarioList;
 
+    
+    /* Constructores */
     public TipoUsuario() {
     }
 
@@ -55,6 +61,7 @@ public class TipoUsuario implements Serializable {
         this.nombre = nombre;
     }
 
+    /* Getters y Setters */
     public Integer getId() {
         return id;
     }

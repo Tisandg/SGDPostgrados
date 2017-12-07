@@ -27,10 +27,18 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Clase controlador que permite la gestión de estudiantes.
+ * Controlador de las vistas: EditarPublicacion, menu, Estudiante, EditarEstudiante, ListarEstudiante, 
+ * RegistrarEstudiante, VerEstudiante, GraficaPubReg, Reportes, VerEstudiante_Est, y EditarConstrasena.
+ * @author Carolina
+ */
+
 @Named(value = "estudianteController")
 @ManagedBean
 @SessionScoped
 public class EstudianteController implements Serializable {
+
 
     @EJB
     private EstudianteFacade estFacade;
@@ -62,12 +70,6 @@ public class EstudianteController implements Serializable {
 
     public int getCohorte() {
         return actual.getEstCohorte();
-        /*
-        if ((cohorte == null) || (cohorte.equals("null")) || (cohorte.equals(""))) {
-            return "";
-        }
-        cohorte = String.valueOf(actual.getEstCohorte());
-        return cohorte;*/
     }
 
     public List<Estudiante> getListadoEncontrado() {

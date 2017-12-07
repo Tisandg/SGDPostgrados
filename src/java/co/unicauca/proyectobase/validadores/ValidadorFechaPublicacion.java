@@ -5,9 +5,6 @@
  */
 package co.unicauca.proyectobase.validadores;
 
-import java.sql.Date;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

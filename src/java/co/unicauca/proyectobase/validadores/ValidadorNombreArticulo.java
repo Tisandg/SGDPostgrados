@@ -13,15 +13,25 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
+ * Clase que permite hacer las validaciones para el registrar el nombre de algún artículo
+ * Esta clase es usada para el registro de artículo.
  * @author Juan
  */
 @FacesValidator(value="validadorNombreArticulo")
-public class ValidadorNombreArticulo implements Validator {
-    
+public class ValidadorNombreArticulo implements Validator 
+{    
     @EJB
     private PublicacionFacade dao;
     private Publicacion actual;
     
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene el nombre del artículo desde la vista de registrar artículo
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         

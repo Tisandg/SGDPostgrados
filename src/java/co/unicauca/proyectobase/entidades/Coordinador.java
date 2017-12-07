@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entidad que representa a coordinador de posgrados
  * @author Sahydo
  */
 @Entity
@@ -44,27 +44,34 @@ public class Coordinador implements Serializable {
     @ManyToOne(optional = false)
     private Usuario usuarioId;
 
+    // Versión de la base de datos
     private static final long serialVersionUID = 1L;
+    // Clave identificadora del coordinador
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "coo_identificador")
     private Integer cooIdentificador;
+    // Nombre del coordinador
     @Size(max = 45)
     @Column(name = "coo_nombre")
     private String cooNombre;
+    // Contraseña del coordinador
     @Size(max = 40)
     @Column(name = "coo_contrasena")
     private String cooContrasena;
+    // Correo del coordinador
     @Size(max = 30)
     @Column(name = "coo_correo")
     private String cooCorreo;
+    // Usuario del coordinador
     @Size(max = 20)
     @Column(name = "coo_usuario")
-    private String cooUsuario;
+    private String cooUsuario;   
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coordinador")
     private List<Doctorado> doctoradoList;
 
+    /* Coordinador */
     public Coordinador() {
     }
 
@@ -72,6 +79,7 @@ public class Coordinador implements Serializable {
         this.cooIdentificador = cooIdentificador;
     }
 
+    /* Getters y Setters */
     public Integer getCooIdentificador() {
         return cooIdentificador;
     }
@@ -120,6 +128,14 @@ public class Coordinador implements Serializable {
     public void setDoctoradoList(List<Doctorado> doctoradoList) {
         this.doctoradoList = doctoradoList;
     }
+    
+    public Usuario getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
+    }
 
     @Override
     public int hashCode() {
@@ -144,14 +160,5 @@ public class Coordinador implements Serializable {
     @Override
     public String toString() {
         return "co.unicauca.proyectobase.entidades.Coordinador[ cooIdentificador=" + cooIdentificador + " ]";
-    }
-
-    public Usuario getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-    
+    }    
 }
