@@ -38,8 +38,10 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 /**
- * @author debian Permite crear reportes basados en la libreria jasperreport
- * para los formatos pdf y xls
+ * Clase controlador que permite crear reportes basados en la libreria
+ * jasperreport para los formatos pdf y xls. Controlador utilizado en la vista:
+ * GraficaPubReg.xhtml
+ *
  */
 @Named(value = "reportesJasperController")
 @ManagedBean
@@ -47,34 +49,81 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 public class ReportesJasperController implements Serializable {
 
     @PersistenceContext(unitName = "ProyectoDoctoradoPU")
-    private EntityManager em;
 
+    /**
+     * Campos String para getReporte y getReportePdf que indica el formato pdf
+     * del reporte a generar
+     */
     private static final String TIPO_DOC_PDF = "PDF";
+
+    /**
+     * Campos String para getReporte y getReporteExcel que indica el formato
+     * excel del reporte a generar
+     */
     private static final String TIPO_DOC_EXCEL = "EXCEL";
+    /**
+     * Campos String para setTipoReporte y getTipoReporte que indica el tipo
+     * global de reporte a generar, es decir, para todos los estudiantes
+     */
     private static final String TIPO_REPORTE_GLOBAL = "GLOBAL";
+
+    /**
+     * Campos String para setTipoReporte y getTipoReporte que indica el tipo
+     * especifico para un estudiante de reporte a generar.
+     */
     private static final String TIPO_REPORTE_ESTUDIANTE = "POR ESTUDIANTE";
+
+    /**
+     * Campos String para setTiempo y getTiempo que indica el rango de tiempo de
+     * un año del reporte a generar.
+     */
     private static final String RANGO_TIEMPO_ANIO = "POR AÑO";
+
+    /**
+     * Campos String para setTiempo y getTiempo que indica el rango de tiempo de
+     * año y semestre del reporte a generar.
+     */
     private static final String RANGO_TIEMPO_SEMESTRE = "POR SEMESTRE";
+
+    /**
+     * Campos String para setTiempo y getTiempo que indica el rango de tiempo no
+     * especifico del reporte a generar, es decir, desde el incio de los tiempos
+     * hasta la actualidad.
+     */
     private static final String RANGO_TIEMPO_TODO = "TODO";
 
-    public static String getTIPO_REPORTE_ESTUDIANTE() {
-        return TIPO_REPORTE_ESTUDIANTE;
-    }
-
+    /**
+     * Permite obtener todos los tipos de reportes posibles
+     *
+     * @return
+     */
     public String[] listaTiposReporte() {
         return new String[]{TIPO_REPORTE_GLOBAL, TIPO_REPORTE_ESTUDIANTE};
     }
 
+    /**
+     * Permite obtener todos los tipos de rangos de tiempos posibles para
+     * reportes
+     *
+     * @return
+     */
     public String[] listaTiempo() {
         return new String[]{RANGO_TIEMPO_TODO, RANGO_TIEMPO_ANIO, RANGO_TIEMPO_SEMESTRE};
     }
+
     private String tipoReporte;
     private String tiempo;
     private String codEstudiante;
     private int anio;
     private int semestre;
-    String[][] plantillasReportes; //matriz de rutas de las plantillas de reportes
+    /**
+     * Almacena, en forma de matriz, las rutas de las plantillas de reportes
+     */
+    String[][] plantillasReportes;
 
+    /**
+     * permite crear una nueva instancia de ReportesJasperController
+     */
     public ReportesJasperController() {
         tipoReporte = "";
         tiempo = "";
@@ -85,67 +134,145 @@ public class ReportesJasperController implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="getters and getters">
+    /**
+     * Establece el tipo de reporte a generar.
+     *
+     * @param tipoReporte indica el tipo de reporte a generar
+     * @see TIPO_REPORTE_GLOBAL, TIPO_REPORTE_ESTUDIANTE
+     */
     public void setTipoReporte(String tipoReporte) {
         this.tipoReporte = tipoReporte;
     }
 
+    /**
+     *
+     * @return retorno el tipo de reporte a generar
+     * @see TIPO_REPORTE_GLOBAL, TIPO_REPORTE_ESTUDIANTE
+     */
     public String getTipoReporte() {
         return tipoReporte;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCodEstudiante() {
         return codEstudiante;
     }
 
+    /**
+     * Permite establecer un codigo de un estudiante, si el tipo de reporte lo
+     * necesita
+     *
+     * @param codEstudiante
+     */
     public void setCodEstudiante(String codEstudiante) {
         this.codEstudiante = codEstudiante;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAnio() {
         return anio;
     }
 
+    /**
+     * Permite establecer un año, si el tipo de reporte lo necesita
+     *
+     * @param anio
+     */
     public void setAnio(int anio) {
         this.anio = anio;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSemestre() {
         return semestre;
     }
 
+    /**
+     * Permite establecer un semestre, si el tipo de reporte lo necesita
+     *
+     * @param semestre
+     */
     public void setSemestre(int semestre) {
         this.semestre = semestre;
     }
 
+    /**
+     *
+     * @return @see RANGO_TIEMPO_TODO, RANGO_TIEMPO_ANIO, RANGO_TIEMPO_SEMESTRE
+     */
     public String getTiempo() {
         return tiempo;
     }
 
+    /**
+     * Permite establecer un rango de tiempo para un reporte.
+     *
+     * @param tiempo valor entre RANGO_TIEMPO_TODO, RANGO_TIEMPO_ANIO,
+     * RANGO_TIEMPO_SEMESTRE
+     */
     public void setTiempo(String tiempo) {
         this.tiempo = tiempo;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTipoDocPdf() {
         return tiempo;
     }
 
     //</editor-fold> 
+    /**
+     * Permite verificar si es necesario pedir un año para el reporte a generar
+     *
+     * @return true si es necesario pedir un año, false en otro caso.
+     */
     public boolean pedirAnio() {
         return tiempo != null && (tiempo.equals(RANGO_TIEMPO_ANIO) || tiempo.equals(RANGO_TIEMPO_SEMESTRE));
     }
 
+    /**
+     * Permite verificar si es necesario pedir un codigo de un estudiante para
+     * el reporte a generar
+     *
+     * @return true si es necesario pedir codigo de estudiante, false en otro
+     * caso.
+     */
     public boolean pedirCodEstudiante() {
         return tipoReporte != null && tipoReporte.equals(TIPO_REPORTE_ESTUDIANTE);
     }
 
+    /**
+     * Permite verificar si es necesario pedir un semestre para el reporte a
+     * generar
+     *
+     * @return true si es necesario pedir un semestre, false en otro caso.
+     */
     public boolean pedirSemestre() {
         return tiempo != null && tiempo.equals(RANGO_TIEMPO_SEMESTRE);
     }
 
+    /**
+     * permite listar los años desde 1999 hasta elaño actual.
+     *
+     * @return arreglo de los años entre el año 1999 y el actual.
+     */
     public int[] getListaAnios() {
         return Utilidades.getListaAnios();
     }
-
+    /**
+     * contiene un reporte a partir de una plantilla de reportes compilada.
+     */
     JasperPrint jasperPrint;
 
     /**
@@ -187,12 +314,7 @@ public class ReportesJasperController implements Serializable {
         }
         getReporte(TIPO_DOC_EXCEL);
     }
-    
-    public boolean redireccionar(){
-        System.out.println("redireccionando para archivo");
-        return true;
-    }
-    
+
     /**
      * A partir del paramtro tipoDoc mas los atributos globales genera un
      * reporte de tipo pdf o xls
@@ -239,11 +361,9 @@ public class ReportesJasperController implements Serializable {
             //que solicita el reporte
             URL url = this.getClass().getResource(plantillasReportes[fila][columna]);
             JasperReport report = (JasperReport) JRLoader.loadObject(url);
+
+            // compilacion de la plantilla jasper
             jasperPrint = JasperFillManager.fillReport(report, reportParameters, conn);
-            System.out.println("report" + report);
-            System.out.println("report" + report.getFields().length);
-            System.out.println("jasperPrint" + jasperPrint);
-            System.out.println("jasperPrint" + jasperPrint.getPages());
             //confirmacion de datos existentes para generar reporte
             if (!jasperPrint.getPages().isEmpty()) {
                 //eleccion del formato de salidad del reporte
@@ -299,8 +419,8 @@ public class ReportesJasperController implements Serializable {
 
             OutputStream out = response.getOutputStream();
             ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+            // definiendo tipo de exportacion xls
             JRXlsExporter exporterXLS = new JRXlsExporter();
-
             SimpleOutputStreamExporterOutput sreo = new SimpleOutputStreamExporterOutput(arrayOutputStream);
             exporterXLS.setExporterOutput(sreo);
             SimpleExporterInput sei = new SimpleExporterInput(jasperPrint);

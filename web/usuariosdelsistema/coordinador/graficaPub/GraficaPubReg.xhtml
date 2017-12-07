@@ -101,7 +101,7 @@
                                            title="descargar reporte en formato pdf" 
                                            action="#{reportesJasperController.getReportePdf()}" 
                                            ajax="false" 
-                                           target="holaf"
+                                           target="pdfframe"
                                            onclick="PF('dlg3').show();" 
                                            >
                                 <h:graphicImage title="descargar reporte en formato pdf" name="images/pdf-icon.png" />
@@ -112,7 +112,7 @@
                         </h:panelGrid> 
                         <p:dialog id="dlgpdf" header="document" widgetVar="dlg3"
                                   showEffect="explode" modal="true" width="90%"  height="540" resizable="false" appendTo="@(body)" >
-                            <iframe id="holaf" name="holaf" width="100%" height="100%">
+                            <iframe id="pdfframe" name="pdfframe" width="100%" height="100%">
                                 
                             </iframe>
                         </p:dialog>  
