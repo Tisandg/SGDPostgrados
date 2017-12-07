@@ -1,6 +1,5 @@
 package co.unicauca.proyectobase.validadores;
 
-import co.unicauca.proyectobase.controladores.PublicacionController;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -9,14 +8,24 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
+ * Clase que permite hacer las validaciones del título del libro. Esta clase
+ * se usa para el registro de libro.
  * @author Santiago
  */
 
 @FacesValidator(value="validadorTituloLibCap")
-public class ValidadorTituloLibCapitulo implements Validator{
-
+public class ValidadorTituloLibCapitulo implements Validator
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso es el título del libro y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException 
+    {
         String titulo = String.valueOf(value);
         
         if(titulo.length() == 0) {
@@ -27,9 +36,6 @@ public class ValidadorTituloLibCapitulo implements Validator{
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "El título del libro debe contener entre 3 y 200 caracteres");
                 throw new ValidatorException(msg);
             } 
-        }        
-        
+        }           
     }
-    
-    
 }

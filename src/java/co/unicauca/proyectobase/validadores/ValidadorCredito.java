@@ -9,10 +9,21 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
- 
-@FacesValidator(value = "validadorCredito")
-public class ValidadorCredito implements Validator {
+/**
+ * Clase que permite hacer las validaciones para el número de créditos del estudiante.
+ */
 
+@FacesValidator(value = "validadorCredito")
+public class ValidadorCredito implements Validator 
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene el número de créditos del estudiante
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String credito = String.valueOf(value);
@@ -35,7 +46,11 @@ public class ValidadorCredito implements Validator {
 
     }
 
-    //valida que el valor ingresado para el numero de creditos  sea numerico
+    /**
+     * Método auziliar que permite validar si el número de créditos e un valor numérico.
+     * @param numCreditos
+     * @return True si es válida la expresión regular.
+     */
     public boolean validarCredito(String numCreditos) {
         Pattern p = Pattern.compile("^[0-9]*$");
         Matcher m = p.matcher(numCreditos);

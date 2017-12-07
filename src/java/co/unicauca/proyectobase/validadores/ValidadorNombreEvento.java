@@ -15,12 +15,20 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Clase que permite hacer las validaciones del nombre del evento. Esta clase
+ * se usa para el registro de evento.
  * @author Juan
  */
 @FacesValidator(value="validadorNombreEvento")
-public class ValidadorNombreEvento implements Validator {
-    
+public class ValidadorNombreEvento implements Validator 
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso es el nombre del evento y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String nombre = String.valueOf(value);

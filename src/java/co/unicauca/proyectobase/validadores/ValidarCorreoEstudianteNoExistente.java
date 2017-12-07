@@ -8,9 +8,21 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator(value = "ValidarCorreoEstudianteNoExistente")
-public class ValidarCorreoEstudianteNoExistente implements Validator {
+/**
+ * Clase que permite hacer las validaciones si el correo electrónico de un estudiante ya está registrado. Esta clase
+ * se usa para la edición del estudiante.
+ */
 
+@FacesValidator(value = "ValidarCorreoEstudianteNoExistente")
+public class ValidarCorreoEstudianteNoExistente implements Validator 
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso es el correo electrónico del estudiante y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String correo = String.valueOf(String.valueOf(value));

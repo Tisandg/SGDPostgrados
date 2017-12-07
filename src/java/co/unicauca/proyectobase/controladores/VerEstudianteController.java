@@ -15,6 +15,12 @@ import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+/**
+ * Clase controlador utilizada para obtener obtener un estudiante para así poder
+ * ambiar la contraseña. 
+ * Este controlador es utilizado por las vistas: Reportes, VerEstudiante_Est y EditarContraseña.
+ */
+
 @Named(value = "verEstudianteController")
 @ManagedBean
 @SessionScoped
@@ -73,14 +79,6 @@ public class VerEstudianteController implements Serializable {
         this.contrasenas = new contrasenaView();
     }
 
-    public String getnombreAut() {
-        Estudiante est = getAuxEstudiante();
-        String nombreAut = "";
-        nombreAut = "" + est.getEstNombre() + " " + est.getEstApellido();
-
-        return nombreAut;
-    }
-
     /**
      * Carga los datos de un estudiante. Si se ha encontrado el estudiante
      * y se han fijado los datos en este controlador se retorna true, de lo 
@@ -96,26 +94,28 @@ public class VerEstudianteController implements Serializable {
             return false;
         }
     }
- 
-    /* redirige a la vista que permite ver los datos del estudiante
-    que ha iniciado sesión
-    */
+
+    /**
+     * Redirige a la vista que permite ver los datos del estudiante que ha iniciado sesión.
+     * @param nombreUsuario
+     */
     public void redirigirVerMisDatos(String nombreUsuario) {
         fijarEstudiante(nombreUsuario);
         cve.verDatosPersonales();
         Utilidades.redireccionar(cve.getRuta());
     }
     
-    /* cuando se invoca este método, se carga la vista que muestra los datos
-    del estudiante, que pueden ser editados
-    */
-    public void irEditarContrasena(String nombreUsuario) {
+    /**
+     * Cuando se invoca este método, se carga la vista que muestra los datos
+     * del estudiante, que pueden ser editados.
+     * @param nombreUsuario
+     */
+    public void irEditarContrasena(String nombreUsuario) 
+    {
         fijarEstudiante(nombreUsuario);
         cve.irEditarContrasena();
         Utilidades.redireccionar(cve.getRuta());
-    }
-
- 
+    } 
 
     /*mensajes de confirmacion */
     public void mensajeEditar() {
@@ -139,35 +139,13 @@ public class VerEstudianteController implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-
-    public Estudiante getAuxEstudiante() {
-        return auxEstudiante;
-    }
-
-    public void setAuxEstudiante(Estudiante auxEstudiante) {
-        this.auxEstudiante = auxEstudiante;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public contrasenaView getContrasenas() {
-        return contrasenas;
-    }
-
-    public void setContrasenas(contrasenaView contrasenas) {
-        this.contrasenas = contrasenas;
-    }
     
-    /* método que permite un cambio de contraseña, si se recibe la misma
-    contraseña actual, se alerta al usuario, de ser diferente, se acepta el 
-    cambio en la contraseña
-    */
+    /**
+     * Método que permite un cambio de contraseña, si se recibe la misma
+     * contraseña actual, se alerta al usuario, de ser diferente, se acepta el 
+     * cambio en la contraseña
+     * @return True si la contraseña ha sido cambida exitosamente.
+     */
     public boolean cambiarContrasena(){
         
         System.out.println("Cambiando contraseña...");
@@ -199,5 +177,38 @@ public class VerEstudianteController implements Serializable {
         
         return respuesta;
     }
+    
+    //***************** GETTERS & SETTERS ************
+    
+    public Estudiante getAuxEstudiante() {
+        return auxEstudiante;
+    }
 
+    public void setAuxEstudiante(Estudiante auxEstudiante) {
+        this.auxEstudiante = auxEstudiante;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public contrasenaView getContrasenas() {
+        return contrasenas;
+    }
+
+    public void setContrasenas(contrasenaView contrasenas) {
+        this.contrasenas = contrasenas;
+    }
+    
+    public String getnombreAut() {
+        Estudiante est = getAuxEstudiante();
+        String nombreAut = "";
+        nombreAut = "" + est.getEstNombre() + " " + est.getEstApellido();
+
+        return nombreAut;
+    }
 }

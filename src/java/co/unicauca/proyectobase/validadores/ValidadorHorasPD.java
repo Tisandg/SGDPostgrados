@@ -8,12 +8,20 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Clase que permite hacer las validaciones para el registro de horas práctica docente.
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @FacesValidator(value="validadorHorasPD")
-public class ValidadorHorasPD implements Validator{
-
+public class ValidadorHorasPD implements Validator
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene la cantidad de horas para el registro de práctica docente.
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         if(value == null){            

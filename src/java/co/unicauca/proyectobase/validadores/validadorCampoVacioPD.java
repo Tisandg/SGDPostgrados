@@ -8,12 +8,20 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Clase que permite hacer las validaciones de la descrición de la práctica docente. Esta clase
+ * se usa para el registro y edición de práctica docente
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 @FacesValidator(value = "validadorCampoVacioPD")
-public class validadorCampoVacioPD implements Validator{
-
+public class validadorCampoVacioPD implements Validator
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso es la descripción de la práctica docente y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         try{    
