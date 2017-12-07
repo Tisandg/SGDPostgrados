@@ -10,12 +10,22 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
+ * Clase que permite hacer las validaciones para la contraseña del estudiante.
+ * Esta clase es usada en el registro Estudiante.
  * @author Santiago
  */
 
 @FacesValidator(value="validarContrasena")
-public class ValidadorContrasenaEstudiante implements Validator{
-
+public class ValidadorContrasenaEstudiante implements Validator
+{
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso se obtiene la contraseña del estudiante desde la vista de registro de Estudiante
+     * y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         System.out.println("Validando contraseña");
@@ -38,6 +48,12 @@ public class ValidadorContrasenaEstudiante implements Validator{
         }
     }
     
+    /**
+     * Método auziliar de la clase que permite validar por medio de expresiones regulares
+     * la contraseña del estudiante.
+     * @param contrasena
+     * @return True si s válida la expresión regular.
+     */
     public boolean validarCaracteres(String contrasena){
         Pattern p = Pattern.compile("[A-Za-z0-9.,!#=)(/&%$+@+-_]");
         Matcher m = p.matcher(contrasena);

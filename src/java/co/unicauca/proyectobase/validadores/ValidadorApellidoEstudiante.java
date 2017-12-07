@@ -8,10 +8,21 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Clase que permite hacer las validaciones del apellido del estudiante. Esta clase
+ * se usa para el registro del estudiante.
+ */
 
 @FacesValidator(value="validadorApellidoEstudiante")
 public class ValidadorApellidoEstudiante implements Validator
 {
+    /**
+     * Método que es implementado de la clase Validator para realizar las validaciones del objeto value
+     * que en este caso es el apellido del estudiante y es transformado en una cadena (String)
+     * @param context
+     * @param component
+     * @param value
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException 
     {

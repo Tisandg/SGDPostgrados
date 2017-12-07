@@ -183,9 +183,9 @@ public class Utilidades {
     }
     
     /**
-     * Metodo para cifrar una cadena con el algoritmo SHA-256
+     * Método que utiliza la función hash SHA-256 para cifrar cadenas de caracteres
      * @param cadena
-     * @return 
+     * @return cadena Cifrada con longitud de 64 carcteres.
      */
     public static String sha256(String cadena)
     {
@@ -208,7 +208,14 @@ public class Utilidades {
         return sb.toString();
     }
     
-     public static int[] getListaAnios() {
+    /**
+     * Método encargado de crear un vector de años empezando desde el año 1999
+     * hasta el año actual del sistema para ser usado por el controlador de 
+     * reportes y la vista de reportes.
+     * @return lista de años desde 1999
+     */
+    public static int[] getListaAnios() 
+    {
         Calendar cal = Calendar.getInstance();
         int anioInicio = 1999;
         int anioActual = cal.get(Calendar.YEAR);
@@ -218,5 +225,4 @@ public class Utilidades {
         }
         return vectorA;
     }
-
 }

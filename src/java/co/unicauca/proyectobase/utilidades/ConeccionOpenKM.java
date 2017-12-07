@@ -4,19 +4,20 @@ import com.openkm.sdk4j.OKMWebservices;
 import com.openkm.sdk4j.OKMWebservicesFactory;
 
 /**
- * clase para obtener una coneccion a openKM
+ * Clase que utiliza el patrón Singleton para mantener la conexión con OPENKM
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
-public class ConeccionOpenKM {
-    
+public class ConeccionOpenKM 
+{    
     private OKMWebservices ws;
     private static ConeccionOpenKM con;
     
-    private String host = "http://localhost:8083/OpenKM";
-    private String username = "okmAdmin";
-    private String password = "admin";    
+    private final String host = "http://localhost:8083/OpenKM";
+    private final String username = "okmAdmin";
+    private final String password = "admin";    
 
-    private ConeccionOpenKM() {        
+    private ConeccionOpenKM() 
+    {     
         ws = OKMWebservicesFactory.newInstance(host, username, password);
     }
     
